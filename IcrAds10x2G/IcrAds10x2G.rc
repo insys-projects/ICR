@@ -1,0 +1,501 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\IcrAds10x2G.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904e3"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "IcrAds10x2G.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "IcrAds10x2G.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1251
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 339, 260
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация ADS10x2G"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "Системный генератор (Гц):",-1,96,9,92,8
+    EDITTEXT        IDC_SYSGEN,189,7,54,12,ES_NUMBER
+    LTEXT           "Частота ФАПЧ (Гц):",-1,105,26,70,8
+    EDITTEXT        IDC_PLLFREQ,179,23,54,12,ES_NUMBER
+    LTEXT           "Опорный генератор ФАПЧ (Гц):",-1,87,43,109,8
+    EDITTEXT        IDC_PLLREFGEN,197,40,54,12,ES_NUMBER
+    LTEXT           "Кол-во АЦП:",-1,62,97,43,8
+    EDITTEXT        IDC_NUMOFADC,109,95,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,138,95,11,
+                    12
+    GROUPBOX        "Частота дискретизации (Гц)",-1,79,57,196,31
+    LTEXT           "Минимум:",-1,90,70,35,8
+    EDITTEXT        IDC_ADCRATEMIN,128,68,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Максимум:",-1,176,70,39,8
+    EDITTEXT        IDC_ADCRATEMAX,216,68,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Входной диапазон:",-1,155,97,65,8
+    EDITTEXT        IDC_ADCRANGE,223,95,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "мВ",-1,267,97,11,8
+    LTEXT           "Количество структур DDR SDRAM:",-1,90,115,120,8
+    EDITTEXT        IDC_SDRAMCNT,211,113,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINSDRAM,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,238,113,
+                    11,12
+    GROUPBOX        "Конфигурационная структура DDR SDRAM",-1,7,132,325,101,
+                    BS_CENTER
+    LTEXT           "Порядковый номер:",-1,115,146,69,8
+    EDITTEXT        IDC_SDRAMNUM,185,145,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINSDRAMNUM,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,213,145,11,12
+    LTEXT           "DIMM-модули:",-1,15,166,49,8
+    COMBOBOX        IDC_SDRAMDIMMS,111,164,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Разряды адреса строк:",-1,15,183,80,8
+    COMBOBOX        IDC_SDRAMROWBITS,111,180,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Разряды адреса столбцов:",-1,15,199,92,8
+    COMBOBOX        IDC_SDRAMCOLBITS,111,197,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Банки DIMM-модуля:",-1,173,166,72,8
+    COMBOBOX        IDC_SDRAMDIMMBANKS,275,164,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Банки SDRAM-микросхемы:",-1,173,183,97,8
+    COMBOBOX        IDC_SDRAMCHIPBANKS,275,180,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Шина SDRAM-микросхемы:",-1,173,199,94,8
+    COMBOBOX        IDC_SDRAMPRIMWIDTH,275,197,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Задержка сигнала CAS:",-1,86,215,82,8
+    COMBOBOX        IDC_SDRAMCASLAT,188,212,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,116,239,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,172,239,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0034, 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 2, 0
+0x0038, 
+    IDC_SDRAMCOLBITS, 0x403, 2, 0
+0x0039, 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_SDRAMDIMMBANKS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMDIMMBANKS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCHIPBANKS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCHIPBANKS, 0x403, 2, 0
+0x0034, 
+    IDC_SDRAMPRIMWIDTH, 0x403, 3, 0
+0x3478, "\000" 
+    IDC_SDRAMPRIMWIDTH, 0x403, 3, 0
+0x3878, "\000" 
+    IDC_SDRAMPRIMWIDTH, 0x403, 4, 0
+0x3178, 0x0036, 
+    IDC_SDRAMCASLAT, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCASLAT, 0x403, 2, 0
+0x0033, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 332
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Подтвердить изменения"
+    IDCANCEL                "Отменить изменения"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMNUM            "Порядковый номер структуры SDRAM"
+    IDC_SDRAMDIMMS          "Количество установленных DIMM-модулей"
+    IDC_SDRAMROWBITS        "Количество разрядов адреса строк"
+    IDC_SDRAMCOLBITS        "Количество разрядов адреса столбцов"
+    IDC_SDRAMDIMMBANKS      "Количество банков DIMM-модуля"
+    IDC_SDRAMCHIPBANKS      "Количество банков SDRAM-микросхемы"
+    IDC_SDRAMCASLAT         "Задержка сигнала выборки адреса столбцов"
+    IDC_SDRAMPRIMWIDTH      "Ширина (в битах) первичной шины SDRAM-микросхемы"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMCNT            "Количество конфигурационных структур SDRAM"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFADC            "Количество установленных АЦП"
+    IDC_SYSGEN              "Значение системного генератора (Гц)"
+    IDC_ADCRATEMIN          "Минимальная частота дискретизации АЦП"
+    IDC_ADCRANGE            "Входной диапазон АЦП (мВольты)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRATEMAX          "Максимальная частота дискретизации АЦП"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 257, 268
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ADS10x2G Configuration"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "System generator (Hz):",IDC_STATIC,64,10,72,8
+    EDITTEXT        IDC_SYSGEN,138,8,54,12,ES_NUMBER
+    LTEXT           "PLL Frequency (Hz):",IDC_STATIC,67,27,66,8
+    EDITTEXT        IDC_PLLFREQ,135,25,54,12,ES_NUMBER
+    LTEXT           "PLL Reference generator (Hz):",IDC_STATIC,51,44,98,8
+    EDITTEXT        IDC_PLLREFGEN,151,42,54,12,ES_NUMBER
+    LTEXT           "Number of ADC's:",IDC_STATIC,26,99,57,8
+    EDITTEXT        IDC_NUMOFADC,86,97,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,112,97,11,
+                    12
+    GROUPBOX        "Sampling Rate (Hz)",IDC_STATIC,31,60,196,32
+    LTEXT           "Minimum:",IDC_STATIC,45,74,30,8
+    EDITTEXT        IDC_ADCRATEMIN,80,72,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Maximum:",IDC_STATIC,132,74,32,8
+    EDITTEXT        IDC_ADCRATEMAX,168,72,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Input Range:",IDC_STATIC,137,99,42,8
+    EDITTEXT        IDC_ADCRANGE,182,97,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "mV",IDC_STATIC,226,99,11,8
+    LTEXT           "Number of DDR SDRAM structures:",IDC_STATIC,50,118,114,
+                    8
+    EDITTEXT        IDC_SDRAMCNT,168,116,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINSDRAM,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,195,116,
+                    11,12
+    GROUPBOX        "DDR SDRAM Configuration Structure",IDC_STATIC,7,135,243,
+                    103,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,77,151,48,8
+    EDITTEXT        IDC_SDRAMNUM,129,149,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINSDRAMNUM,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,157,149,11,12
+    LTEXT           "DIMMs:",IDC_STATIC,16,170,26,8
+    COMBOBOX        IDC_SDRAMDIMMS,88,168,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Row Address Bits:",IDC_STATIC,16,187,58,8
+    COMBOBOX        IDC_SDRAMROWBITS,88,184,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Column Address Bits:",IDC_STATIC,16,203,67,8
+    COMBOBOX        IDC_SDRAMCOLBITS,88,201,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "DIMM Banks:",IDC_STATIC,146,170,44,8
+    COMBOBOX        IDC_SDRAMDIMMBANKS,194,168,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Chip Banks:",IDC_STATIC,146,187,39,8
+    COMBOBOX        IDC_SDRAMCHIPBANKS,194,184,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Primary Width:",IDC_STATIC,146,203,46,8
+    COMBOBOX        IDC_SDRAMPRIMWIDTH,194,201,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "CAS Latency:",IDC_STATIC,85,221,44,8
+    COMBOBOX        IDC_SDRAMCASLAT,133,219,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,75,247,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,131,247,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0034, 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 2, 0
+0x0038, 
+    IDC_SDRAMCOLBITS, 0x403, 2, 0
+0x0039, 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_SDRAMDIMMBANKS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMDIMMBANKS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCHIPBANKS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCHIPBANKS, 0x403, 2, 0
+0x0034, 
+    IDC_SDRAMPRIMWIDTH, 0x403, 3, 0
+0x3478, "\000" 
+    IDC_SDRAMPRIMWIDTH, 0x403, 3, 0
+0x3878, "\000" 
+    IDC_SDRAMPRIMWIDTH, 0x403, 4, 0
+0x3178, 0x0036, 
+    IDC_SDRAMCASLAT, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCASLAT, 0x403, 2, 0
+0x0033, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 250
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 261
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Confirm of changes"
+    IDCANCEL                "Cancel of changes"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMNUM            "SDRAM structure number"
+    IDC_SDRAMDIMMS          "Number of SDRAM DIMM-modules"
+    IDC_SDRAMROWBITS        "Number of bits of row address"
+    IDC_SDRAMCOLBITS        "Number of bits of column address"
+    IDC_SDRAMDIMMBANKS      "Number of SDRAM DIMM-module banks"
+    IDC_SDRAMCHIPBANKS      "Number of SDRAM chip banks"
+    IDC_SDRAMCASLAT         "SDRAM CAS Latency"
+    IDC_SDRAMPRIMWIDTH      "Primary DDR SDRAM Width"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMCNT            "Number of SDRAM structures"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFADC            "Number of installed ADC"
+    IDC_SYSGEN              "Value of System Generator (Hz)"
+    IDC_ADCRATEMIN          "Minimum sampling rate of ADC"
+    IDC_ADCRANGE            "ADC input range"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRATEMAX          "Maximum sampling rate of ADC"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\IcrAds10x2G.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

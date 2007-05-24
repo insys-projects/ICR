@@ -1,0 +1,1546 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+// Generated Help ID header file
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "resource.hm"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""res\\IdCfgRom.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_PP_ADMIF DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "ADM-Интерфейс",IDC_STATIC,7,2,221,147,BS_CENTER
+    LTEXT           "Порядковый номер:",IDC_STATIC,47,20,69,8
+    EDITTEXT        IDC_ADMIFNUM,118,18,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADMIFNUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,145,18,11,12
+    LTEXT           "Кол-во ПЛИС:",IDC_STATIC,17,39,48,8
+    EDITTEXT        IDC_NUMOFPLD,71,37,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLD,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,37,10,12
+    LTEXT           "Кол-во FIFO АЦП:",IDC_STATIC,124,39,60,8
+    EDITTEXT        IDC_NUMOFADCFIFO,189,37,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADCFIFO,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,215,37,10,12
+    LTEXT           "Кол-во ЦАП'ов:",IDC_STATIC,17,60,52,8
+    EDITTEXT        IDC_NUMOFDAC,71,58,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDAC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,58,10,12
+    LTEXT           "Кол-во FIFO ЦАП:",IDC_STATIC,124,59,60,8
+    EDITTEXT        IDC_NUMOFDACFIFO,189,57,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDACFIFO,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,215,57,10,12
+    GROUPBOX        "Опорные генераторы (Гц)",IDC_STATIC,27,76,181,32
+    LTEXT           "Ген1:",IDC_STATIC,37,90,19,8
+    EDITTEXT        IDC_GEN1,58,88,54,12,ES_NUMBER
+    LTEXT           "Ген2:",IDC_STATIC,123,90,19,8
+    EDITTEXT        IDC_GEN2,144,88,54,12,ES_NUMBER
+    LTEXT           "Опорное напряжение ИПН:",IDC_STATIC,39,117,94,8
+    EDITTEXT        IDC_REFVOLTPVS,135,115,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "мВ",IDC_STATIC,179,118,11,8
+    CONTROL         "Старт",IDC_STARTBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,48,134,35,10
+    CONTROL         "Порт ввода/вывода",IDC_PIOBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,106,134,82,10
+END
+
+IDD_PP_PLD DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Тип ПЛИС",IDC_STATIC,7,2,221,147,BS_CENTER
+    LTEXT           "Порядковый номер:",IDC_STATIC,49,24,69,8
+    EDITTEXT        IDC_PLDNUM,120,22,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLDNUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,147,22,11,12
+    CTEXT           "EP1K30FC256-2",IDC_PLDNAME,67,46,101,17,SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Тип:",IDC_STATIC,20,78,16,8
+    COMBOBOX        IDC_PLDTYPE,66,76,56,134,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Объем:",IDC_STATIC,135,78,26,8
+    EDITTEXT        IDC_PLDVOLUME,167,76,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Скорость:",IDC_STATIC,20,114,35,8
+    COMBOBOX        IDC_PLDRATE,66,112,56,137,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Выводы:",IDC_STATIC,135,114,30,8
+    EDITTEXT        IDC_PLDPINS,167,112,48,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+IDD_PP_FIFO DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "FIFO АЦП и ЦАП",IDC_STATIC,7,2,221,147,BS_CENTER
+    GROUPBOX        "FIFO АЦП",IDC_STATIC,24,19,187,46
+    LTEXT           "Порядковый номер:",IDC_STATIC,56,31,69,8
+    EDITTEXT        IDC_ADCFIFONUM,129,29,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADCFIFONUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,156,29,11,12
+    LTEXT           "Глубина:",IDC_STATIC,34,49,30,8
+    COMBOBOX        IDC_ADCFIFOSIZE,71,46,34,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Ширина:",IDC_STATIC,121,49,29,8
+    COMBOBOX        IDC_ADCFIFOBITSWIDTH,159,46,34,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "FIFO ЦАП",IDC_STATIC,24,75,187,64
+    LTEXT           "Порядковый номер:",IDC_STATIC,56,88,69,8
+    EDITTEXT        IDC_DACFIFONUM,129,85,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDACFIFONUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,156,85,11,12
+    LTEXT           "Глубина:",IDC_STATIC,34,106,30,8
+    COMBOBOX        IDC_DACFIFOSIZE,71,103,34,81,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Ширина:",IDC_STATIC,121,106,29,8
+    COMBOBOX        IDC_DACFIFOBITSWIDTH,159,103,34,81,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Возможность циклической режима",IDC_DACFIFOCYCLING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,49,122,137,10
+END
+
+IDD_PP_DAC DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Конфигурация ЦАП",-1,7,2,221,147,BS_CENTER
+    LTEXT           "Порядковый номер:",-1,13,20,69,8
+    EDITTEXT        IDC_DACNUM,84,18,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDACNUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,111,18,11,12
+    LTEXT           "Разрядность:",-1,127,20,47,8
+    COMBOBOX        IDC_DACBITS,177,18,42,94,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Частота дискр. (Гц)",-1,15,35,89,46
+    LTEXT           "Мин.:",-1,20,50,19,8
+    EDITTEXT        IDC_DACRATEMIN,45,46,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Макс.:",-1,20,65,23,8
+    EDITTEXT        IDC_DACRATEMAX,45,63,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Диапазон при фильтре (мВ)",-1,111,35,111,46
+    LTEXT           "Активном:",-1,121,50,36,8
+    EDITTEXT        IDC_DACRANGEAF,172,46,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Пассивном:",-1,121,65,42,8
+    EDITTEXT        IDC_DACRANGEPF,172,63,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Частота среза активного фильтра:",-1,33,118,120,8
+    EDITTEXT        IDC_DACAFCOFF,156,116,34,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Гц",-1,193,119,9,8
+    LTEXT           "Кодировка:",-1,43,133,40,8
+    COMBOBOX        IDC_DACENCODING,87,131,104,52,CBS_DROPDOWNLIST | WS_TABSTOP
+    GROUPBOX        "Срезы пассивного фильтра (кГц)",-1,28,87,179,27
+    LTEXT           "Нижний:",-1,38,99,30,8
+    EDITTEXT        IDC_DACLPFCOFF,71,97,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Верхний:",-1,120,99,31,8
+    EDITTEXT        IDC_DACHPFCOFF,155,97,40,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+IDD_PP_AMB DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Идентификация и конфигурирование базового модуля",IDC_STATIC,7,3,221,147,BS_CENTER
+    LTEXT           "Серийный номер",IDC_STATIC,67,26,58,8
+    EDITTEXT        IDC_SERIALNUM,128,24,27,12,ES_AUTOHSCROLL
+    LTEXT           "Тип:",IDC_STATIC,67,47,16,8
+    COMBOBOX        IDC_BMTYPE,86,44,89,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Версия (Hex):",IDC_STATIC,72,66,46,8
+    EDITTEXT        IDC_AMBVERSION,120,64,37,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Количество ADM-интерфейсов",IDC_STATIC,23,87,105,8
+    EDITTEXT        IDC_NUMOFADMIF,132,84,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADMIF,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,160,84,11,12
+    PUSHBUTTON      "Подробности...",IDC_AMBEXT,88,107,58,14
+END
+
+IDD_PP_ADM2IF DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "ADM-Интерфейс",IDC_STATIC,7,2,221,147,BS_CENTER
+    LTEXT           "Порядковый номер:",IDC_STATIC,14,16,68,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_ADMIFNUM,86,16,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADMIFNUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,112,16,11,12
+    LTEXT           "Тип:",IDC_STATIC,142,15,16,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_ADMIFTYPE,160,15,43,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Кол-во ПЛИС:",IDC_STATIC,16,37,48,8
+    EDITTEXT        IDC_NUMOFPLD,71,34,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLD,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,34,10,12
+    LTEXT           "Кол-во FIFO АЦП:",IDC_STATIC,122,37,60,8
+    EDITTEXT        IDC_NUMOFADCFIFO,187,34,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADCFIFO,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,213,34,10,12
+    LTEXT           "Кол-во ЦАП'ов:",IDC_STATIC,16,55,52,8
+    EDITTEXT        IDC_NUMOFDAC,71,53,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDAC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,53,10,12
+    LTEXT           "Кол-во FIFO ЦАП:",IDC_STATIC,122,55,60,8
+    EDITTEXT        IDC_NUMOFDACFIFO,187,52,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDACFIFO,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,213,52,10,12
+    GROUPBOX        "Опорные генераторы (МГц)",IDC_STATIC,27,71,181,29
+    LTEXT           "Ген1:",IDC_STATIC,37,84,19,8
+    EDITTEXT        IDC_GEN1,60,81,54,12
+    LTEXT           "Ген2:",IDC_STATIC,125,85,19,8
+    EDITTEXT        IDC_GEN2,146,82,54,12
+    GROUPBOX        "Цифровой параллельный порт ввода/вывода",IDC_STATIC,27,100,181,29
+    CONTROL         "Присутствует",IDC_PIOBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,47,111,61,12
+    LTEXT           "Тип:",IDC_STATIC,128,110,16,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PIOTYPE,146,111,43,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Опорное напряжение ИПН:",IDC_STATIC,15,135,94,8
+    EDITTEXT        IDC_REFVOLTPVS,112,132,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "мВ",IDC_STATIC,156,135,11,8
+    CONTROL         "Старт",IDC_STARTBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,132,31,12
+END
+
+IDD_PP_ADM DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "Номер:",IDC_STATIC,56,25,26,8
+    EDITTEXT        IDC_ADMNUM,122,23,36,12,ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    LTEXT           "Серийный номер:",IDC_STATIC,56,44,60,8
+    EDITTEXT        IDC_ADMPID,122,42,36,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Тип:",IDC_STATIC,56,62,16,8
+    COMBOBOX        IDC_ADMTYPE,78,60,101,110,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Версия (Hex):",IDC_STATIC,56,80,46,8
+    EDITTEXT        IDC_ADMVERSION,122,78,37,12,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Конфигурация...",IDC_ADMCFG,87,99,62,14
+    GROUPBOX        "Идентификация и конфигурирование ADM-субмодуля",IDC_STATIC,7,3,221,146,BS_CENTER
+END
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 219, 118
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "О программе IdCfgRom"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,22,20,20
+    CTEXT           "ППЗУ идентификации и конфигурации",IDC_STATIC,35,15,150,8,SS_NOPREFIX
+    CTEXT           "Copyright (C) 2002-2006",IDC_STATIC,71,51,77,8
+    DEFPUSHBUTTON   "OK",IDOK,83,97,50,14,WS_GROUP
+    CTEXT           "ЗАО ""Инструментальные Системы""",IDC_FIRMNAME,45,38,129,8
+    LTEXT           "http://www.insys.ru",IDC_HL_WWW,77,65,63,8
+    LTEXT           "info@insys.ru",IDC_HL_Email,88,77,43,8
+    LTEXT           "Версия 1.05",IDC_STATIC,87,26,42,8
+END
+
+IDD_IDCFGROM_DIALOG DIALOGEX 0, 0, 260, 260
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "IdCfgRom"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TABPAGE,"SysTabControl32",WS_TABSTOP,7,50,246,177
+    PUSHBUTTON      "Из файла",IDC_READ,7,233,54,14,0,0,HIDC_READ
+    PUSHBUTTON      "В файл",IDC_SAVE,71,233,54,14,0,0,HIDC_SAVE
+    PUSHBUTTON      "О программе...",IDC_ABOUT,135,233,54,14
+    DEFPUSHBUTTON   "OK",IDOK,199,233,54,14
+    LTEXT           "Устройство:",IDC_STATIC,18,8,42,8
+    COMBOBOX        IDC_DEVICETYPE,63,6,179,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Из устройства",IDC_FROMDEV,71,28,54,14,0,0,HIDC_FROMDEV
+    PUSHBUTTON      "В устройство",IDC_INTODEV,135,28,54,14,0,0,HIDC_INTODEV
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_PP_ADMIF, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_PLD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_FIFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_DAC, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_AMB, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_ADM2IF, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_ADM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 212
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 111
+    END
+
+    IDD_IDCFGROM_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 253
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 253
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_PP_PLD DLGINIT
+BEGIN
+    IDC_PLDTYPE, 0x403, 5, 0
+0x5045, 0x4b31, "\000" 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0041, 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 8, 0
+0x4358, 0x2e56, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5632, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5332, "\000" 
+    IDC_PLDTYPE, 0x403, 9, 0
+0x4358, 0x5332, 0x2e2e, 0x452e, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5333, "\000" 
+    IDC_PLDTYPE, 0x403, 7, 0
+0x4358, 0x5634, 0x584c, "\000" 
+    IDC_PLDTYPE, 0x403, 7, 0
+0x4358, 0x5634, 0x5853, "\000" 
+    IDC_PLDTYPE, 0x403, 7, 0
+0x4358, 0x5634, 0x5846, "\000" 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0031, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0032, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0033, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0034, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0035, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0036, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0037, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0038, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0039, 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3531, "\000" 
+    0
+END
+
+IDD_PP_FIFO DLGINIT
+BEGIN
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3135, 0x0032, 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0xca31, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0xca32, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x4b34, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x4b38, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3631, 0x004b, 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3233, 0x004b, 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3436, 0x004b, 
+    IDC_ADCFIFOSIZE, 0x403, 5, 0
+0x3231, 0x4b38, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 5, 0
+0x3532, 0x4b36, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 5, 0
+0x3135, 0x4b32, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x4d31, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 2, 0
+0x0038, 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3135, 0x0032, 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0xca31, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0xca32, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x4b34, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x4b38, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3631, 0x004b, 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3233, 0x004b, 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3436, 0x004b, 
+    IDC_DACFIFOSIZE, 0x403, 5, 0
+0x3231, 0x4b38, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 5, 0
+0x3532, 0x4b36, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 5, 0
+0x3135, 0x4b32, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x4d31, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 2, 0
+0x0038, 
+    IDC_DACFIFOBITSWIDTH, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_DACFIFOBITSWIDTH, 0x403, 4, 0
+0x3532, 0x0036, 
+    0
+END
+
+IDD_PP_DAC DLGINIT
+BEGIN
+    IDC_DACBITS, 0x403, 2, 0
+0x0038, 
+    IDC_DACBITS, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3831, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3032, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3432, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_DACENCODING, 0x403, 7, 0
+0xf0ef, 0xecff, 0xffe0, "\000" 
+    IDC_DACENCODING, 0x403, 23, 0
+0xe2e4, 0xe8ee, 0xedf7, 0x2dee, 0xeee4, 0xeeef, 0xedeb, 0xf2e8, 0xebe5, 
+0xedfc, 0xffe0, "\000" 
+    0
+END
+
+IDD_PP_AMB DLGINIT
+BEGIN
+    IDC_BMTYPE, 0x403, 7, 0
+0x4d41, 0x5042, 0x4943, "\000" 
+    IDC_BMTYPE, 0x403, 7, 0
+0x4d41, 0x5042, 0x4d43, "\000" 
+    0
+END
+
+IDD_PP_ADM2IF DLGINIT
+BEGIN
+    IDC_ADMIFTYPE, 0x403, 4, 0
+0x5454, 0x004c, 
+    IDC_ADMIFTYPE, 0x403, 5, 0
+0x564c, 0x5344, "\000" 
+    IDC_PIOTYPE, 0x403, 4, 0
+0x5454, 0x004c, 
+    IDC_PIOTYPE, 0x403, 5, 0
+0x564c, 0x5344, "\000" 
+    0
+END
+
+IDD_PP_ADM DLGINIT
+BEGIN
+    IDC_ADMTYPE, 0x403, 8, 0
+0x6f4e, 0x206e, 0x4441, 0x004d, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x7838, 0x3031, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x384d, 0x3278, 0x3030, 0x004d, 
+    IDC_ADMTYPE, 0x403, 9, 0
+0x4441, 0x314d, 0x7832, 0x4d31, "\000" 
+    IDC_ADMTYPE, 0x403, 9, 0
+0x4441, 0x314d, 0x7832, 0x4d33, "\000" 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x314d, 0x7832, 0x3031, 0x004d, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3178, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3278, 0x4d35, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3478, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3578, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3678, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 12, 0
+0x4441, 0x324d, 0x3231, 0x3178, 0x3030, 0x004d, 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x324d, 0x3431, 0x3178, 0x004d, 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x324d, 0x3431, 0x3378, 0x004d, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3431, 0x3178, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 12, 0
+0x4441, 0x324d, 0x3431, 0x3178, 0x4d30, 0x0058, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3431, 0x3678, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3631, 0x3278, 0x3035, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3631, 0x3278, 0x354d, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x344d, 0x3631, 0x3278, 0x3030, "\000" 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x384d, 0x3631, 0x3478, 0x0038, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x314d, 0x3136, 0x7832, 0x4d31, "\000" 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x444d, 0x4344, 0x4e32, 0x0042, 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x444d, 0x4344, 0x4e34, 0x0042, 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x444d, 0x4344, 0x5732, 0x0042, 
+    IDC_ADMTYPE, 0x403, 12, 0
+0x4441, 0x444d, 0x4344, 0x5732, 0x2d42, 0x004c, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x444d, 0x5344, 0x3839, 0x3435, "\000" 
+    IDC_ADMTYPE, 0x403, 9, 0
+0x4441, 0x444d, 0x4f49, 0x3233, "\000" 
+    0
+END
+
+IDD_IDCFGROM_DIALOG DLGINIT
+BEGIN
+    IDC_DEVICETYPE, 0x403, 14, 0
+0x6e55, 0x6e6b, 0x776f, 0x6420, 0x7665, 0x6369, 0x0065, 
+    IDC_DEVICETYPE, 0x403, 7, 0
+0x4d41, 0x5042, 0x4943, "\000" 
+    IDC_DEVICETYPE, 0x403, 7, 0
+0x4d41, 0x5042, 0x4d43, "\000" 
+    IDC_DEVICETYPE, 0x403, 11, 0
+0x4441, 0x3153, 0x3136, 0x7836, 0x3834, "\000" 
+    IDC_DEVICETYPE, 0x403, 5, 0
+0xcac2, 0x322d, "\000" 
+    IDC_DEVICETYPE, 0x403, 10, 0
+0x4441, 0x3253, 0x3432, 0x3478, 0x0038, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\IdCfgRom.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,5,0
+ PRODUCTVERSION 1,0,5,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904b0"
+        BEGIN
+            VALUE "Comments", "Используется для чтения/записи Идентификационного и Конфигурационного ПЗУ"
+            VALUE "CompanyName", "ЗАО ""Инструментальные Системы"""
+            VALUE "FileDescription", "Клиентдля Идентификационного и Конфигурационного ПЗУ"
+            VALUE "FileVersion", "1.05"
+            VALUE "InternalName", "IdCfgRom"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2006 ЗАО ""ИнСис"""
+            VALUE "OriginalFilename", "IdCfgRom.exe"
+            VALUE "ProductName", "Система Идентификационного и Конфигурационного ПЗУ"
+            VALUE "ProductVersion", "1.05"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDC_DACENCODING         "Тип кодировки ЦАП"
+    IDC_DACRATEMAX          "Максимальная частота дискретизации ЦАП"
+    IDC_DACRATEMIN          "Минимальная частота дискретизации ЦАП"
+    IDC_DACRANGEAF          "Диапазон выходного напряжения ЦАП при работе активного фильтра на нагрузке 50 Ом"
+    IDC_DACRANGEPF          "Диапазон выходного напряжения ЦАП при работе пассивного фильтра на нагрузке 50 Ом"
+    IDC_DACAFCOFF           "Частота среза активного фильтра"
+    IDC_DACLPFCOFF          "Нижняя частота среза пассивного фильтра"
+    IDC_DACHPFCOFF          "Верхняя частота среза пассивного фильтра"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADMCFG              "Конфигурация субмодуля"
+    IDC_ADMTYPE             "Тип субмодуля"
+    IDC_ADMVERSION          "Версия субмодуля"
+    IDC_ADMPID              "Серийный (физический) номер субмодуля"
+    IDC_ADMNUM              "Номер субмодуля ADM"
+    IDC_DACNUM              "Номер ЦАП"
+    IDC_DACBITS             "Разрядность ЦАП"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCFIFONUM          "Номер FIFO АЦП"
+    IDC_ADCFIFOSIZE         "Размер (глубина) FIFO АЦП"
+    IDC_ADCFIFOBITSWIDTH    "Ширина FIFO АЦП (в битах)"
+    IDC_DACFIFONUM          "Номер FIFO ЦАП"
+    IDC_DACFIFOSIZE         "Размер (глубина) FIFO ЦАП"
+    IDC_DACFIFOCYCLING      "Возможность циклического режима работы FIFO ЦАП"
+    IDC_DACFIFOBITSWIDTH    "Ширина FIFO ЦАП (в битах)"
+    IDC_PLDNUM              "Номер ПЛИС"
+    IDC_PLDTYPE             "Тип ПЛИС"
+    IDC_PLDSIZE             "Объем ПЛИС"
+    IDC_PLDPINS             "Количество выводов ПЛИС"
+    IDC_PLDRATE             "Быстродействие ПЛИС"
+    IDC_PLDNAME             "Название ПЛИС"
+END
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Выйти из программы"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_DEVICETYPE          "Выбор устройства для записи в его ППЗУ"
+    IDC_SERIALNUM           "Серийный (физический) номер базового модуля"
+    IDC_NUMOFADMIF          "Количество интерфейсов ADM"
+    IDC_BMTYPE              "Тип базового модуля"
+    IDC_AMBEXT              "Дополнительные параметры базового модуля"
+    IDC_AMBVERSION          "Номер версия базового модуля"
+    IDC_ADMIFNUM            "Номер интерфейса ADM"
+    IDC_NUMOFADCFIFO        "Количество FIFO АЦП"
+    IDC_NUMOFPLD            "Количество ПЛИС"
+    IDC_NUMOFDACFIFO        "Количество FIFO ЦАП"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_READ                "Прочитать из файла"
+    IDC_SAVE                "Сохранить в файле"
+    IDC_FROMDEV             "Получить из устройства"
+    IDC_INTODEV             "Запомнить в устройстве"
+    IDC_ABOUT               "О программе"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFDAC            "Количество ЦАП"
+    IDC_GEN1                "Значение опорного генератора 1"
+    IDC_GEN2                "Значение опорного генератора 2"
+    IDC_REFVOLTPVS          "Опорное напряжение источников программируемых напряжений (мВольт)"
+    IDC_STARTBE             "Наличие узла стартовой синхронизации"
+    IDC_PIOBE               "Наличие цифрового параллельного порта ввода/вывода"
+    IDC_PIOTYPE             "Тип порта ввода/вывода"
+    IDC_ADMIFTYPE           "Тип ADM-интерфейса"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_IDCFGROM_DIALOG DIALOGEX 0, 0, 260, 260
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "IdCfgRom"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TABPAGE,"SysTabControl32",WS_TABSTOP,7,50,243,177,WS_EX_ACCEPTFILES
+    PUSHBUTTON      "From File",IDC_READ,7,233,50,14,0,0,HIDC_READ
+    PUSHBUTTON      "Into File",IDC_SAVE,71,233,50,14,0,0,HIDC_SAVE
+    PUSHBUTTON      "About...",IDC_ABOUT,135,233,50,14
+    DEFPUSHBUTTON   "OK",IDOK,199,233,50,14
+    LTEXT           "Device:",IDC_STATIC,24,9,26,8
+    COMBOBOX        IDC_DEVICETYPE,54,7,179,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "From Device",IDC_FROMDEV,71,28,50,14,0,0,HIDC_FROMDEV
+    PUSHBUTTON      "Into Device",IDC_INTODEV,135,28,50,14,0,0,HIDC_INTODEV
+END
+
+IDD_PP_ADMIF DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "ADM-Interface",IDC_STATIC,7,2,221,147,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,69,21,47,8
+    EDITTEXT        IDC_ADMIFNUM,118,18,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADMIFNUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,145,18,11,12
+    LTEXT           "Number of PLD's:",IDC_STATIC,14,40,56,8
+    EDITTEXT        IDC_NUMOFPLD,71,37,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLD,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,37,10,12
+    LTEXT           "Number of ADC FIFO's:",IDC_STATIC,114,40,74,8
+    EDITTEXT        IDC_NUMOFADCFIFO,189,37,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADCFIFO,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,215,37,10,12
+    LTEXT           "Number of DAC's:",IDC_STATIC,14,60,57,8
+    EDITTEXT        IDC_NUMOFDAC,71,58,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDAC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,58,10,12
+    LTEXT           "Number of DAC FIFO's:",IDC_STATIC,114,60,74,8
+    EDITTEXT        IDC_NUMOFDACFIFO,189,57,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDACFIFO,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,215,57,10,12
+    GROUPBOX        "Reference Generators (Hz)",IDC_STATIC,27,76,181,32
+    LTEXT           "G1:",IDC_STATIC,37,90,12,8
+    EDITTEXT        IDC_GEN1,54,87,54,12,ES_NUMBER
+    LTEXT           "G2:",IDC_STATIC,125,91,12,8
+    EDITTEXT        IDC_GEN2,142,88,54,12,ES_NUMBER
+    LTEXT           "Reference Voltage of PVS:",IDC_STATIC,45,118,86,8
+    EDITTEXT        IDC_REFVOLTPVS,135,115,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "mV",IDC_STATIC,179,118,11,8
+    CONTROL         "Start",IDC_STARTBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,134,31,10
+    CONTROL         "Port IO",IDC_PIOBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,134,37,10
+END
+
+IDD_PP_PLD DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTEXTHELP
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Type of PLD",IDC_STATIC,7,2,221,147,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,71,24,47,8
+    EDITTEXT        IDC_PLDNUM,120,22,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLDNUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,147,22,11,12
+    CTEXT           "EP1K30FC256-2",IDC_PLDNAME,67,46,101,17,SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Type:",IDC_STATIC,20,78,19,8
+    COMBOBOX        IDC_PLDTYPE,66,76,56,150,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Volume:",IDC_STATIC,138,78,26,8
+    EDITTEXT        IDC_PLDVOLUME,167,76,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Speed Grade:",IDC_STATIC,20,114,45,8
+    COMBOBOX        IDC_PLDRATE,66,112,56,159,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Pins:",IDC_STATIC,138,114,16,8
+    EDITTEXT        IDC_PLDPINS,167,112,48,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+IDD_PP_FIFO DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "ADC && DAC FIFO's",IDC_STATIC,7,2,221,147,BS_CENTER
+    GROUPBOX        "ADC FIFO",IDC_STATIC,24,19,187,46
+    LTEXT           "Order Number:",IDC_STATIC,80,32,47,8
+    EDITTEXT        IDC_ADCFIFONUM,129,29,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADCFIFONUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,156,29,11,12
+    LTEXT           "Size:",IDC_STATIC,34,49,16,8
+    COMBOBOX        IDC_ADCFIFOSIZE,55,46,34,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bits Width:",IDC_STATIC,121,49,35,8
+    COMBOBOX        IDC_ADCFIFOBITSWIDTH,159,46,34,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "DAC FIFO",IDC_STATIC,24,75,187,64
+    LTEXT           "Order Number:",IDC_STATIC,79,88,47,8
+    EDITTEXT        IDC_DACFIFONUM,129,85,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDACFIFONUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,156,85,11,12
+    LTEXT           "Size:",IDC_STATIC,34,106,16,8
+    COMBOBOX        IDC_DACFIFOSIZE,55,103,34,81,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bits Width:",IDC_STATIC,121,106,35,8
+    COMBOBOX        IDC_DACFIFOBITSWIDTH,159,103,34,81,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Cycling",IDC_DACFIFOCYCLING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,98,122,39,10
+END
+
+IDD_PP_DAC DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_3DLOOK | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_TRANSPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "DAC Configuration",IDC_STATIC,7,2,221,147,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,36,23,47,8
+    EDITTEXT        IDC_DACNUM,84,20,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDACNUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,111,20,11,12
+    LTEXT           "Bits:",IDC_STATIC,141,23,14,8
+    COMBOBOX        IDC_DACBITS,155,20,42,94,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Sampling Rate (Hz)",IDC_STATIC,25,40,86,46
+    LTEXT           "Minimum:",IDC_STATIC,30,55,30,8
+    EDITTEXT        IDC_DACRATEMIN,65,51,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Maximum:",IDC_STATIC,30,70,32,8
+    EDITTEXT        IDC_DACRATEMAX,65,68,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Range by Filter (mV)",IDC_STATIC,132,40,86,46
+    LTEXT           "Active:",IDC_STATIC,139,55,23,8
+    EDITTEXT        IDC_DACRANGEAF,172,51,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Passive:",IDC_STATIC,139,70,28,8
+    EDITTEXT        IDC_DACRANGEPF,172,68,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Active Filter Cutoff:",IDC_STATIC,15,104,60,8
+    EDITTEXT        IDC_DACAFCOFF,77,101,34,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Hz",IDC_STATIC,114,104,10,8
+    LTEXT           "Encoding:",IDC_STATIC,15,122,33,8
+    COMBOBOX        IDC_DACENCODING,49,120,77,52,CBS_DROPDOWNLIST | WS_TABSTOP
+    GROUPBOX        "Passive Filter Cutoff",IDC_STATIC,132,90,85,49
+    LTEXT           "Low:",IDC_STATIC,139,104,16,8
+    EDITTEXT        IDC_DACLPFCOFF,156,101,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "kHz",IDC_STATIC,198,104,14,8
+    LTEXT           "Hi:",IDC_STATIC,139,122,10,8
+    EDITTEXT        IDC_DACHPFCOFF,156,120,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "kHz",IDC_STATIC,198,123,14,8
+END
+
+IDD_PP_AMB DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Base module Identification && Configuration",IDC_STATIC,7,3,221,147,BS_CENTER
+    LTEXT           "Serial Number:",IDC_STATIC,80,26,47,8
+    EDITTEXT        IDC_SERIALNUM,128,24,27,12,ES_AUTOHSCROLL
+    LTEXT           "Type:",IDC_STATIC,64,47,19,8
+    COMBOBOX        IDC_BMTYPE,86,44,89,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Version (Hex):",IDC_STATIC,72,66,45,8
+    EDITTEXT        IDC_AMBVERSION,120,64,37,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Quantity of ADM-Interfaces:",IDC_STATIC,40,84,88,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_NUMOFADMIF,132,84,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADMIF,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,160,84,11,12
+    PUSHBUTTON      "Extended...",IDC_AMBEXT,94,107,50,14
+END
+
+IDD_PP_ADM2IF DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "ADM-Interface",IDC_STATIC,7,2,221,147,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,23,16,47,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_ADMIFNUM,71,16,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADMIFNUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,97,16,11,12
+    LTEXT           "Type:",IDC_STATIC,137,15,19,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_ADMIFTYPE,160,15,43,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Quantity of PLD's:",IDC_STATIC,12,37,58,8
+    EDITTEXT        IDC_NUMOFPLD,71,34,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLD,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,34,10,12
+    LTEXT           "Quantity of ADC FIFO's:",IDC_STATIC,112,37,76,8
+    EDITTEXT        IDC_NUMOFADCFIFO,189,34,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADCFIFO,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,215,34,10,12
+    LTEXT           "Quantity of DAC's:",IDC_STATIC,12,55,58,8
+    EDITTEXT        IDC_NUMOFDAC,71,53,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDAC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,98,53,10,12
+    LTEXT           "Quantity of DAC FIFO's:",IDC_STATIC,112,55,76,8
+    EDITTEXT        IDC_NUMOFDACFIFO,189,52,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDACFIFO,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,215,52,10,12
+    GROUPBOX        "Reference Generators (MHz)",IDC_STATIC,27,71,181,29
+    LTEXT           "G1:",IDC_STATIC,37,84,12,8
+    EDITTEXT        IDC_GEN1,54,81,54,12
+    LTEXT           "G2:",IDC_STATIC,125,85,12,8
+    EDITTEXT        IDC_GEN2,142,82,54,12
+    GROUPBOX        "Digital Parallel Input/Output Port",IDC_STATIC,27,100,181,29
+    CONTROL         "Presence",IDC_PIOBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,54,111,44,12
+    LTEXT           "Type:",IDC_STATIC,125,110,19,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PIOTYPE,153,111,43,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Reference Voltage of PVS:",IDC_STATIC,15,135,86,8
+    EDITTEXT        IDC_REFVOLTPVS,103,132,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "mV",IDC_STATIC,147,135,11,8
+    CONTROL         "Start",IDC_STARTBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,188,132,31,12
+END
+
+IDD_PP_ADM DIALOGEX 0, 0, 235, 156
+STYLE DS_SETFONT | DS_CONTROL | DS_CONTEXTHELP | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_TRANSPARENT
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "ADM Identification && Configuration",IDC_STATIC,7,3,221,146,BS_CENTER
+    LTEXT           "Number:",IDC_STATIC,47,26,28,8
+    EDITTEXT        IDC_ADMNUM,95,23,36,12,ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    LTEXT           "PID:",IDC_STATIC,47,45,15,8
+    EDITTEXT        IDC_ADMPID,95,42,36,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Type:",IDC_STATIC,47,62,19,8
+    COMBOBOX        IDC_ADMTYPE,96,60,101,110,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Version (Hex):",IDC_STATIC,47,81,45,8
+    EDITTEXT        IDC_ADMVERSION,95,78,37,12,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Config...",IDC_ADMCFG,87,99,50,14
+END
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 219, 118
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About IdCfgRom"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,22,20,20
+    CTEXT           "Identification & Configuration ROM",IDC_STATIC,50,15,119,8,SS_NOPREFIX
+    CTEXT           "Copyright (C) 2002-2006",IDC_STATIC,71,51,77,8
+    DEFPUSHBUTTON   "OK",IDOK,83,97,50,14,WS_GROUP
+    CTEXT           "Instrumental Systems Corp.",IDC_FIRMNAME,59,38,107,8
+    LTEXT           "http://www.insys.ru",IDC_HL_WWW,77,65,63,8
+    LTEXT           "info@insys.ru",IDC_HL_Email,88,77,43,8
+    LTEXT           "Version 1.05",IDC_STATIC,87,26,40,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_IDCFGROM_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 253
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
+
+    IDD_PP_ADMIF, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_PLD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_FIFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_DAC, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_AMB, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_ADM2IF, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_PP_ADM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 149
+    END
+
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 212
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 111
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_IDCFGROM_DIALOG DLGINIT
+BEGIN
+    IDC_DEVICETYPE, 0x403, 14, 0
+0x6e55, 0x6e6b, 0x776f, 0x6420, 0x7665, 0x6369, 0x0065, 
+    IDC_DEVICETYPE, 0x403, 7, 0
+0x4d41, 0x5042, 0x4943, "\000" 
+    IDC_DEVICETYPE, 0x403, 7, 0
+0x4d41, 0x5042, 0x4d43, "\000" 
+    IDC_DEVICETYPE, 0x403, 11, 0
+0x4441, 0x3153, 0x3136, 0x7836, 0x3834, "\000" 
+    IDC_DEVICETYPE, 0x403, 5, 0
+0xcac2, 0x322d, "\000" 
+    IDC_DEVICETYPE, 0x403, 10, 0
+0x4441, 0x3253, 0x3432, 0x3478, 0x0038, 
+    0
+END
+
+IDD_PP_PLD DLGINIT
+BEGIN
+    IDC_PLDTYPE, 0x403, 5, 0
+0x5045, 0x4b31, "\000" 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0041, 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 8, 0
+0x4358, 0x2e56, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5632, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5332, "\000" 
+    IDC_PLDTYPE, 0x403, 9, 0
+0x4358, 0x5332, 0x2e2e, 0x452e, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5333, "\000" 
+    IDC_PLDTYPE, 0x403, 7, 0
+0x4358, 0x5634, 0x584c, "\000" 
+    IDC_PLDTYPE, 0x403, 7, 0
+0x4358, 0x5634, 0x5853, "\000" 
+    IDC_PLDTYPE, 0x403, 7, 0
+0x4358, 0x5634, 0x5846, "\000" 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0031, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0032, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0033, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0034, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0035, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0036, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0037, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0038, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0039, 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_PLDRATE, 0x403, 3, 0
+0x3531, "\000" 
+    0
+END
+
+IDD_PP_FIFO DLGINIT
+BEGIN
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3135, 0x0032, 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0xca31, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0xca32, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x4b34, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x4b38, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3631, 0x004b, 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3233, 0x004b, 
+    IDC_ADCFIFOSIZE, 0x403, 4, 0
+0x3436, 0x004b, 
+    IDC_ADCFIFOSIZE, 0x403, 5, 0
+0x3231, 0x4b38, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 5, 0
+0x3532, 0x4b36, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 5, 0
+0x3135, 0x4b32, "\000" 
+    IDC_ADCFIFOSIZE, 0x403, 3, 0
+0x4d31, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 2, 0
+0x0038, 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_ADCFIFOBITSWIDTH, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3135, 0x0032, 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0xca31, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0xca32, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x4b34, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x4b38, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3631, 0x004b, 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3233, 0x004b, 
+    IDC_DACFIFOSIZE, 0x403, 4, 0
+0x3436, 0x004b, 
+    IDC_DACFIFOSIZE, 0x403, 5, 0
+0x3231, 0x4b38, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 5, 0
+0x3532, 0x4b36, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 5, 0
+0x3135, 0x4b32, "\000" 
+    IDC_DACFIFOSIZE, 0x403, 3, 0
+0x4d31, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 2, 0
+0x0038, 
+    IDC_DACFIFOBITSWIDTH, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_DACFIFOBITSWIDTH, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_DACFIFOBITSWIDTH, 0x403, 4, 0
+0x3532, 0x0036, 
+    0
+END
+
+IDD_PP_DAC DLGINIT
+BEGIN
+    IDC_DACBITS, 0x403, 2, 0
+0x0038, 
+    IDC_DACBITS, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3831, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3032, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3432, "\000" 
+    IDC_DACBITS, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_DACENCODING, 0x403, 16, 0
+0x7473, 0x6172, 0x6769, 0x7468, 0x6220, 0x6e69, 0x7261, 0x0079, 
+    IDC_DACENCODING, 0x403, 17, 0
+0x7774, 0x276f, 0x2073, 0x6f63, 0x706d, 0x656c, 0x656d, 0x746e, "\000" 
+    0
+END
+
+IDD_PP_AMB DLGINIT
+BEGIN
+    IDC_BMTYPE, 0x403, 7, 0
+0x4d41, 0x5042, 0x4943, "\000" 
+    IDC_BMTYPE, 0x403, 7, 0
+0x4d41, 0x5042, 0x4d43, "\000" 
+    0
+END
+
+IDD_PP_ADM2IF DLGINIT
+BEGIN
+    IDC_ADMIFTYPE, 0x403, 4, 0
+0x5454, 0x004c, 
+    IDC_ADMIFTYPE, 0x403, 5, 0
+0x564c, 0x5344, "\000" 
+    IDC_PIOTYPE, 0x403, 4, 0
+0x5454, 0x004c, 
+    IDC_PIOTYPE, 0x403, 5, 0
+0x564c, 0x5344, "\000" 
+    0
+END
+
+IDD_PP_ADM DLGINIT
+BEGIN
+    IDC_ADMTYPE, 0x403, 8, 0
+0x6f4e, 0x206e, 0x4441, 0x004d, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x7838, 0x3031, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x384d, 0x3278, 0x3030, 0x004d, 
+    IDC_ADMTYPE, 0x403, 9, 0
+0x4441, 0x314d, 0x7832, 0x4d31, "\000" 
+    IDC_ADMTYPE, 0x403, 9, 0
+0x4441, 0x314d, 0x7832, 0x4d33, "\000" 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x314d, 0x7832, 0x3031, 0x004d, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3178, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3278, 0x4d35, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3478, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3578, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3231, 0x3678, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 12, 0
+0x4441, 0x324d, 0x3231, 0x3178, 0x3030, 0x004d, 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x324d, 0x3431, 0x3178, 0x004d, 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x324d, 0x3431, 0x3378, 0x004d, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3431, 0x3178, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 12, 0
+0x4441, 0x324d, 0x3431, 0x3178, 0x4d30, 0x0058, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3431, 0x3678, 0x4d30, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3631, 0x3278, 0x3035, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x324d, 0x3631, 0x3278, 0x354d, "\000" 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x344d, 0x3631, 0x3278, 0x3030, "\000" 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x384d, 0x3631, 0x3478, 0x0038, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x314d, 0x3136, 0x7832, 0x4d31, "\000" 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x444d, 0x4344, 0x4e32, 0x0042, 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x444d, 0x4344, 0x4e34, 0x0042, 
+    IDC_ADMTYPE, 0x403, 10, 0
+0x4441, 0x444d, 0x4344, 0x5732, 0x0042, 
+    IDC_ADMTYPE, 0x403, 12, 0
+0x4441, 0x444d, 0x4344, 0x5732, 0x2d42, 0x004c, 
+    IDC_ADMTYPE, 0x403, 11, 0
+0x4441, 0x444d, 0x5344, 0x3839, 0x3435, "\000" 
+    IDC_ADMTYPE, 0x403, 9, 0
+0x4441, 0x444d, 0x4f49, 0x3233, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,5,0
+ PRODUCTVERSION 1,0,5,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "Comments", "Using for to read/write Identification & Configuration ROM"
+            VALUE "CompanyName", "Instrumental Systems Corporation"
+            VALUE "FileDescription", "Client for Identification & Configuration ROM"
+            VALUE "FileVersion", "1.05"
+            VALUE "InternalName", "IdCfgRom.exe"
+            VALUE "LegalCopyright", "(C) 2003-2006 InSys Corp.  All rights reserved."
+            VALUE "OriginalFilename", "IdCfgRom.exe"
+            VALUE "ProductName", "Identification & Configuration ROM System"
+            VALUE "ProductVersion", "1.05"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDC_DACENCODING         "Encoding of DAC"
+    IDC_DACRATEMAX          "Maximum sampling rate of DAC"
+    IDC_DACRATEMIN          "Minimum sampling rate of DAC"
+    IDC_DACRANGEAF          "DAC Output Range by active filter for 50 Om duty"
+    IDC_DACRANGEPF          "DAC Output Range by passive filter for 50 Om duty"
+    IDC_DACAFCOFF           "Active filter cutoff frequency"
+    IDC_DACLPFCOFF          "Passive filter low cutoff frequency"
+    IDC_DACHPFCOFF          "Passive filter hi cutoff frequency"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADMCFG              "ADM-submodule configuration"
+    IDC_ADMTYPE             "ADM-submodule type"
+    IDC_ADMVERSION          "ADM-submodule version"
+    IDC_ADMPID              "Serial number of ADM-submodule"
+    IDC_ADMNUM              "ADM-submodule number"
+    IDC_DACNUM              "DAC number"
+    IDC_DACBITS             "Bits of DAC"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCFIFONUM          "ADC FIFO number"
+    IDC_ADCFIFOSIZE         "Depth of ADC FIFO"
+    IDC_ADCFIFOBITSWIDTH    "Width of ADC FIFO (bits)"
+    IDC_DACFIFONUM          "DAC FIFO number"
+    IDC_DACFIFOSIZE         "Depth of DAC FIFO"
+    IDC_DACFIFOCYCLING      "Capability of cycling mode of DAC FIFO"
+    IDC_DACFIFOBITSWIDTH    "Width of DAC FIFO (bits)"
+    IDC_PLDNUM              "PLD number"
+    IDC_PLDTYPE             "PLD type"
+    IDC_PLDSIZE             "PLD volume"
+    IDC_PLDPINS             "Number of pins of PLD"
+    IDC_PLDRATE             "PLD speed grade"
+    IDC_PLDNAME             "PLD name"
+END
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Exit from program"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_DEVICETYPE          "Choice device for write into EEPROM"
+    IDC_SERIALNUM           "Serial number of base module"
+    IDC_NUMOFADMIF          "Quantity of ADM-Interfaces"
+    IDC_BMTYPE              "Base module type"
+    IDC_AMBEXT              "Extended parameters of base module"
+    IDC_AMBVERSION          "Base module version"
+    IDC_ADMIFNUM            "ADM-Interface number"
+    IDC_NUMOFADCFIFO        "Quantity of ADC FIFO's"
+    IDC_NUMOFPLD            "Quantity of PLD's"
+    IDC_NUMOFDACFIFO        "Quantity of DAC FIFO's"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_READ                "Read from file"
+    IDC_SAVE                "Save into file"
+    IDC_FROMDEV             "Get from device"
+    IDC_INTODEV             "Write into device"
+    IDC_ABOUT               "About program"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFDAC            "Quantity of DAC's"
+    IDC_GEN1                "Value of reference generator 1"
+    IDC_GEN2                "Value of reference generator 2"
+    IDC_REFVOLTPVS          "Reference Voltage of Programmable Voltage Source"
+    IDC_STARTBE             "Start Syncronization node"
+    IDC_PIOBE               "Port of input/output node"
+    IDC_PIOTYPE             "Type of PIO"
+    IDC_ADMIFTYPE           "Type of ADM-Interface"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "res\IdCfgRom.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

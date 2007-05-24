@@ -1,0 +1,10 @@
+; IcrBardy.def : Declares the module parameters for the DLL.
+
+LIBRARY      "IcrBardy"
+
+EXPORTS
+    ; Explicit exports can go here
+	DEVICE_GetInfo
+	DEVICE_Close
+	DEVICE_ReadIdCfgRom
+	DEVICE_WriteIdCfgRom

@@ -1,0 +1,749 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\IcrAmbp.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904e3"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "IcrAmbp.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "IcrAmbp.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1251
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 390, 340
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация AMBPCD/AMBPCX"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "Системный генератор (Гц):",IDC_STATIC,121,9,92,8
+    EDITTEXT        IDC_SYSGEN,214,7,54,12,ES_NUMBER
+    LTEXT           "Слоты SDRAM:",IDC_STATIC,144,27,52,8
+    COMBOBOX        IDC_SDRAMSLOTS,197,25,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Количество структур DDR SDRAM:",IDC_STATIC,115,45,120,8
+    EDITTEXT        IDC_SDRAMCNT,236,43,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINSDRAM,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,263,43,11,
+                    12
+    GROUPBOX        "Конфигурационная структура DDR SDRAM",IDC_STATIC,32,62,
+                    325,86,BS_CENTER
+    LTEXT           "Порядковый номер:",IDC_STATIC,140,76,69,8
+    EDITTEXT        IDC_SDRAMNUM,210,75,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINSDRAMNUM,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,238,75,11,12
+    LTEXT           "DIMM-модули:",IDC_STATIC,40,96,49,8
+    COMBOBOX        IDC_SDRAMDIMMS,136,94,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Разряды адреса строк:",IDC_STATIC,40,113,80,8
+    COMBOBOX        IDC_SDRAMROWBITS,136,110,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Разряды адреса столбцов:",IDC_STATIC,40,129,92,8
+    COMBOBOX        IDC_SDRAMCOLBITS,136,127,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Банки DIMM-модуля:",IDC_STATIC,198,96,72,8
+    COMBOBOX        IDC_SDRAMDIMMBANKS,300,94,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Банки SDRAM-микросхемы:",IDC_STATIC,198,113,97,8
+    COMBOBOX        IDC_SDRAMCHIPBANKS,300,110,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Задержка сигнала CAS:",IDC_STATIC,117,142,82,8,NOT 
+                    WS_VISIBLE
+    COMBOBOX        IDC_SDRAMCASLAT,219,139,48,83,CBS_DROPDOWNLIST | NOT 
+                    WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Шина SDRAM-микросхемы:",IDC_STATIC,198,129,94,8
+    COMBOBOX        IDC_SDRAMPRIMWIDTH,300,127,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Количество структур узла ЦОС:",IDC_STATIC,120,158,108,8
+    EDITTEXT        IDC_DSPCNT,230,155,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINDSPCNT,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,257,155,
+                    11,12
+    GROUPBOX        "Конфигурационная структура узла ЦОС",IDC_STATIC,7,173,
+                    376,140,BS_CENTER
+    LTEXT           "Порядковый номер:",IDC_STATIC,140,187,69,8
+    EDITTEXT        IDC_DSPNUM,210,185,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINDSPNUM,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,238,185,
+                    11,12
+    GROUPBOX        "Конфигурация ПЛИС ЦОС",IDC_STATIC,13,202,200,104,
+                    BS_CENTER
+    CTEXT           "XC2S100E-6FG456C",IDC_PLDNAME,62,215,101,17,
+                    SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Тип:",IDC_STATIC,22,243,16,8
+    COMBOBOX        IDC_PLDTYPE,61,241,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Скорость:",IDC_STATIC,22,264,35,8
+    COMBOBOX        IDC_PLDRATE,61,262,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Объем:",IDC_STATIC,126,243,26,8
+    EDITTEXT        IDC_PLDVOLUME,159,241,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Выводы:",IDC_STATIC,126,264,30,8
+    EDITTEXT        IDC_PLDPINS,159,262,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Загрузочное ПЗУ:",IDC_STATIC,48,286,63,8
+    COMBOBOX        IDC_LOADROM,111,284,58,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "Цифровой порт ввода/вывода",IDC_STATIC,219,202,158,29,
+                    BS_CENTER
+    CONTROL         "Присутствует",IDC_PIOBE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,232,213,60,12
+    LTEXT           "Тип:",IDC_STATIC,305,213,15,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PIOTYPE,322,213,43,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    CONTROL         "Статическая RAM",IDC_SRAMBE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,235,75,12
+    GROUPBOX        "Конфигурация статической RAM",IDC_STATIC,219,250,157,56,
+                    BS_CENTER
+    LTEXT           "Микросхемы:",IDC_STATIC,242,265,47,8
+    COMBOBOX        IDC_SRAMCHIPS,291,262,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Глубина:",IDC_STATIC,225,284,30,8
+    COMBOBOX        IDC_SRAMSIZE,256,281,34,96,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Ширина:",IDC_STATIC,303,284,29,8
+    COMBOBOX        IDC_SRAMBITSWIDTH,335,281,34,96,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,141,320,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,197,320,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_SDRAMSLOTS, 0x403, 2, 0
+0x0030, 
+    IDC_SDRAMSLOTS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMSLOTS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0034, 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 2, 0
+0x0038, 
+    IDC_SDRAMCOLBITS, 0x403, 2, 0
+0x0039, 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_SDRAMDIMMBANKS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMDIMMBANKS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCHIPBANKS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCHIPBANKS, 0x403, 2, 0
+0x0034, 
+    IDC_SDRAMCASLAT, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCASLAT, 0x403, 2, 0
+0x0033, 
+    IDC_SDRAMPRIMWIDTH, 0x403, 3, 0
+0x3478, "\000" 
+    IDC_SDRAMPRIMWIDTH, 0x403, 3, 0
+0x3878, "\000" 
+    IDC_SDRAMPRIMWIDTH, 0x403, 4, 0
+0x3178, 0x0036, 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x5045, 0x4b31, "\000" 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0041, 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 8, 0
+0x4358, 0x2e56, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5632, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5332, "\000" 
+    IDC_PLDTYPE, 0x403, 9, 0
+0x4358, 0x5332, 0x2e2e, 0x452e, "\000" 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0031, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0032, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0033, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0034, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0035, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0036, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0037, 
+    IDC_LOADROM, 0x403, 12, 0
+0xf2ee, 0xf3f1, 0xf1f2, 0xe2f2, 0xe5f3, 0x00f2, 
+    IDC_LOADROM, 0x403, 13, 0
+0xf0ef, 0xf1e8, 0xf2f3, 0xf2f1, 0xf3e2, 0xf2e5, "\000" 
+    IDC_LOADROM, 0x403, 8, 0
+0xfaf1, 0xece5, 0xeeed, 0x00e5, 
+    IDC_PIOTYPE, 0x403, 4, 0
+0x5454, 0x004c, 
+    IDC_PIOTYPE, 0x403, 5, 0
+0x564c, 0x5344, "\000" 
+    IDC_SRAMCHIPS, 0x403, 2, 0
+0x0031, 
+    IDC_SRAMCHIPS, 0x403, 2, 0
+0x0032, 
+    IDC_SRAMCHIPS, 0x403, 2, 0
+0x0033, 
+    IDC_SRAMCHIPS, 0x403, 2, 0
+0x0034, 
+    IDC_SRAMSIZE, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_SRAMSIZE, 0x403, 3, 0
+0x4d31, "\000" 
+    IDC_SRAMSIZE, 0x403, 3, 0
+0x4d32, "\000" 
+    IDC_SRAMSIZE, 0x403, 3, 0
+0x4d34, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 2, 0
+0x0038, 
+    IDC_SRAMBITSWIDTH, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_SRAMBITSWIDTH, 0x403, 4, 0
+0x3532, 0x0036, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 383
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 333
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Подтвердить изменения"
+    IDCANCEL                "Отменить изменения"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMNUM            "Порядковый номер структуры SDRAM"
+    IDC_SDRAMSLOTS          "Количество запаянных слотов SDRAM"
+    IDC_LOADROM             "ПЗУ, из которого загружается ПЛИС ЦОС"
+    IDC_SDRAMDIMMS          "Количество установленных DIMM-модулей"
+    IDC_SDRAMROWBITS        "Количество разрядов адреса строк"
+    IDC_SDRAMCOLBITS        "Количество разрядов адреса столбцов"
+    IDC_SDRAMDIMMBANKS      "Количество банков DIMM-модуля"
+    IDC_SDRAMCHIPBANKS      "Количество банков SDRAM-микросхемы"
+    IDC_SDRAMCASLAT         "Задержка сигнала выборки адреса столбцов"
+    IDC_SDRAMPRIMWIDTH      "Ширина (в битах) первичной шины SDRAM-микросхемы"
+    IDC_SRAMCHIPS           "Количество микросхем статической памяти"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMCNT            "Количество конфигурационных структур SDRAM"
+    IDC_DSPCNT              "Количество конфигурационных структур узла ЦОС"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SRAMSIZE            "Размер (глубина) микросхемы статической памяти"
+    IDC_SRAMBITSWIDTH       "Ширина (в битах) микросхемы статической памяти"
+    IDC_PLDTYPE             "Тип ПЛИС ЦОС"
+    IDC_PLDVOLUME           "Объем ПЛИС ЦОС"
+    IDC_PLDPINS             "Количество выводов ПЛИС ЦОС"
+    IDC_PLDRATE             "Скорость ПЛИС ЦОС"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SYSGEN              "Значение системного генератора (Гц)"
+    IDC_PIOBE               "Наличие в узле ЦОС цифрового параллельного порта ввода/вывода"
+    IDC_SRAMBE              "Наличие в узле ЦОС статической памяти"
+    IDC_PIOTYPE             "Тип цифрового параллельного порта ввода/вывода"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_DSPNUM              "Порядковый номер структуры узла ЦОС"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 390, 340
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "AMBPCD/AMBPCX Configuration"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "System generator (Hz):",IDC_STATIC,130,10,72,8
+    EDITTEXT        IDC_SYSGEN,204,8,54,12,ES_NUMBER
+    LTEXT           "SDRAM slots:",IDC_STATIC,146,27,45,8
+    COMBOBOX        IDC_SDRAMSLOTS,195,25,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Number of DDR SDRAM structures:",IDC_STATIC,116,44,114,
+                    8
+    EDITTEXT        IDC_SDRAMCNT,234,42,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINSDRAM,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,261,42,11,
+                    12
+    GROUPBOX        "DDR SDRAM Configuration Structure",IDC_STATIC,73,60,243,
+                    88,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,143,76,48,8
+    EDITTEXT        IDC_SDRAMNUM,195,74,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINSDRAMNUM,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,223,74,11,12
+    LTEXT           "DIMMs:",IDC_STATIC,82,95,26,8
+    COMBOBOX        IDC_SDRAMDIMMS,154,93,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Row Address Bits:",IDC_STATIC,82,112,58,8
+    COMBOBOX        IDC_SDRAMROWBITS,154,109,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Column Address Bits:",IDC_STATIC,82,128,67,8
+    COMBOBOX        IDC_SDRAMCOLBITS,154,126,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "DIMM Banks:",IDC_STATIC,212,95,44,8
+    COMBOBOX        IDC_SDRAMDIMMBANKS,260,93,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Chip Banks:",IDC_STATIC,212,112,39,8
+    COMBOBOX        IDC_SDRAMCHIPBANKS,260,109,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "CAS Latency:",IDC_STATIC,151,142,44,8,NOT WS_VISIBLE
+    COMBOBOX        IDC_SDRAMCASLAT,199,140,48,83,CBS_DROPDOWNLIST | NOT 
+                    WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Primary Width:",IDC_STATIC,212,128,46,8
+    COMBOBOX        IDC_SDRAMPRIMWIDTH,260,126,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Number of DSP node structures:",IDC_STATIC,124,157,103,
+                    8
+    EDITTEXT        IDC_DSPCNT,230,154,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINDSPCNT,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,257,154,
+                    11,12
+    GROUPBOX        "DSP node Configuration Structure",IDC_STATIC,7,174,376,
+                    138,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,152,187,47,8
+    EDITTEXT        IDC_DSPNUM,201,185,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINDSPNUM,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,229,185,
+                    11,12
+    GROUPBOX        "DSP PLD Configuration",IDC_STATIC,13,201,200,104,
+                    BS_CENTER
+    CTEXT           "XC2S100E-6FG456C",IDC_PLDNAME,62,214,101,17,
+                    SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Type:",IDC_STATIC,19,241,19,8
+    COMBOBOX        IDC_PLDTYPE,67,240,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Speed Grade:",IDC_STATIC,19,260,45,8
+    COMBOBOX        IDC_PLDRATE,67,261,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Volume:",IDC_STATIC,130,241,26,8
+    EDITTEXT        IDC_PLDVOLUME,159,240,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Pins:",IDC_STATIC,130,260,16,8
+    EDITTEXT        IDC_PLDPINS,159,259,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Loading ROM:",IDC_STATIC,63,285,47,8
+    COMBOBOX        IDC_LOADROM,113,283,48,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    GROUPBOX        "Digital Parallel Input/Output Port",IDC_STATIC,219,201,
+                    158,29,BS_CENTER
+    CONTROL         "Presence",IDC_PIOBE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,237,212,44,12
+    LTEXT           "Type:",IDC_STATIC,302,211,19,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_PIOTYPE,322,212,43,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    CONTROL         "Static RAM",IDC_SRAMBE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,275,234,50,12
+    GROUPBOX        "Static RAM Configuration Structure",IDC_STATIC,219,249,
+                    157,56,BS_CENTER
+    LTEXT           "Chips:",IDC_STATIC,265,264,20,8
+    COMBOBOX        IDC_SRAMCHIPS,291,261,48,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Size:",IDC_STATIC,225,283,16,8
+    COMBOBOX        IDC_SRAMSIZE,247,280,34,96,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Bits Width:",IDC_STATIC,293,283,35,8
+    COMBOBOX        IDC_SRAMBITSWIDTH,335,280,34,96,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,141,320,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,197,320,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_SDRAMSLOTS, 0x403, 2, 0
+0x0030, 
+    IDC_SDRAMSLOTS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMSLOTS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMDIMMS, 0x403, 2, 0
+0x0034, 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_SDRAMROWBITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 2, 0
+0x0038, 
+    IDC_SDRAMCOLBITS, 0x403, 2, 0
+0x0039, 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3131, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_SDRAMCOLBITS, 0x403, 3, 0
+0x3331, "\000" 
+    IDC_SDRAMDIMMBANKS, 0x403, 2, 0
+0x0031, 
+    IDC_SDRAMDIMMBANKS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCHIPBANKS, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCHIPBANKS, 0x403, 2, 0
+0x0034, 
+    IDC_SDRAMCASLAT, 0x403, 2, 0
+0x0032, 
+    IDC_SDRAMCASLAT, 0x403, 2, 0
+0x0033, 
+    IDC_SDRAMPRIMWIDTH, 0x403, 3, 0
+0x3478, "\000" 
+    IDC_SDRAMPRIMWIDTH, 0x403, 3, 0
+0x3878, "\000" 
+    IDC_SDRAMPRIMWIDTH, 0x403, 4, 0
+0x3178, 0x0036, 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x5045, 0x4b31, "\000" 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0041, 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 8, 0
+0x4358, 0x2e56, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5632, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5332, "\000" 
+    IDC_PLDTYPE, 0x403, 9, 0
+0x4358, 0x5332, 0x2e2e, 0x452e, "\000" 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0031, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0032, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0033, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0034, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0035, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0036, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0037, 
+    IDC_LOADROM, 0x403, 7, 0
+0x6261, 0x6573, 0x746e, "\000" 
+    IDC_LOADROM, 0x403, 8, 0
+0x7270, 0x7365, 0x6e65, 0x0074, 
+    IDC_LOADROM, 0x403, 10, 0
+0x6572, 0x6f6d, 0x6176, 0x6c62, 0x0065, 
+    IDC_PIOTYPE, 0x403, 4, 0
+0x5454, 0x004c, 
+    IDC_PIOTYPE, 0x403, 5, 0
+0x564c, 0x5344, "\000" 
+    IDC_SRAMCHIPS, 0x403, 2, 0
+0x0031, 
+    IDC_SRAMCHIPS, 0x403, 2, 0
+0x0032, 
+    IDC_SRAMCHIPS, 0x403, 2, 0
+0x0033, 
+    IDC_SRAMCHIPS, 0x403, 2, 0
+0x0034, 
+    IDC_SRAMSIZE, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_SRAMSIZE, 0x403, 3, 0
+0x4d31, "\000" 
+    IDC_SRAMSIZE, 0x403, 3, 0
+0x4d32, "\000" 
+    IDC_SRAMSIZE, 0x403, 3, 0
+0x4d34, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 2, 0
+0x0038, 
+    IDC_SRAMBITSWIDTH, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_SRAMBITSWIDTH, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_SRAMBITSWIDTH, 0x403, 4, 0
+0x3532, 0x0036, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 383
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 333
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Confirm of changes"
+    IDCANCEL                "Cancel of changes"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMNUM            "SDRAM structure number"
+    IDC_SDRAMSLOTS          "Number of SDRAM slots"
+    IDC_LOADROM             "Loading ROM for DSP PLD"
+    IDC_SDRAMDIMMS          "Number of SDRAM DIMM-modules"
+    IDC_SDRAMROWBITS        "Number of bits of row address"
+    IDC_SDRAMCOLBITS        "Number of bits of column address"
+    IDC_SDRAMDIMMBANKS      "Number of SDRAM DIMM-module banks"
+    IDC_SDRAMCHIPBANKS      "Number of SDRAM chip banks"
+    IDC_SDRAMCASLAT         "SDRAM CAS Latency"
+    IDC_SDRAMPRIMWIDTH      "Primary DDR SDRAM Width"
+    IDC_SRAMCHIPS           "Number of SRAM chips"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMCNT            "Number of SDRAM structures"
+    IDC_DSPCNT              "Number of DSP node structures"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SRAMSIZE            "SRAM chip size"
+    IDC_SRAMBITSWIDTH       "SRAM chip bits width"
+    IDC_PLDTYPE             "DSP PLD type"
+    IDC_PLDVOLUME           "DSP PLD volume"
+    IDC_PLDPINS             "Number of pins of DSP PLD"
+    IDC_PLDRATE             "DSP PLD speed grade"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SYSGEN              "Value of System Generator (Hz)"
+    IDC_PIOBE               "Digital parallel input/output port of DSP node"
+    IDC_SRAMBE              "Static RAM of DSP node"
+    IDC_PIOTYPE             "Type PIO of DSP node"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_DSPNUM              "DSP node structure number"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\IcrAmbp.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

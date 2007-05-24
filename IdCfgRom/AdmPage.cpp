@@ -1,0 +1,514 @@
+// AdmPage.cpp : implementation file
+//
+
+#include "stdafx.h"
+#include "IdCfgRom.h"
+#include "AdmPage.h"
+#include "IdCfgRomDlg.h"
+#include ".\admpage.h"
+
+#define NONADM_CFGMEM_SIZE 2
+
+extern SUBMOD_CTRL SubmodCtrl[];
+extern int m_NumOfSubModules;
+
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
+//#pragma setlocale("Russian_Russia.1251")
+
+static void GetMsg(DWORD dwMessageId, CString& string) 
+{
+	LPVOID lpMsgBuf;
+	HINSTANCE hinst = AfxGetInstanceHandle();
+	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_HMODULE,
+					AfxGetInstanceHandle(), dwMessageId, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+//					AfxGetInstanceHandle(), dwMessageId, MAKELANGID(LANG_RUSSIAN, SUBLANG_DEFAULT),
+					(LPTSTR) &lpMsgBuf, 0, NULL );
+	string = (LPTSTR)lpMsgBuf;
+	LocalFree( lpMsgBuf );
+	string.GetBufferSetLength(string.GetLength() - 2);
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// CAdmPage dialog
+
+IMPLEMENT_DYNAMIC(CAdmPage, CPropertyPage)
+
+CAdmPage::CAdmPage() : CPropertyPage(CAdmPage::IDD)
+{
+	//{{AFX_DATA_INIT(CAdmPage)
+	m_AdmNum = 0;
+	m_AdmType = 0;
+//	m_AdmVersion = 0x10;
+	m_AdmPID = 0;
+	//}}AFX_DATA_INIT
+}
+
+void CAdmPage::DoDataExchange(CDataExchange* pDX)
+{
+	CPropertyPage::DoDataExchange(pDX);
+	//{{AFX_DATA_MAP(CAdmPage)
+//	DDX_Control(pDX, IDC_SPINADMNUM, m_ctrlSpinAdmNum);
+	DDX_Text(pDX, IDC_ADMNUM, m_AdmNum);
+	DDX_CBIndex(pDX, IDC_ADMTYPE, m_AdmType);
+	DDX_Text(pDX, IDC_ADMVERSION, m_strAdmVersion);
+	DDX_Text(pDX, IDC_ADMPID, m_AdmPID);
+	//}}AFX_DATA_MAP
+	DDV_MinMaxUInt(pDX, m_AdmNum, 0, m_AdmIdMax);
+}
+
+
+BEGIN_MESSAGE_MAP(CAdmPage, CPropertyPage)
+//	ON_NOTIFY_EX( TTN_NEEDTEXT, 0, OnToolTipNotify )
+	//{{AFX_MSG_MAP(CAdmPage)
+//	ON_NOTIFY(UDN_DELTAPOS, IDC_SPINADMNUM, OnDeltaposSpinadmnum)
+	ON_EN_KILLFOCUS(IDC_ADMNUM, OnKillfocusAdmnum)
+	ON_BN_CLICKED(IDC_ADMCFG, OnAdmcfg)
+	ON_EN_KILLFOCUS(IDC_ADMVERSION, OnKillfocusAdmversion)
+	ON_EN_KILLFOCUS(IDC_ADMPID, OnKillfocusAdmpid)
+	ON_CBN_SELCHANGE(IDC_ADMTYPE, OnSelchangeAdmtype)
+	ON_WM_DESTROY()
+	//}}AFX_MSG_MAP
+//	ON_WM_ERASEBKGND()
+END_MESSAGE_MAP()
+
+/////////////////////////////////////////////////////////////////////////////
+// CAdmPage message handlers
+
+BOOL CAdmPage::OnInitDialog() 
+{
+	CPropertyPage::OnInitDialog();
+	
+	// TODO: Add extra initialization here
+	CComboBox* pDevType = (CComboBox*)GetDlgItem(IDC_ADMTYPE);
+	pDevType->ResetContent();
+	CString StringBuf;
+	GetMsg(MSG_NON_ADM, StringBuf);
+	pDevType->AddString(StringBuf);
+//	pDevType->AddString(_T("Non-ADM"));
+	for(int i = 0; i < m_NumOfSubModules; i++)
+		pDevType->AddString(SubmodCtrl[i].devInfo.Name);
+	pDevType->SetCurSel(0);
+//	m_CfgBufSize = NONADM_CFGMEM_SIZE; //SubmodCtrl[0].devInfo.RealCfgSize;
+
+	InitData();
+
+    m_ToolTip.Create(this);
+    m_ToolTip.AddTool(GetDlgItem(IDC_ADMNUM), IDC_ADMNUM);
+    m_ToolTip.AddTool(GetDlgItem(IDC_ADMCFG), IDC_ADMCFG);
+    m_ToolTip.AddTool(GetDlgItem(IDC_ADMVERSION), IDC_ADMVERSION);
+    m_ToolTip.AddTool(GetDlgItem(IDC_ADMPID), IDC_ADMPID);
+    m_ToolTip.AddTool(GetDlgItem(IDC_ADMTYPE), IDC_ADMTYPE);
+//    EnableToolTips(TRUE);
+	return TRUE;  // return TRUE unless you set the focus to a control
+	              // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CAdmPage::OnDestroy() 
+{
+	CPropertyPage::OnDestroy();
+	
+	// TODO: Add your message handler code here
+	for(int i = 0; i < m_NumOfSubModules; i++) {
+		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[i].devInfo);
+		SubmodCtrl[i].pClose(pDeviceInfo);
+	}
+}
+
+void CAdmPage::InitData() 
+{
+	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+	SetMaxAdm(pParentWnd->m_pAmbPage->m_NumOfAdmIf - 1);
+
+//	m_ctrlSpinAdmNum.SetRange(0, m_AdmIdMax);
+	
+	m_AdmNum = 0;
+	m_AdmType = 0;
+//	m_AdmVersion = 0x10;
+	m_AdmPID = 0;
+
+	for(int i = 0; i < MAX_ADMID; i++)
+	{
+		m_AdmId[i].bAdmNum = i;
+		m_AdmId[i].dSerialNum = m_AdmPID;
+		m_AdmId[i].wType = m_AdmType;
+		m_AdmId[i].bVersion = 0x10;
+	}
+
+	int enFlag = m_AdmType ? 1 : 0;
+	CWnd* pAdmPid = (CWnd*)GetDlgItem(IDC_ADMPID);
+	CWnd* pAdmVersion = (CWnd*)GetDlgItem(IDC_ADMVERSION);
+	CWnd* pAdmCfg = (CWnd*)GetDlgItem(IDC_ADMCFG);
+	pAdmPid->EnableWindow(enFlag);
+	pAdmVersion->EnableWindow(enFlag);
+	pAdmCfg->EnableWindow(enFlag);
+	UpdateData(FALSE); // from variable to window
+}
+/*
+/////////////////////////////////////////////////////////////////////////////
+BOOL CAdmPage::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
+{
+    TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
+    UINT_PTR nID = pNMHDR->idFrom;
+    if(pTTT->uFlags & TTF_IDISHWND)
+    {
+        // idFrom is actually the HWND of the tool
+		nID = ::GetDlgCtrlID((HWND)nID);
+//        if(nID != IDC_START && nID != IDC_HL_WWW && nID != IDC_HL_Email)
+//        if(nID != IDC_TABPAGE)
+        {
+            pTTT->lpszText = MAKEINTRESOURCE(nID);
+//            strcpy(pTTT->szText, "1234567890");
+            pTTT->hinst = AfxGetResourceHandle();
+            return(TRUE);
+        }
+    }
+    return(FALSE);
+}
+*/
+void CAdmPage::OnAdmcfg() 
+{
+	// TODO: Add your control notification handler code here
+	//int idx = m_AdmId[num].Type;
+	PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[m_AdmType-1].devInfo);
+	int nResponse = (SubmodCtrl[m_AdmType-1].pDlgProperty)(pDeviceInfo);
+	if (nResponse == IDOK)
+	{
+		// TODO: Place code here to handle when the dialog is
+		//  dismissed with OK
+//		m_pAdvPciBus->UpdateData(TRUE);
+	}
+	else if (nResponse == IDCANCEL)
+	{
+		// TODO: Place code here to handle when the dialog is
+		//  dismissed with Cancel
+	}
+	
+}
+
+void CAdmPage::OnKillfocusAdmversion()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE); // from window to variable
+	char* stopstring;
+	int AdmVersion = strtol(m_strAdmVersion, &stopstring, 16);
+	m_AdmId[m_AdmNum].bVersion = AdmVersion;
+//	m_AdmId[m_AdmNum].bVersion = m_AdmVersion;
+}
+
+void CAdmPage::OnKillfocusAdmpid() 
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE); // from window to variable
+	m_AdmId[m_AdmNum].dSerialNum = m_AdmPID;
+}
+
+void CAdmPage::OnSelchangeAdmtype() 
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE); // from window to variable
+	m_AdmId[m_AdmNum].wType = m_AdmType;
+	int enFlag = m_AdmType ? 1 : 0;
+	CWnd* pAdmPid = (CWnd*)GetDlgItem(IDC_ADMPID);
+	CWnd* pAdmVersion = (CWnd*)GetDlgItem(IDC_ADMVERSION);
+	CWnd* pAdmCfg = (CWnd*)GetDlgItem(IDC_ADMCFG);
+	pAdmPid->EnableWindow(enFlag);
+	pAdmVersion->EnableWindow(enFlag);
+	pAdmCfg->EnableWindow(enFlag);
+	m_CfgBufSize = m_AdmType ? SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
+}
+
+void CAdmPage::OnOK() 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	CWnd* pCurrent = GetFocus();
+	CWnd* pNum = (CWnd*)GetDlgItem(IDC_ADMNUM);
+	if(pCurrent == pNum)
+		ChangeAdmNum();
+//	CPropertyPage::OnOK();
+}
+
+void CAdmPage::OnKillfocusAdmnum() 
+{
+	// TODO: Add your control notification handler code here
+	ChangeAdmNum();
+}
+/*
+void CAdmPage::OnDeltaposSpinadmnum(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_UPDOWN* pNMUpDown = (NM_UPDOWN*)pNMHDR;
+	// TODO: Add your control notification handler code here
+	int newVal = pNMUpDown->iPos + pNMUpDown->iDelta;
+	if(newVal >=0 && newVal <= 3)
+	{
+		m_AdmNum = newVal;
+		UpdateData(FALSE); // from variable to window
+		ChangeAdmNum();
+	}
+	*pResult = 0;
+}
+*/
+void CAdmPage::ChangeAdmNum() 
+{
+	UpdateData(TRUE); // from window to variable
+	int num = m_AdmNum;
+
+	m_AdmPID = m_AdmId[num].dSerialNum;
+	m_AdmType = m_AdmId[num].wType;
+	int AdmVersion = m_AdmId[num].bVersion;
+	m_strAdmVersion.Format(_T("%x"), AdmVersion);
+//	m_AdmVersion = m_AdmId[num].bVersion;
+
+	UpdateData(FALSE); // from variable to window
+}
+
+void CAdmPage::SetMaxAdm(int maxAdm)
+{
+	m_AdmIdMax = maxAdm;
+	BOOL enFlag = TRUE;
+	//if(m_AdmIdMax >= 0)
+	//	m_ctrlSpinAdmNum.SetRange(0, m_AdmIdMax);
+	//else
+	//	enFlag = FALSE;
+	if(m_AdmIdMax < 0)
+		enFlag = FALSE;
+	CWnd* pAdmNum = (CWnd*)GetDlgItem(IDC_ADMNUM);
+	CWnd* pAdmType = (CWnd*)GetDlgItem(IDC_ADMTYPE);
+	CWnd* pAdmPid = (CWnd*)GetDlgItem(IDC_ADMPID);
+	CWnd* pAdmVersion = (CWnd*)GetDlgItem(IDC_ADMVERSION);
+	CWnd* pAdmCfg = (CWnd*)GetDlgItem(IDC_ADMCFG);
+	pAdmNum->EnableWindow(enFlag);
+	pAdmType->EnableWindow(enFlag);
+	pAdmPid->EnableWindow(enFlag);
+	pAdmVersion->EnableWindow(enFlag);
+	pAdmCfg->EnableWindow(enFlag);
+	if(enFlag) {
+		enFlag = m_AdmType ? 1 : 0;
+		pAdmPid->EnableWindow(enFlag);
+		pAdmVersion->EnableWindow(enFlag);
+		pAdmCfg->EnableWindow(enFlag);
+	}
+	m_CfgBufSize = m_AdmType ? SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
+}
+/*
+// Data from ADM_ID into dialog control
+//void CAdmPage::GetDataFromModule(ADM_ID& admId) 
+void CAdmPage::SetDataIntoDlg(PADM_ID pAdmId, UINT num)
+{
+	m_AdmId[num].SerNum = pAdmId->SerNum;
+	m_AdmId[num].Version = pAdmId->Version;
+
+	m_AdmId[num].Type = 0;
+	if(pAdmId->Type)
+		for(int i = 0; i < m_NumOfSubModules; i++)
+		{
+			PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[i].devInfo);
+			if(pAdmId->Type == pDeviceInfo->Type)
+				m_AdmId[num].Type = i + 1;
+		}
+//	m_AdmId[num].Type = pAdmId->Type;
+
+	if(num == m_AdmNum)
+	{
+		m_AdmPID = m_AdmId[num].SerNum;
+		m_AdmVersion = m_AdmId[num].Version;
+		m_AdmType = m_AdmId[num].Type;
+		UpdateData(FALSE);
+	}
+}
+
+// Data from dialog control into ADM_ID
+//void CAdmPage::SetDataIntoModule(ADM_ID& admId) 
+void CAdmPage::GetDataFromDlg(PADM_ID pAdmId, UINT num) 
+{
+//	if(m_AdmId[num].Type)
+//	{
+	UpdateData(TRUE);
+
+//		*pSignSize = ADM_ID_SIGN;
+//		*(pSignSize+1) = sizeof(ADM_ID);
+//		PADM_ID pAdmId = (PADM_ID)((UCHAR*)pSignSize + 4);
+
+	pAdmId->SerNum = m_AdmId[num].SerNum;
+	pAdmId->Version = m_AdmId[num].Version;
+
+	if(m_AdmId[num].Type) {
+		int idx = m_AdmId[num].Type - 1;
+		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		pAdmId->Type = pDeviceInfo->Type;
+	}
+	else
+		pAdmId->Type = 0;
+//	pAdmId->Type = m_AdmId[num].Type;
+//	pAdmId->Reserve = 0;
+}
+
+// Data from ADM_CFG into dialog control
+ULONG CAdmPage::SetDataIntoDlg(PVOID pAdmCfg, UINT num, UINT size)
+{
+	ULONG ret;
+	if(m_AdmId[num].Type) {
+		int idx = m_AdmId[num].Type - 1;
+		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		size = size < SUBMOD_CFGMEM_SIZE ? size : SUBMOD_CFGMEM_SIZE;
+		memcpy(pDeviceInfo->CfgMem, pAdmCfg, size);
+		int	retCode = (SubmodCtrl[idx].pSetProperty)(pDeviceInfo);
+		ret = pDeviceInfo->RealCfgSize;
+	}
+	else
+		ret = 0;
+	return ret;
+}
+
+// Data from dialog control into ADM_CFG
+ULONG CAdmPage::GetDataFromDlg(PVOID pAdmCfg, UINT num)
+{
+	ULONG ret;
+	if(m_AdmId[num].Type) {
+		int idx = m_AdmId[num].Type - 1;
+		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		int	retCode = (SubmodCtrl[idx].pGetProperty)(pDeviceInfo);
+		if(retCode)
+			pDeviceInfo->RealCfgSize = 0;
+		else
+			memcpy(pAdmCfg, pDeviceInfo->CfgMem, pDeviceInfo->RealCfgSize);
+		ret = pDeviceInfo->RealCfgSize;
+	}
+	else
+		ret = 0;
+	return ret;
+}
+*/
+
+// Data from ADM_ID & ADM_CFG into dialog control
+void CAdmPage::SetDataIntoDlg(PVOID pCfgMem)
+{
+//	ULONG ret;
+	PICR_IdAdm pAdmId = (PICR_IdAdm)pCfgMem;
+	UINT num = pAdmId->bAdmNum;
+	int size = pAdmId->wSizeAll;
+	m_AdmId[num].dSerialNum = pAdmId->dSerialNum;
+	m_AdmId[num].bVersion = pAdmId->bVersion;
+	m_AdmId[num].wType = 0;
+	if(pAdmId->wType) {
+		for(int i = 0; i < m_NumOfSubModules; i++) {
+			PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[i].devInfo);
+			if(pAdmId->wType == pDeviceInfo->Type) {
+				m_AdmId[num].wType = i + 1;
+				break;
+			}
+		}
+	}
+	if(num == m_AdmNum)	{
+		m_AdmPID = m_AdmId[num].dSerialNum;
+		int AdmVersion = m_AdmId[num].bVersion;
+		m_strAdmVersion.Format(_T("%x"), AdmVersion);
+//		m_AdmVersion = m_AdmId[num].bVersion;
+		m_AdmType = m_AdmId[num].wType;
+		UpdateData(FALSE);
+	}
+
+	if(m_AdmId[num].wType) {
+		int idx = m_AdmId[num].wType - 1;
+		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		PUCHAR pAdmCfg = (PUCHAR)pCfgMem + sizeof(ICR_IdAdm);
+		memcpy(pDeviceInfo->pCfgMem, pAdmCfg, size);
+		int	retCode = (SubmodCtrl[idx].pSetProperty)(pDeviceInfo);
+//		ret = pDeviceInfo->RealCfgSize;
+	}
+//	else
+//		ret = 0;
+//	return ret;
+}
+
+// Data from dialog control into ADM_ID & ADM_CFG
+ULONG CAdmPage::GetDataFromDlg(PVOID pCfgMem, UINT num)
+{
+	ULONG ret;
+
+	if(m_AdmId[num].wType) {
+		USHORT* pCurCfgMem = (USHORT*)pCfgMem;
+		PICR_IdAdm pAdmId = (PICR_IdAdm)pCurCfgMem;
+		pAdmId->wTag = ADM_ID_TAG;
+		pAdmId->wSize = sizeof(ICR_IdAdm) - 4;
+		pAdmId->bAdmNum = num;
+
+		SYSTEMTIME today;
+		GetLocalTime(&today);
+		pAdmId->bDay = (UCHAR)today.wDay;
+		pAdmId->bMon = (UCHAR)today.wMonth;
+		pAdmId->wYear = today.wYear;
+
+		UpdateData(TRUE);
+		pAdmId->dSerialNum = m_AdmId[num].dSerialNum;
+		pAdmId->bVersion = m_AdmId[num].bVersion;
+		int idx = m_AdmId[num].wType - 1;
+		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		pAdmId->wType = pDeviceInfo->Type;
+		int	retCode = (SubmodCtrl[idx].pGetProperty)(pDeviceInfo);
+
+		PUCHAR pAdmCfg = (PUCHAR)pCfgMem + sizeof(ICR_IdAdm);
+		if(retCode)
+			pDeviceInfo->RealCfgSize = 0;
+		else
+			memcpy(pAdmCfg, pDeviceInfo->pCfgMem, pDeviceInfo->RealCfgSize);
+		ret = pDeviceInfo->RealCfgSize + sizeof(ICR_IdAdm);
+	}
+	else
+		ret = 0;
+	return ret;
+}
+
+// Data from ADM_ID into dialog control
+void CAdmPage::SetIdDataIntoDlg(PICR_IdAdm pAdmId)
+{
+//	ULONG ret;
+	UINT num = pAdmId->bAdmNum;
+	if(num == m_AdmNum)	{
+		m_AdmPID = m_AdmId[num].dSerialNum;
+		int AdmVersion = m_AdmId[num].bVersion;
+		m_strAdmVersion.Format(_T("%x"), AdmVersion);
+//		m_AdmVersion = m_AdmId[num].bVersion;
+		m_AdmType = m_AdmId[num].wType;
+	}
+
+}
+
+// Data from dialog control into ADM_ID
+void CAdmPage::GetIdDataFromDlg(PICR_IdAdm pAdmId, UINT num)
+{
+	pAdmId->wTag = ADM_ID_TAG;
+	pAdmId->wSize = sizeof(ICR_IdAdm) - 4;
+	pAdmId->bAdmNum = num;
+
+	SYSTEMTIME today;
+	GetLocalTime(&today);
+	pAdmId->bDay = (UCHAR)today.wDay;
+	pAdmId->bMon = (UCHAR)today.wMonth;
+	pAdmId->wYear = today.wYear;
+
+	pAdmId->dSerialNum = m_AdmId[num].dSerialNum;
+	pAdmId->bVersion = m_AdmId[num].bVersion;
+	int idx = m_AdmId[num].wType - 1;
+	PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+	pAdmId->wType = pDeviceInfo->Type;
+}
+
+BOOL CAdmPage::PreTranslateMessage(MSG* pMsg)
+{
+	// TODO: Add your specialized code here and/or call the base class
+    m_ToolTip.RelayEvent(pMsg);
+
+	return CPropertyPage::PreTranslateMessage(pMsg);
+}
+
+//BOOL CAdmPage::OnEraseBkgnd(CDC* pDC)
+//{
+//	// TODO: Add your message handler code here and/or call default
+//
+//	return CPropertyPage::OnEraseBkgnd(pDC);
+//}

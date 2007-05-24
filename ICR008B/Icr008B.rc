@@ -1,0 +1,345 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\Icr008B.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 229, 181
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация 0x008B"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,116,160,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,172,160,50,14
+    GROUPBOX        "Частота дискретизации (Гц)",-1,17,7,196,31
+    LTEXT           "Минимум:",-1,28,20,35,8
+    EDITTEXT        IDC_ADCRATEMIN,66,18,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Максимум:",-1,114,20,39,8
+    EDITTEXT        IDC_ADCRATEMAX,154,18,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Входной диапазон:",-1,53,50,65,8
+    EDITTEXT        IDC_ADCRANGE,121,48,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "мВ",-1,165,50,11,8
+    LTEXT           "Основной опорный генератор (Гц):",-1,27,73,118,8
+    EDITTEXT        IDC_GEN1,148,71,54,12,ES_NUMBER
+    GROUPBOX        "Диапазон перестройки ГУН (Гц)",-1,17,93,196,31
+    LTEXT           "Минимум:",-1,24,107,35,8
+    EDITTEXT        IDC_VCOMIN,62,104,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Максимум:",-1,116,107,39,8
+    EDITTEXT        IDC_VCOMAX,156,104,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Кол-во АЦП:",-1,71,140,43,8
+    EDITTEXT        IDC_NUMOFADC,118,138,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,147,138,
+                    11,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 222
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 174
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,1,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904b0"
+        BEGIN
+            VALUE "CompanyName", "ЗАО ""Инструментальные Системы"""
+            VALUE "FileDescription", "Icr008B Dynamic Link Library"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Icr008B.dll"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2004 ЗАО ""ИнСис"""
+            VALUE "OriginalFilename", "Icr008B.dll"
+            VALUE "ProductName", "Система Идентификационного и Конфигурационного ПЗУ"
+            VALUE "ProductVersion", "1.1.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Подтвердить изменения"
+    IDCANCEL                "Отменить изменения"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRANGE            "Входной диапазон АЦП (мВольты)"
+    IDC_ADCRATEMIN          "Минимальная частота дискретизации АЦП"
+    IDC_VCOMIN              "Минимальная частота дополнительного перестраиваемого генератора (ГУН)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRATEMAX          "Максимальная частота дискретизации АЦП"
+    IDC_VCOMAX              "Максимальная частота дополнительного перестраиваемого генератора (ГУН)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFADC            "Количество установленных АЦП"
+    IDC_GEN1                "Значение частоты основного опорного генератора"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 229, 181
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "0x008B Configuration"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,116,160,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,172,160,50,14
+    GROUPBOX        "Sampling Rate (Hz)",-1,17,8,196,32
+    LTEXT           "Minimum:",-1,31,22,30,8
+    EDITTEXT        IDC_ADCRATEMIN,66,20,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Maximum:",-1,118,22,32,8
+    EDITTEXT        IDC_ADCRATEMAX,154,20,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Input Range:",-1,63,53,42,8
+    EDITTEXT        IDC_ADCRANGE,109,51,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "mV",-1,153,53,11,8
+    LTEXT           "Main Reference Generator (Hz):",-1,35,76,102,8
+    EDITTEXT        IDC_GEN1,140,74,54,12,ES_NUMBER
+    GROUPBOX        "Frequency Tuning Range VCO (Hz)",-1,17,95,196,31
+    LTEXT           "Minimum:",-1,28,108,30,8
+    EDITTEXT        IDC_VCOMIN,63,106,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Maximum:",-1,121,108,32,8
+    EDITTEXT        IDC_VCOMAX,157,106,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Number of ADC's:",-1,62,136,57,8
+    EDITTEXT        IDC_NUMOFADC,121,134,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,147,134,
+                    11,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 222
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 174
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,1,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Instrumental Systems Corporation"
+            VALUE "FileDescription", "Icr008B Dynamic Link Library"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Icr008B.dll"
+            VALUE "LegalCopyright", "(C) 2003-2004 InSys Corp.  All rights reserved."
+            VALUE "OriginalFilename", "Icr008B.dll"
+            VALUE "ProductName", "Identification & Configuration ROM System"
+            VALUE "ProductVersion", "1.1.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Confirm of changes"
+    IDCANCEL                "Cancel of changes"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCENCODING         "Encoding of ADC"
+    IDC_ADCBITS             "Bits of ADC"
+    IDC_ADCRANGE            "ADC input range"
+    IDC_ADCRATEMIN          "Minimum sampling rate of ADC"
+    IDC_VCOMIN              "Minimum auxiliary VCO  frequency"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRATEMAX          "Maximum sampling rate of ADC"
+    IDC_VCOMAX              "Maximum auxiliary VCO  frequency"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFADC            "Number of installed ADC"
+    IDC_GEN1                "Main reference generator frequency"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\Icr008B.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

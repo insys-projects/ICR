@@ -1,0 +1,11 @@
+; Icr0087.def : Declares the module parameters for the DLL.
+
+LIBRARY      "Icr0087"
+
+EXPORTS
+    ; Explicit exports can go here
+	SUBMOD_GetInfo
+	SUBMOD_Close
+	SUBMOD_SetProperty
+	SUBMOD_GetProperty
+	SUBMOD_DialogProperty
