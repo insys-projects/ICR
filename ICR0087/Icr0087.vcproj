@@ -5,9 +5,6 @@
 	Name="Icr0087"
 	ProjectGUID="{DA9E096E-C602-4DD2-A4B1-9D8135C5E932}"
 	RootNamespace="Icr0087"
-	SccProjectName="&quot;$/ICR&quot;, PNAAAAAA"
-	SccLocalPath=".."
-	SccProvider="MSSCCI:Microsoft Visual SourceSafe"
 	Keyword="MFCDLLProj"
 	>
 	<Platforms>
@@ -47,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="\ICR\icrinc,\bardy\brdinc"
+				AdditionalIncludeDirectories="..\icrinc,\bardy\brdinc"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -72,7 +69,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\Bin/Icr0087.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\Icr0087.def"
 				GenerateDebugInformation="true"
@@ -103,6 +100,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(OutDir)\$(ProjectName).dll ..\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -133,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="\ICR\icrinc,\bardy\brdinc"
+				AdditionalIncludeDirectories="..\icrinc,\bardy\brdinc"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="0"
 				TreatWChar_tAsBuiltInType="true"
@@ -156,7 +154,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\Release/Icr0087.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\Icr0087.def"
 				GenerateDebugInformation="true"
@@ -189,6 +187,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(OutDir)\$(ProjectName).dll ..\bin"
 			/>
 		</Configuration>
 	</Configurations>

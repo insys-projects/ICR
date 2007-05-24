@@ -102,6 +102,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(OutDir)\$(ProjectName).exe ..\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -191,6 +192,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(OutDir)\$(ProjectName).exe ..\bin"
 			/>
 		</Configuration>
 	</Configurations>
