@@ -1,0 +1,11 @@
+; IcrDsp101cP10.def : Declares the module parameters for the DLL.
+
+LIBRARY      "IcrDsp101cP10"
+
+EXPORTS
+    ; Explicit exports can go here
+	BASEMOD_GetInfo
+	BASEMOD_Close
+	BASEMOD_SetProperty
+	BASEMOD_GetProperty
+	BASEMOD_DialogProperty

@@ -1,0 +1,548 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\IcrAds3224k195cPci.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,1,0
+ PRODUCTVERSION 1,1,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904e3"
+        BEGIN
+            VALUE "CompanyName", "ЗАО ""Инструментальные Системы"""
+            VALUE "FileDescription", "IcrAds3224k195cPci Dynamic Link Library"
+            VALUE "FileVersion", "1.0.1.0"
+            VALUE "InternalName", "IcrAds3224k195cPci.dll"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2004 ЗАО ""ИнСис"""
+            VALUE "OriginalFilename", "IcrAds3224k195cPci.dll"
+            VALUE "ProductName", "Система Идентификационного и Конфигурационного ПЗУ"
+            VALUE "ProductVersion", "1.1.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1251
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 300, 311
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация Ads3224k195cPci"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,290,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,243,290,50,14
+    LTEXT           "Макс. такт. частота CPU:",IDC_STATIC,9,9,86,8
+    COMBOBOX        IDC_MAXCPUCLOCK,114,7,45,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Тактовая частота шины (МГц):",IDC_STATIC,9,23,103,12,
+                    SS_CENTERIMAGE
+    EDITTEXT        IDC_BUSCLOCK,114,23,45,12
+    LTEXT           "Размер SDRAM (Mb):",IDC_STATIC,173,9,73,8
+    COMBOBOX        IDC_SDRAMSIZE,247,7,45,66,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "SDRCON (Hex):",IDC_STATIC,173,23,52,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_SDRCON,247,23,45,12
+    LTEXT           "Тип внешних линков:",IDC_STATIC,84,39,72,12,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_LINKSTYPE,158,39,43,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Кол-во структур хост-ПЛИС:",IDC_STATIC,13,58,96,8
+    EDITTEXT        IDC_HOSTPLDCNT,113,56,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLDCNT,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,137,56,11,
+                    12
+    LTEXT           "Кол-во структур DIO-ПЛИС:",IDC_STATIC,160,59,94,8
+    EDITTEXT        IDC_DIOPLDCNT,257,57,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDIOPLDCNT,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,281,57,11,12
+    GROUPBOX        "Конфигурация хост-ПЛИС",IDC_STATIC,7,75,138,117,
+                    BS_CENTER
+    LTEXT           "Порядковый номер:",IDC_STATIC,23,89,69,8
+    EDITTEXT        IDC_PLDNUM,95,87,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLDNUM,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,124,87,11,
+                    12
+    CTEXT           "XC2S100E-6FG456C",IDC_PLDNAME,23,104,101,12,
+                    SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Тип:",IDC_STATIC,24,122,16,8
+    COMBOBOX        IDC_PLDTYPE,69,120,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Speed Grade:",IDC_STATIC,24,140,45,8
+    COMBOBOX        IDC_PLDRATE,70,138,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Volume:",IDC_STATIC,50,158,26,8
+    EDITTEXT        IDC_PLDVOLUME,79,156,35,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Pins:",IDC_STATIC,50,176,16,8
+    EDITTEXT        IDC_PLDPINS,79,174,35,12,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Конфигурация DIO-ПЛИС",IDC_STATIC,155,75,138,117,
+                    BS_CENTER
+    LTEXT           "Порядковый номер:",IDC_STATIC,172,89,69,8
+    EDITTEXT        IDC_DIOPLDNUM,243,88,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDIOPLDNUM,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,273,88,11,12
+    CTEXT           "XC2S100E-6FG456C",IDC_DIOPLDNAME,172,104,101,12,
+                    SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Тип:",IDC_STATIC,172,123,16,8
+    COMBOBOX        IDC_DIOPLDTYPE,218,120,56,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Speed Grade:",IDC_STATIC,172,141,45,8
+    COMBOBOX        IDC_DIOPLDRATE,218,138,56,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Volume:",IDC_STATIC,198,158,26,8
+    EDITTEXT        IDC_DIOPLDVOL,227,156,35,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Pins:",IDC_STATIC,198,176,16,8
+    EDITTEXT        IDC_DIOPLDPINS,227,174,35,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_MAXCPUCLOCK, 0x403, 8, 0
+0x3532, 0x2030, 0x484d, 0x007a, 
+    IDC_MAXCPUCLOCK, 0x403, 8, 0
+0x3033, 0x2030, 0x484d, 0x007a, 
+    IDC_SDRAMSIZE, 0x403, 2, 0
+0x0030, 
+    IDC_SDRAMSIZE, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_SDRAMSIZE, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_SDRAMSIZE, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_LINKSTYPE, 0x403, 4, 0
+0x5454, 0x004c, 
+    IDC_LINKSTYPE, 0x403, 5, 0
+0x564c, 0x5344, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x5045, 0x4b31, "\000" 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0041, 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 8, 0
+0x4358, 0x2e56, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5632, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5332, "\000" 
+    IDC_PLDTYPE, 0x403, 9, 0
+0x4358, 0x5332, 0x2e2e, 0x452e, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5333, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5634, "\000" 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0031, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0032, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0033, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0034, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0035, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0036, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0037, 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x5045, 0x4b31, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0041, 
+    IDC_DIOPLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0045, 
+    IDC_DIOPLDTYPE, 0x403, 8, 0
+0x4358, 0x2e56, 0x2e2e, 0x0045, 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x4358, 0x5632, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x4358, 0x5332, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 9, 0
+0x4358, 0x5332, 0x2e2e, 0x452e, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x4358, 0x5333, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x4358, 0x5634, "\000" 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0031, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0032, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0033, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0034, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0035, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0036, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0037, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 293
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 304
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,1,0
+ PRODUCTVERSION 1,1,0,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "Instrumental Systems Corporation"
+            VALUE "FileDescription", "IcrAds3224k195cPci Dynamic Link Library"
+            VALUE "FileVersion", "1.0.1.0"
+            VALUE "InternalName", "IcrAds3224k195cPci.dll"
+            VALUE "LegalCopyright", "(C) 2003-2004 InSys Corp.  All rights reserved."
+            VALUE "OriginalFilename", "IcrAds3224k195cPci.dll"
+            VALUE "ProductName", "Identification & Configuration ROM System"
+            VALUE "ProductVersion", "1.1.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 300, 311
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ads3224k195cPci Configuration"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,184,290,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,243,290,50,14
+    LTEXT           "Max CPU Clock:",IDC_STATIC,25,9,53,8
+    COMBOBOX        IDC_MAXCPUCLOCK,86,7,54,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Bus Clock (MHz):",IDC_STATIC,25,23,56,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_BUSCLOCK,86,23,54,12
+    LTEXT           "SDRAM Size (Mb):",IDC_STATIC,162,9,60,8
+    COMBOBOX        IDC_SDRAMSIZE,226,7,54,66,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "SDRCON (Hex):",IDC_STATIC,164,23,52,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_SDRCON,226,23,54,12
+    LTEXT           "External links type:",IDC_STATIC,97,39,60,12,
+                    SS_CENTERIMAGE
+    COMBOBOX        IDC_LINKSTYPE,158,39,43,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Number of Host PLD structures:",IDC_STATIC,13,58,101,8
+    EDITTEXT        IDC_HOSTPLDCNT,116,56,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLDCNT,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,140,56,11,
+                    12
+    LTEXT           "Number of Dio PLD structures:",IDC_STATIC,159,59,97,8
+    EDITTEXT        IDC_DIOPLDCNT,259,57,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDIOPLDCNT,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,283,57,11,12
+    GROUPBOX        "Host PLD Configuration Structure",IDC_STATIC,7,75,138,
+                    117,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,29,89,47,8
+    EDITTEXT        IDC_PLDNUM,79,87,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINPLDNUM,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,109,87,11,
+                    12
+    CTEXT           "XC2S100E-6FG456C",IDC_PLDNAME,23,104,101,12,
+                    SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Type:",IDC_STATIC,24,122,19,8
+    COMBOBOX        IDC_PLDTYPE,69,120,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Speed Grade:",IDC_STATIC,24,140,45,8
+    COMBOBOX        IDC_PLDRATE,70,138,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Volume:",IDC_STATIC,50,158,26,8
+    EDITTEXT        IDC_PLDVOLUME,79,156,35,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Pins:",IDC_STATIC,50,176,16,8
+    EDITTEXT        IDC_PLDPINS,79,174,35,12,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Dio PLD Configuration Structure",IDC_STATIC,155,75,138,
+                    117,BS_CENTER
+    LTEXT           "Order Number:",IDC_STATIC,177,89,47,8
+    EDITTEXT        IDC_DIOPLDNUM,227,88,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_SPINDIOPLDNUM,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,257,88,11,12
+    CTEXT           "XC2S100E-6FG456C",IDC_DIOPLDNAME,172,104,101,12,
+                    SS_CENTERIMAGE | SS_SUNKEN
+    LTEXT           "Type:",IDC_STATIC,172,123,19,8
+    COMBOBOX        IDC_DIOPLDTYPE,218,120,56,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Speed Grade:",IDC_STATIC,172,141,45,8
+    COMBOBOX        IDC_DIOPLDRATE,218,138,56,83,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Volume:",IDC_STATIC,198,158,26,8
+    EDITTEXT        IDC_DIOPLDVOL,227,156,35,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Pins:",IDC_STATIC,198,176,16,8
+    EDITTEXT        IDC_DIOPLDPINS,227,174,35,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_MAXCPUCLOCK, 0x403, 8, 0
+0x3532, 0x2030, 0x484d, 0x007a, 
+    IDC_MAXCPUCLOCK, 0x403, 8, 0
+0x3033, 0x2030, 0x484d, 0x007a, 
+    IDC_SDRAMSIZE, 0x403, 2, 0
+0x0030, 
+    IDC_SDRAMSIZE, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_SDRAMSIZE, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_SDRAMSIZE, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_LINKSTYPE, 0x403, 4, 0
+0x5454, 0x004c, 
+    IDC_LINKSTYPE, 0x403, 5, 0
+0x564c, 0x5344, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x5045, 0x4b31, "\000" 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0041, 
+    IDC_PLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 8, 0
+0x4358, 0x2e56, 0x2e2e, 0x0045, 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5632, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5332, "\000" 
+    IDC_PLDTYPE, 0x403, 9, 0
+0x4358, 0x5332, 0x2e2e, 0x452e, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5333, "\000" 
+    IDC_PLDTYPE, 0x403, 5, 0
+0x4358, 0x5634, "\000" 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0031, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0032, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0033, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0034, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0035, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0036, 
+    IDC_PLDRATE, 0x403, 2, 0
+0x0037, 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x5045, 0x4b31, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0041, 
+    IDC_DIOPLDTYPE, 0x403, 10, 0
+0x5045, 0x3031, 0x2e4b, 0x2e2e, 0x0045, 
+    IDC_DIOPLDTYPE, 0x403, 8, 0
+0x4358, 0x2e56, 0x2e2e, 0x0045, 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x4358, 0x5632, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x4358, 0x5332, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 9, 0
+0x4358, 0x5332, 0x2e2e, 0x452e, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x4358, 0x5333, "\000" 
+    IDC_DIOPLDTYPE, 0x403, 5, 0
+0x4358, 0x5634, "\000" 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0031, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0032, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0033, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0034, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0035, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0036, 
+    IDC_DIOPLDRATE, 0x403, 2, 0
+0x0037, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 293
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 304
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\IcrAds3224k195cPci.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

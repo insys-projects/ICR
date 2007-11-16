@@ -1,0 +1,11 @@
+; IcrAdp101pci.def : Declares the module parameters for the DLL.
+
+LIBRARY      "IcrAdp101pci"
+
+EXPORTS
+    ; Explicit exports can go here
+	BASEMOD_GetInfo
+	BASEMOD_Close
+	BASEMOD_SetProperty
+	BASEMOD_GetProperty
+	BASEMOD_DialogProperty

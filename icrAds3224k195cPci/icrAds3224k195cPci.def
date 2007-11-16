@@ -1,0 +1,11 @@
+; IcrAds3224k195cPci.def : Declares the module parameters for the DLL.
+
+LIBRARY      "IcrAds3224k195cPci"
+
+EXPORTS
+    ; Explicit exports can go here
+	BASEMOD_GetInfo
+	BASEMOD_Close
+	BASEMOD_SetProperty
+	BASEMOD_GetProperty
+	BASEMOD_DialogProperty
