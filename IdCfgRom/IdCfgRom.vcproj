@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\usefulMFC,..\IcrInc,\bardy\brdinc"
+				AdditionalIncludeDirectories="..\usefulMFC,..\IcrInc,..\_bardy\brdinc"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -134,7 +134,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\usefulMFC,..\IcrInc,\bardy\brdinc"
+				AdditionalIncludeDirectories="..\usefulMFC,..\IcrInc,..\_bardy\brdinc"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -224,7 +224,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="C:\MSVS6\VC98\Bin\mc IdCfgRomMsg.mc&#x0D;&#x0A;"
+						CommandLine="mc IdCfgRomMsg.mc&#x0D;&#x0A;"
 						Outputs="IdCfgRomMsg.rc"
 					/>
 				</FileConfiguration>
