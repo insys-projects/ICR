@@ -14,6 +14,7 @@
 //  02-06-04 - added define for AMBVME
 //  03-12-04 - added define for ADP101cPCI
 //  23-03-05 - added define for ADP201PCI
+//	14-01-08 - added define for 64Z2A
 //
 //*******************************************************************
 
@@ -43,6 +44,7 @@ typedef enum _ICR_BMType {
         ADS10x2G	= 0x1020,
         AMBPEX1     = 0x5502,
         AMBPEX8     = 0x5503,
+		ADP64Z2A	= 0x642A,
 } ICR_BMType;
 
 #endif	// __ICRBMLST_H_ 

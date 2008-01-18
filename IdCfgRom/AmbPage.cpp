@@ -106,12 +106,16 @@ void CAmbPage::OnDestroy()
 	}
 }
 
+
+// Функция в зависимости от типа выбранного Базового Модуля:
+// - устанавливает видимость кнопки "Подробности..."
+// - записывает в глобальную переменную m_CfgBufSize размер конфигурационной памяти Базового Модуля
+// - устанавливает заголовок окна в зависимости от типа Базового Модуля
 void CAmbPage::InitData() 
 {
 	int enFlag = m_BMType ? 1 : 0;
 	CWnd* pAmbExt = (CWnd*)GetDlgItem(IDC_AMBEXT);
 	pAmbExt->EnableWindow(enFlag);
-//	m_CfgBufSize = m_BMType ? BaseModCtrl[m_BMType - 1].devInfo.dCfgMemSize : AMBPCI_CFGMEM_SIZE;
 	m_CfgBufSize = m_BMType ? BaseModCtrl[m_BMType - 1].devInfo.dCfgMemSize : AMBPCI_CFGMEM_SIZE;
 	CComboBox* pType = (CComboBox*)GetDlgItem(IDC_BMTYPE);
 	CString BaseModuleName;
@@ -171,6 +175,7 @@ void CAmbPage::OnAmbext()
 	// TODO: Add your control notification handler code here
 	PBASEMOD_INFO pDeviceInfo = &(BaseModCtrl[m_BMType-1].devInfo);
 	int nResponse = (BaseModCtrl[m_BMType-1].pDlgProperty)(pDeviceInfo);
+
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
@@ -289,6 +294,7 @@ ULONG CAmbPage::GetDataFromDlg(PVOID pCfgMem)
 
 	PICR_IdBase pBaseId = (PICR_IdBase)pCfgMem;
 	pBaseId->wTag = BASE_ID_TAG;
+
 	pBaseId->wSize = sizeof(ICR_IdBase) - 4;
 	pBaseId->dSerialNum = m_SerialNum;
 	pBaseId->wDeviceId = m_BMType;

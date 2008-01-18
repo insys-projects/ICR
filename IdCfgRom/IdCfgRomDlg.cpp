@@ -5,6 +5,8 @@
 #include "IdCfgRom.h"
 #include "IdCfgRomDlg.h"
 
+#pragma warning (disable:4996)
+
 extern DEVICE_CTRL DeviceCtrl[];
 extern int m_NumOfDevices;
 
@@ -36,12 +38,33 @@ static void GetMsg(DWORD dwMessageId, LPTSTR strMsg)
 	strMsg[lstrlen(strMsg) - 2] = '\0';
 }
 
+//=********************** LL_hexGetByte ****************
+//=*****************************************************
+static S32 LL_hexGetByte( char **ppLine, U32 *pByte )
+{
+	U32		symb1, symb2;
+
+	symb1 = toupper(*(*ppLine)++);
+	//(*ppLine)++;
+	symb1 = (symb1>='0' && symb1<='9') ? symb1-'0' :
+			(symb1>='A' && symb1<='F') ? symb1-'A'+10 : 0xFE;
+
+	symb2 = toupper(*(*ppLine)++);
+	symb2 = (symb2>='0' && symb2<='9') ? symb2-'0' :
+			(symb2>='A' && symb2<='F') ? symb2-'A'+10 : 0xFE;
+
+	if( pByte!=NULL )
+		*pByte = symb1*16 + symb2;
+
+	return (symb1==0xFE||symb2==0xFE) ? -1 : 0;
+}
+
 // CIdCfgRomDlg dialog
 
 CIdCfgRomDlg::CIdCfgRomDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CIdCfgRomDlg::IDD, pParent)
 {
-	m_DevType = -1;
+	m_DevType = 0;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -62,6 +85,7 @@ BEGIN_MESSAGE_MAP(CIdCfgRomDlg, CDialog)
 	ON_BN_CLICKED(IDC_SAVE, OnBnClickedSave)
 	ON_BN_CLICKED(IDC_INTODEV, OnBnClickedIntodev)
 	ON_BN_CLICKED(IDC_FROMDEV, OnBnClickedFromdev)
+	ON_BN_CLICKED(IDC_SAVEHEX, &CIdCfgRomDlg::OnBnClickedSavehex)
 END_MESSAGE_MAP()
 
 
@@ -305,12 +329,63 @@ static void ParseFileNameExt(CString& fileName)
 //***************************************************************************************
 void CIdCfgRomDlg::GetCfgMem()
 {
-	PVOID pCfgMem = (PVOID)m_pCfgMem;
+	PVOID	pCfgMem;											// указатель на данные файла
+
+	if ( m_readFileExt == ".hex" )								// преобразуем данные типа HEX в данные типа BIN
+	{
+		char	*binStr = new char[m_sizeCfgMem/2];				// временный массив данных hex файла
+		U32		realSizeOfHexCfgMem = 0;
+		char	*pCfgMemHex = (char*)m_pCfgMem; 				// указатель на данные HEX файла
+		U32		hexByte;
+		U08		bytesInHexString;
+		U08		writeTypeInHexString;
+		for(;;)													// проходим по строкам
+		{
+			if(	*pCfgMemHex == ':' )							// анализируем тэг
+			{
+				pCfgMemHex++;									// перепрыгиваем ':'
+				LL_hexGetByte(&pCfgMemHex, &hexByte);
+				bytesInHexString = hexByte;
+				pCfgMemHex += 4;								// перепрыгиваем адрес
+				LL_hexGetByte(&pCfgMemHex, &hexByte);
+				writeTypeInHexString = hexByte;
+				if( writeTypeInHexString == 0x04 )				// первая строка
+				{
+					pCfgMemHex += 8;							// перепрыгиваем стартовую строку
+					continue;									// и перемещаемся к следующей строке
+				}
+				else if( writeTypeInHexString == 0x00 )			// строка данных
+				{
+					for( U08 ii = 0; ii<bytesInHexString; ii++ )// проходим по байтам данных
+					{
+						LL_hexGetByte(&pCfgMemHex, &hexByte);
+						char	strTmp[2];
+						strcpy(strTmp, (char*)&hexByte);
+						memcpy(binStr + realSizeOfHexCfgMem + ii , strTmp, 1);
+					}
+					realSizeOfHexCfgMem += bytesInHexString;	// рассчитываем количество считанных байт данных в HEX файле
+					pCfgMemHex += 4;							// перепрыгиваем суффикс
+					continue;									// и перемещаемся к следующей строке
+				}
+				else if( writeTypeInHexString == 0x01 )			// последняя строка
+					break;										// заканчиваем работу с файлом
+			}
+			pCfgMemHex++;										// если первый символ не ':'
+		}
+		pCfgMem = (PVOID)binStr;								// установка переменных исходя из результата 
+		m_sizeCfgMem = realSizeOfHexCfgMem;						// преобразования HEX в BIN
+		memcpy(m_pCfgMem, binStr, m_sizeCfgMem);
+		delete [] binStr;
+	}
+	pCfgMem = (PVOID)m_pCfgMem;
+
 	PVOID pEndCfgMem = (PVOID)((PUCHAR)pCfgMem + m_sizeCfgMem);
 	int end_flag = 0;
 	do
 	{
-		USHORT sign = *((USHORT*)pCfgMem);
+		USHORT sign;
+		sign = *((USHORT*)pCfgMem);
+
 		USHORT size = 0;// = *((USHORT*)pCfgMem + 1);
 		switch(sign)
 		{
@@ -367,7 +442,7 @@ void CIdCfgRomDlg::GetCfgMem()
 		}
 		pCfgMem = (PUCHAR)pCfgMem + size;
 	} while(!end_flag && pCfgMem < pEndCfgMem);
-
+	
 	pCfgMem = (PVOID)(m_pCfgMem + m_RealBaseCfgSize);
 //	pEndCfgMem = (PVOID)((PUCHAR)pCfgMem + m_pAdmPage->m_CfgBufSize);
 	end_flag = 0;
@@ -396,7 +471,6 @@ void CIdCfgRomDlg::GetCfgMem()
 		}
 		pCfgMem = (PUCHAR)pCfgMem + size;
 	} while(!end_flag && pCfgMem < pEndCfgMem);
-
 //	pCfgMem = (PUCHAR)pCfgMem + 2;
 //	return (PUCHAR)pCfgMem - CfgMem;
 }
@@ -404,11 +478,9 @@ void CIdCfgRomDlg::GetCfgMem()
 void CIdCfgRomDlg::OnBnClickedRead()
 {
 	// TODO: Add your control notification handler code here
-//	CString strFilter = _T("Binary Files (*.bin)|*.bin|All Files (*.*)|*.*||");
 	CString strFilter;
-//	TCHAR strFilter[MAX_PATH];
-	GetMsg(MSG_FILE_FILTER, strFilter);
-	CFileDialog readFileDlg(TRUE, _T(".bin"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
+	GetMsg(MSG_FILE_FILTER_BIN_AND_HEX, strFilter);
+	CFileDialog readFileDlg(TRUE, _T(".bin;.hex"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
 	LPTSTR cmdLine = GetCommandLine() + 1;
 	LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
 	*ShortFileName = 0;
@@ -441,6 +513,7 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	if(nID != IDOK)
 		return;
 	CString fileName = readFileDlg.GetPathName();
+	m_readFileExt = fileName.Right(4);
 	HANDLE hfile = CreateFile(	fileName, 
 								GENERIC_READ,
 								FILE_SHARE_READ,
@@ -488,7 +561,9 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 	USHORT* pCurCfgMem = (USHORT*)m_pCfgMem;
 
 	ULONG bCfgSize = m_pAmbPage->GetDataFromDlg(pCurCfgMem);
+
 	pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + bCfgSize);
+
 	if(pCurCfgMem >= pEndCfgMem)
 		return 1;
 
@@ -734,4 +809,136 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 	m_pFifoPage->SetMaxDacFifo(m_pAdmIfPage->m_NumOfDacFifo - 1);
 	m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
 	m_pAmbPage->InitData();
+}
+
+void CIdCfgRomDlg::OnBnClickedSavehex()
+{
+	// TODO: Add your control notification handler code here
+	CString strFilter;
+	GetMsg(MSG_FILE_FILTER_HEX, strFilter);
+	CFileDialog saveFileDlg(FALSE, ".hex", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
+	LPTSTR cmdLine = GetCommandLine() + 1;
+	LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
+	*ShortFileName = 0;
+	saveFileDlg.m_ofn.lpstrInitialDir = cmdLine;
+	CString strTitle;
+	GetMsg(MSG_SAVE_FILE_CAPTION, strTitle);
+	saveFileDlg.m_ofn.lpstrTitle = strTitle.GetBuffer(80);
+	INT_PTR nID = saveFileDlg.DoModal();
+	if(nID != IDOK)
+		return;
+	CString fileName = saveFileDlg.GetPathName();
+	ParseFileNameExt(fileName);
+
+	FILE	*fout = fopen( fileName, "wt" );
+	if( fout==NULL )
+		fout = stdout;
+
+	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
+	m_pCfgMem = new UCHAR[m_sizeCfgMem];
+	if(SetCfgMem() == 0)
+	{
+		U08 *hex = (U08*)m_pCfgMem;
+		U16	hiAddress = 0x0000;
+		U16	loAddress = 0x0000;
+		U08	checkSum = 0;
+			checkSum = 0x0 - ( 0x02 + ((hiAddress&0xFF00)>>8) + (hiAddress&0x00FF) + 0x04);
+		fprintf(fout, ":02000004%04X%02X\n", hiAddress, checkSum);
+		checkSum = 0;
+		char	str[141] = "";
+		char	strTmp[140] = "";
+		for( int ii=0; ii<(m_RealBaseCfgSize+1); ii++ )
+		{
+			// в "if" происходит запись суффикса и префикса строк данных
+			if( !(ii%64) || (ii == m_RealBaseCfgSize) )	//последний байт в строке или последний байт вообще
+			{
+				// в "if" происходит запись суффикса
+				if( ii!=0 ) // не начало первой строки данных
+				{
+					checkSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
+					int cycleMax = ii%64 ? ii%64 : 64;
+					for( int jj=0; jj<cycleMax; jj++)
+						checkSum += hex[ii-1-jj];
+					checkSum = 0x0 - checkSum;
+					sprintf_s(strTmp, ("%02X\n"), checkSum);
+					strcat(str, strTmp);
+					checkSum = 0;
+					if( ii == m_RealBaseCfgSize )
+					{
+						sprintf_s(strTmp, (":%02X"), cycleMax);
+						strncpy(str, strTmp, 3);
+						fprintf(fout, str); // вывод в файл последней сформированной строки данных
+						str[0] = 0;
+						break;
+					}
+					loAddress+=64;
+				}
+				fprintf(fout, str); // вывод в файл сформированной строки данных
+				str[0] = 0;
+				// запись префикса
+				sprintf_s(strTmp, (":40%04X00"), loAddress);
+				strcat(str, strTmp);
+			}
+			sprintf_s(strTmp, ("%02X"), hex[ii]); // запись нового байта
+			strcat(str, strTmp);
+		}
+
+		PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
+		for(int i = 0; i < 4; i++)
+		{
+			if(m_RealAdmCfgSize[i])
+			{
+				hex = (U08*)pCurCfgMem;
+				for( int ii=0; ii<(m_RealAdmCfgSize[i]+1); ii++ )
+				{
+					// в "if" происходит запись суффикса и префикса строк данных
+					if( !(ii%64) || (ii == m_RealAdmCfgSize[i]) )	//последний байт в строке или последний байт вообще
+					{
+						// в "if" происходит запись суффикса
+						if( ii!=0 ) // не начало первой строки данных
+						{
+							checkSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
+							int cycleMax = ii%64 ? ii%64 : 64;
+							for( int jj=0; jj<cycleMax; jj++)
+								checkSum += hex[ii-1-jj];
+							checkSum = 0x0 - checkSum;
+							sprintf_s(strTmp, ("%02X\n"), checkSum);
+							strcat(str, strTmp);
+							checkSum = 0;
+							if( ii == m_RealAdmCfgSize[i] )
+							{
+								sprintf_s(strTmp, (":%02X"), cycleMax);
+								strncpy(str, strTmp, 3);
+								fprintf(fout, str); // вывод в файл последней сформированной строки данных
+								str[0] = 0;
+								break;
+							}
+							loAddress+=64;
+						}
+						fprintf(fout, str); // вывод в файл сформированной строки данных
+						str[0] = 0;
+						// запись префикса
+						sprintf_s(strTmp, (":40%04X00"), loAddress);
+						strcat(str, strTmp);
+					}
+					sprintf_s(strTmp, ("%02X"), hex[ii]); // запись нового байта
+					strcat(str, strTmp);
+				}
+				pCurCfgMem += m_RealAdmCfgSize[i];
+			}
+		}
+		fprintf(fout, ":00000001FF\n");
+	}
+	else
+	{
+//		TCHAR MsgBuf[] = _T("Недостаточно памяти для конфигурационных данных !");
+		CString MsgBuf;
+//		TCHAR MsgBuf[MAX_PATH];
+		GetMsg(MSG_NOT_ENOUGH_MEMORY, MsgBuf);
+		AfxMessageBox( MsgBuf, MB_OK|MB_ICONINFORMATION, 0);
+		return;
+	}
+	delete[] m_pCfgMem;
+
+	fclose(fout);
 }

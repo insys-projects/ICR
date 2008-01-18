@@ -1,13 +1,8 @@
-// $Workfile: IcrAdp101pci.cpp $
-// $Author: Sergey Dorokhin $
-// $Revision: 14 $
-// $Date: 26.10.04 17:59 $
-//
-// IcrAdp101pci.cpp : Defines the initialization routines for the DLL.
+// Icr64Z2A.cpp : Defines the initialization routines for the DLL.
 //
 
 #include "stdafx.h"
-#include "IcrAdp101pciApp.h"
+#include "Icr64Z2AApp.h"
 
 #define	BASEMOD_API_EXPORTS
 #include "basemod.h"
@@ -22,19 +17,17 @@
 
 #include "icr.h"
 
-#include "IcrAdp101pci.h"
+#include "Icr64Z2A.h"
 
 // инициализация конфигурационных структур
-ICR_CfgAdp101Pci m_Adp101pciCfg = { ADP101PCI_CFG_TAG, 12, 1, 250, 100000000, 0, 1};
-ICR_CfgHostPld m_HostPldCfg = {HOSTPLD_CFG_TAG, 7, 0, 5, 100, 456, 5};
+ICR_Cfg64Z2A m_Adp64Z2ACfg = { ADP64Z2A_CFG_TAG, 20, 1, 720, 0, 0, 0, 0, 1};
+ICR_CfgHostPld m_HostPldCfg = {HOSTPLD_CFG_TAG, 7, 0, 7, 400, 456, 5};
 
 //
-//	Note!
-//
-//		If this DLL is dynamically linked against the MFC
-//		DLLs, any functions exported from this DLL which
-//		call into MFC must have the AFX_MANAGE_STATE macro
-//		added at the very beginning of the function.
+//TODO: If this DLL is dynamically linked against the MFC DLLs,
+//		any functions exported from this DLL which call into
+//		MFC must have the AFX_MANAGE_STATE macro added at the
+//		very beginning of the function.
 //
 //		For example:
 //
@@ -55,29 +48,30 @@ ICR_CfgHostPld m_HostPldCfg = {HOSTPLD_CFG_TAG, 7, 0, 5, 100, 456, 5};
 //		details.
 //
 
-// CIcrAdp101pciApp
 
-BEGIN_MESSAGE_MAP(CIcrAdp101pciApp, CWinApp)
+// CIcr64Z2AApp
+
+BEGIN_MESSAGE_MAP(CIcr64Z2AApp, CWinApp)
 END_MESSAGE_MAP()
 
 
-// CIcrAdp101pciApp construction
+// CIcr64Z2AApp construction
 
-CIcrAdp101pciApp::CIcrAdp101pciApp()
+CIcr64Z2AApp::CIcr64Z2AApp()
 {
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
 
-// The one and only CIcrAdp101pciApp object
+// The one and only CIcr64Z2AApp object
 
-CIcrAdp101pciApp theApp;
+CIcr64Z2AApp theApp;
 
 
-// CIcrAdp101pciApp initialization
+// CIcr64Z2AApp initialization
 
-BOOL CIcrAdp101pciApp::InitInstance()
+BOOL CIcr64Z2AApp::InitInstance()
 {
 	CWinApp::InitInstance();
 
@@ -97,8 +91,8 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, _T("ADP101PCI"));
-		pDevInfo->dType = ADP101PCI;
+		lstrcpy(pDevInfo->sName, "64Z2A");
+		pDevInfo->dType = ADP64Z2A;
 		break;
 	default:
 		*pNumDev = -1;
@@ -156,18 +150,20 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 				RealCfgSize += size;
 				break;
 			}
-		case ADP101PCI_CFG_TAG:
+		case ADP64Z2A_CFG_TAG:
 			{
-				PICR_CfgAdp101Pci pAdpCfg = (PICR_CfgAdp101Pci)pCurCfgMem;
-				m_Adp101pciCfg.wTag = pAdpCfg->wTag;
-				m_Adp101pciCfg.wSize = pAdpCfg->wSize;
-				m_Adp101pciCfg.bAdmIfCnt = pAdpCfg->bAdmIfCnt;
-				m_Adp101pciCfg.wMaxCpuClock = pAdpCfg->wMaxCpuClock;
-				m_Adp101pciCfg.dBusClock = pAdpCfg->dBusClock;
-				m_Adp101pciCfg.dSizeOfSDRAM = pAdpCfg->dSizeOfSDRAM;
-				m_Adp101pciCfg.bHostPldCnt = pAdpCfg->bHostPldCnt;
+				PICR_Cfg64Z2A pAdpCfg = (PICR_Cfg64Z2A)pCurCfgMem;
+				m_Adp64Z2ACfg.wTag = pAdpCfg->wTag;
+				m_Adp64Z2ACfg.wSize = pAdpCfg->wSize;
+				m_Adp64Z2ACfg.bAdmIfCnt = pAdpCfg->bAdmIfCnt;
+				m_Adp64Z2ACfg.wMaxCpuClock = pAdpCfg->wMaxCpuClock;
+				m_Adp64Z2ACfg.dSizeOfSDRAMA = pAdpCfg->dSizeOfSDRAMA;
+				m_Adp64Z2ACfg.dSizeOfSDRAMB = pAdpCfg->dSizeOfSDRAMB;
+				m_Adp64Z2ACfg.dSizeOfFlash = pAdpCfg->dSizeOfFlash;
+				m_Adp64Z2ACfg.dSizeOfSBSRAM = pAdpCfg->dSizeOfSBSRAM;
+				m_Adp64Z2ACfg.bHostPldCnt = pAdpCfg->bHostPldCnt;
 				pDeviceInfo->bAdmIfCnt = pAdpCfg->bAdmIfCnt;
-				size = sizeof(ICR_CfgAdp101Pci);
+				size = sizeof(ICR_Cfg64Z2A);
 				RealCfgSize += size;
 				break;
 			}
@@ -184,7 +180,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 }
 
 //***************************************************************************************
-//  BASEMOD_SetProperty - функция служит для передачи значений из плагина в основную программу
+//  BASEMOD_GetProperty - функция служит для передачи значений из плагина в основную программу
 //  Input:  pDevInfo - указатель на структуру для обмена информацией
 //  Output: return - 0 - нет ошибок, 1 - 
 //  Notes:  данная функция вызывается перед записью данных в файл или устройство
@@ -194,18 +190,20 @@ BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDeviceInfo)
 	PUSHORT pCurCfgMem = (PUSHORT)pDeviceInfo->pCfgMem;
 	PUSHORT pEndCfgMem = (PUSHORT)(pDeviceInfo->pCfgMem) + BASEMOD_CFGMEM_SIZE/2;
 
-	m_Adp101pciCfg.bAdmIfCnt = pDeviceInfo->bAdmIfCnt;
+	m_Adp64Z2ACfg.bAdmIfCnt = pDeviceInfo->bAdmIfCnt;
 
-	PICR_CfgAdp101Pci pAdpCfg = (PICR_CfgAdp101Pci)pCurCfgMem;
-	pAdpCfg->wTag = ADP101PCI_CFG_TAG;
-	pAdpCfg->wSize = sizeof(ICR_CfgAdp101Pci) - 4;
-	pAdpCfg->bAdmIfCnt = m_Adp101pciCfg.bAdmIfCnt;
-	pAdpCfg->wMaxCpuClock = m_Adp101pciCfg.wMaxCpuClock;
-	pAdpCfg->dBusClock = m_Adp101pciCfg.dBusClock;
-	pAdpCfg->dSizeOfSDRAM = m_Adp101pciCfg.dSizeOfSDRAM;
-	pAdpCfg->bHostPldCnt = m_Adp101pciCfg.bHostPldCnt;
+	PICR_Cfg64Z2A pAdpCfg = (PICR_Cfg64Z2A)pCurCfgMem;
+	pAdpCfg->wTag = ADP64Z2A_CFG_TAG;
+	pAdpCfg->wSize = sizeof(ICR_Cfg64Z2A) - 4;
+	pAdpCfg->bAdmIfCnt = m_Adp64Z2ACfg.bAdmIfCnt;
+	pAdpCfg->wMaxCpuClock = m_Adp64Z2ACfg.wMaxCpuClock;
+	pAdpCfg->dSizeOfSDRAMA = m_Adp64Z2ACfg.dSizeOfSDRAMA;
+	pAdpCfg->dSizeOfSDRAMB = m_Adp64Z2ACfg.dSizeOfSDRAMB;
+	pAdpCfg->dSizeOfFlash = m_Adp64Z2ACfg.dSizeOfFlash;
+	pAdpCfg->dSizeOfSBSRAM = m_Adp64Z2ACfg.dSizeOfSBSRAM;
+	pAdpCfg->bHostPldCnt = m_Adp64Z2ACfg.bHostPldCnt;
 
-	pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdp101Pci));
+	pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_Cfg64Z2A));
 	if(pCurCfgMem >= pEndCfgMem)
 		return 1;
 
@@ -245,50 +243,34 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState( ));
 
-	CIcrAdp101pciDlg dlg;
-//	lstrcpy(dlg.baseInfo.sName, pDeviceInfo->sName);
-//	dlg.baseInfo.bAdmIfCnt = pDeviceInfo->bAdmIfCnt;
+	Icr64Z2ADlg dlg;
 
-	dlg.m_MaxCpuClock = m_Adp101pciCfg.wMaxCpuClock;
-	dlg.m_BusClock = m_Adp101pciCfg.dBusClock / 1000000.;
-	dlg.m_SdramSize = m_Adp101pciCfg.dSizeOfSDRAM;
-	dlg.m_HostPldCnt = m_Adp101pciCfg.bHostPldCnt;
+	dlg.m_MaxCpuClock = m_Adp64Z2ACfg.wMaxCpuClock;
+	dlg.m_SdramASize = m_Adp64Z2ACfg.dSizeOfSDRAMA;
+	dlg.m_SdramBSize = m_Adp64Z2ACfg.dSizeOfSDRAMB;
+	dlg.m_FlashSize = m_Adp64Z2ACfg.dSizeOfFlash;
+	dlg.m_SbsramSize = m_Adp64Z2ACfg.dSizeOfSBSRAM;
+	dlg.m_HostPldCnt = m_Adp64Z2ACfg.bHostPldCnt;
 
 	dlg.m_PldNum = m_HostPldCfg.bNumber;
 	dlg.m_PldType = m_HostPldCfg.bType;
 	dlg.m_PldVolume = m_HostPldCfg.wVolume;
-	dlg.m_PldPins = m_HostPldCfg.wPins;
-	dlg.m_PldRate = m_HostPldCfg.bSpeedGrade;
-/*
-	dlg.m_SdramSlots = m_SdramCfg.bSlotCnt >> 1;
-	dlg.m_SdramModules = m_SdramCfg.bModuleCnt >> 1;
-	dlg.m_SdramColAddrBits = m_SdramCfg.bColAddrBits - 8;
-	dlg.m_SdramRowAddrBits = m_SdramCfg.bRowAddrBits - 11;
-	dlg.m_SdramModuleBanks = m_SdramCfg.bModuleBanks >> 1;
-	dlg.m_SdramChipBanks = m_SdramCfg.bChipBanks >> 2;
-*/
+
 	int nResponse = (int)dlg.DoModal();
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
-		m_Adp101pciCfg.wMaxCpuClock = dlg.m_MaxCpuClock;
-		m_Adp101pciCfg.dBusClock = DWORD(dlg.m_BusClock * 1000000.);
-		m_Adp101pciCfg.dSizeOfSDRAM = dlg.m_SdramSize;
-		m_Adp101pciCfg.bHostPldCnt = dlg.m_HostPldCnt;
+		m_Adp64Z2ACfg.wMaxCpuClock = dlg.m_MaxCpuClock;
+		m_Adp64Z2ACfg.dSizeOfSDRAMA = dlg.m_SdramASize;
+		m_Adp64Z2ACfg.dSizeOfSDRAMB = dlg.m_SdramBSize;
+		m_Adp64Z2ACfg.dSizeOfFlash = dlg.m_FlashSize;
+		m_Adp64Z2ACfg.dSizeOfSBSRAM = dlg.m_SbsramSize;
+		m_Adp64Z2ACfg.bHostPldCnt = dlg.m_HostPldCnt;
 
 		m_HostPldCfg.bNumber = dlg.m_PldNum;
 		m_HostPldCfg.bType = dlg.m_PldType;
 		m_HostPldCfg.wVolume = dlg.m_PldVolume;
-		m_HostPldCfg.wPins = dlg.m_PldPins;
-		m_HostPldCfg.bSpeedGrade = dlg.m_PldRate;
-
-/*		m_SdramCfg.bSlotCnt = 1 << dlg.m_SdramSlots;
-		m_SdramCfg.bModuleCnt = 1 << dlg.m_SdramModules;
-		m_SdramCfg.bColAddrBits = dlg.m_SdramColAddrBits + 8;
-		m_SdramCfg.bRowAddrBits = dlg.m_SdramRowAddrBits + 11;
-		m_SdramCfg.bModuleBanks = 1 << dlg.m_SdramModuleBanks;
-		m_SdramCfg.bChipBanks = 2 << dlg.m_SdramChipBanks;*/
 	}
 	else if (nResponse == IDCANCEL)
 	{

@@ -35,6 +35,7 @@ public:
 	CDacPage* m_pDacPage;
 	CAdmPage* m_pAdmPage;
 
+
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -46,6 +47,8 @@ protected:
 	int m_RealBaseCfgSize;
 //	UCHAR m_AdmCfgMem[4][1024];
 	int m_RealAdmCfgSize[4];
+
+	CString	m_readFileExt;
 
 	ULONG SetCfgMem();
 	void GetCfgMem();
@@ -67,4 +70,6 @@ public:
 	afx_msg void OnBnClickedSave();
 	afx_msg void OnBnClickedIntodev();
 	afx_msg void OnBnClickedFromdev();
+public:
+	afx_msg void OnBnClickedSavehex();
 };

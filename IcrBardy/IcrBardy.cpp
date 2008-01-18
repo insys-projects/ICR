@@ -124,10 +124,13 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo)
 //	if(hDAQ) {
 	if(handle) {
 		ULONG puBaseIcrId = 0, puAdmIcrId = 0;
-		BRD_PuList PuList[5];
+		BRD_PuList PuListTmp[1];
 		U32 ItemReal;
-		BRD_puList(handle, PuList, 5, &ItemReal);
-		if(ItemReal <= 5)
+		BRD_puList(handle, PuListTmp, 1, &ItemReal);
+		BRD_PuList	*PuList = new BRD_PuList[ItemReal];
+		U32	ItemsCnt = ItemReal;
+		BRD_puList(handle, PuList, ItemsCnt, &ItemReal);
+		if(ItemReal <= ItemsCnt)
 		{
 			for(ULONG j = 0; j < ItemReal; j++)
 			{
@@ -135,6 +138,17 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo)
 				{
 					puBaseIcrId = PuList[j].puId;
 					break;
+				}
+			}
+			if( puBaseIcrId == 0 )
+			{
+				for(ULONG j = 0; j < ItemReal; j++)
+				{
+					if( PuList[j].puId == 0x1 )
+					{
+						puBaseIcrId = PuList[j].puId;
+						break;
+					}
 				}
 			}
 			if(puBaseIcrId)
@@ -171,6 +185,7 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo)
 		}
 		BRD_close(handle);
 		Status = 1;
+		delete [] PuList;
 	}
 	return Status;
 }
@@ -188,10 +203,13 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo)
 	BRD_Handle handle = BRD_open(CurInst, 0, NULL);
 	if(handle) {
 		ULONG puBaseIcrId = 0, puAdmIcrId = 0;
-		BRD_PuList PuList[5];
+		BRD_PuList PuListTmp[1];
 		U32 ItemReal;
-		Status = BRD_puList(handle, PuList, 5, &ItemReal);
-		if(ItemReal <= 5)
+		Status = BRD_puList(handle, PuListTmp, 1, &ItemReal);
+		BRD_PuList	*PuList = new BRD_PuList[ItemReal];
+		U32	ItemsCnt = ItemReal;
+		Status = BRD_puList(handle, PuList, ItemsCnt, &ItemReal);
+		if(ItemReal <= ItemsCnt)
 		{
 			for(ULONG j = 0; j < ItemReal; j++)
 				if(PuList[j].puCode == BASE_ID_TAG)
@@ -199,6 +217,15 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo)
 					puBaseIcrId = PuList[j].puId;
 					break;
 				}
+			if( puBaseIcrId == 0 )
+			{
+				for(ULONG j = 0; j < ItemReal; j++)
+					if( PuList[j].puId == 0x1 )
+					{
+						puBaseIcrId = PuList[j].puId;
+						break;
+					}
+			}
 			if(puBaseIcrId)
 			{
 				BRD_puEnable(handle, puBaseIcrId);
@@ -218,6 +245,7 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo)
 		}
 		BRD_close(handle);
 		Status = 1;
+		delete [] PuList;
 	}
 	return Status;
 }

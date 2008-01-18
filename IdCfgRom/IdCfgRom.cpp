@@ -149,11 +149,12 @@ int GetDevices()
 					DeviceCtrl[idx].pReadIdCfgRom = pDEVICE_ReadICR;
 					DeviceCtrl[idx].pWriteIdCfgRom = pDEVICE_WriteICR;
 
-					DeviceCtrl[idx].devInfo.wSize = sizeof(BASEMOD_INFO);
-					lstrcpy(DeviceCtrl[idx].devInfo.sName, DevInfo.sName);
+					DeviceCtrl[idx].devInfo.wSize = sizeof(DEVICE_INFO);
 					DeviceCtrl[idx].devInfo.wType = DevInfo.wType;
 					DeviceCtrl[idx].devInfo.bVersion = DevInfo.bVersion;
-					DeviceCtrl[idx].devInfo.wBusNum = DevInfo.wBusNum;
+					lstrcpy(DeviceCtrl[idx].devInfo.sName, DevInfo.sName);
+					DeviceCtrl[idx].devInfo.bBusType = DevInfo.bBusType;
+					DeviceCtrl[idx].devInfo.wBusNum	= DevInfo.wBusNum;
 					DeviceCtrl[idx].devInfo.wDevNum = DevInfo.wDevNum;
 					DeviceCtrl[idx].devInfo.wSlotNum = DevInfo.wSlotNum;
 					DeviceCtrl[idx].devInfo.dInstance = DevInfo.dInstance;
@@ -248,10 +249,10 @@ int GetBaseModules()
 					BaseModCtrl[idx].pDlgProperty = pBASEMOD_DlgProp;
 
 					BaseModCtrl[idx].devInfo.wSize = sizeof(BASEMOD_INFO);
-					lstrcpy(BaseModCtrl[idx].devInfo.sName, DevInfo.sName);
-					BaseModCtrl[idx].devInfo.dType = DevInfo.dType;
 					BaseModCtrl[idx].devInfo.pCfgMem = DevInfo.pCfgMem;
 					BaseModCtrl[idx].devInfo.dCfgMemSize = DevInfo.dCfgMemSize;
+					BaseModCtrl[idx].devInfo.dType = DevInfo.dType;
+					lstrcpy(BaseModCtrl[idx].devInfo.sName, DevInfo.sName);
 				}
 			}
 			else
@@ -317,10 +318,10 @@ int GetSubmodules()
 					SubmodCtrl[idx].pDlgProperty = pSUBMOD_DlgProp;
 
 					SubmodCtrl[idx].devInfo.Size = sizeof(SUBMOD_INFO);
-					lstrcpy(SubmodCtrl[idx].devInfo.Name, DevInfo.Name);
-					SubmodCtrl[idx].devInfo.Type = DevInfo.Type;
 					SubmodCtrl[idx].devInfo.pCfgMem = DevInfo.pCfgMem;
 					SubmodCtrl[idx].devInfo.CfgMemSize = DevInfo.CfgMemSize;
+					SubmodCtrl[idx].devInfo.Type = DevInfo.Type;
+					lstrcpy(SubmodCtrl[idx].devInfo.Name, DevInfo.Name);
 				}
 			}
 			else
@@ -333,3 +334,4 @@ int GetSubmodules()
 	SetCurrentDirectory(szCurDir);
 	return idx;
 }
+

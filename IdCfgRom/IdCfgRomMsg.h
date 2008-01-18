@@ -97,3 +97,21 @@
 //
 #define MSG_NON_ADM                      0x00000007L
 
+//
+// MessageId: MSG_FILE_FILTER_HEX
+//
+// MessageText:
+//
+//  Binary Files (*.hex)|*.hex|All Files (*.*)|*.*||
+//
+#define MSG_FILE_FILTER_HEX              0x00000008L
+
+//
+// MessageId: MSG_FILE_FILTER_BIN_AND_HEX
+//
+// MessageText:
+//
+//  Binary And Hex Files (*.bin;*.hex)|*.bin;*.hex|All Files (*.*)|*.*||
+//
+#define MSG_FILE_FILTER_BIN_AND_HEX      0x00000009L
+

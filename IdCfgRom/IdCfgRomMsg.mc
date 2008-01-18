@@ -85,3 +85,26 @@ Language = Russian
 Без ADM-субмодуля
 .
 
+MessageId    = 0x8
+Severity     = Success
+Facility     = Application
+SymbolicName = MSG_FILE_FILTER_HEX
+
+Language = English
+Binary Files (*.hex)|*.hex|All Files (*.*)|*.*||
+.
+Language = Russian
+Двоичные файлы (*.hex)|*.hex|Все файлы (*.*)|*.*||
+.
+
+MessageId    = 0x9
+Severity     = Success
+Facility     = Application
+SymbolicName = MSG_FILE_FILTER_BIN_AND_HEX
+
+Language = English
+Binary And Hex Files (*.bin;*.hex)|*.bin;*.hex|All Files (*.*)|*.*||
+.
+Language = Russian
+Двоичные и HEX файлы (*.bin;*.hex)|*.bin;*.hex|Все файлы (*.*)|*.*||
+.
