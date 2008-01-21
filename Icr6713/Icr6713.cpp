@@ -21,7 +21,6 @@
 
 // инициализация конфигурационных структур
 ICR_Cfg6713		m_Adp6713Cfg = {ADP6713_CFG_TAG, 14, 1, 0, 0, 0, 1};
-//ICR_CfgHostPld	m_HostPldCfg  = {HOSTPLD_CFG_TAG, 7, 0, 6, 300, 456, 7};
 
 //
 //TODO: If this DLL is dynamically linked against the MFC DLLs,
@@ -136,20 +135,6 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 			end_flag = 1;
 			RealCfgSize += 2;
 			break;
-		//case HOSTPLD_CFG_TAG:
-		//	{
-		//		PICR_CfgHostPld pPldCfg = (PICR_CfgHostPld)pCurCfgMem;
-		//		m_HostPldCfg.wTag = pPldCfg->wTag;
-		//		m_HostPldCfg.wSize = pPldCfg->wSize;
-		//		m_HostPldCfg.bNumber = pPldCfg->bNumber;
-		//		m_HostPldCfg.bType = pPldCfg->bType;
-		//		m_HostPldCfg.wVolume = pPldCfg->wVolume;
-		//		m_HostPldCfg.wPins = pPldCfg->wPins;
-		//		m_HostPldCfg.bSpeedGrade = pPldCfg->bSpeedGrade;
-		//		size = sizeof(ICR_CfgHostPld);
-		//		RealCfgSize += size;
-		//		break;
-		//	}
 		case ADP6713_CFG_TAG:
 			{
 				PICR_Cfg6713 pAdpCfg = (PICR_Cfg6713)pCurCfgMem;
@@ -203,24 +188,6 @@ BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDeviceInfo)
 	if(pCurCfgMem >= pEndCfgMem)
 		return 1;
 
-	//if(pAdpCfg->bHostPldCnt)
-	//{
-	//	for(int i = 0; i < pAdpCfg->bHostPldCnt; i++)
-	//	{
-	//		PICR_CfgHostPld pPldCfg = (PICR_CfgHostPld)pCurCfgMem;
-	//		pPldCfg->wTag = HOSTPLD_CFG_TAG;
-	//		pPldCfg->wSize = sizeof(ICR_CfgHostPld) - 4;
-	//		pPldCfg->bNumber = 0;
-	//		pPldCfg->bType = m_HostPldCfg.bType;
-	//		pPldCfg->wVolume = m_HostPldCfg.wVolume;
-	//		pPldCfg->wPins = m_HostPldCfg.wPins;
-	//		pPldCfg->bSpeedGrade = m_HostPldCfg.bSpeedGrade;
-
-	//		pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgHostPld));
-	//		if(pCurCfgMem >= pEndCfgMem)
-	//			return 1;
-	//	}
-	//}
 	// тэг окончания данных не нужен (его пишет основная программа)
 //	*pSignSize = END_TAG;
 //	pSignSize++;
@@ -246,10 +213,6 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	dlg.m_PldSramSize = m_Adp6713Cfg.dSizeOfPLDSRAM;
 	dlg.m_HostPldCnt = m_Adp6713Cfg.bHostPldCnt;
 
-	//dlg.m_PldNum = m_HostPldCfg.bNumber;
-	//dlg.m_PldType = m_HostPldCfg.bType;
-	//dlg.m_PldVolume = m_HostPldCfg.wVolume;
-
 	int nResponse = (int)dlg.DoModal();
 	if (nResponse == IDOK)
 	{
@@ -259,10 +222,6 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 		m_Adp6713Cfg.dSizeOfFlash = dlg.m_FlashSize;
 		m_Adp6713Cfg.dSizeOfPLDSRAM = dlg.m_PldSramSize;
 		m_Adp6713Cfg.bHostPldCnt = dlg.m_HostPldCnt;
-
-		//m_HostPldCfg.bNumber = dlg.m_PldNum;
-		//m_HostPldCfg.bType = dlg.m_PldType;
-		//m_HostPldCfg.wVolume = dlg.m_PldVolume;
 	}
 	else if (nResponse == IDCANCEL)
 	{

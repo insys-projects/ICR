@@ -59,7 +59,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
+				Culture="1049"
 				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
@@ -71,7 +71,7 @@
 				ModuleDefinitionFile=".\Icr6713.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/Icr64Z2A.lib"
+				ImportLibrary="$(OutDir)/Icr6713.lib"
 				TargetMachine="1"
 			/>
 			<Tool
