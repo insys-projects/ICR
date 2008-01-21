@@ -46,22 +46,12 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	virtual BOOL OnInitDialog();
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnDestroy();
 	afx_msg void OnCbnSelchangePldtype();
 	afx_msg void OnEnKillfocusPldvolume();
-
-public:
-	virtual BOOL OnInitDialog();
-public:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-public:
 	afx_msg void OnDeltaposSpinpldcnt(NMHDR *pNMHDR, LRESULT *pResult);
-public:
-//	afx_msg void OnEnChangeHostpldcnt();
-protected:
-//	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-public:
 	afx_msg void OnEnKillfocusHostpldcnt();
-public:
 	afx_msg void OnEnKillfocusPldnum();
 };
