@@ -45,6 +45,9 @@ typedef enum _ICR_BMType {
         AMBPEX1     = 0x5502,
         AMBPEX8     = 0x5503,
 		ADP64Z2A	= 0x642A,
+		ADP6713		= 0x6713,
+		ADP64Z1		= 0x6431,
+		ADP64Z4		= 0x6434,
 } ICR_BMType;
 
 #endif	// __ICRBMLST_H_ 

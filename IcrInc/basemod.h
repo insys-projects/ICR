@@ -55,6 +55,7 @@ typedef int __stdcall BASEMOD_GetProp_Type(PBASEMOD_INFO pDevInfo);
 typedef int __stdcall BASEMOD_SetProp_Type(PBASEMOD_INFO pDevInfo); 
 typedef int __stdcall BASEMOD_DlgProp_Type(PBASEMOD_INFO pDevInfo); 
 
+BASEMOD_API int	asdasd(int aaa);
 BASEMOD_API void __stdcall BASEMOD_GetInfo(int* devNum, PBASEMOD_INFO pDevInfo);
 BASEMOD_API void __stdcall BASEMOD_Close(PBASEMOD_INFO pDevInfo);
 BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDevInfo);

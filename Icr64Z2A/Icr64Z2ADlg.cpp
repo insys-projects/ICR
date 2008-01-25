@@ -76,7 +76,7 @@ BOOL Icr64Z2ADlg::OnInitDialog()
     m_ToolTip.AddTool(GetDlgItem(IDOK), IDOK);
     m_ToolTip.AddTool(GetDlgItem(IDCANCEL), IDCANCEL);
 
-	if(m_MaxCpuClock < (720 + (1400 - 720) / 2))
+	if(m_MaxCpuClock < (720 + (1000 - 720) / 2))
 		m_ctrlMaxCpuClock.SetCurSel(0);
 	else
 		m_ctrlMaxCpuClock.SetCurSel(1);
@@ -134,7 +134,7 @@ void Icr64Z2ADlg::OnDestroy()
 
 	// TODO: Add your message handler code here
 	if(m_ctrlMaxCpuClock.GetCurSel())
-		m_MaxCpuClock = 1400;
+		m_MaxCpuClock = 1000;
 	else
 		m_MaxCpuClock = 720;
 	switch(m_ctrlSdramASize.GetCurSel())

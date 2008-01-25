@@ -770,10 +770,11 @@ END
 STRINGTABLE 
 BEGIN
     IDC_READ                "Прочитать из файла"
-    IDC_SAVE                "Сохранить в файле"
+    IDC_SAVE                "Сохранить в BIN файле"
     IDC_FROMDEV             "Получить из устройства"
     IDC_INTODEV             "Запомнить в устройстве"
     IDC_ABOUT               "О программе"
+    IDC_SAVEHEX             "Сохранить в HEX файле"
 END
 
 STRINGTABLE 
@@ -1503,10 +1504,11 @@ END
 STRINGTABLE 
 BEGIN
     IDC_READ                "Read from file"
-    IDC_SAVE                "Save into file"
+    IDC_SAVE                "Save into BIN file"
     IDC_FROMDEV             "Get from device"
     IDC_INTODEV             "Write into device"
     IDC_ABOUT               "About program"
+    IDC_SAVEHEX             "Save into HEX file"
 END
 
 STRINGTABLE 

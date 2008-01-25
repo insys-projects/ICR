@@ -1,0 +1,227 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\Icr64Z1.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Icr64Z1.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "Icr64Z1.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 229, 145
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация 64Z1"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Макс. тактовая частота процессора:",IDC_STATIC,21,19,126,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_MAXCPUCLOCK,151,19,56,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Размер SDRAM на EMIFA:",IDC_STATIC,37,68,107,8
+    COMBOBOX        IDC_SDRAMSIZEA,124,66,56,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SDRAMSIZEB,124,84,56,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Размер Flash:",IDC_STATIC,76,105,73,8
+    COMBOBOX        IDC_FLASH,124,102,56,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Размер SDRAM на EMIFB:",IDC_STATIC,37,86,84,8
+    DEFPUSHBUTTON   "OK",IDOK,118,124,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,174,124,50,14
+    GROUPBOX        "Процессор",IDC_STATIC,7,3,215,55,BS_CENTER
+    LTEXT           "Тип процессора:",IDC_STATIC,42,39,58,8,SS_CENTERIMAGE
+    COMBOBOX        IDC_CPUNAME,102,37,85,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 222
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 138
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_MAXCPUCLOCK, 0x403, 8, 0
+0x3036, 0x2030, 0xe3cc, 0x00f6, 
+    IDC_MAXCPUCLOCK, 0x403, 8, 0
+0x3237, 0x2030, 0xc3cc, 0x00f6, 
+    IDC_MAXCPUCLOCK, 0x403, 9, 0
+0x3031, 0x3030, 0xcc20, 0xf6c3, "\000" 
+    IDC_SDRAMSIZEA, 0x403, 5, 0
+0x2030, 0xe1cc, "\000" 
+    IDC_SDRAMSIZEA, 0x403, 7, 0
+0x3231, 0x2038, 0xe1cc, "\000" 
+    IDC_SDRAMSIZEA, 0x403, 7, 0
+0x3532, 0x2036, 0xe1cc, "\000" 
+    IDC_SDRAMSIZEA, 0x403, 7, 0
+0x3135, 0x2032, 0xe1cc, "\000" 
+    IDC_SDRAMSIZEB, 0x403, 5, 0
+0x2030, 0xe1cc, "\000" 
+    IDC_SDRAMSIZEB, 0x403, 6, 0
+0x3233, 0xcc20, 0x00e1, 
+    IDC_FLASH, 0x403, 5, 0
+0x2030, 0xe1cc, "\000" 
+    IDC_FLASH, 0x403, 5, 0
+0x2032, 0xe1cc, "\000" 
+    IDC_FLASH, 0x403, 5, 0
+0x2034, 0xe1cc, "\000" 
+    IDC_CPUNAME, 0x403, 12, 0
+0x4d54, 0x3353, 0x3032, 0x3643, 0x3134, 0x0035, 
+    IDC_CPUNAME, 0x403, 12, 0
+0x4d54, 0x3353, 0x3032, 0x3643, 0x3134, 0x0036, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Подтвердить изменения"
+    IDCANCEL                "Отменить изменения"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMSIZEA          "Размер SDRAM на EMIFA в МБайтах"
+    IDC_MAXCPUCLOCK         "Максимальная тактовая частота процессора в МГц"
+    IDC_SDRAMSIZEB          "Размер SDRAM на EMIFB в МБайтах"
+    IDC_FLASH               "Размер Flash в МБайтах"
+    IDC_CPUNAME             "Название типа процессора"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\Icr64Z1.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

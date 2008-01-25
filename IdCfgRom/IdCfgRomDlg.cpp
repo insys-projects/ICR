@@ -838,36 +838,37 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 	m_pCfgMem = new UCHAR[m_sizeCfgMem];
 	if(SetCfgMem() == 0)
 	{
-		U08 *hex = (U08*)m_pCfgMem;
-		U16	hiAddress = 0x0000;
-		U16	loAddress = 0x0000;
-		U08	checkSum = 0;
-			checkSum = 0x0 - ( 0x02 + ((hiAddress&0xFF00)>>8) + (hiAddress&0x00FF) + 0x04);
-		fprintf(fout, ":02000004%04X%02X\n", hiAddress, checkSum);
-		checkSum = 0;
+		// запись конфигурации базового модуля
+		U08 *hex = (U08*)m_pCfgMem;									// байт данных для записи в файл
+		U16	hiAddress = 0x0000;										// старшая часть адреса (первая строка)
+		U16	loAddress = 0x0000;										// младшая часть адреса (строки данных)
+		U08	controlSum;												// контрольная сумма
+			controlSum = 0x0 - ( 0x02 + ((hiAddress&0xFF00)>>8) + (hiAddress&0x00FF) + 0x04);
+		fprintf(fout, ":02000004%04X%02X\n", hiAddress, controlSum);// запись стартовой строки
 		char	str[141] = "";
 		char	strTmp[140] = "";
+		// "for": вывод строк данных
 		for( int ii=0; ii<(m_RealBaseCfgSize+1); ii++ )
 		{
-			// в "if" происходит запись суффикса и префикса строк данных
-			if( !(ii%64) || (ii == m_RealBaseCfgSize) )	//последний байт в строке или последний байт вообще
+			// "if": запись суффикса одной строки и префикса следующей строки данных
+			if( !(ii%64) || (ii == m_RealBaseCfgSize) )				//последний байт в строке или последний байт вообще
 			{
-				// в "if" происходит запись суффикса
+				// "if": запись суффикса
 				if( ii!=0 ) // не начало первой строки данных
 				{
-					checkSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
-					int cycleMax = ii%64 ? ii%64 : 64;
-					for( int jj=0; jj<cycleMax; jj++)
-						checkSum += hex[ii-1-jj];
-					checkSum = 0x0 - checkSum;
-					sprintf_s(strTmp, ("%02X\n"), checkSum);
+					controlSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
+					int bytesCntInStr = ii%64 ? ii%64 : 64;			// расчёт количества байтов в строке для вывода
+					for( int jj=0; jj<bytesCntInStr; jj++)
+						controlSum += hex[ii-1-jj];
+					controlSum = 0x0 - controlSum;
+					sprintf_s(strTmp, ("%02X\n"), controlSum);
 					strcat(str, strTmp);
-					checkSum = 0;
+					// "if": вывод последней строки данных
 					if( ii == m_RealBaseCfgSize )
 					{
-						sprintf_s(strTmp, (":%02X"), cycleMax);
+						sprintf_s(strTmp, (":%02X"), bytesCntInStr);
 						strncpy(str, strTmp, 3);
-						fprintf(fout, str); // вывод в файл последней сформированной строки данных
+						fprintf(fout, str);							// вывод сформированной строки данных в файл
 						str[0] = 0;
 						break;
 					}
@@ -879,10 +880,11 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 				sprintf_s(strTmp, (":40%04X00"), loAddress);
 				strcat(str, strTmp);
 			}
-			sprintf_s(strTmp, ("%02X"), hex[ii]); // запись нового байта
+			sprintf_s(strTmp, ("%02X"), hex[ii]);					// запись байта данных
 			strcat(str, strTmp);
 		}
 
+		// запись конфигурации субмодулей
 		PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
 		for(int i = 0; i < 4; i++)
 		{
@@ -891,43 +893,39 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 				hex = (U08*)pCurCfgMem;
 				for( int ii=0; ii<(m_RealAdmCfgSize[i]+1); ii++ )
 				{
-					// в "if" происходит запись суффикса и префикса строк данных
-					if( !(ii%64) || (ii == m_RealAdmCfgSize[i]) )	//последний байт в строке или последний байт вообще
+					if( !(ii%64) || (ii == m_RealAdmCfgSize[i]) )
 					{
-						// в "if" происходит запись суффикса
-						if( ii!=0 ) // не начало первой строки данных
+						if( ii!=0 )
 						{
-							checkSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
-							int cycleMax = ii%64 ? ii%64 : 64;
-							for( int jj=0; jj<cycleMax; jj++)
-								checkSum += hex[ii-1-jj];
-							checkSum = 0x0 - checkSum;
-							sprintf_s(strTmp, ("%02X\n"), checkSum);
+							controlSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
+							int bytesCntInStr = ii%64 ? ii%64 : 64;
+							for( int jj=0; jj<bytesCntInStr; jj++)
+								controlSum += hex[ii-1-jj];
+							controlSum = 0x0 - controlSum;
+							sprintf_s(strTmp, ("%02X\n"), controlSum);
 							strcat(str, strTmp);
-							checkSum = 0;
 							if( ii == m_RealAdmCfgSize[i] )
 							{
-								sprintf_s(strTmp, (":%02X"), cycleMax);
+								sprintf_s(strTmp, (":%02X"), bytesCntInStr);
 								strncpy(str, strTmp, 3);
-								fprintf(fout, str); // вывод в файл последней сформированной строки данных
+								fprintf(fout, str);
 								str[0] = 0;
 								break;
 							}
 							loAddress+=64;
 						}
-						fprintf(fout, str); // вывод в файл сформированной строки данных
+						fprintf(fout, str);
 						str[0] = 0;
-						// запись префикса
 						sprintf_s(strTmp, (":40%04X00"), loAddress);
 						strcat(str, strTmp);
 					}
-					sprintf_s(strTmp, ("%02X"), hex[ii]); // запись нового байта
+					sprintf_s(strTmp, ("%02X"), hex[ii]);
 					strcat(str, strTmp);
 				}
 				pCurCfgMem += m_RealAdmCfgSize[i];
 			}
 		}
-		fprintf(fout, ":00000001FF\n");
+		fprintf(fout, ":00000001FF");
 	}
 	else
 	{
@@ -939,6 +937,5 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 		return;
 	}
 	delete[] m_pCfgMem;
-
 	fclose(fout);
 }
