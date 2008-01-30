@@ -63,6 +63,7 @@ static S32 LL_hexGetByte( char **ppLine, U32 *pByte )
 
 CIdCfgRomDlg::CIdCfgRomDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CIdCfgRomDlg::IDD, pParent)
+	, m_ToSubmoduleOnly(FALSE)
 {
 	m_DevType = 0;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -73,6 +74,7 @@ void CIdCfgRomDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_TABPAGE, m_ctrlTab);
 	DDX_CBIndex(pDX, IDC_DEVICETYPE, m_DevType);
+	DDX_Check(pDX, IDC_TOSUBMODULEONLY, m_ToSubmoduleOnly);
 }
 
 BEGIN_MESSAGE_MAP(CIdCfgRomDlg, CDialog)

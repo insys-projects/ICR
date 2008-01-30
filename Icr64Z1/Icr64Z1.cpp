@@ -235,7 +235,3 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	return nResponse;
 }
 
-int asdasd(int aaa)
-{
-	return aaa;
-}

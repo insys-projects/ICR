@@ -1,8 +1,8 @@
-// IcrAdp201P4.cpp : Defines the initialization routines for the DLL.
+// Icr6203.cpp : Defines the initialization routines for the DLL.
 //
 
 #include "stdafx.h"
-#include "IcrAdp201P4App.h"    
+#include "Icr6203App.h"
 
 #define	BASEMOD_API_EXPORTS
 #include "basemod.h"
@@ -17,35 +17,17 @@
 
 #include "icr.h"
 
-#include "IcrAdp201P4.h"
-
+#include "Icr6203.h"
 
 // инициализация конфигурационных структур
-ICR_CfgAdp201P4 m_Adp201P4Cfg = { 
-	Adp201P4_CFG_TAG, 
-	22, 
-	1, 
-	500, 
-	100000000, 
-	0, 
-	1, 
-	0,
-	0xF, 
-	0xF,
-	13,
-	9,
-	1,
-	6
-};
-ICR_CfgHostPld m_HostPldCfg = {HOSTPLD_CFG_TAG, 7, 1, 5, 300, 456, 5};
+ICR_Cfg6203 m_Adp6203Cfg = { ADP6203_CFG_TAG, 16, 1, 240, 0, 0, 0, 1 };
+ICR_CfgFifoHost m_FifoHostCfg = { FIFO_HOST_TAG, 3, 0, 5, 3 };
 
 //
-//	Note!
-//
-//		If this DLL is dynamically linked against the MFC
-//		DLLs, any functions exported from this DLL which
-//		call into MFC must have the AFX_MANAGE_STATE macro
-//		added at the very beginning of the function.
+//TODO: If this DLL is dynamically linked against the MFC DLLs,
+//		any functions exported from this DLL which call into
+//		MFC must have the AFX_MANAGE_STATE macro added at the
+//		very beginning of the function.
 //
 //		For example:
 //
@@ -66,29 +48,30 @@ ICR_CfgHostPld m_HostPldCfg = {HOSTPLD_CFG_TAG, 7, 1, 5, 300, 456, 5};
 //		details.
 //
 
-// CIcrAdp201P4App
 
-BEGIN_MESSAGE_MAP(CIcrAdp201P4App, CWinApp)
+// CIcr6203App
+
+BEGIN_MESSAGE_MAP(CIcr6203App, CWinApp)
 END_MESSAGE_MAP()
 
 
-// CIcrAdp201P4App construction
+// CIcr6203App construction
 
-CIcrAdp201P4App::CIcrAdp201P4App()
+CIcr6203App::CIcr6203App()
 {
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
 
-// The one and only CIcrAdp201P4App object
+// The one and only CIcr6203App object
 
-CIcrAdp201P4App theApp;
+CIcr6203App theApp;
 
 
-// CIcrAdp201P4App initialization
+// CIcr6203App initialization
 
-BOOL CIcrAdp201P4App::InitInstance()
+BOOL CIcr6203App::InitInstance()
 {
 	CWinApp::InitInstance();
 
@@ -108,8 +91,8 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, _T("Adp201P4"));
-		pDevInfo->dType = ADP201P4;
+		lstrcpy(pDevInfo->sName, "6203");
+		pDevInfo->dType = ADP6203;
 		break;
 	default:
 		*pNumDev = -1;
@@ -153,41 +136,29 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 			end_flag = 1;
 			RealCfgSize += 2;
 			break;
-		case HOSTPLD_CFG_TAG:
+		case ADP6203_CFG_TAG:
 			{
-				PICR_CfgHostPld pPldCfg = (PICR_CfgHostPld)pCurCfgMem;
-				m_HostPldCfg.wTag = pPldCfg->wTag;
-				m_HostPldCfg.wSize = pPldCfg->wSize;
-				m_HostPldCfg.bNumber = pPldCfg->bNumber;
-				m_HostPldCfg.bType = pPldCfg->bType;
-				m_HostPldCfg.wVolume = pPldCfg->wVolume;
-				m_HostPldCfg.wPins = pPldCfg->wPins;
-				m_HostPldCfg.bSpeedGrade = pPldCfg->bSpeedGrade;
-				size = sizeof(ICR_CfgHostPld);
+				PICR_Cfg6203 pAdpCfg = (PICR_Cfg6203)pCurCfgMem;
+				m_Adp6203Cfg.wTag = pAdpCfg->wTag;
+				m_Adp6203Cfg.wSize = pAdpCfg->wSize;
+				m_Adp6203Cfg.bAdmIfCnt = pAdpCfg->bAdmIfCnt;
+				m_Adp6203Cfg.wMaxCpuClock = pAdpCfg->wMaxCpuClock;
+				m_Adp6203Cfg.dSizeOfSDRAM = pAdpCfg->dSizeOfSDRAM;
+				m_Adp6203Cfg.dSizeOfDPRAM = pAdpCfg->dSizeOfDPRAM;
+				m_Adp6203Cfg.dSizeOfSSRAM = pAdpCfg->dSizeOfSSRAM;
+				m_Adp6203Cfg.bFifoCnt = pAdpCfg->bFifoCnt;
+				pDeviceInfo->bAdmIfCnt = pAdpCfg->bAdmIfCnt;
+				size = sizeof(ICR_Cfg6203);
 				RealCfgSize += size;
 				break;
 			}
-		case Adp201P4_CFG_TAG:
+		case FIFO_HOST_TAG:
 			{
-				PICR_CfgAdp201P4 pDspCfg = (PICR_CfgAdp201P4)pCurCfgMem;
-				m_Adp201P4Cfg.wTag = pDspCfg->wTag;
-				m_Adp201P4Cfg.wSize = pDspCfg->wSize;
-				m_Adp201P4Cfg.bAdmIfCnt = pDspCfg->bAdmIfCnt;
-				m_Adp201P4Cfg.wMaxCpuClock = pDspCfg->wMaxCpuClock;
-				m_Adp201P4Cfg.dBusClock = pDspCfg->dBusClock;
-				m_Adp201P4Cfg.dSizeOfSDRAM = pDspCfg->dSizeOfSDRAM;
-				m_Adp201P4Cfg.bHostPldCnt = pDspCfg->bHostPldCnt;
-//				m_Adp201P4Cfg.wSDRCON = pDspCfg->wSDRCON;
-				m_Adp201P4Cfg.wCpuMask = pDspCfg->wCpuMask;
-				m_Adp201P4Cfg.wSdramMask = pDspCfg->wSdramMask;
-
-				m_Adp201P4Cfg.wSDRAM_RAS = pDspCfg->wSDRAM_RAS;
-				m_Adp201P4Cfg.wSDRAM_CAS = pDspCfg->wSDRAM_CAS;
-				m_Adp201P4Cfg.wSDRAM_BANK = pDspCfg->wSDRAM_BANK;
-				m_Adp201P4Cfg.wSDRAM_CL = pDspCfg->wSDRAM_CL;
-
-				pDeviceInfo->bAdmIfCnt = pDspCfg->bAdmIfCnt;
-				size = sizeof(ICR_CfgAdp201P4);
+				PICR_CfgFifoHost pFifoCfg = (PICR_CfgFifoHost)pCurCfgMem;
+				m_FifoHostCfg.bNumber = pFifoCfg->bNumber;
+				m_FifoHostCfg.bDepth = pFifoCfg->bDepth;
+				m_FifoHostCfg.bBitsWidth = pFifoCfg->bBitsWidth;
+				size = sizeof(ICR_CfgFifoHost);
 				RealCfgSize += size;
 				break;
 			}
@@ -204,7 +175,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 }
 
 //***************************************************************************************
-//  BASEMOD_SetProperty - функция служит для передачи значений из плагина в основную программу
+//  BASEMOD_GetProperty - функция служит для передачи значений из плагина в основную программу
 //  Input:  pDevInfo - указатель на структуру для обмена информацией
 //  Output: return - 0 - нет ошибок, 1 - 
 //  Notes:  данная функция вызывается перед записью данных в файл или устройство
@@ -214,47 +185,36 @@ BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDeviceInfo)
 	PUSHORT pCurCfgMem = (PUSHORT)pDeviceInfo->pCfgMem;
 	PUSHORT pEndCfgMem = (PUSHORT)(pDeviceInfo->pCfgMem) + BASEMOD_CFGMEM_SIZE/2;
 
-	m_Adp201P4Cfg.bAdmIfCnt = pDeviceInfo->bAdmIfCnt;
+	m_Adp6203Cfg.bAdmIfCnt = pDeviceInfo->bAdmIfCnt;
 
-	PICR_CfgAdp201P4 pDspCfg = (PICR_CfgAdp201P4)pCurCfgMem;
-	pDspCfg->wTag = Adp201P4_CFG_TAG;
-	pDspCfg->wSize = sizeof(ICR_CfgAdp201P4) - 4;
-	pDspCfg->bAdmIfCnt = m_Adp201P4Cfg.bAdmIfCnt;
-	pDspCfg->wMaxCpuClock = m_Adp201P4Cfg.wMaxCpuClock;
-	pDspCfg->dBusClock = m_Adp201P4Cfg.dBusClock;
-	pDspCfg->dSizeOfSDRAM = m_Adp201P4Cfg.dSizeOfSDRAM;
-	pDspCfg->bHostPldCnt = m_Adp201P4Cfg.bHostPldCnt;
-//	pDspCfg->wSDRCON = m_Adp201P4Cfg.wSDRCON;
-	pDspCfg->wCpuMask = m_Adp201P4Cfg.wCpuMask;
-	pDspCfg->wSdramMask = m_Adp201P4Cfg.wSdramMask;
+	PICR_Cfg6203 pAdpCfg = (PICR_Cfg6203)pCurCfgMem;
+	pAdpCfg->wTag = ADP6203_CFG_TAG;
+	pAdpCfg->wSize = sizeof(ICR_Cfg6203) - 4;
+	pAdpCfg->bAdmIfCnt = m_Adp6203Cfg.bAdmIfCnt;
+	pAdpCfg->wMaxCpuClock = m_Adp6203Cfg.wMaxCpuClock;
+	pAdpCfg->dSizeOfSDRAM = m_Adp6203Cfg.dSizeOfSDRAM;
+	pAdpCfg->dSizeOfDPRAM = m_Adp6203Cfg.dSizeOfDPRAM;
+	pAdpCfg->dSizeOfSSRAM = m_Adp6203Cfg.dSizeOfSSRAM;
+	pAdpCfg->bFifoCnt = m_Adp6203Cfg.bFifoCnt;
 
-	pDspCfg->wSDRAM_RAS = m_Adp201P4Cfg.wSDRAM_RAS;
-	pDspCfg->wSDRAM_CAS = m_Adp201P4Cfg.wSDRAM_CAS;
-	pDspCfg->wSDRAM_BANK = m_Adp201P4Cfg.wSDRAM_BANK;
-	pDspCfg->wSDRAM_CL = m_Adp201P4Cfg.wSDRAM_CL;
-
-	pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdp201P4));
+	pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_Cfg6203));
 	if(pCurCfgMem >= pEndCfgMem)
 		return 1;
 
-	if(pDspCfg->bHostPldCnt)
+	if( pAdpCfg->bFifoCnt )
 	{
-		for(int i = 0; i < pDspCfg->bHostPldCnt; i++)
-		{
-			PICR_CfgHostPld pPldCfg = (PICR_CfgHostPld)pCurCfgMem;
-			pPldCfg->wTag = HOSTPLD_CFG_TAG;
-			pPldCfg->wSize = sizeof(ICR_CfgHostPld) - 4;
-			pPldCfg->bNumber = 0;
-			pPldCfg->bType = m_HostPldCfg.bType;
-			pPldCfg->wVolume = m_HostPldCfg.wVolume;
-			pPldCfg->wPins = m_HostPldCfg.wPins;
-			pPldCfg->bSpeedGrade = m_HostPldCfg.bSpeedGrade;
+		PICR_CfgFifoHost pFifoCfg = (PICR_CfgFifoHost)pCurCfgMem;
+		pFifoCfg->wTag = FIFO_HOST_TAG;
+		pFifoCfg->wSize = sizeof(ICR_CfgFifoHost) - 4;
+		pFifoCfg->bNumber = 0;
+		pFifoCfg->bDepth = m_FifoHostCfg.bDepth;
+		pFifoCfg->bBitsWidth = m_FifoHostCfg.bBitsWidth;
 
-			pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgHostPld));
-			if(pCurCfgMem >= pEndCfgMem)
-				return 1;
-		}
+		pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgFifoHost));
+		if(pCurCfgMem >= pEndCfgMem)
+			return 1;
 	}
+
 	// тэг окончания данных не нужен (его пишет основная программа)
 //	*pSignSize = END_TAG;
 //	pSignSize++;
@@ -273,57 +233,37 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState( ));
 
+	Icr6203Dlg dlg;
 
-	CIcrAdp201P4Dlg dlg;
+	dlg.m_MaxCpuClock = m_Adp6203Cfg.wMaxCpuClock;
+	dlg.m_SdramSize = m_Adp6203Cfg.dSizeOfSDRAM;
+	dlg.m_DpramSize = m_Adp6203Cfg.dSizeOfDPRAM;
+	dlg.m_SsramSize = m_Adp6203Cfg.dSizeOfSSRAM;
+	dlg.m_FifoCnt = m_Adp6203Cfg.bFifoCnt;
+	dlg.m_FifoNum = m_FifoHostCfg.bNumber;
+	dlg.m_FifoSize = m_FifoHostCfg.bDepth;
+	dlg.m_FifoWidth = m_FifoHostCfg.bBitsWidth;
 
-	dlg.m_MaxCpuClock = m_Adp201P4Cfg.wMaxCpuClock;
-	dlg.m_BusClock = m_Adp201P4Cfg.dBusClock / 1000000.;
-	dlg.m_SdramSize = m_Adp201P4Cfg.dSizeOfSDRAM;
-	dlg.m_HostPldCnt = m_Adp201P4Cfg.bHostPldCnt;
-//	dlg.m_SDRCON = m_Adp201P4Cfg.wSDRCON;
-	dlg.m_CpuMask = m_Adp201P4Cfg.wCpuMask;
-	dlg.m_SdramMask = m_Adp201P4Cfg.wSdramMask;
-
-	dlg.m_sdramRAS = m_Adp201P4Cfg.wSDRAM_RAS;
-	dlg.m_sdramCAS = m_Adp201P4Cfg.wSDRAM_CAS;
-	dlg.m_sdramBANK = m_Adp201P4Cfg.wSDRAM_BANK;
-	dlg.m_sdramCL = m_Adp201P4Cfg.wSDRAM_CL;
-
-	dlg.m_PldNum = m_HostPldCfg.bNumber;
-	dlg.m_PldType = m_HostPldCfg.bType;
-	dlg.m_PldVolume = m_HostPldCfg.wVolume;
-	dlg.m_PldPins = m_HostPldCfg.wPins;
-	dlg.m_PldRate = m_HostPldCfg.bSpeedGrade;
-
-	INT_PTR nResponse = dlg.DoModal();
+	int nResponse = (int)dlg.DoModal();
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
-		m_Adp201P4Cfg.wMaxCpuClock = dlg.m_MaxCpuClock;
-		m_Adp201P4Cfg.dBusClock = DWORD(dlg.m_BusClock * 1000000.);
-		m_Adp201P4Cfg.dSizeOfSDRAM = dlg.m_SdramSize;
-		m_Adp201P4Cfg.bHostPldCnt = dlg.m_HostPldCnt;
-//		m_Adp201P4Cfg.wSDRCON = dlg.m_SDRCON;
-		m_Adp201P4Cfg.wCpuMask = dlg.m_CpuMask;
-		m_Adp201P4Cfg.wSdramMask = dlg.m_SdramMask;
+		m_Adp6203Cfg.wMaxCpuClock = dlg.m_MaxCpuClock;
+		m_Adp6203Cfg.dSizeOfSDRAM = dlg.m_SdramSize;
+		m_Adp6203Cfg.dSizeOfDPRAM = dlg.m_DpramSize;
+		m_Adp6203Cfg.dSizeOfSSRAM = dlg.m_SsramSize;
+		m_Adp6203Cfg.bFifoCnt = dlg.m_FifoCnt;
 
-		m_Adp201P4Cfg.wSDRAM_RAS = dlg.m_sdramRAS;
-		m_Adp201P4Cfg.wSDRAM_CAS = dlg.m_sdramCAS;
-		m_Adp201P4Cfg.wSDRAM_BANK = dlg.m_sdramBANK;
-		m_Adp201P4Cfg.wSDRAM_CL = dlg.m_sdramCL;
-
-		m_HostPldCfg.bNumber = dlg.m_PldNum;
-		m_HostPldCfg.bType = dlg.m_PldType;
-		m_HostPldCfg.wVolume = dlg.m_PldVolume;
-		m_HostPldCfg.wPins = dlg.m_PldPins;
-		m_HostPldCfg.bSpeedGrade = dlg.m_PldRate;
+		m_FifoHostCfg.bNumber = dlg.m_FifoNum;
+		m_FifoHostCfg.bDepth = dlg.m_FifoSize;
+		m_FifoHostCfg.bBitsWidth = dlg.m_FifoWidth;
 	}
 	else if (nResponse == IDCANCEL)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with Cancel
 	}
-	return (int)nResponse;
+	return nResponse;
 }
 

@@ -1,29 +1,25 @@
-// Icr0087.cpp : Defines the initialization routines for the DLL.
+// Icr008F.cpp : Defines the initialization routines for the DLL.
 //
 
 #include "stdafx.h"
-#include "Icr008AApp.h"
+#include "Icr008FApp.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 #include "icr.h"
-#include "Icr008A.h"
+#include "Icr008F.h"
 
 ICR_CfgAdmDac m_DacCfg = { ADMDAC_CFG_TAG, 14, 0, 0, 14, 1, 0, 200000000, 2500};
 
-ICR_CfgDacFifo m_FifoCfg = { DAC_FIFO_TAG, 5, 0, 0, 14, 2, 1};
-
-ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 14, 0, 120000000, 2, 0, 0, 0, 0};
+ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 21, 0, 1, 120000000, 0, 2, 0, 0, 400, 0, 0, 0, 0};
 
 //
-//	Note!
-//
-//		If this DLL is dynamically linked against the MFC
-//		DLLs, any functions exported from this DLL which
-//		call into MFC must have the AFX_MANAGE_STATE macro
-//		added at the very beginning of the function.
+//TODO: If this DLL is dynamically linked against the MFC DLLs,
+//		any functions exported from this DLL which call into
+//		MFC must have the AFX_MANAGE_STATE macro added at the
+//		very beginning of the function.
 //
 //		For example:
 //
@@ -44,29 +40,30 @@ ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 14, 0, 120000000, 2, 0, 0, 0, 0};
 //		details.
 //
 
-// CIcr008AApp
 
-BEGIN_MESSAGE_MAP(CIcr008AApp, CWinApp)
+// CIcr008FApp
+
+BEGIN_MESSAGE_MAP(CIcr008FApp, CWinApp)
 END_MESSAGE_MAP()
 
 
-// CIcr008AApp construction
+// CIcr008FApp construction
 
-CIcr008AApp::CIcr008AApp()
+CIcr008FApp::CIcr008FApp()
 {
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
 
-// The one and only CIcr008AApp object
+// The one and only CIcr008FApp object
 
-CIcr008AApp theApp;
+CIcr008FApp theApp;
 
 
-// CIcr008AApp initialization
+// CIcr008FApp initialization
 
-BOOL CIcr008AApp::InitInstance()
+BOOL CIcr008FApp::InitInstance()
 {
 	CWinApp::InitInstance();
 
@@ -80,8 +77,8 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->Name, _T("ADMDAC214x125M"));
-		pDevInfo->Type = ADMDAC214x125M;
+		lstrcpy(pDevInfo->Name, _T("ADMDAC216x400M"));
+		pDevInfo->Type = ADMDAC216x400M;
 		break;
 	default:
 		*pNumDev = -1;
@@ -132,32 +129,23 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				RealCfgSize += size;
 				break;
 			}
-		case DAC_FIFO_TAG:
-			{
-				PICR_CfgDacFifo pFifoCfg = (PICR_CfgDacFifo)pAdmCfgMem;
-				m_FifoCfg.wTag = pFifoCfg->wTag;
-				m_FifoCfg.wSize = pFifoCfg->wSize;
-				m_FifoCfg.bNumber = pFifoCfg->bNumber;
-				m_FifoCfg.bAdmNum = pFifoCfg->bAdmNum;
-				m_FifoCfg.bDepth = pFifoCfg->bDepth;
-				m_FifoCfg.bBitsWidth = pFifoCfg->bBitsWidth;
-				size = sizeof(ICR_CfgDacFifo);
-				RealCfgSize += size;
-				break;
-			}
 		case ADM_CFG_TAG:
 			{
 				PICR_CfgAdm pAdmCfg = (PICR_CfgAdm)pAdmCfgMem;
 				m_AdmCfg.wTag = pAdmCfg->wTag;
 				m_AdmCfg.wSize = pAdmCfg->wSize;
 				m_AdmCfg.bAdmIfNum = pAdmCfg->bAdmIfNum;
+				m_AdmCfg.bIsGen = pAdmCfg->bIsGen;
 				m_AdmCfg.dGen = pAdmCfg->dGen;
+				m_AdmCfg.bFreqTune = pAdmCfg->bFreqTune;
 				m_AdmCfg.bDacCnt = pAdmCfg->bDacCnt;
 				m_AdmCfg.dLPFCutoff = pAdmCfg->dLPFCutoff;
 				m_AdmCfg.bOutResist = pAdmCfg->bOutResist;
+				m_AdmCfg.dOscFreq = pAdmCfg->dOscFreq;
+				m_AdmCfg.bOutCasMod = pAdmCfg->bOutCasMod;
 				m_AdmCfg.bIsQuadMod = pAdmCfg->bIsQuadMod;
-				m_AdmCfg.bIsExtClk = pAdmCfg->bIsExtClk;
 				m_AdmCfg.bQuadModType = pAdmCfg->bQuadModType;
+				m_AdmCfg.bIsExtClk = pAdmCfg->bIsExtClk;
 				size = sizeof(ICR_CfgAdm);
 				RealCfgSize += size;
 				break;
@@ -179,13 +167,17 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->wTag = ADM_CFG_TAG;
 	pAdmCfg->wSize = sizeof(ICR_CfgAdm) - 4;
 	pAdmCfg->bAdmIfNum = 0;//m_DacCfg.AdmNumber;
+	pAdmCfg->bIsGen = m_AdmCfg.bIsGen;
 	pAdmCfg->dGen = m_AdmCfg.dGen;
+	pAdmCfg->bFreqTune = m_AdmCfg.bFreqTune;
 	pAdmCfg->bDacCnt = m_AdmCfg.bDacCnt;
 	pAdmCfg->dLPFCutoff = m_AdmCfg.dLPFCutoff;
 	pAdmCfg->bOutResist = m_AdmCfg.bOutResist;
+	pAdmCfg->dOscFreq = m_AdmCfg.dOscFreq;
+	pAdmCfg->bOutCasMod = m_AdmCfg.bOutCasMod;
 	pAdmCfg->bIsQuadMod = m_AdmCfg.bIsQuadMod;
-	pAdmCfg->bIsExtClk = m_AdmCfg.bIsExtClk;
 	pAdmCfg->bQuadModType = m_AdmCfg.bQuadModType;
+	pAdmCfg->bIsExtClk = m_AdmCfg.bIsExtClk;
 
 	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgAdm));
 	if(pCurCfgMem >= pEndCfgMem)
@@ -206,19 +198,6 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	if(pCurCfgMem >= pEndCfgMem)
 		return 1;
 
-	PICR_CfgDacFifo pFifoCfg = (PICR_CfgDacFifo)pCurCfgMem;
-	pFifoCfg->wTag = DAC_FIFO_TAG;
-	pFifoCfg->wSize = sizeof(ICR_CfgDacFifo) - 4;
-	pFifoCfg->bNumber = 0;
-	pFifoCfg->bAdmNum = 0;//m_DacCfg.AdmNumber;
-	pFifoCfg->bDepth = m_FifoCfg.bDepth;
-	pFifoCfg->bBitsWidth = m_FifoCfg.bBitsWidth;
-	pFifoCfg->bIsCycle = m_FifoCfg.bIsCycle;
-
-	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgDacFifo));
-	if(pCurCfgMem >= pEndCfgMem)
-		return 1;
-
 	*pCurCfgMem = END_TAG;
 	pCurCfgMem++;
 	pDeviceInfo->RealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDeviceInfo->pCfgMem);
@@ -233,85 +212,49 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 
 //	int curNum = pDeviceInfo->Number;
 
-	CIcr008ADlg dlg;
+	Icr008FDlg dlg;
 	lstrcpy(dlg.subInfo.Name, pDeviceInfo->Name);
 	dlg.subInfo.Type = pDeviceInfo->Type;
 
-	switch(m_DacCfg.bBits)
-	{
-		case 12:
-			dlg.m_DacBits = 0;
-			break;
-		case 14:
-			dlg.m_DacBits = 1;
-			break;
-		case 16:
-			dlg.m_DacBits = 2;
-			break;
-	}
-	dlg.m_DacEncoding = m_DacCfg.bEncoding;
 	dlg.m_DacRange = m_DacCfg.wRange;
 	dlg.m_DacRateMax = m_DacCfg.dMaxRate;
 	dlg.m_DacRateMin = m_DacCfg.dMinRate;
 
-	if(m_FifoCfg.bDepth)
-	{
-		if(m_FifoCfg.bDepth < 5)
-			m_FifoCfg.bDepth = 5;
-		if(m_FifoCfg.bDepth > 20)
-			m_FifoCfg.bDepth = 20;
-		dlg.m_FifoSize = m_FifoCfg.bDepth - 4;
-	}
-	else
-		dlg.m_FifoSize = 0;
-//	dlg.m_FifoSize = m_FifoCfg.bDepth;
-	dlg.m_FifoBitsWidth = m_FifoCfg.bBitsWidth;
-
-	dlg.m_NumOfDac = m_AdmCfg.bDacCnt;
+	dlg.m_IsGen = m_AdmCfg.bIsGen;
 	dlg.m_Gen = m_AdmCfg.dGen;
+	dlg.m_GenTune = m_AdmCfg.bFreqTune;
+	dlg.m_NumOfDac = m_AdmCfg.bDacCnt;
 	dlg.m_LpfCutoff = m_AdmCfg.dLPFCutoff;
 	dlg.m_OutResist = m_AdmCfg.bOutResist;
+	dlg.m_OscFreq = m_AdmCfg.dOscFreq;
+	dlg.m_OutCasMod = m_AdmCfg.bOutCasMod;
 	dlg.m_QuadMod = m_AdmCfg.bIsQuadMod;
-	dlg.m_ExtClk = m_AdmCfg.bIsExtClk;
 	dlg.m_QuadModType = m_AdmCfg.bQuadModType;
+	dlg.m_ExtClk = m_AdmCfg.bIsExtClk;
 
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
-		switch(dlg.m_DacBits)
-		{
-			case 0:
-				m_DacCfg.bBits = 12;
-				break;
-			case 1:
-				m_DacCfg.bBits = 14;
-				break;
-			case 2:
-				m_DacCfg.bBits = 16;
-				break;
-		}
-		m_DacCfg.bEncoding = dlg.m_DacEncoding;
+
 		m_DacCfg.wRange = dlg.m_DacRange;
 		m_DacCfg.dMaxRate = dlg.m_DacRateMax;
 		m_DacCfg.dMinRate = dlg.m_DacRateMin;
 //		m_DacCfg.Number = ;
 
-		if(dlg.m_FifoSize)
-			m_FifoCfg.bDepth = dlg.m_FifoSize + 4;
-		else
-			m_FifoCfg.bDepth = 0;
-//		m_FifoCfg.bDepth = dlg.m_FifoSize;
-		m_FifoCfg.bBitsWidth = dlg.m_FifoBitsWidth;
-
-		m_AdmCfg.bDacCnt = dlg.m_NumOfDac;
+		
+		m_AdmCfg.bIsGen = dlg.m_IsGen;
 		m_AdmCfg.dGen = dlg.m_Gen;
+		m_AdmCfg.bFreqTune = dlg.m_GenTune;
+		m_AdmCfg.bDacCnt = dlg.m_NumOfDac;
 		m_AdmCfg.dLPFCutoff = dlg.m_LpfCutoff;
 		m_AdmCfg.bOutResist = dlg.m_OutResist;
+		m_AdmCfg.dOscFreq = dlg.m_OscFreq;
+		m_AdmCfg.bOutCasMod = dlg.m_OutCasMod;
 		m_AdmCfg.bIsQuadMod = dlg.m_QuadMod;
-		m_AdmCfg.bIsExtClk = dlg.m_ExtClk;
 		m_AdmCfg.bQuadModType = dlg.m_QuadModType;
+		m_AdmCfg.bIsExtClk = dlg.m_ExtClk;
 	}
 	else if (nResponse == IDCANCEL)
 	{

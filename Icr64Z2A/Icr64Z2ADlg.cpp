@@ -226,7 +226,7 @@ void Icr64Z2ADlg::OnDeltaposSpinpldcnt(NMHDR *pNMHDR, LRESULT *pResult)
 	UpdateData(TRUE);
 	int	spinPos	= pNMUpDown->iPos;
 	int	spinDelta = pNMUpDown->iDelta;
-	if( (spinPos <= 0 && spinDelta == -1) || (spinPos >=4 && spinDelta == 1) )
+	if( (spinPos <= 0 && spinDelta == -1) || (spinPos >=MAX_HOSTPLDCNT && spinDelta == 1) )
 		spinDelta = 0;
 	int	spinPosAfterSpinClick = spinPos + spinDelta;
 	// если после уменьшения количества ПЛИС номер ПЛИС превышает количество, уменьшаем номер
@@ -273,8 +273,8 @@ void Icr64Z2ADlg::OnEnKillfocusHostpldcnt()
 	UpdateData(TRUE);
 	int cboxStyle = m_ctrlPldType.GetStyle();
 	int	pldWindowsDisabled = (cboxStyle &= WS_DISABLED) ? 1 : 0;
-	if( m_HostPldCnt > 4 )
-		m_HostPldCnt = 4;
+	if( m_HostPldCnt > MAX_HOSTPLDCNT )
+		m_HostPldCnt = MAX_HOSTPLDCNT;
 	// если окна ПЛИС выключены, а количество ПЛИС становится не нулём, окна ПЛИС включаются
 	if( pldWindowsDisabled && m_HostPldCnt>0 )
 	{

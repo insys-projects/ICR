@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="IcrAdp201P4"
-	ProjectGUID="{54E41A66-9309-4AA2-82D9-14977C82ED3D}"
+	ProjectGUID="{27272FA6-0E84-4CDC-9126-47649E71F1A8}"
 	RootNamespace="IcrAdp201P4"
 	Keyword="MFCDLLProj"
 	>
@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/wd4996"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\icrinc,..\..\bardy\brdinc"
+				AdditionalIncludeDirectories="..\icrinc,..\_bardy\brdinc,..\bardy\brdinc"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -71,7 +71,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\BARDY\BIN\IcrAdp201P4.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\IcrAdp201P4.def"
 				GenerateDebugInformation="true"
@@ -102,6 +102,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(OutDir)\$(ProjectName).dll ..\bin"
 			/>
 		</Configuration>
 		<Configuration

@@ -24,8 +24,10 @@ public:
 
 // Dialog Data
 	enum { IDD = IDD_IDCFGROM_DIALOG };
+	// Controls (переменные контроля объектами окна)
 	CMyTabCtrl	m_ctrlTab;
-	int		m_DevType;
+	int			m_DevType;
+	BOOL		m_ToSubmoduleOnly;
 
 	CAmbPage* m_pAmbPage;
 	CAdm2IfPage* m_pAdmIfPage;
@@ -70,6 +72,5 @@ public:
 	afx_msg void OnBnClickedSave();
 	afx_msg void OnBnClickedIntodev();
 	afx_msg void OnBnClickedFromdev();
-public:
 	afx_msg void OnBnClickedSavehex();
 };

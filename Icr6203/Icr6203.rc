@@ -1,0 +1,297 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\Icr6203.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Icr6203.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "Icr6203.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 230, 201
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация 6203"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Макс. тактовая частота процессора:",IDC_STATIC,28,9,128,12,SS_CENTERIMAGE
+    LTEXT           "Размер SDRAM:",IDC_STATIC,60,32,55,8
+    COMBOBOX        IDC_SDRAMSIZE,116,30,56,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_DPRAMSIZE,116,48,56,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Размер SSRAM:",IDC_STATIC,61,69,51,8
+    COMBOBOX        IDC_SSRAMSIZE,116,66,56,66,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Размер DPRAM:",IDC_STATIC,60,50,52,8
+    DEFPUSHBUTTON   "OK",IDOK,117,180,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,173,180,50,14
+    GROUPBOX        "FIFO HOST",IDC_STATIC,10,112,210,57,BS_CENTER
+    LTEXT           "Глубина:",IDC_STATIC,22,145,32,8
+    LTEXT           "Ширина:",IDC_STATIC,124,145,30,8
+    COMBOBOX        IDC_FIFOSIZE,56,143,48,82,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_FIFOWIDTH,158,143,48,78,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MAXCPUCLOCK,158,9,26,14,ES_AUTOHSCROLL
+    LTEXT           "Кол-во FIFO на хосте:",IDC_STATIC,59,94,76,8
+    EDITTEXT        IDC_FIFOCNT,137,92,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINFIFOCNT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,165,92,11,12
+    LTEXT           "Порядковый номер:",IDC_STATIC,72,125,69,8
+    EDITTEXT        IDC_FIFONUM,144,123,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINFIFONUM,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,172,123,11,12
+    LTEXT           "МГц",IDC_STATIC,188,12,14,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 223
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 194
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_SDRAMSIZE, 0x403, 5, 0
+0x2030, 0xe1cc, "\000" 
+    IDC_SDRAMSIZE, 0x403, 6, 0
+0x3631, 0xcc20, 0x00e1, 
+    IDC_SDRAMSIZE, 0x403, 6, 0
+0x3233, 0xcc20, 0x00e1, 
+    IDC_DPRAMSIZE, 0x403, 5, 0
+0x2030, 0xe1ca, "\000" 
+    IDC_DPRAMSIZE, 0x403, 7, 0
+0x3231, 0x2038, 0xe1ca, "\000" 
+    IDC_DPRAMSIZE, 0x403, 7, 0
+0x3532, 0x2036, 0xe1ca, "\000" 
+    IDC_SSRAMSIZE, 0x403, 5, 0
+0x2030, 0xe1cc, "\000" 
+    IDC_SSRAMSIZE, 0x403, 5, 0
+0x2032, 0xe1cc, "\000" 
+    IDC_SSRAMSIZE, 0x403, 5, 0
+0x2034, 0xe1cc, "\000" 
+    IDC_SSRAMSIZE, 0x403, 5, 0
+0x2036, 0xe1cc, "\000" 
+    IDC_SSRAMSIZE, 0x403, 5, 0
+0x2038, 0xe1cc, "\000" 
+    IDC_FIFOSIZE, 0x403, 2, 0
+0x0030, 
+    IDC_FIFOSIZE, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_FIFOSIZE, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_FIFOSIZE, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_FIFOSIZE, 0x403, 4, 0
+0x3532, 0x0036, 
+    IDC_FIFOSIZE, 0x403, 4, 0
+0x3135, 0x0032, 
+    IDC_FIFOSIZE, 0x403, 3, 0
+0xca31, "\000" 
+    IDC_FIFOSIZE, 0x403, 3, 0
+0xca32, "\000" 
+    IDC_FIFOSIZE, 0x403, 3, 0
+0x4b34, "\000" 
+    IDC_FIFOSIZE, 0x403, 3, 0
+0x4b38, "\000" 
+    IDC_FIFOSIZE, 0x403, 4, 0
+0x3631, 0x004b, 
+    IDC_FIFOSIZE, 0x403, 4, 0
+0x3233, 0x004b, 
+    IDC_FIFOSIZE, 0x403, 4, 0
+0x3436, 0x004b, 
+    IDC_FIFOSIZE, 0x403, 5, 0
+0x3231, 0x4b38, "\000" 
+    IDC_FIFOSIZE, 0x403, 5, 0
+0x3532, 0x4b36, "\000" 
+    IDC_FIFOSIZE, 0x403, 5, 0
+0x3135, 0x4b32, "\000" 
+    IDC_FIFOSIZE, 0x403, 3, 0
+0x4d31, "\000" 
+    IDC_FIFOWIDTH, 0x403, 2, 0
+0x0030, 
+    IDC_FIFOWIDTH, 0x403, 2, 0
+0x0038, 
+    IDC_FIFOWIDTH, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_FIFOWIDTH, 0x403, 3, 0
+0x3233, "\000" 
+    IDC_FIFOWIDTH, 0x403, 3, 0
+0x3436, "\000" 
+    IDC_FIFOWIDTH, 0x403, 4, 0
+0x3231, 0x0038, 
+    IDC_FIFOWIDTH, 0x403, 4, 0
+0x3532, 0x0036, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Подтвердить изменения"
+    IDCANCEL                "Отменить изменения"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_MAXCPUCLOCK         "Максимальная тактовая частота процессора в МГц"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMSIZE           "Размер SDRAM в МБайтах"
+    IDC_DPRAMSIZE           "Размер DPRAM в КБайтах"
+    IDC_FIFOSIZE            "Размер (глубина) FIFO"
+    IDC_FIFOWIDTH           "Ширина FIFO (в битах)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_FIFOCNT             "Количество FIFO"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_FIFONUM             "Номер FIFO"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SSRAMSIZE           "Размер SSRAM в МБайтах"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\Icr6203.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

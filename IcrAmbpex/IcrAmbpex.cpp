@@ -20,7 +20,7 @@
 #include "IcrAmbpex.h"
 
 // инициализация конфигурационных структур
-ICR_CfgAmbpex m_AmbpexCfg = { AMBPEX1_CFG_TAG, 4, 1, 66000000, 0, 0};
+ICR_CfgAmbpex m_AmbpexCfg = { AMBPEX1_CFG_TAG, 7, 1, 66000000, 0, 0};
 ICR_CfgSram m_SramCfg = { SRAM_CFG_TAG, 4, 0, 1, 1, 2};
 
 //

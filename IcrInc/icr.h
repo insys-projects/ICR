@@ -35,6 +35,7 @@ const U16 ADM_ID_TAG		= 0x0080; // tag of ADM submodule identification structure
 
 const U16 ADC_CFG_TAG		= 0x0100; // tag of ADC configuration structure
 const U16 ADC_FIFO_TAG		= 0x0200; // tag of ADC FIFO configuration structure
+const U16 FIFO_HOST_TAG		= 0x0210; // tag of FIFO HOST configuration structure
 const U16 DAC_CFG_TAG		= 0x0300; // tag of DAC configuration structure
 const U16 ADMDAC_CFG_TAG	= 0x0310; // tag of Submodule DAC configuration structure
 const U16 DAC_FIFO_TAG		= 0x0400; // tag of DAC FIFO configuration structure
@@ -112,6 +113,16 @@ typedef struct _ICR_Cfg0200 {
 	U08	bDepth;		// Depth of FIFO (глубина (размер) FIFO (слова))
 	U08	bBitsWidth;	// Width of FIFO (ширина FIFO (число бит в слове))
 } ICR_Cfg0200, *PICR_Cfg0200, ICR_CfgAdcFifo, *PICR_CfgAdcFifo;
+
+// FIFO HOST configuration structure
+// Конфигурационная структура FIFO HOST
+typedef struct _ICR_Cfg0210 {
+	U16	wTag;		// tag of structure (FIFO_HOST_TAG)
+	U16	wSize;		// size of all following fields of structure (without wTag + wSize) = sizeof(ICR_IdBase) - 4
+	U08	bNumber;	// id number of the FIFO HOST (номер FIFO HOST)
+	U08	bDepth;		// Depth of FIFO (глубина (размер) FIFO (слова))
+	U08	bBitsWidth;	// Width of FIFO (ширина FIFO (число бит в слове))
+} ICR_Cfg0210, *PICR_Cfg0210, ICR_CfgFifoHost, *PICR_CfgFifoHost;
 
 // DAC configuration structure
 // Конфигурационная структура ЦАП

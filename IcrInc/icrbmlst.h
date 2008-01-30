@@ -15,6 +15,7 @@
 //  03-12-04 - added define for ADP101cPCI
 //  23-03-05 - added define for ADP201PCI
 //	14-01-08 - added define for 64Z2A
+//	28-01-08 - added define for 6713, 64Z1, 64Z4, 6203
 //
 //*******************************************************************
 
@@ -34,6 +35,7 @@ typedef enum _ICR_BMType {
 		ADP101V7	= 0x7101,
 		ADP101CP7	= 0x5366,
 		ADP101cP1	= 0x5367,
+		ADP101E1	= 0x5465,
 		ADS3224K195CPCI	= 0x5370,
         AMBPCD      = 0x4D44,
         AMBPCX      = 0x4D58,
@@ -48,6 +50,7 @@ typedef enum _ICR_BMType {
 		ADP6713		= 0x6713,
 		ADP64Z1		= 0x6431,
 		ADP64Z4		= 0x6434,
+		ADP6203		= 0x6202,
 } ICR_BMType;
 
 #endif	// __ICRBMLST_H_ 
