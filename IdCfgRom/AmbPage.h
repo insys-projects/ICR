@@ -45,4 +45,6 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg void OnKillfocusAmbversion();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+public:
+	afx_msg void OnDeltaposSpinadmif(NMHDR *pNMHDR, LRESULT *pResult);
 };

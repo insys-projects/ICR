@@ -210,8 +210,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState( ));
 
-//	int curNum = pDeviceInfo->Number;
-
 	Icr008FDlg dlg;
 	lstrcpy(dlg.subInfo.Name, pDeviceInfo->Name);
 	dlg.subInfo.Type = pDeviceInfo->Type;
@@ -237,12 +235,27 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		if( 
+			m_DacCfg.wRange != dlg.m_DacRange ||
+			m_DacCfg.dMaxRate != dlg.m_DacRateMax ||
+			m_DacCfg.dMinRate != dlg.m_DacRateMin ||
+			m_AdmCfg.bIsGen != dlg.m_IsGen ||
+			m_AdmCfg.dGen != dlg.m_Gen ||
+			m_AdmCfg.bFreqTune != dlg.m_GenTune ||
+			m_AdmCfg.bDacCnt != dlg.m_NumOfDac ||
+			m_AdmCfg.dLPFCutoff != dlg.m_LpfCutoff ||
+			m_AdmCfg.bOutResist != dlg.m_OutResist ||
+			m_AdmCfg.dOscFreq != dlg.m_OscFreq ||
+			m_AdmCfg.bOutCasMod != dlg.m_OutCasMod ||
+			m_AdmCfg.bIsQuadMod != dlg.m_QuadMod ||
+			m_AdmCfg.bQuadModType != dlg.m_QuadModType ||
+			m_AdmCfg.bIsExtClk != dlg.m_ExtClk
+		)
+			nResponse |= 0x100;
 
 		m_DacCfg.wRange = dlg.m_DacRange;
 		m_DacCfg.dMaxRate = dlg.m_DacRateMax;
 		m_DacCfg.dMinRate = dlg.m_DacRateMin;
-//		m_DacCfg.Number = ;
-
 		
 		m_AdmCfg.bIsGen = dlg.m_IsGen;
 		m_AdmCfg.dGen = dlg.m_Gen;

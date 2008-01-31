@@ -249,6 +249,18 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		if( 
+			m_Adp6203Cfg.wMaxCpuClock != dlg.m_MaxCpuClock ||
+			m_Adp6203Cfg.dSizeOfSDRAM != dlg.m_SdramSize ||
+			m_Adp6203Cfg.dSizeOfDPRAM != dlg.m_DpramSize ||
+			m_Adp6203Cfg.dSizeOfSSRAM != dlg.m_SsramSize ||
+			m_Adp6203Cfg.bFifoCnt != dlg.m_FifoCnt ||
+			m_FifoHostCfg.bNumber != dlg.m_FifoNum ||
+			m_FifoHostCfg.bDepth != dlg.m_FifoSize ||
+			m_FifoHostCfg.bBitsWidth != dlg.m_FifoWidth
+		)
+			nResponse |= 0x100;
+
 		m_Adp6203Cfg.wMaxCpuClock = dlg.m_MaxCpuClock;
 		m_Adp6203Cfg.dSizeOfSDRAM = dlg.m_SdramSize;
 		m_Adp6203Cfg.dSizeOfDPRAM = dlg.m_DpramSize;

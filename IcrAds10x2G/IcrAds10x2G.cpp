@@ -306,6 +306,27 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		if( 
+			m_AdsCfg.dSysGen != dlg.m_SysGen ||
+			m_AdsCfg.bSdramCfgCnt != dlg.m_SdramCnt ||
+			m_AdsCfg.dPllRefGen != dlg.m_PllRefGen ||
+			m_AdsCfg.dPllFreq != dlg.m_PllFreq ||
+			m_AdcCfg.bBits != 10 ||
+			m_AdcCfg.bEncoding != 1 ||
+			m_AdcCfg.wRange != dlg.m_AdcRange ||
+			m_AdcCfg.dMaxRate != dlg.m_AdcRateMax ||
+			m_AdcCfg.dMinRate != dlg.m_AdcRateMin ||
+			m_SdramCfg.bNumber != dlg.m_SdramNum ||
+			m_SdramCfg.bModuleCnt != 1 << dlg.m_SdramModules ||
+			m_SdramCfg.bColAddrBits != dlg.m_SdramColAddrBits + 8 ||
+			m_SdramCfg.bRowAddrBits != dlg.m_SdramRowAddrBits + 11 ||
+			m_SdramCfg.bModuleBanks != 1 << dlg.m_SdramModuleBanks ||
+			m_SdramCfg.bChipBanks != 2 << dlg.m_SdramChipBanks ||
+			m_SdramCfg.bPrimaryWidth != 1 << (dlg.m_SdramPrimWidth + 2) ||
+			m_SdramCfg.bCasLatency != dlg.m_SdramCasLat + 2
+		)
+			nResponse |= 0x100;
+
 		m_AdsCfg.dSysGen = dlg.m_SysGen;
 //		m_AmbpCfg.bSdramSlotCnt = dlg.m_SlotCnt;
 		m_AdsCfg.bSdramCfgCnt = dlg.m_SdramCnt;
@@ -327,7 +348,6 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 		m_SdramCfg.bChipBanks = 2 << dlg.m_SdramChipBanks;
 		m_SdramCfg.bPrimaryWidth = 1 << (dlg.m_SdramPrimWidth + 2);
 		m_SdramCfg.bCasLatency = dlg.m_SdramCasLat + 2;
-
 	}
 	else if (nResponse == IDCANCEL)
 	{

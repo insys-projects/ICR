@@ -63,6 +63,7 @@ BEGIN_MESSAGE_MAP(CAmbPage, CPropertyPage)
 	ON_WM_DESTROY()
 	ON_EN_KILLFOCUS(IDC_AMBVERSION, OnKillfocusAmbversion)
 	//}}AFX_MSG_MAP
+	ON_NOTIFY(UDN_DELTAPOS, IDC_SPINADMIF, &CAmbPage::OnDeltaposSpinadmif)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -176,6 +177,13 @@ void CAmbPage::OnAmbext()
 	PBASEMOD_INFO pDeviceInfo = &(BaseModCtrl[m_BMType-1].devInfo);
 	int nResponse = (BaseModCtrl[m_BMType-1].pDlgProperty)(pDeviceInfo);
 
+	// если в "подробностях" произошли изменения, уведомляем об этом программу
+	if( ((nResponse&0x11) == IDOK) && (nResponse&0x100) )
+	{
+		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+		pParentWnd->m_wBasemodFieldsEdited = 1;
+		nResponse &=~0x100;
+	}
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
@@ -353,4 +361,26 @@ BOOL CAmbPage::PreTranslateMessage(MSG* pMsg)
 		return CPropertyPage::PreTranslateMessage(pMsg);
 	}
 	return CDialog::PreTranslateMessage(pMsg);*/
+}
+
+void CAmbPage::OnDeltaposSpinadmif(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	int newVal = pNMUpDown->iPos + pNMUpDown->iDelta;
+
+	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
+	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+	CWnd* pToSubOnly = (CWnd*)pParentWnd->GetDlgItem(IDC_TOSUBMODULEONLY);
+	if( newVal == 0 || pParentWnd->m_pAdmPage->m_AdmType == 0 )
+	{
+		pParentWnd->m_ToSubmoduleOnly = 0;
+		pToSubOnly->EnableWindow(FALSE);
+	}
+	else if ( newVal > 0 && pParentWnd->m_pAdmPage->m_AdmType > 0 )
+		pToSubOnly->EnableWindow(TRUE);
+	pParentWnd->UpdateData(FALSE);
+	UpdateData(FALSE);
+
+	*pResult = 0;
 }

@@ -11,6 +11,10 @@
 
 #include "IcrAmbpDlg.h"
 
+UINT const MAX_SDRAMCNT = 16;
+UINT const MAX_DSPCNT = 16;
+
+
 // CIcrAmbpApp
 // See IcrAmbp.cpp for the implementation of this class
 //

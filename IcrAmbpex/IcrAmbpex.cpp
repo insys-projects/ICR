@@ -293,6 +293,17 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		if( 
+			m_AmbpexCfg.dSysGen != dlg.m_SysGen ||
+			m_AmbpexCfg.bDdsType != (dlg.m_isDds ? (dlg.m_DdsType + 1) : 0) ||
+			m_AmbpexCfg.bSramCfgCnt != dlg.m_isSRAM ||
+			m_SramCfg.bNumber != dlg.m_isSRAM ||
+			m_SramCfg.bChipCnt != (dlg.m_isSRAM ? (dlg.m_SramChips + 1) : 0) ||
+			m_SramCfg.bChipDepth != dlg.m_SramSize ||
+			m_SramCfg.bChipBitsWidth != dlg.m_SramBitsWidth
+		)
+			nResponse |= 0x100;
+
 		m_AmbpexCfg.dSysGen = dlg.m_SysGen;
 		m_AmbpexCfg.bDdsType = dlg.m_isDds ? (dlg.m_DdsType + 1) : 0;
 		m_AmbpexCfg.bSramCfgCnt = dlg.m_isSRAM;

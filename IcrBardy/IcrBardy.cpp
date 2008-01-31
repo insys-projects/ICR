@@ -196,12 +196,13 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo)
 //  Output: return - 
 //  Notes:  данная функция вызывается по нажатию на соответствующую кнопку
 //***************************************************************************************
-DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo)
+DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, USHORT bToSubmoduleOnly)
 {
 	int Status = 0;
 	int CurInst = pDevInfo->dInstance;
 	BRD_Handle handle = BRD_open(CurInst, 0, NULL);
-	if(handle) {
+	if(handle)
+	{
 		ULONG puBaseIcrId = 0, puAdmIcrId = 0;
 		BRD_PuList PuListTmp[1];
 		U32 ItemReal;
@@ -209,34 +210,41 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo)
 		BRD_PuList	*PuList = new BRD_PuList[ItemReal];
 		U32	ItemsCnt = ItemReal;
 		Status = BRD_puList(handle, PuList, ItemsCnt, &ItemReal);
-		if(ItemReal <= ItemsCnt)
+		if( ItemReal <= ItemsCnt )
 		{
 			for(ULONG j = 0; j < ItemReal; j++)
+			{
 				if(PuList[j].puCode == BASE_ID_TAG)
 				{
 					puBaseIcrId = PuList[j].puId;
 					break;
 				}
+			}
 			if( puBaseIcrId == 0 )
 			{
 				for(ULONG j = 0; j < ItemReal; j++)
+				{
 					if( PuList[j].puId == 0x1 )
 					{
 						puBaseIcrId = PuList[j].puId;
 						break;
 					}
+				}
 			}
-			if(puBaseIcrId)
+			if( puBaseIcrId )
 			{
-				BRD_puEnable(handle, puBaseIcrId);
-				BRD_puWrite(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, pDevInfo->dRealBaseCfgSize);
+				if( !bToSubmoduleOnly )
+				{
+					BRD_puEnable(handle, puBaseIcrId);
+					BRD_puWrite(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, pDevInfo->dRealBaseCfgSize);
+				}
 				for(ULONG j = 0; j < ItemReal; j++)
 					if(PuList[j].puCode == ADM_ID_TAG)
 					{
 						puAdmIcrId = PuList[j].puId;
 						break;
 					}
-				if(puAdmIcrId)
+				if( puAdmIcrId )
 				{
 					BRD_puEnable(handle, puAdmIcrId);
 					BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->dRealAdmCfgSize[0]);

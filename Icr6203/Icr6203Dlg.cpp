@@ -254,3 +254,4 @@ void Icr6203Dlg::OnEnKillfocusFifonum()
 		m_FifoNum = m_FifoCnt - 1;
 	UpdateData(FALSE);
 }
+

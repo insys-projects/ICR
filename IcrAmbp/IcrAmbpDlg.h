@@ -18,8 +18,14 @@ public:
 
 protected:
     CToolTipCtrl m_ToolTip;                         // The tooltip
-	void SetPldName();
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
+	void SetPldName();
+	
+#define LOCK	0
+#define UNLOCK	1
+	void LockUnlockSdramWindows(USHORT wLock);
+	void LockUnlockDspWindows(USHORT wLock);
 
 	DECLARE_MESSAGE_MAP()
 public:
@@ -66,4 +72,18 @@ public:
 	afx_msg void OnBnClickedPiobe();
 	afx_msg void OnBnClickedSrambe();
 	int m_SdramPrimWidth;
+public:
+	afx_msg void OnDeltaposSpinsdram(NMHDR *pNMHDR, LRESULT *pResult);
+public:
+	afx_msg void OnEnKillfocusSdramcnt();
+public:
+	afx_msg void OnEnKillfocusDspcnt();
+public:
+	CComboBox m_ctrlSdramDimms;
+public:
+	afx_msg void OnDeltaposSpindspcnt(NMHDR *pNMHDR, LRESULT *pResult);
+public:
+	afx_msg void OnEnKillfocusDspnum();
+public:
+	afx_msg void OnEnKillfocusSdramnum();
 };

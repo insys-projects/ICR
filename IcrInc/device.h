@@ -59,12 +59,12 @@ extern "C" {
 typedef void __stdcall DEVICE_GetInfo_Type(int* devNum, PDEVICE_INFO pDevInfo); 
 typedef void __stdcall DEVICE_Close_Type(PDEVICE_INFO pDevInfo); 
 typedef int __stdcall DEVICE_ReadICR_Type(PDEVICE_INFO pDevInfo); 
-typedef int __stdcall DEVICE_WriteICR_Type(PDEVICE_INFO pDevInfo); 
+typedef int __stdcall DEVICE_WriteICR_Type(PDEVICE_INFO pDevInfo, USHORT bToSubmoduleOnly); 
 
 DEVICE_API void __stdcall DEVICE_GetInfo(int* devNum, PDEVICE_INFO pDevInfo);
 DEVICE_API void __stdcall DEVICE_Close(PDEVICE_INFO pDevInfo);
 DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo);
-DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo);
+DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, USHORT bToSubmoduleOnly = 0);
 
 #ifdef	__cplusplus
 };

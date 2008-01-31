@@ -61,7 +61,7 @@ BOOL Icr64Z2ADlg::OnInitDialog()
 
 	// TODO:  Add extra initialization here
 	m_ctrlHostPldCnt.SetRange(0, MAX_HOSTPLDCNT);
-	m_ctrlPldNum.SetRange(0, m_HostPldCnt - 1);
+	m_ctrlPldNum.SetRange(0, (m_HostPldCnt ? (m_HostPldCnt - 1) : 0) );
 
     m_ToolTip.Create(this);
     m_ToolTip.AddTool(GetDlgItem(IDC_MAXCPUCLOCK), IDC_MAXCPUCLOCK);

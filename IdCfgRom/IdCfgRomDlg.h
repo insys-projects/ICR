@@ -20,7 +20,7 @@ class CIdCfgRomDlg : public CDialog
 {
 // Construction
 public:
-	CIdCfgRomDlg(CWnd* pParent = NULL);	// standard constructor
+	CIdCfgRomDlg(CWnd* pParent = NULL);
 
 // Dialog Data
 	enum { IDD = IDD_IDCFGROM_DIALOG };
@@ -37,6 +37,54 @@ public:
 	CDacPage* m_pDacPage;
 	CAdmPage* m_pAdmPage;
 
+	// ѕеременные, уведомл€ющие, что в диалоговых пол€х произошли изменени€ ( в основных вкладках, в подробност€х базового модул€ и в конфигурации субмодул€)
+	USHORT	m_wDialogFieldsEdited;
+	USHORT	m_wBasemodFieldsEdited;
+	USHORT	m_wSubmodFieldsEdited;
+	// —труктура, содержаща€ значени€ всех диалоговых полей перед их изменением, за исключением DLL
+	struct DIALOG_FIELDS_VALUES {
+		UINT	AmbSerialNum;
+		int		AmbBMType;
+		CString AmbstrAmbVersion;
+		UINT	AmbNumOfAdmIf;
+		UINT	Adm2IfAdmIfNum;
+		int		Adm2IfAdmIfType;
+		UINT	Adm2IfNumOfPld;
+		UINT	Adm2IfNumOfDac;
+		UINT	Adm2IfNumOfAdcFifo;
+		UINT	Adm2IfNumOfDacFifo;
+		double	Adm2IfGen1;
+		double	Adm2IfGen2;
+		BOOL	Adm2IfPio;
+		int		Adm2IfPioType;
+		UINT	Adm2IfRefVoltPvs;
+		BOOL	Adm2IfStart;
+		UINT	PldPldNum;
+		USHORT	PldPldType;
+		USHORT	PldPldRate;
+		UINT	PldPldVolume;
+		UINT	PldPldPins;
+		UINT	FifoAdcFifoNum;
+		int		FifoAdcFifoSize;
+		int		FifoAdcFifoBitsWidth;
+		UINT	FifoDacFifoNum;
+		int		FifoDacFifoSize;
+		int		FifoDacFifoBitsWidth;
+		BOOL	FifoDacFifoCycling;
+		UINT	DacDacNum;
+		int		DacDacBits;
+		UINT	DacDacRateMin;
+		UINT	DacDacRateMax;
+		UINT	DacDacRangeAF;
+		UINT	DacDacRangePF;
+		UINT	DacDacLPFCoff;
+		UINT	DacDacHPFCoff;
+		UINT	DacDacAFCoff;
+		int		DacDacEncoding;
+		UINT	AdmAdmPID;
+		int		AdmAdmType;
+		CString AdmstrAdmVersion;
+	} m_rDialogFieldsValues;
 
 // Implementation
 protected:
@@ -54,6 +102,8 @@ protected:
 
 	ULONG SetCfgMem();
 	void GetCfgMem();
+	void UpdateStructOfDialogFieldsValues();
+	void CheckEditOfStructOfDialogFieldsValues();
 
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
@@ -73,4 +123,7 @@ public:
 	afx_msg void OnBnClickedIntodev();
 	afx_msg void OnBnClickedFromdev();
 	afx_msg void OnBnClickedSavehex();
+	afx_msg void OnBnClickedOk();
+protected:
+	virtual void OnCancel();
 };

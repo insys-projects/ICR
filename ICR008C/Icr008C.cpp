@@ -189,6 +189,17 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		if( 
+			m_AdmCfg.dGen != dlg.m_Gen ||
+			m_AdmCfg.bIsOxco != dlg.m_IsOxco ||
+			m_AdmCfg.bIsDblFreq != dlg.m_IsDblFreq ||
+			m_AdmCfg.dLPFCutoff != dlg.m_LpfCutoff ||
+			m_AdmCfg.bIsExtClk != dlg.m_ExtClk ||
+			m_AdmCfg.bIsStrobe != dlg.m_IsStrobe ||
+			m_AdmCfg.wMaxAmpl != dlg.m_MaxAmpl
+		)
+			nResponse |= 0x100;
+
 		m_AdmCfg.dGen = dlg.m_Gen;
 		m_AdmCfg.bIsOxco = dlg.m_IsOxco;
 		m_AdmCfg.bIsDblFreq = dlg.m_IsDblFreq;

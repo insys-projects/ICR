@@ -78,6 +78,7 @@ void CIcrAmbpDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_SRAMBITSWIDTH, m_SramBitsWidth);
 	DDX_Text(pDX, IDC_SYSGEN, m_SysGen);
 	DDX_CBIndex(pDX, IDC_SDRAMPRIMWIDTH, m_SdramPrimWidth);
+	DDX_Control(pDX, IDC_SDRAMDIMMS, m_ctrlSdramDimms);
 }
 
 
@@ -89,6 +90,12 @@ BEGIN_MESSAGE_MAP(CIcrAmbpDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_PLDRATE, OnCbnSelchangePldrate)
 	ON_BN_CLICKED(IDC_PIOBE, OnBnClickedPiobe)
 	ON_BN_CLICKED(IDC_SRAMBE, OnBnClickedSrambe)
+	ON_NOTIFY(UDN_DELTAPOS, IDC_SPINSDRAM, &CIcrAmbpDlg::OnDeltaposSpinsdram)
+	ON_EN_KILLFOCUS(IDC_SDRAMCNT, &CIcrAmbpDlg::OnEnKillfocusSdramcnt)
+	ON_EN_KILLFOCUS(IDC_DSPCNT, &CIcrAmbpDlg::OnEnKillfocusDspcnt)
+	ON_NOTIFY(UDN_DELTAPOS, IDC_SPINDSPCNT, &CIcrAmbpDlg::OnDeltaposSpindspcnt)
+	ON_EN_KILLFOCUS(IDC_DSPNUM, &CIcrAmbpDlg::OnEnKillfocusDspnum)
+	ON_EN_KILLFOCUS(IDC_SDRAMNUM, &CIcrAmbpDlg::OnEnKillfocusSdramnum)
 END_MESSAGE_MAP()
 
 
@@ -114,6 +121,19 @@ BOOL CIcrAmbpDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
+	m_ctrlSpinSdram.SetRange(0, MAX_SDRAMCNT);
+	m_ctrlSpinSdramNum.SetRange(0, (m_SdramCnt ? (m_SdramCnt - 1) : 0 ) );
+	if( m_SdramCnt == 0 )
+		LockUnlockSdramWindows(LOCK);
+	else if ( m_SdramCnt > 0 )
+		LockUnlockSdramWindows(UNLOCK);
+	m_ctrlSpinDspNode.SetRange(0, MAX_DSPCNT);
+	m_ctrlSpinDspNodeNum.SetRange(0, (m_DspNodeCnt ? (m_DspNodeCnt - 1) : 0 ) );
+	if( m_DspNodeCnt == 0 )
+		LockUnlockDspWindows(LOCK);
+	else if ( m_DspNodeCnt > 0 )
+		LockUnlockDspWindows(UNLOCK);
+
     m_ToolTip.Create(this);
     m_ToolTip.AddTool(GetDlgItem(IDC_SYSGEN), IDC_SYSGEN);
     m_ToolTip.AddTool(GetDlgItem(IDC_SDRAMSLOTS), IDC_SDRAMSLOTS);
@@ -250,3 +270,206 @@ void CIcrAmbpDlg::OnBnClickedSrambe()
 	CWnd* pSramWidth = (CWnd*)GetDlgItem(IDC_SRAMBITSWIDTH);
 	pSramWidth->EnableWindow(m_isSRAM);
 }
+
+void CIcrAmbpDlg::OnDeltaposSpinsdram(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	int	spinPos	= pNMUpDown->iPos;
+	int	spinDelta = pNMUpDown->iDelta;
+	if( (spinPos <= 0 && spinDelta == -1) || (spinPos >=MAX_SDRAMCNT && spinDelta == 1) )
+		spinDelta = 0;
+	int	spinPosAfterSpinClick = spinPos + spinDelta;
+	// если после уменьшения количества SDRAM номер SDRAM превышает количество, уменьшаем номер
+	if( (m_SdramNum >= (UINT)spinPosAfterSpinClick) && (m_SdramNum > 0) )
+	{
+		m_SdramNum = spinPosAfterSpinClick - 1;
+		UpdateData(FALSE);
+	}
+
+	int cboxStyle = m_ctrlSdramDimms.GetStyle();
+	int	pldWindowsDisabled = (cboxStyle &= WS_DISABLED) ? 1 : 0;
+	// если изменённое количество SDRAM больше нуля
+	if( spinPosAfterSpinClick>0 )
+	{
+		// если окна SDRAM выключены, они включаются
+		if( pldWindowsDisabled )
+			LockUnlockSdramWindows(UNLOCK);
+		m_ctrlSpinSdramNum.SetRange(0, spinPosAfterSpinClick - 1);
+	}
+	// если изменённое количество SDRAM равно нулю и окна SDRAM включены, они выключаются
+	else if( !pldWindowsDisabled )
+		LockUnlockSdramWindows(LOCK);
+	*pResult = 0;
+}
+
+void CIcrAmbpDlg::OnEnKillfocusSdramcnt()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	int cboxStyle = m_ctrlSdramDimms.GetStyle();
+	int	pldWindowsDisabled = (cboxStyle &= WS_DISABLED) ? 1 : 0;
+	if( m_SdramCnt > MAX_SDRAMCNT )
+		m_SdramCnt = MAX_SDRAMCNT;
+	// если окна SDRAM выключены, а количество SDRAM становится не нулём, окна SDRAM включаются
+	if( pldWindowsDisabled && m_SdramCnt>0 )
+		LockUnlockSdramWindows(UNLOCK);
+	// если окна SDRAM включены, а количество SDRAM становится равным нулю, окна SDRAM выключаются
+	else if( !pldWindowsDisabled && m_SdramCnt==0 )
+		LockUnlockSdramWindows(LOCK);
+	if( (m_SdramNum >= m_SdramCnt) && (m_SdramCnt!=0) )
+		m_SdramNum = m_SdramCnt - 1;
+	else if( m_SdramCnt==0 )
+		m_SdramNum = 0;
+	m_ctrlSpinSdramNum.SetRange(0, m_SdramCnt - 1);
+	UpdateData(FALSE);
+}
+
+void CIcrAmbpDlg::OnEnKillfocusSdramnum()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	// если вручную введённый номер SDRAM больше количества SDRAM, устанавливается максимально возможный номер
+	if( m_SdramNum > m_SdramCnt - 1 && (m_SdramNum > 0) )
+		m_SdramNum = m_SdramCnt - 1;
+	UpdateData(FALSE);
+}
+
+void CIcrAmbpDlg::OnDeltaposSpindspcnt(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	int	spinPos	= pNMUpDown->iPos;
+	int	spinDelta = pNMUpDown->iDelta;
+	if( (spinPos <= 0 && spinDelta == -1) || (spinPos >=MAX_DSPCNT && spinDelta == 1) )
+		spinDelta = 0;
+	int	spinPosAfterSpinClick = spinPos + spinDelta;
+	// если после уменьшения количества DSP номер DSP превышает количество, уменьшаем номер
+	if( (m_DspNodeNum >= (UINT)spinPosAfterSpinClick) && (m_DspNodeNum > 0) )
+	{
+		m_DspNodeNum = spinPosAfterSpinClick - 1;
+		UpdateData(FALSE);
+	}
+
+	int cboxStyle = m_ctrlDspPldType.GetStyle();
+	int	pldWindowsDisabled = (cboxStyle &= WS_DISABLED) ? 1 : 0;
+	// если изменённое количество DSP больше нуля
+	if( spinPosAfterSpinClick>0 )
+	{
+		// если окна DSP выключены, они включаются
+		if( pldWindowsDisabled )
+			LockUnlockDspWindows(UNLOCK);
+		m_ctrlSpinDspNodeNum.SetRange(0, spinPosAfterSpinClick - 1);
+	}
+	// если изменённое количество DSP равно нулю и окна DSP включены, они выключаются
+	else if( !pldWindowsDisabled )
+		LockUnlockDspWindows(LOCK);
+	*pResult = 0;
+}
+
+void CIcrAmbpDlg::OnEnKillfocusDspcnt()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	int cboxStyle = m_ctrlDspPldType.GetStyle();
+	int	pldWindowsDisabled = (cboxStyle &= WS_DISABLED) ? 1 : 0;
+	if( m_DspNodeCnt > MAX_DSPCNT )
+		m_DspNodeCnt = MAX_DSPCNT;
+	// если окна DSP выключены, а количество DSP становится не нулём, окна DSP включаются
+	if( pldWindowsDisabled && m_DspNodeCnt>0 )
+		LockUnlockDspWindows(UNLOCK);
+	// если окна DSP включены, а количество DSP становится равным нулю, окна DSP выключаются
+	else if( !pldWindowsDisabled && m_DspNodeCnt==0 )
+		LockUnlockDspWindows(LOCK);
+	if( (m_DspNodeNum >= m_DspNodeCnt) && (m_DspNodeCnt!=0) )
+		m_DspNodeNum = m_DspNodeCnt - 1;
+	else if( m_DspNodeCnt==0 )
+		m_DspNodeNum = 0;
+	m_ctrlSpinDspNodeNum.SetRange(0, m_DspNodeCnt - 1);
+	UpdateData(FALSE);
+}
+
+void CIcrAmbpDlg::OnEnKillfocusDspnum()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	// если вручную введённый номер DSP больше количества DSP, устанавливается максимально возможный номер
+	if( m_DspNodeNum > m_DspNodeCnt - 1 && (m_DspNodeNum > 0) )
+		m_DspNodeNum = m_DspNodeCnt - 1;
+	UpdateData(FALSE);
+}
+
+
+
+void CIcrAmbpDlg::LockUnlockSdramWindows(USHORT wLock)
+{
+	if( wLock == LOCK )
+	{
+		CWnd* pSdramNum = (CWnd*)GetDlgItem(IDC_SDRAMNUM);
+		pSdramNum->EnableWindow(FALSE);
+		m_ctrlSpinSdramNum.EnableWindow(FALSE);
+		m_ctrlSdramDimms.EnableWindow(FALSE);
+		CWnd* pSdramRowBits = (CWnd*)GetDlgItem(IDC_SDRAMROWBITS);
+		pSdramRowBits->EnableWindow(FALSE);
+		CWnd* pSdramColBits = (CWnd*)GetDlgItem(IDC_SDRAMCOLBITS);
+		pSdramColBits->EnableWindow(FALSE);
+		CWnd* pSdramDimmBanks = (CWnd*)GetDlgItem(IDC_SDRAMDIMMBANKS);
+		pSdramDimmBanks->EnableWindow(FALSE);
+		CWnd* pSdramChipBanks = (CWnd*)GetDlgItem(IDC_SDRAMCHIPBANKS);
+		pSdramChipBanks->EnableWindow(FALSE);	
+		CWnd* pSdramPrimWidth = (CWnd*)GetDlgItem(IDC_SDRAMPRIMWIDTH);
+		pSdramPrimWidth->EnableWindow(FALSE);
+	}
+	else if ( wLock == UNLOCK )
+	{
+		CWnd* pSdramNum = (CWnd*)GetDlgItem(IDC_SDRAMNUM);
+		pSdramNum->EnableWindow(TRUE);
+		m_ctrlSpinSdramNum.EnableWindow(TRUE);
+		m_ctrlSdramDimms.EnableWindow(TRUE);
+		CWnd* pSdramRowBits = (CWnd*)GetDlgItem(IDC_SDRAMROWBITS);
+		pSdramRowBits->EnableWindow(TRUE);
+		CWnd* pSdramColBits = (CWnd*)GetDlgItem(IDC_SDRAMCOLBITS);
+		pSdramColBits->EnableWindow(TRUE);
+		CWnd* pSdramDimmBanks = (CWnd*)GetDlgItem(IDC_SDRAMDIMMBANKS);
+		pSdramDimmBanks->EnableWindow(TRUE);
+		CWnd* pSdramChipBanks = (CWnd*)GetDlgItem(IDC_SDRAMCHIPBANKS);
+		pSdramChipBanks->EnableWindow(TRUE);	
+		CWnd* pSdramPrimWidth = (CWnd*)GetDlgItem(IDC_SDRAMPRIMWIDTH);
+		pSdramPrimWidth->EnableWindow(TRUE);
+	}
+}
+
+void CIcrAmbpDlg::LockUnlockDspWindows(USHORT wLock)
+{
+	if( wLock == LOCK )
+	{
+		CWnd* pDspNum = (CWnd*)GetDlgItem(IDC_DSPNUM);
+		pDspNum->EnableWindow(FALSE);
+		m_ctrlSpinDspNodeNum.EnableWindow(FALSE);
+		m_ctrlDspPldType.EnableWindow(FALSE);
+		m_ctrlDspPldRate.EnableWindow(FALSE);
+		CWnd* pPldVolume = (CWnd*)GetDlgItem(IDC_PLDVOLUME);
+		pPldVolume->EnableWindow(FALSE);
+		CWnd* pPldPins = (CWnd*)GetDlgItem(IDC_PLDPINS);
+		pPldPins->EnableWindow(FALSE);
+		CWnd* pLoadRom = (CWnd*)GetDlgItem(IDC_LOADROM);
+		pLoadRom->EnableWindow(FALSE);
+	}
+	else if ( wLock == UNLOCK )
+	{
+		CWnd* pDspNum = (CWnd*)GetDlgItem(IDC_DSPNUM);
+		pDspNum->EnableWindow(TRUE);
+		m_ctrlSpinDspNodeNum.EnableWindow(TRUE);
+		m_ctrlDspPldType.EnableWindow(TRUE);
+		m_ctrlDspPldRate.EnableWindow(TRUE);
+		CWnd* pPldVolume = (CWnd*)GetDlgItem(IDC_PLDVOLUME);
+		pPldVolume->EnableWindow(TRUE);
+		CWnd* pPldPins = (CWnd*)GetDlgItem(IDC_PLDPINS);
+		pPldPins->EnableWindow(TRUE);
+		CWnd* pLoadRom = (CWnd*)GetDlgItem(IDC_LOADROM);
+		pLoadRom->EnableWindow(TRUE);
+	}
+}
+

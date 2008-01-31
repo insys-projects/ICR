@@ -67,6 +67,9 @@ CIdCfgRomDlg::CIdCfgRomDlg(CWnd* pParent /*=NULL*/)
 {
 	m_DevType = 0;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_wDialogFieldsEdited = 0;
+	m_wBasemodFieldsEdited = 0;
+	m_wSubmodFieldsEdited = 0;
 }
 
 void CIdCfgRomDlg::DoDataExchange(CDataExchange* pDX)
@@ -88,6 +91,7 @@ BEGIN_MESSAGE_MAP(CIdCfgRomDlg, CDialog)
 	ON_BN_CLICKED(IDC_INTODEV, OnBnClickedIntodev)
 	ON_BN_CLICKED(IDC_FROMDEV, OnBnClickedFromdev)
 	ON_BN_CLICKED(IDC_SAVEHEX, &CIdCfgRomDlg::OnBnClickedSavehex)
+	ON_BN_CLICKED(IDOK, &CIdCfgRomDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -103,7 +107,9 @@ BOOL CIdCfgRomDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	
+	CWnd* pToSubOnly = (CWnd*)GetDlgItem(IDC_TOSUBMODULEONLY);
+	pToSubOnly->EnableWindow(FALSE);
+
 	m_pAboutDlg = new CAbout;
 
 	m_pAmbPage = new CAmbPage; 
@@ -166,6 +172,8 @@ BOOL CIdCfgRomDlg::OnInitDialog()
 	CWnd* pOk = (CWnd*)GetDlgItem(IDOK);
 	GotoDlgCtrl(pOk);
     EnableToolTips(TRUE);
+
+	UpdateStructOfDialogFieldsValues();
 
 //	return TRUE;  // return TRUE  unless you set the focus to a control
 	return FALSE;  // return TRUE  unless you set the focus to a control
@@ -552,6 +560,8 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
 	m_pAmbPage->InitData();
 	CloseHandle(hfile);
+
+	UpdateStructOfDialogFieldsValues();
 }
 
 // «аполн€ет буфер значени€ми из "диалоговых закладок"
@@ -570,7 +580,7 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 		return 1;
 
 	int numOfADM = m_pAmbPage->m_NumOfAdmIf;
-	if(numOfADM)
+	if( numOfADM>0 )
 	{
 		for(int i = 0; i < numOfADM; i++)
 		{
@@ -665,9 +675,8 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 		}
 	}
 	for(int i = numOfADM; i < 4; i++)
-	{
 		m_RealAdmCfgSize[i] = 0;
-	}
+
 	return 0;
 }
 
@@ -733,23 +742,27 @@ void CIdCfgRomDlg::OnBnClickedSave()
 	delete[] m_pCfgMem;
 
 	CloseHandle(hfile);
+
+	UpdateStructOfDialogFieldsValues();
 }
 
 void CIdCfgRomDlg::OnBnClickedIntodev()
 {
 	// TODO: Add your control notification handler code here
-	UpdateData(TRUE); // from window to variable
+	UpdateData(TRUE);
 	PDEVICE_INFO pDeviceInfo = &(DeviceCtrl[m_DevType].devInfo);
 	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
 	m_pCfgMem = new UCHAR[m_sizeCfgMem];
-	if(SetCfgMem() == 0) {
+	if( SetCfgMem() == 0 )
+	{
 		pDeviceInfo->dRealBaseCfgSize = m_RealBaseCfgSize;
 		memcpy(pDeviceInfo->pBaseCfgMem, m_pCfgMem, m_RealBaseCfgSize);
 		PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
-		for(int i = 0; i < 4; i++)
+		for( int i = 0; i < 4; i++ )
 		{
 			pDeviceInfo->dRealAdmCfgSize[i] = m_RealAdmCfgSize[i];
-			if(m_RealAdmCfgSize[i] && pDeviceInfo->pAdmCfgMem[i]) {
+			if( m_RealAdmCfgSize[i] && pDeviceInfo->pAdmCfgMem[i] )
+			{
 				memcpy(pDeviceInfo->pAdmCfgMem[i], pCurCfgMem, m_RealAdmCfgSize[i]);
 				pCurCfgMem += m_RealAdmCfgSize[i];
 			}
@@ -764,11 +777,12 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 		{
 			HCURSOR  hCursorWait = LoadCursor(NULL, IDC_WAIT); // курсор-часы
 			HCURSOR  hCursorPrev = SetCursor(hCursorWait);
-			(DeviceCtrl[m_DevType].pWriteIdCfgRom)(pDeviceInfo);
+			(DeviceCtrl[m_DevType].pWriteIdCfgRom)(pDeviceInfo, m_ToSubmoduleOnly);
 			SetCursor(hCursorPrev);
 		}
 	}
-	else {
+	else
+	{
 //		TCHAR MsgBuf[] = _T("Ќедостаточно пам€ти дл€ конфигурационных данных !");
 		CString MsgBuf;
 		GetMsg(MSG_NOT_ENOUGH_MEMORY, MsgBuf);
@@ -776,6 +790,8 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 		return;
 	}
 	delete[] m_pCfgMem;
+
+	UpdateStructOfDialogFieldsValues();
 }
 
 void CIdCfgRomDlg::OnBnClickedFromdev()
@@ -811,6 +827,19 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 	m_pFifoPage->SetMaxDacFifo(m_pAdmIfPage->m_NumOfDacFifo - 1);
 	m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
 	m_pAmbPage->InitData();
+
+	// –азблокировать галочку "«апись только в субмодуль", если субмодуль есть, и наоборот
+	CWnd* pToSubOnly = (CWnd*)GetDlgItem(IDC_TOSUBMODULEONLY);
+	if( m_pAmbPage->m_NumOfAdmIf == 0 )
+	{
+		m_ToSubmoduleOnly = 0;
+		pToSubOnly->EnableWindow(FALSE);
+	}
+	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
+		pToSubOnly->EnableWindow(TRUE);
+	UpdateData(FALSE);
+
+	UpdateStructOfDialogFieldsValues();
 }
 
 void CIdCfgRomDlg::OnBnClickedSavehex()
@@ -940,4 +969,147 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 	}
 	delete[] m_pCfgMem;
 	fclose(fout);
+
+	UpdateStructOfDialogFieldsValues();
+}
+
+void CIdCfgRomDlg::OnBnClickedOk()
+{
+	// TODO: Add your control notification handler code here
+	CheckEditOfStructOfDialogFieldsValues();
+	// если пол€ изменены, предупреждаем пользовател€ перед выходом
+	if( m_wDialogFieldsEdited || m_wBasemodFieldsEdited || m_wSubmodFieldsEdited )
+	{
+		if(MessageBox( "Ќекоторые пол€ изменены!\n¬ы действительно хотите выйти?", _T("IdCfgRom"), MB_YESNO|MB_ICONWARNING) == IDYES)
+			OnOK();
+		else
+			return;
+	}
+	// если пол€ не изменены, выходим как обычно
+	else
+		OnOK();
+}
+
+void CIdCfgRomDlg::OnCancel()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	CheckEditOfStructOfDialogFieldsValues();
+	// если пол€ изменены, предупреждаем пользовател€ перед выходом
+	if( m_wDialogFieldsEdited || m_wBasemodFieldsEdited || m_wSubmodFieldsEdited )
+	{
+		if(MessageBox( "Ќекоторые пол€ изменены!\n¬ы действительно хотите выйти?", _T("IdCfgRom"), MB_YESNO|MB_ICONWARNING) == IDYES)
+			CDialog::OnCancel();
+		else
+			return;
+	}
+	// если пол€ не изменены, выходим как обычно
+	else
+		CDialog::OnCancel();
+}
+
+void CIdCfgRomDlg::UpdateStructOfDialogFieldsValues()
+{
+	// заполнение структуры, содержащей неизменЄнные значени€ диалоговых полей
+	m_rDialogFieldsValues.AmbSerialNum = m_pAmbPage->m_SerialNum;
+	m_rDialogFieldsValues.AmbBMType = m_pAmbPage->m_BMType;
+	m_rDialogFieldsValues.AmbstrAmbVersion = m_pAmbPage->m_strAmbVersion;
+	m_rDialogFieldsValues.AmbNumOfAdmIf = m_pAmbPage->m_NumOfAdmIf;
+	m_rDialogFieldsValues.Adm2IfAdmIfNum = m_pAdmIfPage->m_AdmIfNum;
+	m_rDialogFieldsValues.Adm2IfAdmIfType = m_pAdmIfPage->m_AdmIfType;
+	m_rDialogFieldsValues.Adm2IfNumOfPld = m_pAdmIfPage->m_NumOfPld;
+	m_rDialogFieldsValues.Adm2IfNumOfDac = m_pAdmIfPage->m_NumOfDac;
+	m_rDialogFieldsValues.Adm2IfNumOfAdcFifo = m_pAdmIfPage->m_NumOfAdcFifo;
+	m_rDialogFieldsValues.Adm2IfNumOfDacFifo = m_pAdmIfPage->m_NumOfDacFifo;
+	m_rDialogFieldsValues.Adm2IfGen1 = m_pAdmIfPage->m_Gen1;
+	m_rDialogFieldsValues.Adm2IfGen2 = m_pAdmIfPage->m_Gen2;
+	m_rDialogFieldsValues.Adm2IfPio = m_pAdmIfPage->m_Pio;
+	m_rDialogFieldsValues.Adm2IfPioType = m_pAdmIfPage->m_PioType;
+	m_rDialogFieldsValues.Adm2IfRefVoltPvs = m_pAdmIfPage->m_RefVoltPvs;
+	m_rDialogFieldsValues.Adm2IfStart = m_pAdmIfPage->m_Start;
+	m_rDialogFieldsValues.PldPldNum = m_pPldPage->m_PldNum;
+	m_rDialogFieldsValues.PldPldType = m_pPldPage->m_ctrlPldType.GetCurSel();
+	m_rDialogFieldsValues.PldPldRate = m_pPldPage->m_ctrlPldRate.GetCurSel();
+	m_rDialogFieldsValues.PldPldVolume = m_pPldPage->m_PldVolume;
+	m_rDialogFieldsValues.PldPldPins = m_pPldPage->m_PldPins;
+	m_rDialogFieldsValues.FifoAdcFifoNum = m_pFifoPage->m_AdcFifoNum;
+	m_rDialogFieldsValues.FifoAdcFifoSize = m_pFifoPage->m_AdcFifoSize;
+	m_rDialogFieldsValues.FifoAdcFifoBitsWidth = m_pFifoPage->m_AdcFifoBitsWidth;
+	m_rDialogFieldsValues.FifoDacFifoNum = m_pFifoPage->m_DacFifoNum;
+	m_rDialogFieldsValues.FifoDacFifoSize = m_pFifoPage->m_DacFifoSize;
+	m_rDialogFieldsValues.FifoDacFifoBitsWidth = m_pFifoPage->m_DacFifoBitsWidth;
+	m_rDialogFieldsValues.FifoDacFifoCycling = m_pFifoPage->m_DacFifoCycling;
+	m_rDialogFieldsValues.DacDacNum = m_pDacPage->m_DacNum;
+	m_rDialogFieldsValues.DacDacBits = m_pDacPage->m_DacBits;
+	m_rDialogFieldsValues.DacDacRateMin = m_pDacPage->m_DacRateMin;
+	m_rDialogFieldsValues.DacDacRateMax = m_pDacPage->m_DacRateMax;
+	m_rDialogFieldsValues.DacDacRangeAF = m_pDacPage->m_DacRangeAF;
+	m_rDialogFieldsValues.DacDacRangePF = m_pDacPage->m_DacRangePF;
+	m_rDialogFieldsValues.DacDacLPFCoff = m_pDacPage->m_DacLPFCoff;
+	m_rDialogFieldsValues.DacDacHPFCoff = m_pDacPage->m_DacHPFCoff;
+	m_rDialogFieldsValues.DacDacAFCoff = m_pDacPage->m_DacAFCoff;
+	m_rDialogFieldsValues.DacDacEncoding = m_pDacPage->m_DacEncoding;
+	m_rDialogFieldsValues.AdmAdmPID = m_pAdmPage->m_AdmPID;
+	m_rDialogFieldsValues.AdmAdmType = m_pAdmPage->m_AdmType;
+	m_rDialogFieldsValues.AdmstrAdmVersion = m_pAdmPage->m_strAdmVersion;
+
+	m_wDialogFieldsEdited = 0;
+	m_wBasemodFieldsEdited = 0;
+	m_wSubmodFieldsEdited = 0;
+}
+
+void CIdCfgRomDlg::CheckEditOfStructOfDialogFieldsValues()
+{
+	// провер€ем, изменились ли диалоговые пол€
+	m_pAmbPage->UpdateData(TRUE);
+	m_pAdmIfPage->UpdateData(TRUE);
+	m_pPldPage->UpdateData(TRUE);
+	m_pFifoPage->UpdateData(TRUE);
+	m_pDacPage->UpdateData(TRUE);
+	m_pAdmPage->UpdateData(TRUE);
+	if( 
+		m_rDialogFieldsValues.AmbSerialNum != m_pAmbPage->m_SerialNum ||
+		m_rDialogFieldsValues.AmbBMType != m_pAmbPage->m_BMType ||
+		m_rDialogFieldsValues.AmbstrAmbVersion != m_pAmbPage->m_strAmbVersion ||
+		m_rDialogFieldsValues.AmbNumOfAdmIf != m_pAmbPage->m_NumOfAdmIf ||
+		m_rDialogFieldsValues.Adm2IfAdmIfNum != m_pAdmIfPage->m_AdmIfNum ||
+		m_rDialogFieldsValues.Adm2IfAdmIfType != m_pAdmIfPage->m_AdmIfType ||
+		m_rDialogFieldsValues.Adm2IfNumOfPld != m_pAdmIfPage->m_NumOfPld ||
+		m_rDialogFieldsValues.Adm2IfNumOfDac != m_pAdmIfPage->m_NumOfDac ||
+		m_rDialogFieldsValues.Adm2IfNumOfAdcFifo != m_pAdmIfPage->m_NumOfAdcFifo ||
+		m_rDialogFieldsValues.Adm2IfNumOfDacFifo != m_pAdmIfPage->m_NumOfDacFifo ||
+		m_rDialogFieldsValues.Adm2IfGen1 != m_pAdmIfPage->m_Gen1 ||
+		m_rDialogFieldsValues.Adm2IfGen2 != m_pAdmIfPage->m_Gen2 ||
+		m_rDialogFieldsValues.Adm2IfPio != m_pAdmIfPage->m_Pio ||
+		m_rDialogFieldsValues.Adm2IfPioType != m_pAdmIfPage->m_PioType ||
+		m_rDialogFieldsValues.Adm2IfRefVoltPvs != m_pAdmIfPage->m_RefVoltPvs ||
+		m_rDialogFieldsValues.Adm2IfStart != m_pAdmIfPage->m_Start ||
+		m_rDialogFieldsValues.PldPldNum != m_pPldPage->m_PldNum ||
+		m_rDialogFieldsValues.PldPldType != m_pPldPage->m_ctrlPldType.GetCurSel() ||
+		m_rDialogFieldsValues.PldPldRate != m_pPldPage->m_ctrlPldRate.GetCurSel() ||
+		m_rDialogFieldsValues.PldPldVolume != m_pPldPage->m_PldVolume ||
+		m_rDialogFieldsValues.PldPldPins != m_pPldPage->m_PldPins ||
+		m_rDialogFieldsValues.FifoAdcFifoNum != m_pFifoPage->m_AdcFifoNum ||
+		m_rDialogFieldsValues.FifoAdcFifoSize != m_pFifoPage->m_AdcFifoSize ||
+		m_rDialogFieldsValues.FifoAdcFifoBitsWidth != m_pFifoPage->m_AdcFifoBitsWidth ||
+		m_rDialogFieldsValues.FifoDacFifoNum != m_pFifoPage->m_DacFifoNum ||
+		m_rDialogFieldsValues.FifoDacFifoSize != m_pFifoPage->m_DacFifoSize ||
+		m_rDialogFieldsValues.FifoDacFifoBitsWidth != m_pFifoPage->m_DacFifoBitsWidth ||
+		m_rDialogFieldsValues.FifoDacFifoCycling != m_pFifoPage->m_DacFifoCycling ||
+		m_rDialogFieldsValues.DacDacNum != m_pDacPage->m_DacNum ||
+		m_rDialogFieldsValues.DacDacBits != m_pDacPage->m_DacBits ||
+		m_rDialogFieldsValues.DacDacRateMin != m_pDacPage->m_DacRateMin ||
+		m_rDialogFieldsValues.DacDacRateMax != m_pDacPage->m_DacRateMax ||
+		m_rDialogFieldsValues.DacDacRangeAF != m_pDacPage->m_DacRangeAF ||
+		m_rDialogFieldsValues.DacDacRangePF != m_pDacPage->m_DacRangePF ||
+		m_rDialogFieldsValues.DacDacLPFCoff != m_pDacPage->m_DacLPFCoff ||
+		m_rDialogFieldsValues.DacDacHPFCoff != m_pDacPage->m_DacHPFCoff ||
+		m_rDialogFieldsValues.DacDacAFCoff != m_pDacPage->m_DacAFCoff ||
+		m_rDialogFieldsValues.DacDacEncoding != m_pDacPage->m_DacEncoding ||
+		m_rDialogFieldsValues.AdmAdmPID != m_pAdmPage->m_AdmPID ||
+		m_rDialogFieldsValues.AdmAdmType != m_pAdmPage->m_AdmType ||
+		m_rDialogFieldsValues.AdmstrAdmVersion != m_pAdmPage->m_strAdmVersion
+	)
+		m_wDialogFieldsEdited = 1;
+	else
+		m_wDialogFieldsEdited = 0;
 }

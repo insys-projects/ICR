@@ -25,7 +25,7 @@ ICR_CfgAmbp m_AmbpCfg = { AMBPCD_CFG_TAG, 4, 1, 66000000, 0, 0};
 //ICR_CfgAmbp m_AmbpcxCfg = { AMBPCX_CFG_TAG, 4, 1, 0, 0, 0};
 ICR_CfgDdrSdram m_SdramCfg = { DDRSDRAM_CFG_TAG, 7, 0, 1, 13, 9, 1, 4, 4, 2};
 ICR_CfgDspNode m_DspNodeCfg = {DSPNODE_CFG_TAG, 10, 0, 4, 1000, 896, 5, 0, 0, 0};
-ICR_CfgSram m_SramCfg = { SRAM_CFG_TAG, 4, 0, 1, 1, 2};
+ICR_CfgSram m_SramCfg = { SRAM_CFG_TAG, 4, 0, 0, 1, 2};
 
 //
 //	Note!
@@ -361,6 +361,34 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		if( 
+			m_AmbpCfg.dSysGen != dlg.m_SysGen ||
+			m_AmbpCfg.bSdramSlotCnt != dlg.m_SlotCnt ||
+			m_AmbpCfg.bSdramCfgCnt != dlg.m_SdramCnt ||
+			m_AmbpCfg.bDspNodeCfgCnt != dlg.m_DspNodeCnt ||
+			m_SdramCfg.bNumber != dlg.m_SdramNum ||
+			m_SdramCfg.bModuleCnt != 1 << dlg.m_SdramModules ||
+			m_SdramCfg.bColAddrBits != dlg.m_SdramColAddrBits + 8 ||
+			m_SdramCfg.bRowAddrBits != dlg.m_SdramRowAddrBits + 11 ||
+			m_SdramCfg.bModuleBanks != 1 << dlg.m_SdramModuleBanks ||
+			m_SdramCfg.bChipBanks != 2 << dlg.m_SdramChipBanks ||
+			m_SdramCfg.bPrimaryWidth != 1 << (dlg.m_SdramPrimWidth + 2) ||
+			m_SdramCfg.bCasLatency != dlg.m_SdramCasLat + 2 ||
+			m_DspNodeCfg.bNumber != dlg.m_DspNodeNum ||
+			m_DspNodeCfg.bPldType != dlg.m_DspPldType ||
+			m_DspNodeCfg.wPldVolume != dlg.m_DspPldVolume ||
+			m_DspNodeCfg.wPldPins != dlg.m_DspPldPins ||
+			m_DspNodeCfg.bPldSpeedGrade != dlg.m_DspPldRate ||
+			m_DspNodeCfg.bLoadRom != dlg.m_LoadRom ||
+			m_DspNodeCfg.bPioType != (dlg.m_isPio ? (dlg.m_PioType + 1) : 0) ||
+			m_DspNodeCfg.bSramCfgCnt != dlg.m_isSRAM ||
+			m_SramCfg.bNumber != m_DspNodeCfg.bNumber ||
+			m_SramCfg.bChipCnt != (dlg.m_isSRAM ? (dlg.m_SramChips + 1) : 0) ||
+			m_SramCfg.bChipDepth != dlg.m_SramSize ||
+			m_SramCfg.bChipBitsWidth != dlg.m_SramBitsWidth
+		)
+			nResponse |= 0x100;
+
 		m_AmbpCfg.dSysGen = dlg.m_SysGen;
 		m_AmbpCfg.bSdramSlotCnt = dlg.m_SlotCnt;
 		m_AmbpCfg.bSdramCfgCnt = dlg.m_SdramCnt;

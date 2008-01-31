@@ -274,6 +274,22 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
+		if( 
+			m_AdcCfg.bBits != abAdcBits[dlg.m_AdcBits] ||
+			m_AdcCfg.bEncoding != dlg.m_AdcEncoding ||
+			m_AdcCfg.wRange != dlg.m_AdcRange ||
+			m_AdcCfg.dMaxRate != dlg.m_AdcRateMax ||
+			m_AdcCfg.dMinRate != dlg.m_AdcRateMin ||
+			m_AdmCfg.bAdcCnt != abAdcCnt[dlg.m_NumOfAdc] ||
+			m_DacCfg.bBits != abDacBits[dlg.m_DacBits] ||
+			m_DacCfg.bEncoding != dlg.m_DacEncoding ||
+			m_DacCfg.wRange != dlg.m_DacRange ||
+			m_DacCfg.dMaxRate != dlg.m_DacRateMax ||
+			m_DacCfg.dMinRate != dlg.m_DacRateMin ||
+			m_AdmCfg.bDacCnt != abDacCnt[dlg.m_NumOfDac]
+		)
+			nResponse |= 0x100;
+
 		m_AdcCfg.bBits = abAdcBits[dlg.m_AdcBits];
 		m_AdcCfg.bEncoding = dlg.m_AdcEncoding;
 		m_AdcCfg.wRange = dlg.m_AdcRange;

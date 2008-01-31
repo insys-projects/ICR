@@ -176,6 +176,14 @@ void CAdmPage::OnAdmcfg()
 	//int idx = m_AdmId[num].Type;
 	PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[m_AdmType-1].devInfo);
 	int nResponse = (SubmodCtrl[m_AdmType-1].pDlgProperty)(pDeviceInfo);
+
+	// если в "конфигурации" произошли изменения, уведомляем об этом программу
+	if( ((nResponse&0x11) == IDOK) && (nResponse&0x100) )
+	{
+		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+		pParentWnd->m_wSubmodFieldsEdited = 1;
+		nResponse &=~0x100;
+	}
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
@@ -220,6 +228,18 @@ void CAdmPage::OnSelchangeAdmtype()
 	pAdmVersion->EnableWindow(enFlag);
 	pAdmCfg->EnableWindow(enFlag);
 	m_CfgBufSize = m_AdmType ? SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
+	
+	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
+	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+	CWnd* pToSubOnly = (CWnd*)pParentWnd->GetDlgItem(IDC_TOSUBMODULEONLY);
+	if( m_AdmType == 0 )
+	{
+		pParentWnd->m_ToSubmoduleOnly = 0;
+		pToSubOnly->EnableWindow(FALSE);
+	}
+	else if ( m_AdmType > 0 )
+		pToSubOnly->EnableWindow(TRUE);
+	pParentWnd->UpdateData(FALSE);
 }
 
 void CAdmPage::OnOK() 
