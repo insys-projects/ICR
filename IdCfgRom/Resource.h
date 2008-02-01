@@ -5,8 +5,9 @@
 #define IDD_ABOUTBOX                    100
 #define IDD_IDCFGROM_DIALOG             102
 #define IDD_PP_AMB                      107
-#define IDR_MAINFRAME                   128
+#define IDR_MAINFRAME                   131
 #define IDD_PP_ADMIF                    132
+#define IDR_MAINFRAME1                  132
 #define IDD_PP_ADM                      133
 #define IDD_PP_DAC                      134
 #define IDD_PP_FIFO                     136
@@ -22,7 +23,6 @@
 #define IDC_HL_Email                    1007
 #define IDC_SAVEHEX                     1007
 #define IDC_FIRMNAME                    1008
-#define IDC_CHECK1                      1008
 #define IDC_TOSUBMODULEONLY             1008
 #define IDC_DEVICETYPE                  1009
 #define IDC_SERIALNUM                   1010

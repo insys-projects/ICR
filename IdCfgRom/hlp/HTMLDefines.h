@@ -4,7 +4,8 @@
 // Prompts (IDP_*) 
  
 // Resources (IDR_*) 
-#define HIDR_MAINFRAME                          0x20080
+#define HIDR_MAINFRAME                          0x20083
+#define HIDR_MAINFRAME1                         0x20084
  
 // Dialogs (IDD_*) 
 #define HIDD_ABOUTBOX                           0x20064

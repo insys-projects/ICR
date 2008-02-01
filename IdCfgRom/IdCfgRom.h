@@ -49,6 +49,8 @@ typedef struct {
 	DEVICE_INFO			 devInfo;			// Info structure
 } DEVICE_CTRL, *PDEVICE_CTRL;
 
+// для работы с реестром
+#include "atlbase.h"
 
 // CIdCfgRomApp:
 // See IdCfgRom.cpp for the implementation of this class

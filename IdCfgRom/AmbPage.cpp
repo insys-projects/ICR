@@ -200,6 +200,7 @@ void CAmbPage::OnAmbext()
 void CAmbPage::OnSelchangeBmtype() 
 {
 	// TODO: Add your control notification handler code here
+	AfxMessageBox("bmtype");
 	UpdateData(TRUE); // from window to variable
 	InitData();
 }

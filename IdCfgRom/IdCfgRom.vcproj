@@ -442,6 +442,10 @@
 				RelativePath=".\IdCfgRomMsg.rc"
 				>
 			</File>
+			<File
+				RelativePath=".\res\idr_main.ico"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="HTML Help Files"

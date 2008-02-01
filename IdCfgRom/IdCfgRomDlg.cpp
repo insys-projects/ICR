@@ -66,7 +66,7 @@ CIdCfgRomDlg::CIdCfgRomDlg(CWnd* pParent /*=NULL*/)
 	, m_ToSubmoduleOnly(FALSE)
 {
 	m_DevType = 0;
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME1);
 	m_wDialogFieldsEdited = 0;
 	m_wBasemodFieldsEdited = 0;
 	m_wSubmodFieldsEdited = 0;
@@ -491,38 +491,44 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	CString strFilter;
 	GetMsg(MSG_FILE_FILTER_BIN_AND_HEX, strFilter);
 	CFileDialog readFileDlg(TRUE, _T(".bin;.hex"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
-	LPTSTR cmdLine = GetCommandLine() + 1;
-	LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
-	*ShortFileName = 0;
-	readFileDlg.m_ofn.lpstrInitialDir = cmdLine;
 
-//	CString strTitle = _T("Select file to read Configuration");
-/*	LPVOID lpMsgBuf;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_HMODULE,
-					AfxGetInstanceHandle(), MSG_READ_FILE_CAPTION, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPTSTR) &lpMsgBuf, 0, NULL );
-	CString strTitle = (LPTSTR)lpMsgBuf;
-	LocalFree( lpMsgBuf );
-	strTitle.GetBufferSetLength(strTitle.GetLength() - 2);
-*/
+	// установить директорию для открытия файла исходя из записи в реестре
+	CHAR regDir[MAX_PATH];
+	CRegKey key;
+	LONG status = key.Open(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
+	if (status == ERROR_SUCCESS)
+	{
+		DWORD regDirSize = sizeof(regDir);
+		key.QueryValue(regDir, "Load/Save Directory", &regDirSize);
+		readFileDlg.m_ofn.lpstrInitialDir = regDir;
+	}
+	// если считать из реестра не удалось, указываем директорию, где хранится .exe файл (считываем из командной строки)
+	else
+	{
+		LPTSTR cmdLine = GetCommandLine() + 1;
+		LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
+		*ShortFileName = 0;
+		readFileDlg.m_ofn.lpstrInitialDir = cmdLine;
+	}
+	
+	// устанавливаем заголовок окна открытия файла
 	CString strTitle;
-//	TCHAR strTitle[MAX_PATH];
 	GetMsg(MSG_READ_FILE_CAPTION, strTitle);
-
 	readFileDlg.m_ofn.lpstrTitle = strTitle.GetBuffer(80);
-/*
-	LPTSTR pMsgTitle = NULL;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_HMODULE,
-					AfxGetInstanceHandle(), MSG_READ_FILE_CAPTION, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPTSTR) &pMsgTitle, 0xFF, NULL);
-	AfxMessageBox( (const char *)pMsgTitle, MB_OK|MB_ICONINFORMATION, 0);
-	readFileDlg.m_ofn.lpstrTitle = pMsgTitle;
-*/
+
 	INT_PTR nID = readFileDlg.DoModal();
-//	LocalFree(pMsgTitle);
 	if(nID != IDOK)
 		return;
 	CString fileName = readFileDlg.GetPathName();
+
+	// записываем в реестр путь к последнему считанному файлу
+	strcpy(regDir, fileName.GetBuffer());
+	LPTSTR editorOfDir = strrchr(regDir, '\\') + 1;
+	*editorOfDir = 0;
+	key.Create(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
+		key.SetValue(regDir, "Load/Save Directory");
+	key.Close(); 
+
 	m_readFileExt = fileName.Right(4);
 	HANDLE hfile = CreateFile(	fileName, 
 								GENERIC_READ,
@@ -531,7 +537,8 @@ void CIdCfgRomDlg::OnBnClickedRead()
 								OPEN_EXISTING,
 								FILE_ATTRIBUTE_NORMAL,
 								NULL);
-	if(hfile == INVALID_HANDLE_VALUE) {
+	if(hfile == INVALID_HANDLE_VALUE)
+	{
 		LPVOID lpMsgBuf;
 		FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
 						NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
@@ -683,24 +690,47 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 void CIdCfgRomDlg::OnBnClickedSave()
 {
 	// TODO: Add your control notification handler code here
-//	CString strFilter = _T("Binary Files (*.bin)|*.bin|All Files (*.*)|*.*||");
 	CString strFilter;
-//	TCHAR strFilter[MAX_PATH];
 	GetMsg(MSG_FILE_FILTER, strFilter);
 	CFileDialog saveFileDlg(FALSE, ".bin", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
-	LPTSTR cmdLine = GetCommandLine() + 1;
-	LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
-	*ShortFileName = 0;
-	saveFileDlg.m_ofn.lpstrInitialDir = cmdLine;
-//	CString strTitle = _T("Select file to save Configuration");
+
+	// установить директорию для сохранения файла исходя из записи в реестре
+	CHAR regDir[MAX_PATH];
+	CRegKey key;
+	LONG status = key.Open(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
+	if (status == ERROR_SUCCESS)
+	{
+		DWORD regDirSize = sizeof(regDir);
+		key.QueryValue(regDir, "Load/Save Directory", &regDirSize);
+		saveFileDlg.m_ofn.lpstrInitialDir = regDir;
+	}
+	// если считать из реестра не удалось, указываем директорию, где хранится .exe файл (считываем из командной строки)
+	else
+	{
+		LPTSTR cmdLine = GetCommandLine() + 1;
+		LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
+		*ShortFileName = 0;
+		saveFileDlg.m_ofn.lpstrInitialDir = cmdLine;
+	}
+
+	// устанавливаем заголовок окна сохранения файла
 	CString strTitle;
-//	TCHAR strTitle[MAX_PATH];
 	GetMsg(MSG_SAVE_FILE_CAPTION, strTitle);
 	saveFileDlg.m_ofn.lpstrTitle = strTitle.GetBuffer(80);
+
 	INT_PTR nID = saveFileDlg.DoModal();
 	if(nID != IDOK)
 		return;
 	CString fileName = saveFileDlg.GetPathName();
+
+	// записываем в реестр путь к последнему записанному файлу
+	strcpy(regDir, fileName.GetBuffer());
+	LPTSTR editorOfDir = strrchr(regDir, '\\') + 1;
+	*editorOfDir = 0;
+	key.Create(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
+		key.SetValue(regDir, "Load/Save Directory");
+	key.Close(); 
+
 	ParseFileNameExt(fileName);
 	HANDLE hfile = CreateFile(	fileName, 
 								GENERIC_WRITE,
@@ -848,19 +878,45 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 	CString strFilter;
 	GetMsg(MSG_FILE_FILTER_HEX, strFilter);
 	CFileDialog saveFileDlg(FALSE, ".hex", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
-	LPTSTR cmdLine = GetCommandLine() + 1;
-	LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
-	*ShortFileName = 0;
-	saveFileDlg.m_ofn.lpstrInitialDir = cmdLine;
+
+	// установить директорию для сохранения файла исходя из записи в реестре
+	CHAR regDir[MAX_PATH];
+	CRegKey key;
+	LONG status = key.Open(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
+	if (status == ERROR_SUCCESS)
+	{
+		DWORD regDirSize = sizeof(regDir);
+		key.QueryValue(regDir, "Load/Save Directory", &regDirSize);
+		saveFileDlg.m_ofn.lpstrInitialDir = regDir;
+	}
+	// если считать из реестра не удалось, указываем директорию, где хранится .exe файл (считываем из командной строки)
+	else
+	{
+		LPTSTR cmdLine = GetCommandLine() + 1;
+		LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
+		*ShortFileName = 0;
+		saveFileDlg.m_ofn.lpstrInitialDir = cmdLine;
+	}
+
+	// устанавливаем заголовок окна сохранения файла
 	CString strTitle;
 	GetMsg(MSG_SAVE_FILE_CAPTION, strTitle);
 	saveFileDlg.m_ofn.lpstrTitle = strTitle.GetBuffer(80);
+
 	INT_PTR nID = saveFileDlg.DoModal();
 	if(nID != IDOK)
 		return;
 	CString fileName = saveFileDlg.GetPathName();
-	ParseFileNameExt(fileName);
 
+	// записываем в реестр путь к последнему сохранённому файлу
+	strcpy(regDir, fileName.GetBuffer());
+	LPTSTR editorOfDir = strrchr(regDir, '\\') + 1;
+	*editorOfDir = 0;
+	key.Create(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
+		key.SetValue(regDir, "Load/Save Directory");
+	key.Close(); 
+
+	ParseFileNameExt(fileName);
 	FILE	*fout = fopen( fileName, "wt" );
 	if( fout==NULL )
 		fout = stdout;
@@ -1113,3 +1169,4 @@ void CIdCfgRomDlg::CheckEditOfStructOfDialogFieldsValues()
 	else
 		m_wDialogFieldsEdited = 0;
 }
+
