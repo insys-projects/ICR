@@ -19,8 +19,9 @@
 #define IDC_GENTUNE                     1030
 #define IDC_ISGEN                       1031
 #define IDC_OUTCASMOD                   1032
+#define IDC_ISGEN2                      1033
+#define IDC_ISPLL                       1033
 #define IDC_OSCFREQ1                    1050
-#define IDC_OUTCASTMOD                  1051
 #define IDC_DACLPFCOFF                  1077
 
 // Next default values for new objects

@@ -19,6 +19,7 @@ Icr008FDlg::Icr008FDlg(CWnd* pParent /*=NULL*/)
 	, m_ExtClk(FALSE)
 	, m_OutResist(0)
 	, m_OutCasMod(0)
+	, m_IsPll(FALSE)
 {
 	m_DacRateMax = 1000000;
 	m_DacRateMin = 0;
@@ -39,6 +40,7 @@ void Icr008FDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_OUTCASMOD, m_ctrlOutCasMod);
+	DDX_Check(pDX, IDC_ISPLL, m_IsPll);
 	DDX_Check(pDX, IDC_ISGEN, m_IsGen);
 	DDX_Check(pDX, IDC_GENTUNE, m_GenTune);
 	DDX_Control(pDX, IDC_SPINDAC, m_ctrlSpinDac);
@@ -62,6 +64,7 @@ BEGIN_MESSAGE_MAP(Icr008FDlg, CDialog)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_QUADMOD, &Icr008FDlg::OnBnClickedQuadmod)
 	ON_BN_CLICKED(IDC_ISGEN, &Icr008FDlg::OnBnClickedIsgen)
+	ON_BN_CLICKED(IDC_ISPLL, &Icr008FDlg::OnBnClickedIspll)
 END_MESSAGE_MAP()
 
 
@@ -153,6 +156,26 @@ void Icr008FDlg::OnBnClickedQuadmod()
 }
 
 void Icr008FDlg::OnBnClickedIsgen()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	if( m_IsGen == 0 )
+	{
+		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
+		pGen->EnableWindow(FALSE);
+		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
+		pGenTune->EnableWindow(FALSE);
+	}
+	else if ( m_IsGen == 1 )
+	{
+		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
+		pGen->EnableWindow(TRUE);
+		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
+		pGenTune->EnableWindow(TRUE);
+	}
+}
+
+void Icr008FDlg::OnBnClickedIspll()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE);

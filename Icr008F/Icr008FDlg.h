@@ -57,4 +57,6 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg void OnBnClickedQuadmod();
 	afx_msg void OnBnClickedIsgen();
+public:
+	afx_msg void OnBnClickedIspll();
 };
