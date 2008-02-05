@@ -105,20 +105,31 @@ BOOL Icr008FDlg::OnInitDialog()
     m_ToolTip.AddTool(GetDlgItem(IDCANCEL), IDCANCEL);
 
 	m_ctrlQuadModType.SetCurSel(m_QuadModType);
-	
-	if( m_IsGen == 0 )
+
+	if( m_IsPll == 0 )
 	{
+		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
+		pPll->EnableWindow(FALSE);
+		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
+		pIsGen->EnableWindow(FALSE);
 		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
 		pGen->EnableWindow(FALSE);
 		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
 		pGenTune->EnableWindow(FALSE);
 	}
-	else if ( m_IsGen == 1 )
+	else if ( m_IsPll == 1 )
 	{
-		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
-		pGen->EnableWindow(TRUE);
-		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
-		pGenTune->EnableWindow(TRUE);
+		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
+		pPll->EnableWindow(TRUE);
+		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
+		pIsGen->EnableWindow(TRUE);
+		if( m_IsGen == 1 )
+		{
+			CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
+			pGen->EnableWindow(TRUE);
+			CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
+			pGenTune->EnableWindow(TRUE);
+		}
 	}
 	if( m_QuadMod == 0 )
 		m_ctrlQuadModType.EnableWindow(FALSE);
@@ -179,18 +190,29 @@ void Icr008FDlg::OnBnClickedIspll()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE);
-	if( m_IsGen == 0 )
+	if( m_IsPll == 0 )
 	{
+		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
+		pPll->EnableWindow(FALSE);
+		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
+		pIsGen->EnableWindow(FALSE);
 		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
 		pGen->EnableWindow(FALSE);
 		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
 		pGenTune->EnableWindow(FALSE);
 	}
-	else if ( m_IsGen == 1 )
+	else if ( m_IsPll == 1 )
 	{
-		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
-		pGen->EnableWindow(TRUE);
-		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
-		pGenTune->EnableWindow(TRUE);
+		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
+		pPll->EnableWindow(TRUE);
+		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
+		pIsGen->EnableWindow(TRUE);
+		if( m_IsGen == 1 )
+		{
+			CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
+			pGen->EnableWindow(TRUE);
+			CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
+			pGenTune->EnableWindow(TRUE);
+		}
 	}
 }

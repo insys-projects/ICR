@@ -13,7 +13,7 @@
 
 ICR_CfgAdmDac m_DacCfg = { ADMDAC_CFG_TAG, 14, 0, 0, 14, 1, 0, 400000000, 2500};
 
-ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 21, 0, 1, 120000000, 0, 2, 0, 0, 400000000, 0, 0, 0, 0};
+ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 22, 0, 1, 120000000, 0, 2, 0, 0, 400000000, 0, 0, 0, 0, 1};
 
 //
 //TODO: If this DLL is dynamically linked against the MFC DLLs,
@@ -146,6 +146,7 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				m_AdmCfg.bIsQuadMod = pAdmCfg->bIsQuadMod;
 				m_AdmCfg.bQuadModType = pAdmCfg->bQuadModType;
 				m_AdmCfg.bIsExtClk = pAdmCfg->bIsExtClk;
+				m_AdmCfg.bIsPll = pAdmCfg->bIsPll;
 				size = sizeof(ICR_CfgAdm);
 				RealCfgSize += size;
 				break;
@@ -178,6 +179,7 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->bIsQuadMod = m_AdmCfg.bIsQuadMod;
 	pAdmCfg->bQuadModType = m_AdmCfg.bQuadModType;
 	pAdmCfg->bIsExtClk = m_AdmCfg.bIsExtClk;
+	pAdmCfg->bIsPll = m_AdmCfg.bIsPll;
 
 	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgAdm));
 	if(pCurCfgMem >= pEndCfgMem)
@@ -229,6 +231,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_QuadMod = m_AdmCfg.bIsQuadMod;
 	dlg.m_QuadModType = m_AdmCfg.bQuadModType;
 	dlg.m_ExtClk = m_AdmCfg.bIsExtClk;
+	dlg.m_IsPll = m_AdmCfg.bIsPll;
 
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
@@ -249,7 +252,8 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			m_AdmCfg.bOutCasMod != dlg.m_OutCasMod ||
 			m_AdmCfg.bIsQuadMod != dlg.m_QuadMod ||
 			m_AdmCfg.bQuadModType != dlg.m_QuadModType ||
-			m_AdmCfg.bIsExtClk != dlg.m_ExtClk
+			m_AdmCfg.bIsExtClk != dlg.m_ExtClk ||
+			m_AdmCfg.bIsPll != dlg.m_IsPll
 		)
 			nResponse |= 0x100;
 
@@ -268,6 +272,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		m_AdmCfg.bIsQuadMod = dlg.m_QuadMod;
 		m_AdmCfg.bQuadModType = dlg.m_QuadModType;
 		m_AdmCfg.bIsExtClk = dlg.m_ExtClk;
+		m_AdmCfg.bIsPll = dlg.m_IsPll;
 	}
 	else if (nResponse == IDCANCEL)
 	{

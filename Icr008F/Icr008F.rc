@@ -136,7 +136,7 @@ BEGIN
     LTEXT           "МГц",IDC_STATIC,194,75,15,8
     CONTROL         "Подстройка частоты",IDC_GENTUNE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,138,111,86,12
     GROUPBOX        "PLL",IDC_STATIC,27,62,196,70,BS_CENTER
-    CONTROL         "Встроенный опорный генератор",IDC_ISGEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,35,95,124,12
+    CONTROL         "Встроенный опорный генератор",IDC_ISGEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,35,93,124,12
     COMBOBOX        IDC_OUTCASMOD,161,195,54,52,CBS_DROPDOWNLIST | WS_TABSTOP
     LTEXT           "Модификация выходного каскада:",IDC_STATIC,39,197,118,8
     CONTROL         "Наличие PLL",IDC_ISPLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,35,74,57,12

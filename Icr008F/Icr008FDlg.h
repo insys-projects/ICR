@@ -23,6 +23,7 @@ public:
 	CComboBox m_ctrlDacOutResist;
 	CComboBox m_ctrlQuadModType;
 	CComboBox m_ctrlOutCasMod;
+	BOOL	m_IsPll;
 	BOOL	m_IsGen;
 	BOOL	m_GenTune;
 	BOOL	m_QuadMod;
