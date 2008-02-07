@@ -106,7 +106,7 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, _T("Ads3224k195cPci"));
+		lstrcpy(pDevInfo->sName, _T("ADS3224K195CPCI"));
 		pDevInfo->dType = ADS3224K195CPCI;
 		break;
 	default:

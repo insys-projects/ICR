@@ -109,7 +109,7 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, _T("DSP101cP10"));
+		lstrcpy(pDevInfo->sName, _T("DSP101CP10"));
 		pDevInfo->dType = DSP101cP10;
 		break;
 	default:

@@ -16,6 +16,7 @@ public:
 	virtual ~CAmbPage();
 
 	ULONG SetDataIntoDlg(PVOID pCfgMem);
+	ULONG SetComment(PVOID pCfgMem);
 	ULONG GetDataFromDlg(PVOID pCfgMem);
 	void InitData(); 
 	ULONG m_CfgBufSize;
@@ -28,6 +29,7 @@ public:
 	int		m_BMType;
 	CString m_strAmbVersion;
 //	UINT	m_AmbVersion;
+	CString m_sComment;
 
 protected:
     CToolTipCtrl m_ToolTip;                         // The tooltip
@@ -47,4 +49,6 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 public:
 	afx_msg void OnDeltaposSpinadmif(NMHDR *pNMHDR, LRESULT *pResult);
+public:
+	afx_msg void OnEnKillfocusComment();
 };

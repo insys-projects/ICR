@@ -8,6 +8,7 @@
 #include ".\admpage.h"
 
 #define NONADM_CFGMEM_SIZE 2
+#define MAXSUBMODS 256
 
 extern SUBMOD_CTRL SubmodCtrl[];
 extern int m_NumOfSubModules;
@@ -39,6 +40,7 @@ static void GetMsg(DWORD dwMessageId, CString& string)
 IMPLEMENT_DYNAMIC(CAdmPage, CPropertyPage)
 
 CAdmPage::CAdmPage() : CPropertyPage(CAdmPage::IDD)
+, m_sComment(_T(""))
 {
 	//{{AFX_DATA_INIT(CAdmPage)
 	m_AdmNum = 0;
@@ -46,6 +48,8 @@ CAdmPage::CAdmPage() : CPropertyPage(CAdmPage::IDD)
 //	m_AdmVersion = 0x10;
 	m_AdmPID = 0;
 	//}}AFX_DATA_INIT
+	for( int ii=0; ii<MAX_ADMID; ii++ )
+		m_CommentId[ii].abComment[0] = 0;
 }
 
 void CAdmPage::DoDataExchange(CDataExchange* pDX)
@@ -59,6 +63,7 @@ void CAdmPage::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_ADMPID, m_AdmPID);
 	//}}AFX_DATA_MAP
 	DDV_MinMaxUInt(pDX, m_AdmNum, 0, m_AdmIdMax);
+	DDX_Text(pDX, IDC_COMMENT, m_sComment);
 }
 
 
@@ -74,6 +79,7 @@ BEGIN_MESSAGE_MAP(CAdmPage, CPropertyPage)
 	ON_WM_DESTROY()
 	//}}AFX_MSG_MAP
 //	ON_WM_ERASEBKGND()
+ON_EN_KILLFOCUS(IDC_COMMENT, &CAdmPage::OnEnKillfocusComment)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -84,16 +90,31 @@ BOOL CAdmPage::OnInitDialog()
 	CPropertyPage::OnInitDialog();
 	
 	// TODO: Add extra initialization here
+	// ограничение комментария на 15 символов
+	CEdit* pComment = (CEdit*)GetDlgItem(IDC_COMMENT);
+	pComment->SetLimitText(15);
+
 	CComboBox* pDevType = (CComboBox*)GetDlgItem(IDC_ADMTYPE);
 	pDevType->ResetContent();
 	CString StringBuf;
 	GetMsg(MSG_NON_ADM, StringBuf);
-	pDevType->AddString(StringBuf);
-//	pDevType->AddString(_T("Non-ADM"));
 	for(int i = 0; i < m_NumOfSubModules; i++)
 		pDevType->AddString(SubmodCtrl[i].devInfo.Name);
+	pDevType->InsertString(0, StringBuf);
 	pDevType->SetCurSel(0);
 //	m_CfgBufSize = NONADM_CFGMEM_SIZE; //SubmodCtrl[0].devInfo.RealCfgSize;
+
+	// сортируем базовые модули согласно тому, как они помещены в список
+	UpdateData(TRUE);
+	UpdateData(FALSE);
+	SUBMOD_CTRL SubmodCtrlTmp[MAXSUBMODS];
+	for( int ii = 0; ii < m_NumOfSubModules; ii++ )
+	{
+		int	nIndex = pDevType->FindString(-1, SubmodCtrl[ii].devInfo.Name);
+		SubmodCtrlTmp[nIndex-1] = SubmodCtrl[ii];
+	}
+	for( int ii = 0; ii < m_NumOfSubModules ; ii++ )
+		SubmodCtrl[ii] = SubmodCtrlTmp[ii];
 
 	InitData();
 
@@ -104,6 +125,7 @@ BOOL CAdmPage::OnInitDialog()
     m_ToolTip.AddTool(GetDlgItem(IDC_ADMPID), IDC_ADMPID);
     m_ToolTip.AddTool(GetDlgItem(IDC_ADMTYPE), IDC_ADMTYPE);
 //    EnableToolTips(TRUE);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -146,6 +168,8 @@ void CAdmPage::InitData()
 	pAdmPid->EnableWindow(enFlag);
 	pAdmVersion->EnableWindow(enFlag);
 	pAdmCfg->EnableWindow(enFlag);
+	CWnd* pComment = (CWnd*)GetDlgItem(IDC_COMMENT);
+	pComment->EnableWindow(enFlag);
 	UpdateData(FALSE); // from variable to window
 }
 /*
@@ -227,6 +251,8 @@ void CAdmPage::OnSelchangeAdmtype()
 	pAdmPid->EnableWindow(enFlag);
 	pAdmVersion->EnableWindow(enFlag);
 	pAdmCfg->EnableWindow(enFlag);
+	CWnd* pComment = (CWnd*)GetDlgItem(IDC_COMMENT);
+	pComment->EnableWindow(enFlag);
 	m_CfgBufSize = m_AdmType ? SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
 	
 	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
@@ -306,11 +332,14 @@ void CAdmPage::SetMaxAdm(int maxAdm)
 	pAdmPid->EnableWindow(enFlag);
 	pAdmVersion->EnableWindow(enFlag);
 	pAdmCfg->EnableWindow(enFlag);
+	CWnd* pComment = (CWnd*)GetDlgItem(IDC_COMMENT);
+	pComment->EnableWindow(enFlag);
 	if(enFlag) {
 		enFlag = m_AdmType ? 1 : 0;
 		pAdmPid->EnableWindow(enFlag);
 		pAdmVersion->EnableWindow(enFlag);
 		pAdmCfg->EnableWindow(enFlag);
+		pComment->EnableWindow(enFlag);
 	}
 	m_CfgBufSize = m_AdmType ? SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
 }
@@ -405,25 +434,29 @@ ULONG CAdmPage::GetDataFromDlg(PVOID pAdmCfg, UINT num)
 */
 
 // Data from ADM_ID & ADM_CFG into dialog control
-void CAdmPage::SetDataIntoDlg(PVOID pCfgMem)
+ULONG CAdmPage::SetDataIntoDlg(PVOID pCfgMem)
 {
-//	ULONG ret;
+	ULONG ret = 0;
 	PICR_IdAdm pAdmId = (PICR_IdAdm)pCfgMem;
 	UINT num = pAdmId->bAdmNum;
 	int size = pAdmId->wSizeAll;
 	m_AdmId[num].dSerialNum = pAdmId->dSerialNum;
 	m_AdmId[num].bVersion = pAdmId->bVersion;
 	m_AdmId[num].wType = 0;
-	if(pAdmId->wType) {
-		for(int i = 0; i < m_NumOfSubModules; i++) {
+	if(pAdmId->wType)
+	{
+		for(int i = 0; i < m_NumOfSubModules; i++)
+		{
 			PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[i].devInfo);
-			if(pAdmId->wType == pDeviceInfo->Type) {
+			if(pAdmId->wType == pDeviceInfo->Type)
+			{
 				m_AdmId[num].wType = i + 1;
 				break;
 			}
 		}
 	}
-	if(num == m_AdmNum)	{
+	if(num == m_AdmNum)
+	{
 		m_AdmPID = m_AdmId[num].dSerialNum;
 		int AdmVersion = m_AdmId[num].bVersion;
 		m_strAdmVersion.Format(_T("%x"), AdmVersion);
@@ -431,18 +464,36 @@ void CAdmPage::SetDataIntoDlg(PVOID pCfgMem)
 		m_AdmType = m_AdmId[num].wType;
 		UpdateData(FALSE);
 	}
-
-	if(m_AdmId[num].wType) {
+	ret = sizeof(ICR_IdAdm);
+	if(m_AdmId[num].wType)
+	{
 		int idx = m_AdmId[num].wType - 1;
 		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
 		PUCHAR pAdmCfg = (PUCHAR)pCfgMem + sizeof(ICR_IdAdm);
 		memcpy(pDeviceInfo->pCfgMem, pAdmCfg, size);
 		int	retCode = (SubmodCtrl[idx].pSetProperty)(pDeviceInfo);
-//		ret = pDeviceInfo->RealCfgSize;
+		ret += pDeviceInfo->RealCfgSize;
 	}
-//	else
-//		ret = 0;
-//	return ret;
+
+	return ret;
+}
+
+ULONG CAdmPage::SetComment(PVOID pCfgMem)
+{
+	ULONG ret = 0;
+	PICR_IdComment pCommentId = (PICR_IdComment)pCfgMem;
+	UINT num = pCommentId->bInterfaceNum;
+	if( num != 0xFF )
+	{
+		strcpy((char*)m_CommentId[num].abComment, (char*)pCommentId->abComment);
+		if(num == m_AdmNum)
+		{
+			m_sComment.SetString((char*)pCommentId->abComment);
+			UpdateData(FALSE);
+		}
+	}
+	ret = sizeof(ICR_IdComment);
+	return ret;
 }
 
 // Data from dialog control into ADM_ID & ADM_CFG
@@ -450,7 +501,8 @@ ULONG CAdmPage::GetDataFromDlg(PVOID pCfgMem, UINT num)
 {
 	ULONG ret;
 
-	if(m_AdmId[num].wType) {
+	if(m_AdmId[num].wType)
+	{
 		USHORT* pCurCfgMem = (USHORT*)pCfgMem;
 		PICR_IdAdm pAdmId = (PICR_IdAdm)pCurCfgMem;
 		pAdmId->wTag = ADM_ID_TAG;
@@ -477,29 +529,58 @@ ULONG CAdmPage::GetDataFromDlg(PVOID pCfgMem, UINT num)
 		else
 			memcpy(pAdmCfg, pDeviceInfo->pCfgMem, pDeviceInfo->RealCfgSize);
 		ret = pDeviceInfo->RealCfgSize + sizeof(ICR_IdAdm);
+
+		pCfgMem = (PUCHAR)pCfgMem + sizeof(ICR_IdAdm) + pDeviceInfo->RealCfgSize;
+
+		// считывание из "Особые отметки"
+		PICR_IdComment pCommentId = (PICR_IdComment)pCfgMem;
+		pCommentId->wTag = COMMENT_ID_TAG;
+		pCommentId->wSize = sizeof(ICR_IdComment) - 4;
+		pCommentId->bInterfaceNum = num;
+		strcpy((char*)pCommentId->abComment, (char*)m_CommentId[num].abComment);
+		ret += sizeof(ICR_IdComment);
 	}
 	else
 		ret = 0;
+
 	return ret;
 }
 
 // Data from ADM_ID into dialog control
-void CAdmPage::SetIdDataIntoDlg(PICR_IdAdm pAdmId)
+void CAdmPage::SetIdDataIntoDlg(PICR_IdAdm pAdmId, PICR_IdComment pCommentId)
 {
 //	ULONG ret;
 	UINT num = pAdmId->bAdmNum;
-	if(num == m_AdmNum)	{
+	if(num == m_AdmNum)
+	{
 		m_AdmPID = m_AdmId[num].dSerialNum;
 		int AdmVersion = m_AdmId[num].bVersion;
 		m_strAdmVersion.Format(_T("%x"), AdmVersion);
 //		m_AdmVersion = m_AdmId[num].bVersion;
 		m_AdmType = m_AdmId[num].wType;
+
+		m_sComment.SetString((char*)m_CommentId[num].abComment);
 	}
 
+	CWnd* pPid = (CWnd*)GetDlgItem(IDC_ADMPID);
+	CWnd* pVer = (CWnd*)GetDlgItem(IDC_ADMVERSION);
+	CWnd* pComment = (CWnd*)GetDlgItem(IDC_COMMENT);
+	if( m_AdmId[num].wType == 0 )
+	{
+		pPid->EnableWindow(FALSE);
+		pVer->EnableWindow(FALSE);
+		pComment->EnableWindow(FALSE);
+	}
+	else
+	{
+		pPid->EnableWindow(TRUE);
+		pVer->EnableWindow(TRUE);
+		pComment->EnableWindow(TRUE);
+	}
 }
 
 // Data from dialog control into ADM_ID
-void CAdmPage::GetIdDataFromDlg(PICR_IdAdm pAdmId, UINT num)
+void CAdmPage::GetIdDataFromDlg(PICR_IdAdm pAdmId, PICR_IdComment pCommentId, UINT num)
 {
 	pAdmId->wTag = ADM_ID_TAG;
 	pAdmId->wSize = sizeof(ICR_IdAdm) - 4;
@@ -516,6 +597,11 @@ void CAdmPage::GetIdDataFromDlg(PICR_IdAdm pAdmId, UINT num)
 	int idx = m_AdmId[num].wType - 1;
 	PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
 	pAdmId->wType = pDeviceInfo->Type;
+
+	pCommentId->wTag = COMMENT_ID_TAG;
+	pCommentId->wSize = sizeof(ICR_IdComment) - 4;
+	pCommentId->bInterfaceNum = m_CommentId[num].bInterfaceNum;
+	strcpy((char*)pCommentId->abComment, (char*)m_CommentId[num].abComment);
 }
 
 BOOL CAdmPage::PreTranslateMessage(MSG* pMsg)
@@ -532,3 +618,10 @@ BOOL CAdmPage::PreTranslateMessage(MSG* pMsg)
 //
 //	return CPropertyPage::OnEraseBkgnd(pDC);
 //}
+
+void CAdmPage::OnEnKillfocusComment()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE); // from window to variable
+	strcpy((char*)m_CommentId[m_AdmNum].abComment, m_sComment.GetBuffer());
+}

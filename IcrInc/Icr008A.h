@@ -28,9 +28,8 @@ typedef struct _ICR_Cfg008A {
 	UCHAR	bDacCnt;		// количество ÷јѕ
 	ULONG	dLPFCutoff;		// частота среза фильтра низких частот (√ц)
 	UCHAR	bOutResist;		// выходное сопротивление (0 - 50 ќм, 1 - 75 ќм)
-	UCHAR	bIsQuadMod;		// наличие квадратурного модул€тора
+	UCHAR	bQuadModType;	// тип квадратурного модул€тора ( 0 - нет, 1 Ц AD8345, 2 Ц AD8346, 3 Ц AD8349 )
 	UCHAR	bIsExtClk;		// наличие входа внешнего тактировани€
-	UCHAR	bQuadModType;	// тип квадратурного модул€тора ( 0 Ц AD8345, 1 Ц AD8346, 2 Ц AD8349 )
 } ICR_Cfg008A, *PICR_Cfg008A, ICR_CfgAdm, *PICR_CfgAdm;
 
 #pragma pack(pop)    

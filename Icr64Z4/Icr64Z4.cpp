@@ -90,7 +90,7 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, "64Z4");
+		lstrcpy(pDevInfo->sName, "ADP64Z4CP2");
 		pDevInfo->dType = ADP64Z4;
 		break;
 	default:

@@ -13,7 +13,7 @@
 
 ICR_CfgAdmDac m_DacCfg = { ADMDAC_CFG_TAG, 14, 0, 0, 14, 1, 0, 400000000, 2500};
 
-ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 22, 0, 1, 120000000, 0, 2, 0, 0, 400000000, 0, 0, 0, 0, 1};
+ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 19, 0, 120000000, 0, 2, 0, 0, 400000000, 0, 0, 0 };
 
 //
 //TODO: If this DLL is dynamically linked against the MFC DLLs,
@@ -135,7 +135,6 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				m_AdmCfg.wTag = pAdmCfg->wTag;
 				m_AdmCfg.wSize = pAdmCfg->wSize;
 				m_AdmCfg.bAdmIfNum = pAdmCfg->bAdmIfNum;
-				m_AdmCfg.bIsGen = pAdmCfg->bIsGen;
 				m_AdmCfg.dGen = pAdmCfg->dGen;
 				m_AdmCfg.bFreqTune = pAdmCfg->bFreqTune;
 				m_AdmCfg.bDacCnt = pAdmCfg->bDacCnt;
@@ -143,10 +142,8 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				m_AdmCfg.bOutResist = pAdmCfg->bOutResist;
 				m_AdmCfg.dOscFreq = pAdmCfg->dOscFreq;
 				m_AdmCfg.bOutCasMod = pAdmCfg->bOutCasMod;
-				m_AdmCfg.bIsQuadMod = pAdmCfg->bIsQuadMod;
 				m_AdmCfg.bQuadModType = pAdmCfg->bQuadModType;
 				m_AdmCfg.bIsExtClk = pAdmCfg->bIsExtClk;
-				m_AdmCfg.bIsPll = pAdmCfg->bIsPll;
 				size = sizeof(ICR_CfgAdm);
 				RealCfgSize += size;
 				break;
@@ -168,7 +165,6 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->wTag = ADM_CFG_TAG;
 	pAdmCfg->wSize = sizeof(ICR_CfgAdm) - 4;
 	pAdmCfg->bAdmIfNum = 0;//m_DacCfg.AdmNumber;
-	pAdmCfg->bIsGen = m_AdmCfg.bIsGen;
 	pAdmCfg->dGen = m_AdmCfg.dGen;
 	pAdmCfg->bFreqTune = m_AdmCfg.bFreqTune;
 	pAdmCfg->bDacCnt = m_AdmCfg.bDacCnt;
@@ -176,10 +172,8 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->bOutResist = m_AdmCfg.bOutResist;
 	pAdmCfg->dOscFreq = m_AdmCfg.dOscFreq;
 	pAdmCfg->bOutCasMod = m_AdmCfg.bOutCasMod;
-	pAdmCfg->bIsQuadMod = m_AdmCfg.bIsQuadMod;
 	pAdmCfg->bQuadModType = m_AdmCfg.bQuadModType;
 	pAdmCfg->bIsExtClk = m_AdmCfg.bIsExtClk;
-	pAdmCfg->bIsPll = m_AdmCfg.bIsPll;
 
 	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgAdm));
 	if(pCurCfgMem >= pEndCfgMem)
@@ -220,7 +214,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_DacRateMax = m_DacCfg.dMaxRate/1000000;
 	dlg.m_DacRateMin = m_DacCfg.dMinRate/1000000;
 
-	dlg.m_IsGen = m_AdmCfg.bIsGen;
 	dlg.m_Gen = m_AdmCfg.dGen;
 	dlg.m_GenTune = m_AdmCfg.bFreqTune;
 	dlg.m_NumOfDac = m_AdmCfg.bDacCnt;
@@ -228,10 +221,8 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_OutResist = m_AdmCfg.bOutResist;
 	dlg.m_OscFreq = m_AdmCfg.dOscFreq/1000000;
 	dlg.m_OutCasMod = m_AdmCfg.bOutCasMod;
-	dlg.m_QuadMod = m_AdmCfg.bIsQuadMod;
 	dlg.m_QuadModType = m_AdmCfg.bQuadModType;
 	dlg.m_ExtClk = m_AdmCfg.bIsExtClk;
-	dlg.m_IsPll = m_AdmCfg.bIsPll;
 
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
@@ -242,7 +233,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			m_DacCfg.wRange != dlg.m_DacRange ||
 			m_DacCfg.dMaxRate != (dlg.m_DacRateMax*1000000) ||
 			m_DacCfg.dMinRate != (dlg.m_DacRateMin*1000000) ||
-			m_AdmCfg.bIsGen != dlg.m_IsGen ||
 			m_AdmCfg.dGen != dlg.m_Gen ||
 			m_AdmCfg.bFreqTune != dlg.m_GenTune ||
 			m_AdmCfg.bDacCnt != dlg.m_NumOfDac ||
@@ -250,10 +240,8 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			m_AdmCfg.bOutResist != dlg.m_OutResist ||
 			m_AdmCfg.dOscFreq != (dlg.m_OscFreq*1000000) ||
 			m_AdmCfg.bOutCasMod != dlg.m_OutCasMod ||
-			m_AdmCfg.bIsQuadMod != dlg.m_QuadMod ||
 			m_AdmCfg.bQuadModType != dlg.m_QuadModType ||
-			m_AdmCfg.bIsExtClk != dlg.m_ExtClk ||
-			m_AdmCfg.bIsPll != dlg.m_IsPll
+			m_AdmCfg.bIsExtClk != dlg.m_ExtClk
 		)
 			nResponse |= 0x100;
 
@@ -261,7 +249,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		m_DacCfg.dMaxRate = dlg.m_DacRateMax*1000000;
 		m_DacCfg.dMinRate = dlg.m_DacRateMin*1000000;
 		
-		m_AdmCfg.bIsGen = dlg.m_IsGen;
 		m_AdmCfg.dGen = dlg.m_Gen;
 		m_AdmCfg.bFreqTune = dlg.m_GenTune;
 		m_AdmCfg.bDacCnt = dlg.m_NumOfDac;
@@ -269,10 +256,8 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		m_AdmCfg.bOutResist = dlg.m_OutResist;
 		m_AdmCfg.dOscFreq = dlg.m_OscFreq * 1000000;
 		m_AdmCfg.bOutCasMod = dlg.m_OutCasMod;
-		m_AdmCfg.bIsQuadMod = dlg.m_QuadMod;
 		m_AdmCfg.bQuadModType = dlg.m_QuadModType;
 		m_AdmCfg.bIsExtClk = dlg.m_ExtClk;
-		m_AdmCfg.bIsPll = dlg.m_IsPll;
 	}
 	else if (nResponse == IDCANCEL)
 	{

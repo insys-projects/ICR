@@ -344,8 +344,9 @@ void CAdm2IfPage::ChangeAdmIfNum()
 	UpdateData(FALSE); // from variable to window
 
 	ICR_IdAdm AdmId;
-	pParentWnd->m_pAdmPage->GetIdDataFromDlg(&AdmId, m_AdmIfNum);
-	pParentWnd->m_pAdmPage->SetIdDataIntoDlg(&AdmId);
+	ICR_IdComment CommentId;
+	pParentWnd->m_pAdmPage->GetIdDataFromDlg(&AdmId, &CommentId, m_AdmIfNum);
+	pParentWnd->m_pAdmPage->SetIdDataIntoDlg(&AdmId, &CommentId);
 	pParentWnd->m_pAdmPage->UpdateData(FALSE);
 
 	ICR_CfgAdcFifo AdcFifo;

@@ -24,18 +24,14 @@ typedef struct _ICR_Cfg008F {
 	USHORT	wTag;		// тэг структуры (ADM_CFG_TAG)
 	USHORT	wSize;		// размер всех следующих полей структуры
 	UCHAR	bAdmIfNum;	// номер интерфейса ADM
-	UCHAR	bIsGen;		// наличие встроенного опорного генератора
 	ULONG	dGen;		// значение опорного генератора
 	UCHAR	bFreqTune;	// подстройка частоты встроенного опорного генератора
-	//ULONG	dPllRefGen;	// опорный генератор дл€ ‘јѕ„ in Hz (default 10 MHz)
-	//ULONG	dPllFreq;	// частота, выдаваема€ ‘јѕ„ in Hz (default 400 MHz)
 	UCHAR	bDacCnt;	// количество ÷јѕ
 	ULONG	dLPFCutoff;	// частота среза фильтра низких частот (√ц)
 	UCHAR	bOutResist;	// выходное сопротивление (0 - 50 ќм, 1 - 75 ќм)
-	ULONG	dOscFreq;	// частота √”Ќ (по умолч. 400 ћ√ц)
+	ULONG	dOscFreq;	// частота √”Ќ (√ц) (по умолч. 400 ћ√ц)
 	UCHAR	bOutCasMod;	// модификаци€ выходного каскада 0 - LF, 1 - HF
-	UCHAR	bIsQuadMod;	// наличие квадратурного модул€тора
-	UCHAR	bQuadModType;// тип квадратурного модул€тора ( 0 Ц AD8345, 1 Ц AD8346, 2 Ц AD8349 )
+	UCHAR	bQuadModType;// тип квадратурного модул€тора ( 0 - нет, 1 Ц AD8345, 2 Ц AD8346, 3 Ц AD8349 )
 	UCHAR	bIsExtClk;	// наличие входа внешнего тактировани€
 } ICR_Cfg008F, *PICR_Cfg008F, ICR_CfgAdm, *PICR_CfgAdm;
 

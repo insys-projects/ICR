@@ -43,6 +43,7 @@ typedef enum _ICR_BMType {
 		ADP201P4	= 0x5086,
 		ADP201P1	= 0x5087,
 		ADP201cP5	= 0x5386,
+		ADP201v5	= 0x7102,
         ADS10x2G	= 0x1020,
         AMBPEX1     = 0x5502,
         AMBPEX8     = 0x5503,

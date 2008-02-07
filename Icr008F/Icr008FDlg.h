@@ -23,13 +23,13 @@ public:
 	CComboBox m_ctrlDacOutResist;
 	CComboBox m_ctrlQuadModType;
 	CComboBox m_ctrlOutCasMod;
-	BOOL	m_IsPll;
-	BOOL	m_IsGen;
 	BOOL	m_GenTune;
-	BOOL	m_QuadMod;
 	BOOL	m_ExtClk;
 	int		m_OutResist;
 	int		m_OutCasMod;
+	BOOL	m_IsPll;
+	BOOL	m_IsGen;
+	BOOL	m_QuadMod;
 
 	// Text-dialog exchanging variables (переменные обмена текстом с дилоговым окном)
 	UINT	m_DacRateMax;
@@ -58,6 +58,9 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg void OnBnClickedQuadmod();
 	afx_msg void OnBnClickedIsgen();
-public:
 	afx_msg void OnBnClickedIspll();
+public:
+	afx_msg void OnEnKillfocusOscfreq();
+public:
+	afx_msg void OnEnKillfocusGen();
 };

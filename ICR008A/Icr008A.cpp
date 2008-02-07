@@ -15,7 +15,7 @@ ICR_CfgAdmDac m_DacCfg = { ADMDAC_CFG_TAG, 14, 0, 0, 14, 1, 0, 200000000, 2500};
 
 ICR_CfgDacFifo m_FifoCfg = { DAC_FIFO_TAG, 5, 0, 0, 14, 2, 1};
 
-ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 14, 0, 120000000, 2, 0, 0, 0, 0};
+ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 14, 0, 120000000, 2, 0, 0, 0};
 
 //
 //	Note!
@@ -155,7 +155,6 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				m_AdmCfg.bDacCnt = pAdmCfg->bDacCnt;
 				m_AdmCfg.dLPFCutoff = pAdmCfg->dLPFCutoff;
 				m_AdmCfg.bOutResist = pAdmCfg->bOutResist;
-				m_AdmCfg.bIsQuadMod = pAdmCfg->bIsQuadMod;
 				m_AdmCfg.bIsExtClk = pAdmCfg->bIsExtClk;
 				m_AdmCfg.bQuadModType = pAdmCfg->bQuadModType;
 				size = sizeof(ICR_CfgAdm);
@@ -183,7 +182,6 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->bDacCnt = m_AdmCfg.bDacCnt;
 	pAdmCfg->dLPFCutoff = m_AdmCfg.dLPFCutoff;
 	pAdmCfg->bOutResist = m_AdmCfg.bOutResist;
-	pAdmCfg->bIsQuadMod = m_AdmCfg.bIsQuadMod;
 	pAdmCfg->bIsExtClk = m_AdmCfg.bIsExtClk;
 	pAdmCfg->bQuadModType = m_AdmCfg.bQuadModType;
 
@@ -271,7 +269,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_Gen = m_AdmCfg.dGen;
 	dlg.m_LpfCutoff = m_AdmCfg.dLPFCutoff;
 	dlg.m_OutResist = m_AdmCfg.bOutResist;
-	dlg.m_QuadMod = m_AdmCfg.bIsQuadMod;
 	dlg.m_ExtClk = m_AdmCfg.bIsExtClk;
 	dlg.m_QuadModType = m_AdmCfg.bQuadModType;
 
@@ -310,7 +307,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			m_AdmCfg.dGen != dlg.m_Gen ||
 			m_AdmCfg.dLPFCutoff != dlg.m_LpfCutoff ||
 			m_AdmCfg.bOutResist != dlg.m_OutResist ||
-			m_AdmCfg.bIsQuadMod != dlg.m_QuadMod ||
 			m_AdmCfg.bIsExtClk != dlg.m_ExtClk ||
 			m_AdmCfg.bQuadModType != dlg.m_QuadModType
 		)
@@ -345,7 +341,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		m_AdmCfg.dGen = dlg.m_Gen;
 		m_AdmCfg.dLPFCutoff = dlg.m_LpfCutoff;
 		m_AdmCfg.bOutResist = dlg.m_OutResist;
-		m_AdmCfg.bIsQuadMod = dlg.m_QuadMod;
 		m_AdmCfg.bIsExtClk = dlg.m_ExtClk;
 		m_AdmCfg.bQuadModType = dlg.m_QuadModType;
 	}

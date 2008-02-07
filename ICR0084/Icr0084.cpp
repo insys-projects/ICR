@@ -78,7 +78,7 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->Name, _T("AMD1612x1M"));
+		lstrcpy(pDevInfo->Name, _T("ADM1612x1M"));
 		pDevInfo->Type = ADM1612x1M;
 		break;
 	case 1:

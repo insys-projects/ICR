@@ -107,7 +107,7 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, _T("Adp101v7"));
+		lstrcpy(pDevInfo->sName, _T("ADP101V7"));
 		pDevInfo->dType = ADP101V7;
 		break;
 	default:

@@ -20,7 +20,7 @@
 #include "IcrAmbp.h"
 
 // инициализация конфигурационных структур
-ICR_CfgAmbp m_AmbpCfg = { AMBPCD_CFG_TAG, 4, 1, 66000000, 0, 0};
+ICR_CfgAmbp m_AmbpCfg = { AMBPCD_CFG_TAG, 8, 1, 66000000, 0, 0, 0};
 //ICR_CfgAmbp m_AmbpcdCfg = { AMBPCD_CFG_TAG, 4, 1, 2, 0, 0};
 //ICR_CfgAmbp m_AmbpcxCfg = { AMBPCX_CFG_TAG, 4, 1, 0, 0, 0};
 ICR_CfgDdrSdram m_SdramCfg = { DDRSDRAM_CFG_TAG, 7, 0, 1, 13, 9, 1, 4, 4, 2};

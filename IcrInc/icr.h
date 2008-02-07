@@ -30,6 +30,7 @@ const U16 ALT_END_TAG		= 0xffff; // alt tag of end data (альтернативный тэг, инф
 
 const U16 BASE_ID_TAG		= 0x4953; // tag of base module identification structure
 const U16 AMBPCI_CFG_TAG	= 0x4D50; // tag of AMBPCI configuration structure 
+const U16 COMMENT_ID_TAG	= 0x0620; // tag of comment
 
 const U16 ADM_ID_TAG		= 0x0080; // tag of ADM submodule identification structure
 
@@ -65,6 +66,15 @@ typedef struct _ICR_Id4953 {
 	U08	bMon;		// montag of Data (месяц записи данных в ППЗУ базового модуля)
 	U16	wYear;		// year of Data (год записи данных в ППЗУ базового модуля)
 } ICR_Id4953, *PICR_Id4953, ICR_IdBase, *PICR_IdBase;
+
+// Comment identification
+// Идентификационная структура комментария
+typedef struct _ICR_Id0620 {
+	U16	wTag;		// tag of structure (COMMENT_ID_TAG)
+	U16	wSize;		// size of all following fields of structure (without wTag + wSize) = sizeof(ICR_IdComment) - 4
+	U08 bInterfaceNum;	// ADM-Interface number (номер ADM-интерфейса), 0xFF - comment for base module
+	U08	abComment[16];	// comment
+} ICR_Id0620, *PICR_Id0620, ICR_IdComment, *PICR_IdComment;
 
 // ADM identification
 // Идентификационная структура субмодуля

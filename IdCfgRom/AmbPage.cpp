@@ -8,6 +8,7 @@
 #include ".\ambpage.h"
 
 #define AMBPCI_CFGMEM_SIZE 128
+#define MAXBASEMODS 256
 
 extern BASEMOD_CTRL BaseModCtrl[];
 extern int m_NumOfBaseModules;
@@ -25,6 +26,7 @@ IMPLEMENT_DYNAMIC(CAmbPage, CPropertyPage)
 
 CAmbPage::CAmbPage() : CPropertyPage(CAmbPage::IDD)
 , m_strAmbVersion(_T("10"))
+, m_sComment(_T(""))
 {
 	//{{AFX_DATA_INIT(CAmbPage)
 	m_SerialNum = 1;
@@ -51,6 +53,7 @@ void CAmbPage::DoDataExchange(CDataExchange* pDX)
 //	DDX_Text(pDX, IDC_AMBVERSION, m_AmbVersion);
 	//}}AFX_DATA_MAP
 	DDV_MinMaxUInt(pDX, m_NumOfAdmIf, 0, MAX_NUMOFADMIF - 1);
+	DDX_Text(pDX, IDC_COMMENT, m_sComment);
 }
 
 
@@ -64,6 +67,7 @@ BEGIN_MESSAGE_MAP(CAmbPage, CPropertyPage)
 	ON_EN_KILLFOCUS(IDC_AMBVERSION, OnKillfocusAmbversion)
 	//}}AFX_MSG_MAP
 	ON_NOTIFY(UDN_DELTAPOS, IDC_SPINADMIF, &CAmbPage::OnDeltaposSpinadmif)
+	ON_EN_KILLFOCUS(IDC_COMMENT, &CAmbPage::OnEnKillfocusComment)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -74,12 +78,28 @@ BOOL CAmbPage::OnInitDialog()
 	CPropertyPage::OnInitDialog();
 	
 	// TODO: Add extra initialization here
+	// ограничение комментария на 15 символов
+	CEdit* pComment = (CEdit*)GetDlgItem(IDC_COMMENT);
+	pComment->SetLimitText(15);
+
 	CComboBox* pDevType = (CComboBox*)GetDlgItem(IDC_BMTYPE);
 	pDevType->ResetContent();
-	pDevType->AddString(_T("AMBPCI"));
 	for(int i = 0; i < m_NumOfBaseModules; i++)
 		pDevType->AddString(BaseModCtrl[i].devInfo.sName);
+	pDevType->InsertString(0, _T("AMBPCI"));
 	pDevType->SetCurSel(0);
+
+	// сортируем базовые модули согласно тому, как они помещены в список
+	UpdateData(TRUE);
+	UpdateData(FALSE);
+	BASEMOD_CTRL BaseModCtrlTmp[MAXBASEMODS];
+	for( int ii = 0; ii < m_NumOfBaseModules; ii++ )
+	{
+		int	nIndex = pDevType->FindString(-1, BaseModCtrl[ii].devInfo.sName);
+		BaseModCtrlTmp[nIndex-1] = BaseModCtrl[ii];
+	}
+	for( int ii = 0; ii < m_NumOfBaseModules ; ii++ )
+		BaseModCtrl[ii] = BaseModCtrlTmp[ii];
 
 	m_ctrlSpinAdmIf.SetRange(0, MAX_NUMOFADMIF - 1);
 	
@@ -200,7 +220,6 @@ void CAmbPage::OnAmbext()
 void CAmbPage::OnSelchangeBmtype() 
 {
 	// TODO: Add your control notification handler code here
-	AfxMessageBox("bmtype");
 	UpdateData(TRUE); // from window to variable
 	InitData();
 }
@@ -257,6 +276,7 @@ void CAmbPage::GetDataFromDlg(PAMBPCI_CFG pBaseCfg)
 ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 {
 	ULONG ret;
+	// установка полей кроме "Подробности..." и "Особые отметки"
 	PICR_IdBase pBaseId = (PICR_IdBase)pCfgMem;
 	m_SerialNum = pBaseId->dSerialNum;
 	int size = pBaseId->wSizeAll;
@@ -264,10 +284,13 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 	m_strAmbVersion.Format(_T("%x"), AmbVersion);
 
 	m_BMType = 0;
-	if(pBaseId->wDeviceId != AMBPCI_CFG_TAG) {
-		for(int i = 0; i < m_NumOfBaseModules; i++) {
+	if(pBaseId->wDeviceId != AMBPCI_CFG_TAG)
+	{
+		for(int i = 0; i < m_NumOfBaseModules; i++)
+		{
 			PBASEMOD_INFO pDeviceInfo = &(BaseModCtrl[i].devInfo);
-			if(pBaseId->wDeviceId == pDeviceInfo->dType) {
+			if(pBaseId->wDeviceId == pDeviceInfo->dType)
+			{
 				m_BMType = i + 1;
 				break;
 			}
@@ -276,7 +299,9 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 	PUCHAR pBaseCfg = (PUCHAR)pCfgMem + sizeof(ICR_IdBase);
 	ret  = sizeof(ICR_IdBase);
 
-	if(m_BMType) {
+	// установка полей в "Подробности..."
+	if(m_BMType)
+	{
 		int idx = m_BMType - 1;
 		PBASEMOD_INFO pDeviceInfo = &(BaseModCtrl[idx].devInfo);
 		memcpy(pDeviceInfo->pCfgMem, pBaseCfg, size);
@@ -295,12 +320,26 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 	return ret;
 }
 
+ULONG CAmbPage::SetComment(PVOID pCfgMem)
+{
+	ULONG	ret = 0;
+	PICR_IdComment pCommentId = (PICR_IdComment)pCfgMem;
+	if( pCommentId->bInterfaceNum == 0xFF )
+	{
+		m_sComment.SetString((char*)pCommentId->abComment);
+		UpdateData(FALSE);
+	}
+	ret = sizeof(ICR_IdComment);
+	return ret;
+}
+
 // Data from dialog control into ICR_IdBase & ICR_CfgAmbpci(ICR_CfgAmbpcm, ICR_CfgAdp101pci)
 ULONG CAmbPage::GetDataFromDlg(PVOID pCfgMem)
 {
 	ULONG ret;
 	UpdateData(TRUE);
 
+	// считывание с вкладки "Base" кроме "Подробности..." и "Особые отметки"
 	PICR_IdBase pBaseId = (PICR_IdBase)pCfgMem;
 	pBaseId->wTag = BASE_ID_TAG;
 
@@ -320,7 +359,9 @@ ULONG CAmbPage::GetDataFromDlg(PVOID pCfgMem)
 	pCfgMem = (PUCHAR)pCfgMem + sizeof(ICR_IdBase);
 	ret = sizeof(ICR_IdBase);
 
-	if(m_BMType) {
+	// считывание из "Подробности..."
+	if(m_BMType)
+	{
 		int idx = m_BMType - 1;
 		PBASEMOD_INFO pDeviceInfo = &(BaseModCtrl[idx].devInfo);
 		pBaseId->wDeviceId = pDeviceInfo->dType;
@@ -332,8 +373,11 @@ ULONG CAmbPage::GetDataFromDlg(PVOID pCfgMem)
 		else
 			memcpy(pCfgMem, pDeviceInfo->pCfgMem, pDeviceInfo->dRealCfgSize);
 		ret += pDeviceInfo->dRealCfgSize;
+
+		pCfgMem = (PUCHAR)pCfgMem + pDeviceInfo->dRealCfgSize;
 	}
-	else {
+	else
+	{
 		PICR_CfgAmbpci pBaseCfg = (PICR_CfgAmbpci)pCfgMem;
 		pBaseCfg->wTag = AMBPCI_CFG_TAG;
 		pBaseCfg->wSize = sizeof(ICR_CfgAmbpci) - 4;
@@ -342,7 +386,18 @@ ULONG CAmbPage::GetDataFromDlg(PVOID pCfgMem)
 
 //		pSignSize = (USHORT*)((PUCHAR)pSignSize + (sizeof(AMBPCI_CFG) + 4));
 		ret += sizeof(ICR_CfgAmbpci);
+		
+		pCfgMem = (PUCHAR)pCfgMem + sizeof(ICR_CfgAmbpci);
 	}
+
+	// считывание из "Особые отметки"
+	PICR_IdComment pCommentId = (PICR_IdComment)pCfgMem;
+	pCommentId->wTag = COMMENT_ID_TAG;
+	pCommentId->wSize = sizeof(ICR_IdComment) - 4;
+	pCommentId->bInterfaceNum = 0xFF;
+	strcpy((char*)pCommentId->abComment, m_sComment);
+	ret += sizeof(ICR_IdComment);
+
 	return ret;
 }
 
@@ -384,4 +439,10 @@ void CAmbPage::OnDeltaposSpinadmif(NMHDR *pNMHDR, LRESULT *pResult)
 	UpdateData(FALSE);
 
 	*pResult = 0;
+}
+
+void CAmbPage::OnEnKillfocusComment()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE); // from window to variable
 }

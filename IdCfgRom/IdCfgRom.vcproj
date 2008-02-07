@@ -233,7 +233,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="c:\msvs6\vc98\bin\mc IdCfgRomMsg.mc&#x0D;&#x0A;"
+						CommandLine="mc IdCfgRomMsg.mc&#x0D;&#x0A;"
 						Outputs="IdCfgRomMsg.rc"
 					/>
 				</FileConfiguration>

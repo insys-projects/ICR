@@ -32,13 +32,14 @@ static void	InitDev()
 {
 	S32		status;
 
-	BRD_displayMode(BRDdm_VISIBLE);//|BRDerrd_CONSOLE);
+	BRD_displayMode(BRDdm_ERROR | BRDdm_FATAL);//|BRDerrd_CONSOLE);
 	
 	BRD_Error* pErrInfo = new BRD_Error;
 //	status = BRD_error(&pErrInfo);
 	S32	DevNum;
 	status = BRD_initEx(BRDinit_FILE | BRDinit_AUTOINIT, "brd.ini", NULL, &DevNum);
 	status = BRD_errext(status);
+	BRD_displayMode(BRDdm_VISIBLE);//|BRDerrd_CONSOLE);
 	if(status != BRDerr_OK)
 		status = BRD_init("brd.ini", &DevNum);
 //	status = BRD_error(&pErrInfo);

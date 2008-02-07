@@ -162,11 +162,11 @@ BOOL CIdCfgRomDlg::OnInitDialog()
 	}
 	else
 	{
-		pDevType->EnableWindow(0);
+		pDevType->EnableWindow(FALSE);
 		CWnd* pFromDevBtn = (CWnd*)GetDlgItem(IDC_FROMDEV);
-		pFromDevBtn->EnableWindow(0);
+		pFromDevBtn->EnableWindow(FALSE);
 		CWnd* pIntoDevBtn = (CWnd*)GetDlgItem(IDC_INTODEV);
-		pIntoDevBtn->EnableWindow(0);
+		pIntoDevBtn->EnableWindow(FALSE);
 	}
 
 	CWnd* pOk = (CWnd*)GetDlgItem(IDOK);
@@ -343,6 +343,7 @@ void CIdCfgRomDlg::GetCfgMem()
 
 	if ( m_readFileExt == ".hex" )								// преобразуем данные типа HEX в данные типа BIN
 	{
+		m_readFileExt = "";
 		char	*binStr = new char[m_sizeCfgMem/2];				// временный массив данных hex файла
 		U32		realSizeOfHexCfgMem = 0;
 		char	*pCfgMemHex = (char*)m_pCfgMem; 				// указатель на данные HEX файла
@@ -387,6 +388,7 @@ void CIdCfgRomDlg::GetCfgMem()
 		memcpy(m_pCfgMem, binStr, m_sizeCfgMem);
 		delete [] binStr;
 	}
+
 	pCfgMem = (PVOID)m_pCfgMem;
 
 	PVOID pEndCfgMem = (PVOID)((PUCHAR)pCfgMem + m_sizeCfgMem);
@@ -407,6 +409,11 @@ void CIdCfgRomDlg::GetCfgMem()
 			{
 				m_RealBaseCfgSize = *((USHORT*)pCfgMem + 2);
 				size = (USHORT)m_pAmbPage->SetDataIntoDlg(pCfgMem);
+				break;
+			}
+		case COMMENT_ID_TAG:
+			{
+				size = (USHORT)m_pAmbPage->SetComment(pCfgMem);
 				break;
 			}
 /*		case ADMIF_CFG_TAG:
@@ -453,6 +460,7 @@ void CIdCfgRomDlg::GetCfgMem()
 		pCfgMem = (PUCHAR)pCfgMem + size;
 	} while(!end_flag && pCfgMem < pEndCfgMem);
 	
+
 	pCfgMem = (PVOID)(m_pCfgMem + m_RealBaseCfgSize);
 //	pEndCfgMem = (PVOID)((PUCHAR)pCfgMem + m_pAdmPage->m_CfgBufSize);
 	end_flag = 0;
@@ -469,9 +477,13 @@ void CIdCfgRomDlg::GetCfgMem()
 		case ADM_ID_TAG:
 			{
 //				AdmNumber = *((USHORT*)pCfgMem + 2);
-				size = *((USHORT*)pCfgMem + 2);
-				pCfgMem = (PUCHAR)pCfgMem;
-				m_pAdmPage->SetDataIntoDlg(pCfgMem);
+				//size = *((USHORT*)pCfgMem + 2);
+				size = (USHORT)m_pAdmPage->SetDataIntoDlg(pCfgMem);
+				break;
+			}
+		case COMMENT_ID_TAG:
+			{
+				size = (USHORT)m_pAdmPage->SetComment(pCfgMem);
 				break;
 			}
 		default:
@@ -481,6 +493,8 @@ void CIdCfgRomDlg::GetCfgMem()
 		}
 		pCfgMem = (PUCHAR)pCfgMem + size;
 	} while(!end_flag && pCfgMem < pEndCfgMem);
+
+
 //	pCfgMem = (PUCHAR)pCfgMem + 2;
 //	return (PUCHAR)pCfgMem - CfgMem;
 }
@@ -488,6 +502,9 @@ void CIdCfgRomDlg::GetCfgMem()
 void CIdCfgRomDlg::OnBnClickedRead()
 {
 	// TODO: Add your control notification handler code here
+	m_pAmbPage->m_sComment = "";
+	m_pAdmPage->m_sComment = "";
+
 	CString strFilter;
 	GetMsg(MSG_FILE_FILTER_BIN_AND_HEX, strFilter);
 	CFileDialog readFileDlg(TRUE, _T(".bin;.hex"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
@@ -508,7 +525,9 @@ void CIdCfgRomDlg::OnBnClickedRead()
 		LPTSTR cmdLine = GetCommandLine() + 1;
 		LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
 		*ShortFileName = 0;
+		strcat(cmdLine, "Config");
 		readFileDlg.m_ofn.lpstrInitialDir = cmdLine;
+		CreateDirectory(cmdLine, NULL);
 	}
 	
 	// устанавливаем заголовок окна открытия файла
@@ -567,6 +586,27 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
 	m_pAmbPage->InitData();
 	CloseHandle(hfile);
+
+	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
+	CWnd* pToSubOnly = (CWnd*)GetDlgItem(IDC_TOSUBMODULEONLY);
+	m_pAmbPage->UpdateData(FALSE);
+	if( m_pAmbPage->m_NumOfAdmIf == 0 )
+	{
+		m_ToSubmoduleOnly = 0;
+		pToSubOnly->EnableWindow(FALSE);
+	}
+	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
+	{
+		m_pAdmPage->UpdateData(FALSE);
+		if( m_pAdmPage->m_AdmType == 0 )
+		{
+			m_ToSubmoduleOnly = 0;
+			pToSubOnly->EnableWindow(FALSE);
+		}
+		else if ( m_pAdmPage->m_AdmType > 0 )
+			pToSubOnly->EnableWindow(TRUE);
+	}
+	UpdateData(FALSE);
 
 	UpdateStructOfDialogFieldsValues();
 }
@@ -710,7 +750,9 @@ void CIdCfgRomDlg::OnBnClickedSave()
 		LPTSTR cmdLine = GetCommandLine() + 1;
 		LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
 		*ShortFileName = 0;
+		strcat(cmdLine, "Config");
 		saveFileDlg.m_ofn.lpstrInitialDir = cmdLine;
+		CreateDirectory(cmdLine, NULL);
 	}
 
 	// устанавливаем заголовок окна сохранения файла
@@ -751,7 +793,8 @@ void CIdCfgRomDlg::OnBnClickedSave()
 	DWORD dwBytesWritten;
 	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
 	m_pCfgMem = new UCHAR[m_sizeCfgMem];
-	if(SetCfgMem() == 0) {
+	if(SetCfgMem() == 0) 
+	{
 		WriteFile(hfile, m_pCfgMem, m_RealBaseCfgSize, &dwBytesWritten, NULL);
 		PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
 		for(int i = 0; i < 4; i++) {
@@ -761,7 +804,8 @@ void CIdCfgRomDlg::OnBnClickedSave()
 			}
 		}
 	}
-	else {
+	else 
+	{
 //		TCHAR MsgBuf[] = _T("Недостаточно памяти для конфигурационных данных !");
 		CString MsgBuf;
 //		TCHAR MsgBuf[MAX_PATH];
@@ -828,6 +872,8 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE); // from window to variable
+	m_pAmbPage->m_sComment = "";
+	m_pAdmPage->m_sComment = "";
 	PDEVICE_INFO pDeviceInfo = &(DeviceCtrl[m_DevType].devInfo);
 	(DeviceCtrl[m_DevType].pReadIdCfgRom)(pDeviceInfo);
 //	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
@@ -860,13 +906,23 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 
 	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
 	CWnd* pToSubOnly = (CWnd*)GetDlgItem(IDC_TOSUBMODULEONLY);
+	m_pAmbPage->UpdateData(FALSE);
 	if( m_pAmbPage->m_NumOfAdmIf == 0 )
 	{
 		m_ToSubmoduleOnly = 0;
 		pToSubOnly->EnableWindow(FALSE);
 	}
 	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
-		pToSubOnly->EnableWindow(TRUE);
+	{
+		m_pAdmPage->UpdateData(FALSE);
+		if( m_pAdmPage->m_AdmType == 0 )
+		{
+			m_ToSubmoduleOnly = 0;
+			pToSubOnly->EnableWindow(FALSE);
+		}
+		else if ( m_pAdmPage->m_AdmType > 0 )
+			pToSubOnly->EnableWindow(TRUE);
+	}
 	UpdateData(FALSE);
 
 	UpdateStructOfDialogFieldsValues();
@@ -895,7 +951,9 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 		LPTSTR cmdLine = GetCommandLine() + 1;
 		LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
 		*ShortFileName = 0;
+		strcat(cmdLine, "Config");
 		saveFileDlg.m_ofn.lpstrInitialDir = cmdLine;
+		CreateDirectory(cmdLine, NULL);
 	}
 
 	// устанавливаем заголовок окна сохранения файла

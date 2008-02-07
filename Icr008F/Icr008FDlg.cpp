@@ -65,6 +65,8 @@ BEGIN_MESSAGE_MAP(Icr008FDlg, CDialog)
 	ON_BN_CLICKED(IDC_QUADMOD, &Icr008FDlg::OnBnClickedQuadmod)
 	ON_BN_CLICKED(IDC_ISGEN, &Icr008FDlg::OnBnClickedIsgen)
 	ON_BN_CLICKED(IDC_ISPLL, &Icr008FDlg::OnBnClickedIspll)
+	ON_EN_KILLFOCUS(IDC_OSCFREQ, &Icr008FDlg::OnEnKillfocusOscfreq)
+	ON_EN_KILLFOCUS(IDC_GEN, &Icr008FDlg::OnEnKillfocusGen)
 END_MESSAGE_MAP()
 
 
@@ -104,21 +106,9 @@ BOOL Icr008FDlg::OnInitDialog()
 	m_ToolTip.AddTool(GetDlgItem(IDOK), IDOK);
     m_ToolTip.AddTool(GetDlgItem(IDCANCEL), IDCANCEL);
 
-	m_ctrlQuadModType.SetCurSel(m_QuadModType);
-
-	if( m_IsPll == 0 )
+	if ( m_OscFreq > 0 )
 	{
-		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
-		pPll->EnableWindow(FALSE);
-		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
-		pIsGen->EnableWindow(FALSE);
-		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
-		pGen->EnableWindow(FALSE);
-		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
-		pGenTune->EnableWindow(FALSE);
-	}
-	else if ( m_IsPll == 1 )
-	{
+		m_IsPll = 1;
 		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
 		pPll->EnableWindow(TRUE);
 		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
@@ -131,11 +121,46 @@ BOOL Icr008FDlg::OnInitDialog()
 			pGenTune->EnableWindow(TRUE);
 		}
 	}
-	if( m_QuadMod == 0 )
-		m_ctrlQuadModType.EnableWindow(FALSE);
-	else if ( m_QuadMod == 1 )
-		m_ctrlQuadModType.EnableWindow(TRUE);
+	else
+	{
+		m_IsPll = 0;
+		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
+		pPll->EnableWindow(FALSE);
+		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
+		pIsGen->EnableWindow(FALSE);
+		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
+		pGen->EnableWindow(FALSE);
+		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
+		pGenTune->EnableWindow(FALSE);
+	}
 
+	m_ctrlQuadModType.SetCurSel(0);
+
+	if( m_QuadModType > 0 )
+	{
+		m_QuadMod = 1;
+		m_ctrlQuadModType.EnableWindow(TRUE);
+		m_ctrlQuadModType.SetCurSel(m_QuadModType-1);
+	}
+	else
+	{
+		m_QuadMod = 0;
+		m_ctrlQuadModType.EnableWindow(FALSE);
+	}
+	if( m_Gen > 0 )
+	{
+		m_IsGen = 1;
+	}
+	else
+	{
+		m_IsGen = 0;
+		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
+		pGen->EnableWindow(FALSE);
+		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
+		pGenTune->EnableWindow(FALSE);
+	}
+
+	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -153,7 +178,15 @@ void Icr008FDlg::OnDestroy()
 	CDialog::OnDestroy();
 
 	// TODO: Add your message handler code here
-	m_QuadModType = m_ctrlQuadModType.GetCurSel();
+	UpdateData(TRUE);
+	if( m_QuadMod )
+		m_QuadModType = m_ctrlQuadModType.GetCurSel() + 1;
+	else
+		m_QuadModType = 0;
+	if( m_IsPll == 0 )
+		m_OscFreq = 0;
+	if( m_IsGen == 0 )
+		m_Gen = 0;
 }
 
 void Icr008FDlg::OnBnClickedQuadmod()
@@ -172,6 +205,7 @@ void Icr008FDlg::OnBnClickedIsgen()
 	UpdateData(TRUE);
 	if( m_IsGen == 0 )
 	{
+		m_Gen = 0;
 		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
 		pGen->EnableWindow(FALSE);
 		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
@@ -179,11 +213,13 @@ void Icr008FDlg::OnBnClickedIsgen()
 	}
 	else if ( m_IsGen == 1 )
 	{
+		m_Gen = 1;
 		CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
 		pGen->EnableWindow(TRUE);
 		CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
 		pGenTune->EnableWindow(TRUE);
 	}
+	UpdateData(FALSE);
 }
 
 void Icr008FDlg::OnBnClickedIspll()
@@ -192,6 +228,7 @@ void Icr008FDlg::OnBnClickedIspll()
 	UpdateData(TRUE);
 	if( m_IsPll == 0 )
 	{
+		m_OscFreq = 0;
 		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
 		pPll->EnableWindow(FALSE);
 		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
@@ -203,16 +240,37 @@ void Icr008FDlg::OnBnClickedIspll()
 	}
 	else if ( m_IsPll == 1 )
 	{
+		m_OscFreq = 1;
 		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
 		pPll->EnableWindow(TRUE);
 		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
 		pIsGen->EnableWindow(TRUE);
 		if( m_IsGen == 1 )
 		{
+			m_Gen = 1;
 			CWnd* pGen = (CWnd*)GetDlgItem(IDC_GEN);
 			pGen->EnableWindow(TRUE);
 			CWnd* pGenTune = (CWnd*)GetDlgItem(IDC_GENTUNE);
 			pGenTune->EnableWindow(TRUE);
 		}
 	}
+	UpdateData(FALSE);
+}
+
+void Icr008FDlg::OnEnKillfocusOscfreq()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	if( m_OscFreq == 0 )
+		m_OscFreq = 1;
+	UpdateData(FALSE);
+}
+
+void Icr008FDlg::OnEnKillfocusGen()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	if( m_Gen == 0 )
+		m_Gen = 1;
+	UpdateData(FALSE);
 }

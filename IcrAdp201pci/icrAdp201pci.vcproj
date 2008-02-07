@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="IcrAdp201pci"
-	ProjectGUID="{21B575FC-6A99-42E1-81A9-F8846F6CF0E3}"
+	ProjectGUID="{D8A3D24A-3F6E-4243-92E2-37CEAE4E17D1}"
 	RootNamespace="IcrAdp201pci"
 	Keyword="MFCDLLProj"
 	>
@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/wd4996"
 				Optimization="0"
-				AdditionalIncludeDirectories="\icr\icrinc,\bardy\brdinc"
+				AdditionalIncludeDirectories="..\icrinc,..\..\bardy\brdinc"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -110,7 +110,7 @@
 			IntermediateDirectory="Release"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			UseOfMFC="1"
+			UseOfMFC="2"
 			CharacterSet="2"
 			>
 			<Tool
@@ -133,9 +133,9 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="\icr\icrinc,\bardy\brdinc"
+				AdditionalIncludeDirectories="..\icrinc,..\..\bardy\brdinc"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_CRT_SECURE_NO_DEPRECATE"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
@@ -156,7 +156,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\BARDY\BIN\IcrAdp201pci.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
 				ModuleDefinitionFile=".\IcrAdp201pci.def"
 				GenerateDebugInformation="true"
@@ -189,6 +189,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(OutDir)\$(ProjectName).dll ..\bin"
 			/>
 		</Configuration>
 	</Configurations>

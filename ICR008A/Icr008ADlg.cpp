@@ -90,13 +90,21 @@ BOOL CIcr008ADlg::OnInitDialog()
 	m_ToolTip.AddTool(GetDlgItem(IDOK), IDOK);
     m_ToolTip.AddTool(GetDlgItem(IDCANCEL), IDCANCEL);
 
-	m_ctrlQuadModType.SetCurSel(m_QuadModType);
+	m_ctrlQuadModType.SetCurSel(0);
 	
-	if( m_QuadMod == 0 )
-		m_ctrlQuadModType.EnableWindow(FALSE);
-	else if ( m_QuadMod == 1 )
+	if( m_QuadModType > 0 )
+	{
+		m_QuadMod = 1;
 		m_ctrlQuadModType.EnableWindow(TRUE);
+		m_ctrlQuadModType.SetCurSel(m_QuadModType-1);
+	}
+	else 
+	{
+		m_QuadMod = 0;
+		m_ctrlQuadModType.EnableWindow(FALSE);
+	}
 
+	UpdateData(FALSE);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -114,7 +122,11 @@ void CIcr008ADlg::OnDestroy()
 	CDialog::OnDestroy();
 
 	// TODO: Add your message handler code here
-	m_QuadModType = m_ctrlQuadModType.GetCurSel();
+	UpdateData(TRUE);
+	if( m_QuadMod )
+		m_QuadModType = m_ctrlQuadModType.GetCurSel() + 1;
+	else
+		m_QuadModType = 0;
 }
 
 void CIcr008ADlg::OnBnClickedQuadmod()
