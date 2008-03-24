@@ -517,10 +517,13 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	{
 		DWORD regDirSize = sizeof(regDir);
 		key.QueryValue(regDir, "Load/Save Directory", &regDirSize);
-		readFileDlg.m_ofn.lpstrInitialDir = regDir;
+		if( strcmp(regDir, "") == 0 )
+			status++;
+		else
+			readFileDlg.m_ofn.lpstrInitialDir = regDir;
 	}
 	// если считать из реестра не удалось, указываем директорию, где хранится .exe файл (считываем из командной строки)
-	else
+	if( status != ERROR_SUCCESS )
 	{
 		LPTSTR cmdLine = GetCommandLine() + 1;
 		LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
@@ -545,8 +548,8 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	LPTSTR editorOfDir = strrchr(regDir, '\\') + 1;
 	*editorOfDir = 0;
 	key.Create(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
-		key.SetValue(regDir, "Load/Save Directory");
-	key.Close(); 
+	key.SetValue(regDir, "Load/Save Directory");
+	key.Close();
 
 	m_readFileExt = fileName.Right(4);
 	HANDLE hfile = CreateFile(	fileName, 
