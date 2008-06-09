@@ -7,6 +7,8 @@
 #include "IdCfgRomDlg.h"
 #include ".\admpage.h"
 
+#pragma warning (disable:4996)
+
 #define NONADM_CFGMEM_SIZE 2
 #define MAXSUBMODS 256
 

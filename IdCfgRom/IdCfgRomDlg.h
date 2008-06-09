@@ -100,8 +100,8 @@ protected:
 
 	CString	m_readFileExt;
 
-	ULONG SetCfgMem();
-	void GetCfgMem();
+	ULONG DlgItemsToCfgMem();
+	void CfgMemToDlgItems();
 	void UpdateStructOfDialogFieldsValues();
 	void CheckEditOfStructOfDialogFieldsValues();
 

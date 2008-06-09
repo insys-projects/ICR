@@ -337,7 +337,7 @@ static void ParseFileNameExt(CString& fileName)
 // Заполняет "диалоговые закладки" значениями из буфера
 // после считывания в него из файла или устройства
 //***************************************************************************************
-void CIdCfgRomDlg::GetCfgMem()
+void CIdCfgRomDlg::CfgMemToDlgItems()
 {
 	PVOID	pCfgMem;											// указатель на данные файла
 
@@ -476,8 +476,6 @@ void CIdCfgRomDlg::GetCfgMem()
 			break;
 		case ADM_ID_TAG:
 			{
-//				AdmNumber = *((USHORT*)pCfgMem + 2);
-				//size = *((USHORT*)pCfgMem + 2);
 				size = (USHORT)m_pAdmPage->SetDataIntoDlg(pCfgMem);
 				break;
 			}
@@ -493,10 +491,6 @@ void CIdCfgRomDlg::GetCfgMem()
 		}
 		pCfgMem = (PUCHAR)pCfgMem + size;
 	} while(!end_flag && pCfgMem < pEndCfgMem);
-
-
-//	pCfgMem = (PUCHAR)pCfgMem + 2;
-//	return (PUCHAR)pCfgMem - CfgMem;
 }
 
 void CIdCfgRomDlg::OnBnClickedRead()
@@ -578,7 +572,7 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	ReadFile(hfile, m_pCfgMem, bFileSize, &dwBytesRead, NULL);
 	m_sizeCfgMem = dwBytesRead;
 	m_pAdmPage->InitData();
-	GetCfgMem();
+	CfgMemToDlgItems();
 	delete[] m_pCfgMem;
 
 	m_pAdmIfPage->SetMaxAdmIf(m_pAmbPage->m_NumOfAdmIf - 1);
@@ -616,16 +610,12 @@ void CIdCfgRomDlg::OnBnClickedRead()
 
 // Заполняет буфер значениями из "диалоговых закладок"
 // перед записью его в файл или устройство
-ULONG CIdCfgRomDlg::SetCfgMem()
+ULONG CIdCfgRomDlg::DlgItemsToCfgMem()
 {
 	USHORT* pEndCfgMem = (USHORT*)m_pCfgMem + m_sizeCfgMem/2;
-
 	USHORT* pCurCfgMem = (USHORT*)m_pCfgMem;
-
 	ULONG bCfgSize = m_pAmbPage->GetDataFromDlg(pCurCfgMem);
-
 	pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + bCfgSize);
-
 	if(pCurCfgMem >= pEndCfgMem)
 		return 1;
 
@@ -634,12 +624,6 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 	{
 		for(int i = 0; i < numOfADM; i++)
 		{
-//			m_pAdmIfPage->GetDataFromDlg((PICR_CfgAdmIf)pCurCfgMem, i);
-//			int numOfADCFIFO = ((PICR_CfgAdmIf)pCurCfgMem)->bAdcFifoCnt;
-//			int numOfDAC = ((PICR_CfgAdmIf)pCurCfgMem)->bDacCnt;
-//			int numOfDACFIFO = ((PICR_CfgAdmIf)pCurCfgMem)->bDacFifoCnt;
-//			int numOfPld = ((PICR_CfgAdmIf)pCurCfgMem)->bPldCnt;
-//			pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdmIf));
 			m_pAdmIfPage->GetDataFromDlg((PICR_CfgAdm2If)pCurCfgMem, i);
 			int numOfADCFIFO = ((PICR_CfgAdm2If)pCurCfgMem)->bAdcFifoCnt;
 			int numOfDAC = ((PICR_CfgAdm2If)pCurCfgMem)->bDacCnt;
@@ -648,7 +632,7 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 			pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdm2If));
 			if(pCurCfgMem >= pEndCfgMem)
 				return 1;
-			if(numOfADCFIFO)
+			if( numOfADCFIFO )
 			{
 				for(int idx = 0; idx < numOfADCFIFO; idx++)
 				{
@@ -658,7 +642,7 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 						return 1;
 				}
 			}
-			if(numOfDAC)
+			if( numOfDAC )
 			{
 				for(int idx = 0; idx < numOfDAC; idx++)
 				{
@@ -668,7 +652,7 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 						return 1;
 				}
 			}
-			if(numOfDACFIFO)
+			if( numOfDACFIFO )
 			{
 				for(int idx = 0; idx < numOfDACFIFO; idx++)
 				{
@@ -700,25 +684,12 @@ ULONG CIdCfgRomDlg::SetCfgMem()
 	{
 		for(int i = 0; i < numOfADM; i++)
 		{
-/*			*pSignSize = ADM_ID_TAG;
-			*(pSignSize+1) = sizeof(ADM_ID);
-			PADM_ID pAdmId = (PADM_ID)((PUCHAR)pSignSize + 4);
-			m_pAdmPage->GetDataFromDlg(pAdmId, i);
-//			PADM_ID pAdmId = (PADM_ID)pSignSize;
-//			ULONG bIdSize = m_pAdmPage->GetDataFromDlg(pAdmId, i);
-//			pSignSize = (USHORT*)((PUCHAR)pSignSize + bIdSize);
-			pSignSize = (USHORT*)((PUCHAR)pSignSize + (sizeof(ADM_ID) + 4));
-			if(pSignSize >= pEndSign)
-				return 1;*/
 			PUCHAR pAdmCfgMem = (PUCHAR)pCurCfgMem;
 			USHORT* pEndCfgMem = (USHORT*)pCurCfgMem + m_pAdmPage->m_CfgBufSize;
-//			USHORT* pCurCfgMem = (USHORT*)pCurCfgMem;
 			ULONG bCfgSize = m_pAdmPage->GetDataFromDlg(pCurCfgMem, i);
 			pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + bCfgSize);
 			if(pCurCfgMem >= pEndCfgMem)
 				return 1;
-//			*pCurCfgMem = END_TAG;
-//			pCurCfgMem++;
 			m_RealAdmCfgSize[i] = ULONG((PUCHAR)pCurCfgMem - pAdmCfgMem);
 			USHORT* pSizeAll = (USHORT*)pAdmCfgMem;
 			pSizeAll[2] = m_RealAdmCfgSize[i];
@@ -796,7 +767,7 @@ void CIdCfgRomDlg::OnBnClickedSave()
 	DWORD dwBytesWritten;
 	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
 	m_pCfgMem = new UCHAR[m_sizeCfgMem];
-	if(SetCfgMem() == 0) 
+	if( DlgItemsToCfgMem() == 0 ) 
 	{
 		WriteFile(hfile, m_pCfgMem, m_RealBaseCfgSize, &dwBytesWritten, NULL);
 		PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
@@ -830,7 +801,7 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 	PDEVICE_INFO pDeviceInfo = &(DeviceCtrl[m_DevType].devInfo);
 	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
 	m_pCfgMem = new UCHAR[m_sizeCfgMem];
-	if( SetCfgMem() == 0 )
+	if( DlgItemsToCfgMem() == 0 )
 	{
 		pDeviceInfo->dRealBaseCfgSize = m_RealBaseCfgSize;
 		memcpy(pDeviceInfo->pBaseCfgMem, m_pCfgMem, m_RealBaseCfgSize);
@@ -844,9 +815,7 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 				pCurCfgMem += m_RealAdmCfgSize[i];
 			}
 		}
-//		TCHAR MsgBuf[] = _T("Данные в ППЗУ устройства будут перезаписаны!\nПродолжить?");
 		CString MsgBuf, MsgBuf0, MsgBuf1;
-//		TCHAR MsgBuf[MAX_PATH], MsgBuf0[MAX_PATH], MsgBuf1[MAX_PATH];
 		GetMsg(MSG_WARN_REWRITE_DATA, MsgBuf0);
 		GetMsg(MSG_CONTINUE, MsgBuf1);
 		MsgBuf = MsgBuf0 + _T("\n") + MsgBuf1;
@@ -860,7 +829,6 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 	}
 	else
 	{
-//		TCHAR MsgBuf[] = _T("Недостаточно памяти для конфигурационных данных !");
 		CString MsgBuf;
 		GetMsg(MSG_NOT_ENOUGH_MEMORY, MsgBuf);
 		AfxMessageBox(MsgBuf, MB_OK|MB_ICONINFORMATION);
@@ -897,7 +865,7 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 		}
 	}
 	m_pAdmPage->InitData();
-	GetCfgMem();
+	CfgMemToDlgItems();
 	delete[] m_pCfgMem;
 	m_pAdmIfPage->SetMaxAdmIf(m_pAmbPage->m_NumOfAdmIf - 1);
 	m_pAdmPage->SetMaxAdm(m_pAmbPage->m_NumOfAdmIf - 1);
@@ -984,7 +952,7 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 
 	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
 	m_pCfgMem = new UCHAR[m_sizeCfgMem];
-	if(SetCfgMem() == 0)
+	if(DlgItemsToCfgMem() == 0)
 	{
 		// запись конфигурации базового модуля
 		U08 *hex = (U08*)m_pCfgMem;									// байт данных для записи в файл
