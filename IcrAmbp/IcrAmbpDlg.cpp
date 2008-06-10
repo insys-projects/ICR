@@ -197,6 +197,7 @@ void CIcrAmbpDlg::SetPldName()
 	int nIndex = m_ctrlDspPldType.GetCurSel();
 	CString strPldType;
 	m_ctrlDspPldType.GetLBText(nIndex, strPldType);
+	m_DspPldType = nIndex;
 
 	CString strPldPins;
 	strPldPins.Format(_T("%d"), m_DspPldPins);
@@ -204,6 +205,7 @@ void CIcrAmbpDlg::SetPldName()
 	nIndex = m_ctrlDspPldRate.GetCurSel();
 	CString strPldRate;
 	m_ctrlDspPldRate.GetLBText(nIndex, strPldRate);
+	m_DspPldRate = nIndex;
 
 	CString strPldVolume;
 	strPldVolume.Format(_T("%d"), m_DspPldVolume);
