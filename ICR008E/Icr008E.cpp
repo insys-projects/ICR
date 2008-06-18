@@ -231,10 +231,10 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState( ));
-	U08		abAdcBits[] = { 12, 16, 24 };
-	U08		abDacBits[] = { 12, 16, 24 };
+	U08		abAdcBits[] = { 12, 16, 18, 24 };
+	U08		abDacBits[] = { 12, 16, 18, 24 };
 	U08		abAdcCnt[]  = { 0, 2, 4, 6, 8, 10, 12, 14, 16 };
-	U08		abDacCnt[]  = { 0, 2, 4 };
+	U08		abDacCnt[]  = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 	int		ii;
 
 //	int curNum = pDeviceInfo->Number;
