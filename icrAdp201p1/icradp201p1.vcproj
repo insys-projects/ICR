@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/wd4996"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\icrinc,..\..\bardy\brdinc"
+				AdditionalIncludeDirectories="..\icrinc,$(BardyIncDir)"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -133,7 +133,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\icrinc,..\..\bardy\brdinc"
+				AdditionalIncludeDirectories="..\icrinc,$(BardyIncDir)"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL;_CRT_SECURE_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="true"
