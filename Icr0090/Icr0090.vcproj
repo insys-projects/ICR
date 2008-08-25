@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="IcrDsp101cP10"
-	ProjectGUID="{2D7BD782-B9E8-4601-BDA0-45A517B168B0}"
-	RootNamespace="IcrDsp101cP10"
+	Name="Icr0090"
+	ProjectGUID="{9FA097CB-C903-492D-9BE7-7B415F982E30}"
+	RootNamespace="Icr0090"
 	Keyword="MFCDLLProj"
 	>
 	<Platforms>
@@ -49,7 +49,6 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
-				TreatWChar_tAsBuiltInType="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -61,7 +60,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
-				Culture="1049"
+				Culture="1033"
 				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
@@ -69,12 +68,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
-				ModuleDefinitionFile=".\IcrDsp101cP10.def"
+				ModuleDefinitionFile=".\Icr0090.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
-				ImportLibrary="$(OutDir)/IcrDsp101cP10.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -100,6 +97,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy $(OutDir)\$(ProjectName).dll ..\bin"
 			/>
 		</Configuration>
 		<Configuration
@@ -107,9 +105,9 @@
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
 			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="2"
 			CharacterSet="2"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -133,7 +131,6 @@
 				AdditionalIncludeDirectories="..\icrinc,$(BardyIncDir)"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
-				TreatWChar_tAsBuiltInType="true"
 				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
@@ -145,7 +142,7 @@
 			<Tool
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
-				Culture="1049"
+				Culture="1033"
 				AdditionalIncludeDirectories="$(IntDir)"
 			/>
 			<Tool
@@ -153,14 +150,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="1"
-				ModuleDefinitionFile=".\IcrDsp101cP10.def"
+				ModuleDefinitionFile=".\Icr0090.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/IcrDsp101cP10.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -195,19 +190,19 @@
 	<Files>
 		<Filter
 			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\IcrDsp101cP10.cpp"
+				RelativePath=".\Icr0090.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\IcrDsp101cP10.def"
+				RelativePath=".\Icr0090.def"
 				>
 			</File>
 			<File
-				RelativePath=".\IcrDsp101cP10Dlg.cpp"
+				RelativePath=".\Icr0090Dlg.cpp"
 				>
 			</File>
 			<File
@@ -237,27 +232,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\IcrInc\basemod.h"
+				RelativePath="..\ICRINC\Icr0090.h"
 				>
 			</File>
 			<File
-				RelativePath="..\IcrInc\icr.h"
+				RelativePath=".\Icr0090App.h"
 				>
 			</File>
 			<File
-				RelativePath="..\IcrInc\icrbmlst.h"
-				>
-			</File>
-			<File
-				RelativePath="..\IcrInc\IcrDsp101cP10.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IcrDsp101cP10App.h"
-				>
-			</File>
-			<File
-				RelativePath=".\IcrDsp101cP10Dlg.h"
+				RelativePath=".\Icr0090Dlg.h"
 				>
 			</File>
 			<File
@@ -271,15 +254,15 @@
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\IcrDsp101cP10.rc"
+				RelativePath=".\Icr0090.rc"
 				>
 			</File>
 			<File
-				RelativePath=".\res\IcrDsp101cP10.rc2"
+				RelativePath=".\res\Icr0090.rc2"
 				>
 			</File>
 		</Filter>
@@ -291,7 +274,7 @@
 	<Globals>
 		<Global
 			Name="RESOURCE_FILE"
-			Value="IcrDsp101cP10.rc"
+			Value="Icr0090.rc"
 		/>
 	</Globals>
 </VisualStudioProject>

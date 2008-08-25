@@ -1,0 +1,425 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\Icr0090.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "ЗАО ""Инструментальные Системы"""
+            VALUE "FileDescription", "Icr0090 Dynamic Link Library"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Icr0090.dll"
+            VALUE "LegalCopyright", "Copyright (C) 2003-2008 ЗАО ""ИнСис"""
+            VALUE "OriginalFilename", "Icr0090.dll"
+            VALUE "ProductName", "Система Идентификационного и Конфигурационного ПЗУ"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 230, 258
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "0x0090 Конфигурация"
+FONT 8, "MS Sans Serif", 400, 0, 0xCC
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,116,237,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,174,237,50,14
+    LTEXT           "Разрядность:",IDC_STATIC,69,10,47,8
+    COMBOBOX        IDC_ADCBITS,118,8,42,109,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Кодировка:",IDC_STATIC,40,29,40,8
+    COMBOBOX        IDC_ADCENCODING,83,26,106,52,CBS_DROPDOWNLIST | WS_TABSTOP
+    GROUPBOX        "Частота дискретизации (Гц)",IDC_STATIC,17,41,196,31
+    LTEXT           "Минимум:",IDC_STATIC,28,54,35,8
+    EDITTEXT        IDC_ADCRATEMIN,66,52,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Максимум:",IDC_STATIC,114,54,39,8
+    EDITTEXT        IDC_ADCRATEMAX,154,52,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Входной диапазон АЦП (мВ):",IDC_STATIC,7,80,100,8
+    EDITTEXT        IDC_ADCRANGE,109,78,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Кол-во АЦП:",IDC_STATIC,75,218,43,8
+    EDITTEXT        IDC_NUMOFADC,122,216,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,151,216,11,12
+    COMBOBOX        IDC_SUBTYPE,108,98,48,48,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Тип субмодуля:",IDC_STATIC,48,99,55,8
+    EDITTEXT        IDC_REFGEN0,108,118,58,14,ES_AUTOHSCROLL
+    LTEXT           "Генератор 0 (Гц):",IDC_STATIC,47,122,60,8
+    EDITTEXT        IDC_REFGEN1,108,137,58,14,ES_AUTOHSCROLL
+    LTEXT           "Генератор 1 (Гц):",IDC_STATIC,47,141,60,8
+    GROUPBOX        "Шкалы преобразования (мВ)",IDC_STATIC,14,156,202,54
+    LTEXT           "Шкала 0:",IDC_STATIC,20,171,31,8
+    EDITTEXT        IDC_RANGE0,58,169,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Шкала 1:",IDC_STATIC,20,191,31,8
+    EDITTEXT        IDC_RANGE1,58,189,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Шкала 2:",IDC_STATIC,129,173,31,8
+    EDITTEXT        IDC_RANGE2,167,171,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Шкала 3:",IDC_STATIC,129,192,31,8
+    EDITTEXT        IDC_RANGE3,167,190,40,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 223
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 251
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_ADCBITS, 0x403, 2, 0
+0x0038, 
+    IDC_ADCBITS, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_ADCBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_ADCBITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_ADCBITS, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_ADCENCODING, 0x403, 7, 0
+0xf0ef, 0xecff, 0xffe0, "\000" 
+    IDC_ADCENCODING, 0x403, 23, 0
+0xe2e4, 0xe8ee, 0xedf7, 0x2dee, 0xeee4, 0xeeef, 0xedeb, 0xf2e8, 0xebe5, 
+0xedfc, 0xffe0, "\000" 
+    IDC_SUBTYPE, 0x403, 9, 0
+0x7453, 0x6e61, 0x6164, 0x6472, "\000" 
+    IDC_SUBTYPE, 0x403, 6, 0
+0x4257, 0x4c20, 0x0046, 
+    IDC_SUBTYPE, 0x403, 6, 0
+0x4257, 0x4820, 0x0046, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Подтвердить изменения"
+    IDCANCEL                "Отменить изменения"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCENCODING         "Тип кодировки АЦП"
+    IDC_ADCBITS             "Разрядность АЦП"
+    IDC_ADCRANGE            "Входной диапазон АЦП (мВольты)"
+    IDC_ADCRATEMIN          "Минимальная частота дискретизации АЦП"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRATEMAX          "Максимальная частота дискретизации АЦП"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFADC            "Количество установленных АЦП"
+    IDC_GEN1                "Значение частоты опорного генератора 1"
+    IDC_GEN2                "Значение частоты опорного генератора 2"
+    IDC_GEN3                "Значение частоты опорного генератора 3"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "Instrumental Systems Corporation"
+            VALUE "FileDescription", "Icr0090 Dynamic Link Library"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Icr0090.dll"
+            VALUE "LegalCopyright", "(C) 2003-2008 InSys Corp.  All rights reserved."
+            VALUE "OriginalFilename", "Icr0090.dll"
+            VALUE "ProductName", "Identification & Configuration ROM System"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 230, 243
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "0x0090 Configuration"
+FONT 8, "MS Sans Serif", 400, 0, 0xCC
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,116,222,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,174,222,50,14
+    LTEXT           "Bits:",IDC_STATIC,20,10,14,8
+    COMBOBOX        IDC_ADCBITS,34,7,42,109,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Encoding:",IDC_STATIC,101,9,33,8
+    COMBOBOX        IDC_ADCENCODING,135,7,77,52,CBS_DROPDOWNLIST | WS_TABSTOP
+    GROUPBOX        "Sampling Rate (Hz)",IDC_STATIC,17,27,196,32
+    LTEXT           "Minimum:",IDC_STATIC,31,41,30,8
+    EDITTEXT        IDC_ADCRATEMIN,66,39,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Maximum:",IDC_STATIC,118,41,32,8
+    EDITTEXT        IDC_ADCRATEMAX,154,39,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "ADC Input Range (mV):",IDC_STATIC,30,69,80,8
+    EDITTEXT        IDC_ADCRANGE,109,67,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Number of ADC's:",IDC_STATIC,62,202,57,8
+    EDITTEXT        IDC_NUMOFADC,121,200,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,147,200,11,12
+    COMBOBOX        IDC_SUBTYPE,108,85,48,48,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Subunit Type:",IDC_STATIC,48,86,55,8
+    EDITTEXT        IDC_REFGEN0,108,105,58,14,ES_AUTOHSCROLL
+    LTEXT           "Generator 0 (Hz):",IDC_STATIC,47,109,60,8
+    EDITTEXT        IDC_REFGEN1,108,124,58,14,ES_AUTOHSCROLL
+    LTEXT           "Generator 1 (Hz):",IDC_STATIC,47,128,60,8
+    GROUPBOX        "Subunit Input Ranges (mV):",IDC_STATIC,14,143,202,54
+    LTEXT           "Range 0:",IDC_STATIC,20,158,30,8
+    EDITTEXT        IDC_RANGE0,58,156,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Range 1:",IDC_STATIC,20,178,30,8
+    EDITTEXT        IDC_RANGE1,58,176,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Range 2:",IDC_STATIC,129,160,30,8
+    EDITTEXT        IDC_RANGE2,167,158,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Range 3:",IDC_STATIC,129,179,30,8
+    EDITTEXT        IDC_RANGE3,167,177,40,12,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 223
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 236
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_ADCBITS, 0x403, 2, 0
+0x0038, 
+    IDC_ADCBITS, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_ADCBITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_ADCBITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_ADCBITS, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_ADCENCODING, 0x403, 16, 0
+0x7473, 0x6172, 0x6769, 0x7468, 0x6220, 0x6e69, 0x7261, 0x0079, 
+    IDC_ADCENCODING, 0x403, 17, 0
+0x7774, 0x276f, 0x2073, 0x6f63, 0x706d, 0x656c, 0x656d, 0x746e, "\000" 
+    IDC_SUBTYPE, 0x403, 9, 0
+0x7453, 0x6e61, 0x6164, 0x6472, "\000" 
+    IDC_SUBTYPE, 0x403, 6, 0
+0x4257, 0x4c20, 0x0046, 
+    IDC_SUBTYPE, 0x403, 6, 0
+0x4257, 0x4820, 0x0046, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Confirm of changes"
+    IDCANCEL                "Cancel of changes"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCENCODING         "Encoding of ADC"
+    IDC_ADCBITS             "Bits of ADC"
+    IDC_ADCRANGE            "ADC input range"
+    IDC_ADCRATEMIN          "Minimum sampling rate of ADC"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRATEMAX          "Maximum sampling rate of ADC"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFADC            "Number of installed ADC"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\Icr0090.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
