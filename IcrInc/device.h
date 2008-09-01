@@ -28,6 +28,19 @@
 
 #pragma pack(1)
 
+// Bus Types
+enum
+{
+	BUS_TYPE_UNKNOWN,
+	BUS_TYPE_PCI,
+	BUS_TYPE_ISA,
+	BUS_TYPE_RS232,
+	BUS_TYPE_1394,
+	BUS_TYPE_USB,
+	BUS_TYPE_PCMCIA,
+	BUS_TYPE_VME,
+};
+
 // Struct info about device
 typedef struct _DEVICE_INFO {
 	USHORT	wSize;			// sizeof(DEVICE_INFO)
@@ -58,13 +71,13 @@ extern "C" {
 
 typedef void __stdcall DEVICE_GetInfo_Type(int* devNum, PDEVICE_INFO pDevInfo); 
 typedef void __stdcall DEVICE_Close_Type(PDEVICE_INFO pDevInfo); 
-typedef int __stdcall DEVICE_ReadICR_Type(PDEVICE_INFO pDevInfo); 
-typedef int __stdcall DEVICE_WriteICR_Type(PDEVICE_INFO pDevInfo, USHORT bToSubmoduleOnly); 
+typedef int __stdcall DEVICE_ReadICR_Type(PDEVICE_INFO pDevInfo, UCHAR bDevs); 
+typedef int __stdcall DEVICE_WriteICR_Type(PDEVICE_INFO pDevInfo, UCHAR bDevs); 
 
 DEVICE_API void __stdcall DEVICE_GetInfo(int* devNum, PDEVICE_INFO pDevInfo);
 DEVICE_API void __stdcall DEVICE_Close(PDEVICE_INFO pDevInfo);
-DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo);
-DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, USHORT bToSubmoduleOnly = 0);
+DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs);
+DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs);
 
 #ifdef	__cplusplus
 };

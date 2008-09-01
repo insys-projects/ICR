@@ -51,7 +51,15 @@ const U16 SRAM_CFG_TAG		= 0x0720; // тэг для структуры конфигурационных параметр
 
 const U16 DSPNODE_CFG_TAG	= 0x0800; // tag of DSP node configuration structure (for AMBPCD)
 
-const U16 SUBMOD_CFGMEM_SIZE = 512; // размер ППЗУ, устанавливаемом на субмодуль
+const U16 BASEMOD_CFGMEM_SIZE = 256/*512*/; // размер ППЗУ, устанавливаемом на базовый модуль
+const U16 SUBMOD_CFGMEM_SIZE = 512;  // размер ППЗУ, устанавливаемом на субмодуль
+
+enum
+{
+	READ_WRITE_BASEMODULE,
+	READ_WRITE_SUBMODULE,
+	READ_WRITE_ALL,
+};
 
 // Base module identification
 // Идентификационная структура базового модуля

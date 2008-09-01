@@ -1,5 +1,7 @@
 #pragma once
 
+#pragma warning (disable:4996)
+
 #include "icr.h"
 
 UINT const MAX_NUMOFADMIF = 4;
@@ -51,4 +53,8 @@ public:
 	afx_msg void OnDeltaposSpinadmif(NMHDR *pNMHDR, LRESULT *pResult);
 public:
 	afx_msg void OnEnKillfocusComment();
+public:
+	afx_msg void OnEnChangeSerialnum();
+public:
+	afx_msg void OnEnChangeAmbversion();
 };

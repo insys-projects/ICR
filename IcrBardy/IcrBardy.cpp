@@ -23,10 +23,6 @@
 #include "device.h"
 
 #define MAXDEVICES 32
-// размер памяти, выделяемой под конфигурацию
-// (максимальный размер ППЗУ, устанавливаемого на модуль)
-#define BASEMOD_CFGMEM_SIZE 512
-#define SUBMOD_CFGMEM_SIZE 256
 
 static void	InitDev()
 {
@@ -54,7 +50,7 @@ static void	InitDev()
 //***************************************************************************************
 DEVICE_API void __stdcall DEVICE_GetInfo(int* pNumDev, PDEVICE_INFO pDevInfo)
 {
-	pDevInfo->bBusType = 1; //PCIBus;
+	pDevInfo->bBusType = BUS_TYPE_PCI;
 	int CurInst = *pNumDev;
 	if(!CurInst)
 		InitDev();
@@ -107,156 +103,183 @@ DEVICE_API void __stdcall DEVICE_Close(PDEVICE_INFO pDevInfo)
 	int CurInst = pDevInfo->dInstance;
 //	if(!CurInst)
 //	int status = BRD_cleanup();
-		BRD_cleanup();
+	BRD_cleanup();
 }
 
 //***************************************************************************************
 //  DEVICE_ReadIdCfgRom - функция служит для чтения ППЗУ
 //  Input:  pDevInfo - указатель на структуру для обмена информацией
-//  Output: return - 
+//  Output: return - 1 - успешное завершение, 0 - ошибка
 //  Notes:  данная функция вызывается по нажатию на соответствующую кнопку
 //***************************************************************************************
-DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo)
+DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 {
-	int Status = 0;
 	int CurInst = pDevInfo->dInstance;
 	BRD_Handle handle = BRD_open(CurInst, 0, NULL);
-//	int hDAQ = DeviceOpen(CurInst);
-//	if(hDAQ) {
-	if(handle) {
-		ULONG puBaseIcrId = 0, puAdmIcrId = 0;
-		BRD_PuList PuListTmp[1];
-		U32 ItemReal;
-		BRD_puList(handle, PuListTmp, 1, &ItemReal);
-		BRD_PuList	*PuList = new BRD_PuList[ItemReal];
-		U32	ItemsCnt = ItemReal;
-		BRD_puList(handle, PuList, ItemsCnt, &ItemReal);
-		if(ItemReal <= ItemsCnt)
+	if( !handle )
+		return 0;
+
+	BRD_PuList PuListTmp[1];
+	U32 ItemReal;
+	BRD_puList(handle, PuListTmp, 1, &ItemReal);
+	BRD_PuList	*PuList = new BRD_PuList[ItemReal];
+	U32	ItemsCnt = ItemReal;
+	BRD_puList(handle, PuList, ItemsCnt, &ItemReal);
+	if( ItemReal > ItemsCnt )
+	{
+		BRD_close(handle);
+		delete [] PuList;
+		pDevInfo->dRealBaseCfgSize = 0;
+		pDevInfo->dRealAdmCfgSize[0] = 0;
+		return 0;
+	}
+
+	if( (bDevs == READ_WRITE_BASEMODULE) || (bDevs == READ_WRITE_ALL) )
+	{
+		ULONG puBaseIcrId = 0;
+		for(ULONG ii = 0; ii < ItemReal; ii++)
 		{
-			for(ULONG j = 0; j < ItemReal; j++)
+			if(PuList[ii].puCode == BASE_ID_TAG)
 			{
-				if(PuList[j].puCode == BASE_ID_TAG)
+				puBaseIcrId = PuList[ii].puId;
+				break;
+			}
+		}
+		if( puBaseIcrId == 0 )
+		{
+			for(ULONG ii = 0; ii < ItemReal; ii++)
+			{
+				if( PuList[ii].puId == 0x1 )
 				{
-					puBaseIcrId = PuList[j].puId;
+					puBaseIcrId = PuList[ii].puId;
 					break;
 				}
 			}
-			if( puBaseIcrId == 0 )
-			{
-				for(ULONG j = 0; j < ItemReal; j++)
-				{
-					if( PuList[j].puId == 0x1 )
-					{
-						puBaseIcrId = PuList[j].puId;
-						break;
-					}
-				}
-			}
-			if(puBaseIcrId)
-			{
-				BRD_puRead(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, BASEMOD_CFGMEM_SIZE);
-				if(*(PUSHORT)pDevInfo->pBaseCfgMem == BASE_ID_TAG)
-					pDevInfo->dRealBaseCfgSize = *((PUSHORT)pDevInfo->pBaseCfgMem + 2);
-				else
-					pDevInfo->dRealBaseCfgSize = 0;
-				for(ULONG j = 0; j < ItemReal; j++)
-					if(PuList[j].puCode == ADM_ID_TAG)
-					{
-						puAdmIcrId = PuList[j].puId;
-						break;
-					}
-				if(puAdmIcrId)
-				{
-					BRD_puRead(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], SUBMOD_CFGMEM_SIZE);
-					if(*(PUSHORT)pDevInfo->pAdmCfgMem[0] == ADM_ID_TAG)
-						pDevInfo->dRealAdmCfgSize[0] = *((PUSHORT)pDevInfo->pAdmCfgMem[0] + 2);
-					else
-						pDevInfo->dRealAdmCfgSize[0] = 0;
-				}
-				else
-					pDevInfo->dRealAdmCfgSize[0] = 0;
-			}
+		}
+
+		if( puBaseIcrId )
+		{
+			BRD_puRead(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, BASEMOD_CFGMEM_SIZE);
+			if(*(PUSHORT)pDevInfo->pBaseCfgMem == BASE_ID_TAG)
+				pDevInfo->dRealBaseCfgSize = *((PUSHORT)pDevInfo->pBaseCfgMem + 2);
 			else
 				pDevInfo->dRealBaseCfgSize = 0;
 		}
-		else
-		{
-			pDevInfo->dRealBaseCfgSize = 0;
-			pDevInfo->dRealAdmCfgSize[0] = 0;
-		}
-		BRD_close(handle);
-		Status = 1;
-		delete [] PuList;
+		else pDevInfo->dRealBaseCfgSize = 0;
 	}
-	return Status;
+	else
+		pDevInfo->dRealBaseCfgSize = 0;
+
+	if( (bDevs == READ_WRITE_SUBMODULE) || (bDevs == READ_WRITE_ALL) )
+	{
+		ULONG puAdmIcrId = 0;
+		for(ULONG ii = 0; ii < ItemReal; ii++)
+		{
+			if(PuList[ii].puCode == ADM_ID_TAG)
+			{
+				puAdmIcrId = PuList[ii].puId;
+				break;
+			}
+		}
+
+		if( puAdmIcrId )
+		{
+			BRD_puRead(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], SUBMOD_CFGMEM_SIZE);
+			if(*(PUSHORT)pDevInfo->pAdmCfgMem[0] == ADM_ID_TAG)
+				pDevInfo->dRealAdmCfgSize[0] = *((PUSHORT)pDevInfo->pAdmCfgMem[0] + 2);
+			else
+				pDevInfo->dRealAdmCfgSize[0] = 0;
+		}
+		else
+			pDevInfo->dRealAdmCfgSize[0] = 0;
+	}
+	else
+		pDevInfo->dRealAdmCfgSize[0] = 0;
+
+	BRD_close(handle);
+	delete [] PuList;
+
+	return 1;
 }
 
 //***************************************************************************************
 //  DEVICE_WriteIdCfgRom - функция служит для записи ППЗУ
 //  Input:  pDevInfo - указатель на структуру для обмена информацией
-//  Output: return - 
+//  Output: return - 1 - успешное завершение, 0 - ошибка
 //  Notes:  данная функция вызывается по нажатию на соответствующую кнопку
 //***************************************************************************************
-DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, USHORT bToSubmoduleOnly)
+DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 {
-	int Status = 0;
 	int CurInst = pDevInfo->dInstance;
 	BRD_Handle handle = BRD_open(CurInst, 0, NULL);
-	if(handle)
+	if( !handle )
+		return 0;
+
+	BRD_PuList PuListTmp[50];
+	U32 ItemReal;
+	BRD_puList(handle, PuListTmp, 50, &ItemReal);
+	BRD_PuList	*PuList = new BRD_PuList[ItemReal];
+	U32	ItemsCnt = ItemReal;
+	BRD_puList(handle, PuList, ItemsCnt, &ItemReal);
+	if( ItemReal > ItemsCnt )
 	{
-		ULONG puBaseIcrId = 0, puAdmIcrId = 0;
-		BRD_PuList PuListTmp[1];
-		U32 ItemReal;
-		Status = BRD_puList(handle, PuListTmp, 1, &ItemReal);
-		BRD_PuList	*PuList = new BRD_PuList[ItemReal];
-		U32	ItemsCnt = ItemReal;
-		Status = BRD_puList(handle, PuList, ItemsCnt, &ItemReal);
-		if( ItemReal <= ItemsCnt )
+		BRD_close(handle);
+		delete [] PuList;
+		return 0;
+	}
+
+	if( (bDevs == READ_WRITE_BASEMODULE) || (bDevs == READ_WRITE_ALL) )
+	{
+		ULONG puBaseIcrId = 0;
+		for(ULONG ii = 0; ii < ItemReal; ii++)
 		{
-			for(ULONG j = 0; j < ItemReal; j++)
+			if(PuList[ii].puCode == BASE_ID_TAG)
 			{
-				if(PuList[j].puCode == BASE_ID_TAG)
+				puBaseIcrId = PuList[ii].puId;
+				break;
+			}
+		}
+		if( puBaseIcrId == 0 )
+		{
+			for(ULONG ii = 0; ii < ItemReal; ii++)
+			{
+				if( PuList[ii].puId == 0x1 )
 				{
-					puBaseIcrId = PuList[j].puId;
+					puBaseIcrId = PuList[ii].puId;
 					break;
 				}
 			}
-			if( puBaseIcrId == 0 )
+		}
+
+		if( puBaseIcrId )
+		{
+			BRD_puEnable(handle, puBaseIcrId);
+			BRD_puWrite(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, pDevInfo->dRealBaseCfgSize);
+		}
+	}
+
+	if( (bDevs == READ_WRITE_SUBMODULE) || (bDevs == READ_WRITE_ALL) )
+	{
+		ULONG puAdmIcrId = 0;
+		for(ULONG ii = 0; ii < ItemReal; ii++)
+		{
+			if(PuList[ii].puCode == ADM_ID_TAG)
 			{
-				for(ULONG j = 0; j < ItemReal; j++)
-				{
-					if( PuList[j].puId == 0x1 )
-					{
-						puBaseIcrId = PuList[j].puId;
-						break;
-					}
-				}
-			}
-			if( puBaseIcrId )
-			{
-				if( !bToSubmoduleOnly )
-				{
-					BRD_puEnable(handle, puBaseIcrId);
-					BRD_puWrite(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, pDevInfo->dRealBaseCfgSize);
-				}
-				for(ULONG j = 0; j < ItemReal; j++)
-					if(PuList[j].puCode == ADM_ID_TAG)
-					{
-						puAdmIcrId = PuList[j].puId;
-						break;
-					}
-				if( puAdmIcrId )
-				{
-					BRD_puEnable(handle, puAdmIcrId);
-					BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->dRealAdmCfgSize[0]);
-				}
+				puAdmIcrId = PuList[ii].puId;
+				break;
 			}
 		}
-		BRD_close(handle);
-		Status = 1;
-		delete [] PuList;
+
+		if( puAdmIcrId )
+		{
+			BRD_puEnable(handle, puAdmIcrId);
+			BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->dRealAdmCfgSize[0]);
+		}
 	}
-	return Status;
+	BRD_close(handle);
+	delete [] PuList;
+
+	return 1;
 }
 
 // ****************** End of file icrbardy.cpp ***************

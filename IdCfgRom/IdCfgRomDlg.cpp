@@ -7,14 +7,13 @@
 
 #pragma warning (disable:4996)
 
-extern DEVICE_CTRL DeviceCtrl[];
-extern int m_NumOfDevices;
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 #pragma setlocale("Russian_Russia.1251")
+
+HICON g_hIcon;
 
 static void GetMsg(DWORD dwMessageId, CString& string) 
 {
@@ -63,13 +62,16 @@ static S32 LL_hexGetByte( char **ppLine, U32 *pByte )
 
 CIdCfgRomDlg::CIdCfgRomDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CIdCfgRomDlg::IDD, pParent)
-	, m_ToSubmoduleOnly(FALSE)
 {
 	m_DevType = 0;
-	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME1);
+	g_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME1);
 	m_wDialogFieldsEdited = 0;
 	m_wBasemodFieldsEdited = 0;
 	m_wSubmodFieldsEdited = 0;
+	m_sWriteZakaz = "";
+	m_sWriteSurname = "";
+	m_sWriteKeyword = "";
+	m_pFileBaseDlg = NULL;
 }
 
 void CIdCfgRomDlg::DoDataExchange(CDataExchange* pDX)
@@ -77,7 +79,7 @@ void CIdCfgRomDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_TABPAGE, m_ctrlTab);
 	DDX_CBIndex(pDX, IDC_DEVICETYPE, m_DevType);
-	DDX_Check(pDX, IDC_TOSUBMODULEONLY, m_ToSubmoduleOnly);
+	DDX_Control(pDX, IDC_READ_WRITE_DEV, m_ctrlReadWriteDevs);
 }
 
 BEGIN_MESSAGE_MAP(CIdCfgRomDlg, CDialog)
@@ -86,12 +88,13 @@ BEGIN_MESSAGE_MAP(CIdCfgRomDlg, CDialog)
 	ON_WM_QUERYDRAGICON()
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_ABOUT, OnBnClickedAbout)
-	ON_BN_CLICKED(IDC_READ, OnBnClickedRead)
-	ON_BN_CLICKED(IDC_SAVE, OnBnClickedSave)
 	ON_BN_CLICKED(IDC_INTODEV, OnBnClickedIntodev)
 	ON_BN_CLICKED(IDC_FROMDEV, OnBnClickedFromdev)
-	ON_BN_CLICKED(IDC_SAVEHEX, &CIdCfgRomDlg::OnBnClickedSavehex)
 	ON_BN_CLICKED(IDOK, &CIdCfgRomDlg::OnBnClickedOk)
+	ON_BN_CLICKED(IDC_WRITE_READ, &CIdCfgRomDlg::OnBnClickedWriteRead)
+	ON_BN_CLICKED(IDC_CLEAR, &CIdCfgRomDlg::OnBnClickedClear)
+//	ON_WM_LBUTTONDOWN()
+ON_WM_ACTIVATE()
 END_MESSAGE_MAP()
 
 
@@ -103,49 +106,41 @@ BOOL CIdCfgRomDlg::OnInitDialog()
 
 	// Set the icon for this dialog.  The framework does this automatically
 	//  when the application's main window is not a dialog
-	SetIcon(m_hIcon, TRUE);			// Set big icon
-	SetIcon(m_hIcon, FALSE);		// Set small icon
+	SetIcon(g_hIcon, TRUE);			// Set big icon
+	SetIcon(g_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
-	CWnd* pToSubOnly = (CWnd*)GetDlgItem(IDC_TOSUBMODULEONLY);
-	pToSubOnly->EnableWindow(FALSE);
-
 	m_pAboutDlg = new CAbout;
 
 	m_pAmbPage = new CAmbPage; 
 	VERIFY(m_pAmbPage->Create(CAmbPage::IDD, this));
 	m_ctrlTab.AddTab(m_pAmbPage, _T("Base"));
-
-//	m_pAdmIfPage = new CAdmIfPage; 
 	m_pAdmIfPage = new CAdm2IfPage; 
-//	VERIFY(m_pAdmIfPage->Create(CAdmIfPage::IDD, this));
 	VERIFY(m_pAdmIfPage->Create(CAdm2IfPage::IDD, this));
 	m_ctrlTab.AddTab(m_pAdmIfPage, _T("Adm-I/f"));
-	
-	m_pPldPage = new CPldPage; 
+		m_pPldPage = new CPldPage; 
 	VERIFY(m_pPldPage->Create(CPldPage::IDD, this));
 	m_ctrlTab.AddTab(m_pPldPage, _T("PLD"));
-
 	m_pFifoPage = new CFifoPage; 
 	VERIFY(m_pFifoPage->Create(CFifoPage::IDD, this));
 	m_ctrlTab.AddTab(m_pFifoPage, _T("FIFO"));
-
 	m_pDacPage = new CDacPage; 
 	VERIFY(m_pDacPage->Create(CDacPage::IDD, this));
 	m_ctrlTab.AddTab(m_pDacPage, _T("DAC"));
-
 	m_pAdmPage = new CAdmPage; 
 	VERIFY(m_pAdmPage->Create(CAdmPage::IDD, this));
 	m_ctrlTab.AddTab(m_pAdmPage, _T("ADM"));
 
+	SetReadWriteDevs(READ_WRITE_BASEMODULE);
+
 	CComboBox* pDevType = (CComboBox*)GetDlgItem(IDC_DEVICETYPE);
 	pDevType->ResetContent();
-	if(m_NumOfDevices)
+	if( g_NumOfDevices )
 	{
-		for(int i = 0; i < m_NumOfDevices; i++)
+		for(int i = 0; i < g_NumOfDevices; i++)
 		{
 			CString strDevName;
-			PDEVICE_INFO pInfo = &(DeviceCtrl[i].devInfo);
+			PDEVICE_INFO pInfo = &(g_DeviceCtrl[i].devInfo);
 			strDevName = pInfo->sName;
 			TCHAR strRev[10];
 			sprintf_s(strRev, _T(" V%d.%d"), pInfo->bVersion >> 4, pInfo->bVersion & 0x0f);
@@ -167,16 +162,48 @@ BOOL CIdCfgRomDlg::OnInitDialog()
 		pFromDevBtn->EnableWindow(FALSE);
 		CWnd* pIntoDevBtn = (CWnd*)GetDlgItem(IDC_INTODEV);
 		pIntoDevBtn->EnableWindow(FALSE);
+		CWnd* pClearBtn = (CWnd*)GetDlgItem(IDC_CLEAR);
+		pClearBtn->EnableWindow(FALSE);
+		m_ctrlReadWriteDevs.EnableWindow(FALSE);
 	}
 
 	CWnd* pOk = (CWnd*)GetDlgItem(IDOK);
 	GotoDlgCtrl(pOk);
     EnableToolTips(TRUE);
 
-	UpdateStructOfDialogFieldsValues();
+	SaveDialogFieldsValues();
 
-//	return TRUE;  // return TRUE  unless you set the focus to a control
 	return FALSE;  // return TRUE  unless you set the focus to a control
+}
+
+void CIdCfgRomDlg::SetReadWriteDevs(int nReadWriteDevs)
+{
+	m_ctrlReadWriteDevs.ResetContent();
+
+	if( nReadWriteDevs == READ_WRITE_ALL )
+	{
+		m_ctrlReadWriteDevs.AddString("Базовый модуль и субмодуль");
+		m_ctrlReadWriteDevs.AddString("Базовый модуль");
+		m_ctrlReadWriteDevs.AddString("Субмодуль");
+	}
+	else if( nReadWriteDevs == READ_WRITE_BASEMODULE )
+		m_ctrlReadWriteDevs.AddString("Базовый модуль");
+
+	m_ctrlReadWriteDevs.SetCurSel(0);
+}
+
+int	CIdCfgRomDlg::GetReadWriteDevs()
+{
+	CString sDev;
+	m_ctrlReadWriteDevs.GetLBText(m_ctrlReadWriteDevs.GetCurSel(), sDev);
+	if( sDev == "Базовый модуль" )
+		return READ_WRITE_BASEMODULE;
+	if( sDev == "Субмодуль" )
+		return READ_WRITE_SUBMODULE;
+	if( sDev == "Базовый модуль и субмодуль" )
+		return READ_WRITE_ALL;
+
+	return -1;
 }
 
 // If you add a minimize button to your dialog, you will need the code below
@@ -200,7 +227,7 @@ void CIdCfgRomDlg::OnPaint()
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
 		// Draw the icon
-		dc.DrawIcon(x, y, m_hIcon);
+		dc.DrawIcon(x, y, g_hIcon);
 	}
 	else
 	{
@@ -212,7 +239,7 @@ void CIdCfgRomDlg::OnPaint()
 //  the minimized window.
 HCURSOR CIdCfgRomDlg::OnQueryDragIcon()
 {
-	return static_cast<HCURSOR>(m_hIcon);
+	return static_cast<HCURSOR>(g_hIcon);
 }
 
 BOOL CIdCfgRomDlg::PreTranslateMessage(MSG* pMsg)
@@ -262,12 +289,26 @@ BOOL CIdCfgRomDlg::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
     return(FALSE);
 }
 
+void CIdCfgRomDlg::OnBnClickedOk()
+{
+	// TODO: Add your control notification handler code here
+	CheckEditOfStructOfDialogFieldsValues();
+	// если поля изменены, предупреждаем пользователя перед выходом
+	if( m_wDialogFieldsEdited || m_wBasemodFieldsEdited || m_wSubmodFieldsEdited )
+	{
+		if(MessageBox( "Некоторые поля изменены!\nВы действительно хотите выйти?", _T("IdCfgRom"), MB_YESNO|MB_ICONWARNING) != IDYES)
+			return;
+	}
+
+	OnOK();
+}
+
 void CIdCfgRomDlg::OnOK()
 {
 	// TODO: Add your specialized code here and/or call the base class
 	CWnd* pCurrent = GetFocus();
 	CWnd* pOk = (CWnd*)GetDlgItem(IDOK);
-	if(pCurrent == pOk)
+	if( pCurrent == pOk )
 		CDialog::OnOK();
 	else
 	{
@@ -278,8 +319,20 @@ void CIdCfgRomDlg::OnOK()
 		m_pDacPage->OnOK();
 		m_pAdmPage->OnOK();
 	}
+}
 
-//	CDialog::OnOK();
+void CIdCfgRomDlg::OnCancel()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	CheckEditOfStructOfDialogFieldsValues();
+	// если поля изменены, предупреждаем пользователя перед выходом
+	if( m_wDialogFieldsEdited || m_wBasemodFieldsEdited || m_wSubmodFieldsEdited )
+	{
+		if( MessageBox( "Некоторые поля изменены!\nВы действительно хотите выйти?", _T("IdCfgRom"), MB_YESNO|MB_ICONWARNING) != IDYES)
+			return;
+	}
+
+	CDialog::OnCancel();
 }
 
 void CIdCfgRomDlg::OnDestroy()
@@ -287,9 +340,9 @@ void CIdCfgRomDlg::OnDestroy()
 	CDialog::OnDestroy();
 
 	// TODO: Add your message handler code here
-	for(int i = 0; i < m_NumOfDevices; i++)	{
-		PDEVICE_INFO pDeviceInfo = &(DeviceCtrl[i].devInfo);
-		DeviceCtrl[i].pClose(pDeviceInfo);
+	for(int i = 0; i < g_NumOfDevices; i++)	{
+		PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[i].devInfo);
+		g_DeviceCtrl[i].pClose(pDeviceInfo);
 	}
 
 	delete m_pAboutDlg;
@@ -300,6 +353,16 @@ void CIdCfgRomDlg::OnDestroy()
 	m_pFifoPage->DestroyWindow();
 	m_pDacPage->DestroyWindow();
 	m_pAdmPage->DestroyWindow();
+
+	delete m_pAmbPage;
+	delete m_pAdmIfPage;
+	delete m_pPldPage;
+	delete m_pFifoPage;
+	delete m_pDacPage;
+	delete m_pAdmPage;
+
+	if( m_pFileBaseDlg )
+		delete m_pFileBaseDlg;
 }
 
 void CIdCfgRomDlg::OnBnClickedAbout()
@@ -493,12 +556,21 @@ void CIdCfgRomDlg::CfgMemToDlgItems()
 	} while(!end_flag && pCfgMem < pEndCfgMem);
 }
 
-void CIdCfgRomDlg::OnBnClickedRead()
+void CIdCfgRomDlg::ReadThroughDialog()
 {
 	// TODO: Add your control notification handler code here
-	m_pAmbPage->m_sComment = "";
-	m_pAdmPage->m_sComment = "";
+	CString sFilePath = ShowReadDialog();
+	if( sFilePath == "" )
+		return;
+	
+	ReadCfgFile(sFilePath);
 
+	if( m_pFileBaseDlg )
+		TransferParamsFromMainToFileBaseDlg();
+}
+
+CString CIdCfgRomDlg::ShowReadDialog()
+{
 	CString strFilter;
 	GetMsg(MSG_FILE_FILTER_BIN_AND_HEX, strFilter);
 	CFileDialog readFileDlg(TRUE, _T(".bin;.hex"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
@@ -534,7 +606,7 @@ void CIdCfgRomDlg::OnBnClickedRead()
 
 	INT_PTR nID = readFileDlg.DoModal();
 	if(nID != IDOK)
-		return;
+		return "";
 	CString fileName = readFileDlg.GetPathName();
 
 	// записываем в реестр путь к последнему считанному файлу
@@ -545,8 +617,16 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	key.SetValue(regDir, "Load/Save Directory");
 	key.Close();
 
-	m_readFileExt = fileName.Right(4);
-	HANDLE hfile = CreateFile(	fileName, 
+	return fileName;
+}
+
+void CIdCfgRomDlg::ReadCfgFile(CString sFilePath)
+{
+	m_pAmbPage->m_sComment = "";
+	m_pAdmPage->m_sComment = "";
+
+	m_readFileExt = sFilePath.Right(4);
+	HANDLE hfile = CreateFile(	sFilePath, 
 								GENERIC_READ,
 								FILE_SHARE_READ,
 								NULL,
@@ -573,7 +653,7 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	m_sizeCfgMem = dwBytesRead;
 	m_pAdmPage->InitData();
 	CfgMemToDlgItems();
-	delete[] m_pCfgMem;
+	delete [] m_pCfgMem;
 
 	m_pAdmIfPage->SetMaxAdmIf(m_pAmbPage->m_NumOfAdmIf - 1);
 	m_pAdmPage->SetMaxAdm(m_pAmbPage->m_NumOfAdmIf - 1);
@@ -584,28 +664,20 @@ void CIdCfgRomDlg::OnBnClickedRead()
 	m_pAmbPage->InitData();
 	CloseHandle(hfile);
 
-	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
-	CWnd* pToSubOnly = (CWnd*)GetDlgItem(IDC_TOSUBMODULEONLY);
 	m_pAmbPage->UpdateData(FALSE);
 	if( m_pAmbPage->m_NumOfAdmIf == 0 )
-	{
-		m_ToSubmoduleOnly = 0;
-		pToSubOnly->EnableWindow(FALSE);
-	}
+		SetReadWriteDevs(READ_WRITE_BASEMODULE);
 	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
 	{
 		m_pAdmPage->UpdateData(FALSE);
 		if( m_pAdmPage->m_AdmType == 0 )
-		{
-			m_ToSubmoduleOnly = 0;
-			pToSubOnly->EnableWindow(FALSE);
-		}
+			SetReadWriteDevs(READ_WRITE_BASEMODULE);
 		else if ( m_pAdmPage->m_AdmType > 0 )
-			pToSubOnly->EnableWindow(TRUE);
+			SetReadWriteDevs(READ_WRITE_ALL);
 	}
 	UpdateData(FALSE);
 
-	UpdateStructOfDialogFieldsValues();
+	SaveDialogFieldsValues();
 }
 
 // Заполняет буфер значениями из "диалоговых закладок"
@@ -701,12 +773,39 @@ ULONG CIdCfgRomDlg::DlgItemsToCfgMem()
 	return 0;
 }
 
-void CIdCfgRomDlg::OnBnClickedSave()
+void CIdCfgRomDlg::SaveBinThroughtDialog()
 {
 	// TODO: Add your control notification handler code here
+	CString sFilePath = ShowSaveDialog(SAVE_BIN);
+	
+	if( sFilePath.Compare("") != 0 )
+		SaveBin(sFilePath);
+}
+
+void CIdCfgRomDlg::SaveHexThroughtDialog()
+{
+	// TODO: Add your control notification handler code here
+	CString sFileName = ShowSaveDialog(SAVE_HEX);
+	
+	if( sFileName.Compare("") != 0 )
+		SaveHex(sFileName);
+}
+
+CString CIdCfgRomDlg::ShowSaveDialog(int nSaveType)
+{
 	CString strFilter;
-	GetMsg(MSG_FILE_FILTER, strFilter);
-	CFileDialog saveFileDlg(FALSE, ".bin", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
+	CString sDefExt = "";
+	if( nSaveType == SAVE_BIN )
+	{
+		GetMsg(MSG_FILE_FILTER, strFilter);
+		sDefExt	= ".bin";
+	}
+	else if( nSaveType == SAVE_HEX )
+	{
+		GetMsg(MSG_FILE_FILTER_HEX, strFilter);
+		sDefExt	= ".hex";
+	}
+	CFileDialog saveFileDlg(FALSE, sDefExt, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
 
 	// установить директорию для сохранения файла исходя из записи в реестре
 	CHAR regDir[MAX_PATH];
@@ -736,19 +835,24 @@ void CIdCfgRomDlg::OnBnClickedSave()
 
 	INT_PTR nID = saveFileDlg.DoModal();
 	if(nID != IDOK)
-		return;
+		return "";
 	CString fileName = saveFileDlg.GetPathName();
+	ParseFileNameExt(fileName);
 
-	// записываем в реестр путь к последнему записанному файлу
+	// записываем в реестр путь к последнему сохранённому файлу
 	strcpy(regDir, fileName.GetBuffer());
 	LPTSTR editorOfDir = strrchr(regDir, '\\') + 1;
 	*editorOfDir = 0;
 	key.Create(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
 		key.SetValue(regDir, "Load/Save Directory");
-	key.Close(); 
+	key.Close();
 
-	ParseFileNameExt(fileName);
-	HANDLE hfile = CreateFile(	fileName, 
+	return fileName;
+}
+
+void CIdCfgRomDlg::SaveBin(CString sFilePath)
+{
+	HANDLE hfile = CreateFile(	sFilePath, 
 								GENERIC_WRITE,
 								0,
 								NULL,
@@ -791,162 +895,12 @@ void CIdCfgRomDlg::OnBnClickedSave()
 
 	CloseHandle(hfile);
 
-	UpdateStructOfDialogFieldsValues();
+	SaveDialogFieldsValues();
 }
 
-void CIdCfgRomDlg::OnBnClickedIntodev()
+void CIdCfgRomDlg::SaveHex(CString sFilePath)
 {
-	// TODO: Add your control notification handler code here
-	UpdateData(TRUE);
-	PDEVICE_INFO pDeviceInfo = &(DeviceCtrl[m_DevType].devInfo);
-	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
-	m_pCfgMem = new UCHAR[m_sizeCfgMem];
-	if( DlgItemsToCfgMem() == 0 )
-	{
-		pDeviceInfo->dRealBaseCfgSize = m_RealBaseCfgSize;
-		memcpy(pDeviceInfo->pBaseCfgMem, m_pCfgMem, m_RealBaseCfgSize);
-		PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
-		for( int i = 0; i < 4; i++ )
-		{
-			pDeviceInfo->dRealAdmCfgSize[i] = m_RealAdmCfgSize[i];
-			if( m_RealAdmCfgSize[i] && pDeviceInfo->pAdmCfgMem[i] )
-			{
-				memcpy(pDeviceInfo->pAdmCfgMem[i], pCurCfgMem, m_RealAdmCfgSize[i]);
-				pCurCfgMem += m_RealAdmCfgSize[i];
-			}
-		}
-		CString MsgBuf, MsgBuf0, MsgBuf1;
-		GetMsg(MSG_WARN_REWRITE_DATA, MsgBuf0);
-		GetMsg(MSG_CONTINUE, MsgBuf1);
-		MsgBuf = MsgBuf0 + _T("\n") + MsgBuf1;
-		if(MessageBox( MsgBuf, _T("IdCfgRom"), MB_YESNO|MB_ICONWARNING) == IDYES)
-		{
-			HCURSOR  hCursorWait = LoadCursor(NULL, IDC_WAIT); // курсор-часы
-			HCURSOR  hCursorPrev = SetCursor(hCursorWait);
-			(DeviceCtrl[m_DevType].pWriteIdCfgRom)(pDeviceInfo, m_ToSubmoduleOnly);
-			SetCursor(hCursorPrev);
-		}
-	}
-	else
-	{
-		CString MsgBuf;
-		GetMsg(MSG_NOT_ENOUGH_MEMORY, MsgBuf);
-		AfxMessageBox(MsgBuf, MB_OK|MB_ICONINFORMATION);
-		return;
-	}
-	delete[] m_pCfgMem;
-
-	UpdateStructOfDialogFieldsValues();
-}
-
-void CIdCfgRomDlg::OnBnClickedFromdev()
-{
-	// TODO: Add your control notification handler code here
-	UpdateData(TRUE); // from window to variable
-	m_pAmbPage->m_sComment = "";
-	m_pAdmPage->m_sComment = "";
-	PDEVICE_INFO pDeviceInfo = &(DeviceCtrl[m_DevType].devInfo);
-	(DeviceCtrl[m_DevType].pReadIdCfgRom)(pDeviceInfo);
-//	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
-	m_sizeCfgMem = pDeviceInfo->dBaseCfgMemSize;
-	for(int i = 0; i < 4; i++)
-		m_sizeCfgMem += pDeviceInfo->dAdmCfgMemSize[i];
-	m_pCfgMem = new UCHAR[m_sizeCfgMem];
-	memcpy(m_pCfgMem, pDeviceInfo->pBaseCfgMem, pDeviceInfo->dBaseCfgMemSize);
-	m_RealBaseCfgSize = pDeviceInfo->dRealBaseCfgSize;
-	PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
-	for(int  i = 0; i < 4; i++)
-	{
-//		m_RealAdmCfgSize[i] = pDeviceInfo->RealAdmCfgSize[i];
-		if(pDeviceInfo->pAdmCfgMem[i] && pDeviceInfo->dAdmCfgMemSize[i]) {
-			memcpy(pCurCfgMem, pDeviceInfo->pAdmCfgMem[i], pDeviceInfo->dAdmCfgMemSize[i]);
-			m_RealAdmCfgSize[i] = pDeviceInfo->dRealAdmCfgSize[i];
-			pCurCfgMem += m_RealAdmCfgSize[i];
-		}
-	}
-	m_pAdmPage->InitData();
-	CfgMemToDlgItems();
-	delete[] m_pCfgMem;
-	m_pAdmIfPage->SetMaxAdmIf(m_pAmbPage->m_NumOfAdmIf - 1);
-	m_pAdmPage->SetMaxAdm(m_pAmbPage->m_NumOfAdmIf - 1);
-	m_pPldPage->SetMaxPld(m_pAdmIfPage->m_NumOfPld - 1);
-	m_pFifoPage->SetMaxAdcFifo(m_pAdmIfPage->m_NumOfAdcFifo - 1);
-	m_pFifoPage->SetMaxDacFifo(m_pAdmIfPage->m_NumOfDacFifo - 1);
-	m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
-	m_pAmbPage->InitData();
-
-	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
-	CWnd* pToSubOnly = (CWnd*)GetDlgItem(IDC_TOSUBMODULEONLY);
-	m_pAmbPage->UpdateData(FALSE);
-	if( m_pAmbPage->m_NumOfAdmIf == 0 )
-	{
-		m_ToSubmoduleOnly = 0;
-		pToSubOnly->EnableWindow(FALSE);
-	}
-	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
-	{
-		m_pAdmPage->UpdateData(FALSE);
-		if( m_pAdmPage->m_AdmType == 0 )
-		{
-			m_ToSubmoduleOnly = 0;
-			pToSubOnly->EnableWindow(FALSE);
-		}
-		else if ( m_pAdmPage->m_AdmType > 0 )
-			pToSubOnly->EnableWindow(TRUE);
-	}
-	UpdateData(FALSE);
-
-	UpdateStructOfDialogFieldsValues();
-}
-
-void CIdCfgRomDlg::OnBnClickedSavehex()
-{
-	// TODO: Add your control notification handler code here
-	CString strFilter;
-	GetMsg(MSG_FILE_FILTER_HEX, strFilter);
-	CFileDialog saveFileDlg(FALSE, ".hex", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, strFilter);
-
-	// установить директорию для сохранения файла исходя из записи в реестре
-	CHAR regDir[MAX_PATH];
-	CRegKey key;
-	LONG status = key.Open(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
-	if (status == ERROR_SUCCESS)
-	{
-		DWORD regDirSize = sizeof(regDir);
-		key.QueryValue(regDir, "Load/Save Directory", &regDirSize);
-		saveFileDlg.m_ofn.lpstrInitialDir = regDir;
-	}
-	// если считать из реестра не удалось, указываем директорию, где хранится .exe файл (считываем из командной строки)
-	else
-	{
-		LPTSTR cmdLine = GetCommandLine() + 1;
-		LPTSTR ShortFileName = strrchr(cmdLine, '\\') + 1;
-		*ShortFileName = 0;
-		strcat(cmdLine, "Config");
-		saveFileDlg.m_ofn.lpstrInitialDir = cmdLine;
-		CreateDirectory(cmdLine, NULL);
-	}
-
-	// устанавливаем заголовок окна сохранения файла
-	CString strTitle;
-	GetMsg(MSG_SAVE_FILE_CAPTION, strTitle);
-	saveFileDlg.m_ofn.lpstrTitle = strTitle.GetBuffer(80);
-
-	INT_PTR nID = saveFileDlg.DoModal();
-	if(nID != IDOK)
-		return;
-	CString fileName = saveFileDlg.GetPathName();
-
-	// записываем в реестр путь к последнему сохранённому файлу
-	strcpy(regDir, fileName.GetBuffer());
-	LPTSTR editorOfDir = strrchr(regDir, '\\') + 1;
-	*editorOfDir = 0;
-	key.Create(HKEY_CURRENT_USER, "Software\\Instrumental Systems\\IdCfgRom");
-		key.SetValue(regDir, "Load/Save Directory");
-	key.Close(); 
-
-	ParseFileNameExt(fileName);
-	FILE	*fout = fopen( fileName, "wt" );
+	FILE	*fout = fopen( sFilePath, "wt" );
 	if( fout==NULL )
 		fout = stdout;
 
@@ -1055,46 +1009,119 @@ void CIdCfgRomDlg::OnBnClickedSavehex()
 	delete[] m_pCfgMem;
 	fclose(fout);
 
-	UpdateStructOfDialogFieldsValues();
+	SaveDialogFieldsValues();
 }
 
-void CIdCfgRomDlg::OnBnClickedOk()
+void CIdCfgRomDlg::OnBnClickedIntodev()
 {
 	// TODO: Add your control notification handler code here
-	CheckEditOfStructOfDialogFieldsValues();
-	// если поля изменены, предупреждаем пользователя перед выходом
-	if( m_wDialogFieldsEdited || m_wBasemodFieldsEdited || m_wSubmodFieldsEdited )
+	UpdateData(TRUE);
+	PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[m_DevType].devInfo);
+	m_sizeCfgMem = m_pAmbPage->m_CfgBufSize + m_pAdmPage->m_CfgBufSize;
+	m_pCfgMem = new UCHAR[m_sizeCfgMem];
+	if( DlgItemsToCfgMem() == 0 )
 	{
-		if(MessageBox( "Некоторые поля изменены!\nВы действительно хотите выйти?", _T("IdCfgRom"), MB_YESNO|MB_ICONWARNING) == IDYES)
-			OnOK();
-		else
-			return;
+		pDeviceInfo->dRealBaseCfgSize = m_RealBaseCfgSize;
+		memcpy(pDeviceInfo->pBaseCfgMem, m_pCfgMem, m_RealBaseCfgSize);
+		PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
+		for( int i = 0; i < 4; i++ )
+		{
+			pDeviceInfo->dRealAdmCfgSize[i] = m_RealAdmCfgSize[i];
+			if( m_RealAdmCfgSize[i] && pDeviceInfo->pAdmCfgMem[i] )
+			{
+				memcpy(pDeviceInfo->pAdmCfgMem[i], pCurCfgMem, m_RealAdmCfgSize[i]);
+				pCurCfgMem += m_RealAdmCfgSize[i];
+			}
+		}
+		CString MsgBuf, MsgBuf0, MsgBuf1;
+		GetMsg(MSG_WARN_REWRITE_DATA, MsgBuf0);
+		GetMsg(MSG_CONTINUE, MsgBuf1);
+		MsgBuf = MsgBuf0 + _T("\n") + MsgBuf1;
+		if(MessageBox( MsgBuf, _T("IdCfgRom"), MB_YESNO|MB_ICONWARNING) == IDYES)
+		{
+			HCURSOR  hCursorWait = LoadCursor(NULL, IDC_WAIT); // курсор-часы
+			HCURSOR  hCursorArrow = SetCursor(hCursorWait);
+			(g_DeviceCtrl[m_DevType].pWriteIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
+			SaveDialogFieldsValues();
+			SetCursor(hCursorArrow);
+		}
 	}
-	// если поля не изменены, выходим как обычно
 	else
-		OnOK();
+	{
+		CString MsgBuf;
+		GetMsg(MSG_NOT_ENOUGH_MEMORY, MsgBuf);
+		AfxMessageBox(MsgBuf, MB_OK|MB_ICONINFORMATION);
+		return;
+	}
+	delete[] m_pCfgMem;
 }
 
-void CIdCfgRomDlg::OnCancel()
+void CIdCfgRomDlg::OnBnClickedFromdev()
 {
-	// TODO: Add your specialized code here and/or call the base class
-	CheckEditOfStructOfDialogFieldsValues();
-	// если поля изменены, предупреждаем пользователя перед выходом
-	if( m_wDialogFieldsEdited || m_wBasemodFieldsEdited || m_wSubmodFieldsEdited )
+	// TODO: Add your control notification handler code here
+	HCURSOR  hCursorWait	= LoadCursor(NULL, IDC_WAIT); // курсор-часы
+	HCURSOR  hCursorArrow	= SetCursor(hCursorWait);
+
+	UpdateData(TRUE); // from window to variable
+	m_pAmbPage->m_sComment = "";
+	m_pAdmPage->m_sComment = "";
+	PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[m_DevType].devInfo);
+	(g_DeviceCtrl[m_DevType].pReadIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
+	m_sizeCfgMem = pDeviceInfo->dBaseCfgMemSize;
+	for(int i = 0; i < 4; i++)
+		m_sizeCfgMem += pDeviceInfo->dAdmCfgMemSize[i];
+	m_pCfgMem = new UCHAR[m_sizeCfgMem];
+	for( ULONG ii=0; ii<m_sizeCfgMem; ii++ )
+		m_pCfgMem[ii]=0xFF;
+	memcpy(m_pCfgMem, pDeviceInfo->pBaseCfgMem, pDeviceInfo->dBaseCfgMemSize);
+	m_RealBaseCfgSize = pDeviceInfo->dRealBaseCfgSize;
+	PUCHAR pCurCfgMem = m_pCfgMem + m_RealBaseCfgSize;
+	for(int i = 0; i < 4; i++)
 	{
-		if(MessageBox( "Некоторые поля изменены!\nВы действительно хотите выйти?", _T("IdCfgRom"), MB_YESNO|MB_ICONWARNING) == IDYES)
-			CDialog::OnCancel();
-		else
-			return;
+//		m_RealAdmCfgSize[i] = pDeviceInfo->RealAdmCfgSize[i];
+		if(pDeviceInfo->pAdmCfgMem[i] && pDeviceInfo->dAdmCfgMemSize[i])
+		{
+			memcpy(pCurCfgMem, pDeviceInfo->pAdmCfgMem[i], pDeviceInfo->dAdmCfgMemSize[i]);
+			m_RealAdmCfgSize[i] = pDeviceInfo->dRealAdmCfgSize[i];
+			pCurCfgMem += m_RealAdmCfgSize[i];
+		}
 	}
-	// если поля не изменены, выходим как обычно
-	else
-		CDialog::OnCancel();
+	m_pAdmPage->InitData();
+	CfgMemToDlgItems();
+	delete[] m_pCfgMem;
+	m_pAdmIfPage->SetMaxAdmIf(m_pAmbPage->m_NumOfAdmIf - 1);
+	m_pAdmPage->SetMaxAdm(m_pAmbPage->m_NumOfAdmIf - 1);
+	m_pPldPage->SetMaxPld(m_pAdmIfPage->m_NumOfPld - 1);
+	m_pFifoPage->SetMaxAdcFifo(m_pAdmIfPage->m_NumOfAdcFifo - 1);
+	m_pFifoPage->SetMaxDacFifo(m_pAdmIfPage->m_NumOfDacFifo - 1);
+	m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
+	m_pAmbPage->InitData();
+
+	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
+	m_pAmbPage->UpdateData(FALSE);
+	if( m_pAmbPage->m_NumOfAdmIf == 0 )
+		SetReadWriteDevs(READ_WRITE_BASEMODULE);
+	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
+	{
+		m_pAdmPage->UpdateData(FALSE);
+		if( m_pAdmPage->m_AdmType == 0 )
+			SetReadWriteDevs(READ_WRITE_BASEMODULE);
+		else if ( m_pAdmPage->m_AdmType > 0 )
+			SetReadWriteDevs(READ_WRITE_ALL);
+	}
+	UpdateData(FALSE);
+
+	SaveDialogFieldsValues();
+
+	if( m_pFileBaseDlg )
+		TransferParamsFromMainToFileBaseDlg();
+
+	SetCursor(hCursorArrow);
 }
 
-void CIdCfgRomDlg::UpdateStructOfDialogFieldsValues()
+// сохранение значений диалоговых полей
+void CIdCfgRomDlg::SaveDialogFieldsValues()
 {
-	// заполнение структуры, содержащей неизменённые значения диалоговых полей
 	m_rDialogFieldsValues.AmbSerialNum = m_pAmbPage->m_SerialNum;
 	m_rDialogFieldsValues.AmbBMType = m_pAmbPage->m_BMType;
 	m_rDialogFieldsValues.AmbstrAmbVersion = m_pAmbPage->m_strAmbVersion;
@@ -1199,3 +1226,104 @@ void CIdCfgRomDlg::CheckEditOfStructOfDialogFieldsValues()
 		m_wDialogFieldsEdited = 0;
 }
 
+void CIdCfgRomDlg::OnBnClickedWriteRead()
+{
+	// TODO: Add your control notification handler code here
+	if( m_pFileBaseDlg )
+	{
+		if( !m_pFileBaseDlg->IsWindowVisible() )
+			m_pFileBaseDlg->ShowWindow(SW_SHOW);
+		return;
+	}
+
+	m_pFileBaseDlg = new CWriteReadDlg();
+	m_pFileBaseDlg->Create(IDD_WRITE_READ_DIALOG, this);
+	TransferParamsFromMainToFileBaseDlg();
+	m_pFileBaseDlg->m_sWriteZakaz = m_sWriteZakaz;
+	m_pFileBaseDlg->m_sWriteSurname = m_sWriteSurname;
+	m_pFileBaseDlg->m_sWriteKeyword = m_sWriteKeyword;
+	m_pFileBaseDlg->UpdateData(FALSE);
+
+	m_pFileBaseDlg->ShowWindow(SW_SHOW);
+}
+
+void CIdCfgRomDlg::TransferParamsFromMainToFileBaseDlg()
+{
+	m_pFileBaseDlg->UpdateData(TRUE);
+
+	CString sBMType = "";
+	int nDevId = -1;
+	int nVer = -1;
+	int nPId = -1;
+
+	UpdateData(TRUE);
+	CComboBox	*pBMType = (CComboBox*)m_pAmbPage->GetDlgItem(IDC_BMTYPE);
+	pBMType->GetWindowTextA(sBMType);
+	int nBMType = m_pAmbPage->m_BMType;
+	if( nBMType )
+	{
+		for(int ii = 0; ii < g_NumOfBaseModules; ii++)
+		{
+			if( sBMType.Compare(g_BaseModCtrl[ii].devInfo.sName) == 0 )
+			{
+				nDevId = g_BaseModCtrl[ii].devInfo.dType;
+				break;
+			}
+		}
+	}
+	else
+		nDevId = AMBPCI;
+	char	*pcc;
+	nVer = strtol(m_pAmbPage->m_strAmbVersion, &pcc, 16);
+	nPId = m_pAmbPage->m_SerialNum;
+
+	CTime theTime = CTime::GetCurrentTime();
+	int nDay = theTime.GetDay();
+	int nMonth = theTime.GetMonth();
+	int nYear = theTime.GetYear();
+
+	m_pFileBaseDlg->m_sWriteName = sBMType;
+	m_pFileBaseDlg->m_sWriteDevId.Format("0x%04X", nDevId);
+	m_pFileBaseDlg->m_sWriteVer.Format("0x%02X", nVer);
+	m_pFileBaseDlg->m_sWritePId.Format("%d", nPId);
+	m_pFileBaseDlg->m_sWriteDate.Format("%02d.%02d.%04d", nDay, nMonth, nYear);
+
+	m_pFileBaseDlg->UpdateData(FALSE);
+}
+
+void CIdCfgRomDlg::OnBnClickedClear()
+{
+	// TODO: Add your control notification handler code here
+	int nRes = AfxMessageBox("Вы уверены, что хотите очистить ПЗУ?", MB_YESNO|MB_ICONQUESTION);
+	if( nRes==IDNO )
+		return;
+
+	PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[m_DevType].devInfo);
+	m_sizeCfgMem = BASEMOD_CFGMEM_SIZE + 4*SUBMOD_CFGMEM_SIZE;
+	m_pCfgMem = new UCHAR[m_sizeCfgMem];
+	pDeviceInfo->dRealBaseCfgSize = BASEMOD_CFGMEM_SIZE;
+	for( int ii=0; ii<(int)m_sizeCfgMem; ii++ )
+		m_pCfgMem[ii] = 0xFF;
+	memcpy(pDeviceInfo->pBaseCfgMem, m_pCfgMem, BASEMOD_CFGMEM_SIZE);
+	PUCHAR pCurCfgMem = m_pCfgMem + BASEMOD_CFGMEM_SIZE;
+	for( int ii = 0; ii < 4; ii++ )
+	{
+		pDeviceInfo->dRealAdmCfgSize[ii] = SUBMOD_CFGMEM_SIZE;
+		if( m_RealAdmCfgSize[ii] && pDeviceInfo->pAdmCfgMem[ii] )
+		{
+			for( int jj=0; jj<SUBMOD_CFGMEM_SIZE; jj++ )
+				pCurCfgMem[jj] = 0xFF;
+			memcpy(pDeviceInfo->pAdmCfgMem[ii], pCurCfgMem, SUBMOD_CFGMEM_SIZE);
+			pCurCfgMem += SUBMOD_CFGMEM_SIZE;
+		}
+	}
+	
+	HCURSOR  hCursorWait	= LoadCursor(NULL, IDC_WAIT); // курсор-часы
+	HCURSOR  hCursorArrow	= SetCursor(hCursorWait);
+	(g_DeviceCtrl[m_DevType].pWriteIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
+	SetCursor(hCursorArrow);
+	
+	delete [] m_pCfgMem;
+
+	SaveDialogFieldsValues();
+}

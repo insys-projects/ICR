@@ -11,31 +11,11 @@
 
 #include "IdCfgRomMsg.h"
 
-#include "submod.h"
+#include "Functions.h"
 
-// Struct info about submodule DLL 
-typedef struct {
-	HINSTANCE			hLib;			// Dll Handle 
-	SUBMOD_GetInfo_Type	*pGetInfo;		// API function
-	SUBMOD_Close_Type	*pClose;		// API function
-	SUBMOD_SetProp_Type	*pSetProperty;	// API function
-	SUBMOD_GetProp_Type	*pGetProperty;	// API function
-	SUBMOD_DlgProp_Type	*pDlgProperty;	// API function
-	SUBMOD_INFO			devInfo;		// Info structure
-} SUBMOD_CTRL, *PSUBMOD_CTRL;
-
-#include "basemod.h"
-
-// Struct info about base module DLL 
-typedef struct {
-	HINSTANCE			hLib;				// Dll Handle 
-	BASEMOD_GetInfo_Type	*pGetInfo;		// API function
-	BASEMOD_Close_Type		*pClose;		// API function
-	BASEMOD_GetProp_Type	*pGetProperty;	// API function
-	BASEMOD_SetProp_Type	*pSetProperty;	// API function
-	BASEMOD_DlgProp_Type	*pDlgProperty;	// API function
-	BASEMOD_INFO			devInfo;		// Info structure
-} BASEMOD_CTRL, *PBASEMOD_CTRL;
+#define MAXDEVICES 32
+#define MAXBASEMODS 256
+#define MAXSUBMODS 256
 
 #include "device.h"
 
@@ -48,6 +28,32 @@ typedef struct {
 	DEVICE_WriteICR_Type *pWriteIdCfgRom;	// API function
 	DEVICE_INFO			 devInfo;			// Info structure
 } DEVICE_CTRL, *PDEVICE_CTRL;
+
+#include "basemod.h"
+
+// Struct info about base module DLL 
+typedef struct {
+	HINSTANCE				hLib;			// Dll Handle 
+	BASEMOD_GetInfo_Type	*pGetInfo;		// API function
+	BASEMOD_Close_Type		*pClose;		// API function
+	BASEMOD_GetProp_Type	*pGetProperty;	// API function
+	BASEMOD_SetProp_Type	*pSetProperty;	// API function
+	BASEMOD_DlgProp_Type	*pDlgProperty;	// API function
+	BASEMOD_INFO			devInfo;		// Info structure
+} BASEMOD_CTRL, *PBASEMOD_CTRL;
+
+#include "submod.h"
+
+// Struct info about submodule DLL 
+typedef struct {
+	HINSTANCE			hLib;			// Dll Handle 
+	SUBMOD_GetInfo_Type	*pGetInfo;		// API function
+	SUBMOD_Close_Type	*pClose;		// API function
+	SUBMOD_SetProp_Type	*pSetProperty;	// API function
+	SUBMOD_GetProp_Type	*pGetProperty;	// API function
+	SUBMOD_DlgProp_Type	*pDlgProperty;	// API function
+	SUBMOD_INFO			devInfo;		// Info structure
+} SUBMOD_CTRL, *PSUBMOD_CTRL;
 
 // для работы с реестром
 #include "atlbase.h"
@@ -71,3 +77,10 @@ public:
 };
 
 extern CIdCfgRomApp theApp;
+
+extern DEVICE_CTRL g_DeviceCtrl[];
+extern BASEMOD_CTRL g_BaseModCtrl[MAXBASEMODS];
+extern SUBMOD_CTRL g_SubmodCtrl[];
+extern int g_NumOfDevices;
+extern int g_NumOfBaseModules;
+extern int g_NumOfSubModules;

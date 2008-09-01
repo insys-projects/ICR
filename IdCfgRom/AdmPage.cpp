@@ -12,9 +12,6 @@
 #define NONADM_CFGMEM_SIZE 2
 #define MAXSUBMODS 256
 
-extern SUBMOD_CTRL SubmodCtrl[];
-extern int m_NumOfSubModules;
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -100,23 +97,23 @@ BOOL CAdmPage::OnInitDialog()
 	pDevType->ResetContent();
 	CString StringBuf;
 	GetMsg(MSG_NON_ADM, StringBuf);
-	for(int i = 0; i < m_NumOfSubModules; i++)
-		pDevType->AddString(SubmodCtrl[i].devInfo.Name);
+	for(int i = 0; i < g_NumOfSubModules; i++)
+		pDevType->AddString(g_SubmodCtrl[i].devInfo.Name);
 	pDevType->InsertString(0, StringBuf);
 	pDevType->SetCurSel(0);
-//	m_CfgBufSize = NONADM_CFGMEM_SIZE; //SubmodCtrl[0].devInfo.RealCfgSize;
+//	m_CfgBufSize = NONADM_CFGMEM_SIZE; //g_SubmodCtrl[0].devInfo.RealCfgSize;
 
 	// сортируем базовые модули согласно тому, как они помещены в список
 	UpdateData(TRUE);
 	UpdateData(FALSE);
 	SUBMOD_CTRL SubmodCtrlTmp[MAXSUBMODS];
-	for( int ii = 0; ii < m_NumOfSubModules; ii++ )
+	for( int ii = 0; ii < g_NumOfSubModules; ii++ )
 	{
-		int	nIndex = pDevType->FindString(-1, SubmodCtrl[ii].devInfo.Name);
-		SubmodCtrlTmp[nIndex-1] = SubmodCtrl[ii];
+		int	nIndex = pDevType->FindString(-1, g_SubmodCtrl[ii].devInfo.Name);
+		SubmodCtrlTmp[nIndex-1] = g_SubmodCtrl[ii];
 	}
-	for( int ii = 0; ii < m_NumOfSubModules ; ii++ )
-		SubmodCtrl[ii] = SubmodCtrlTmp[ii];
+	for( int ii = 0; ii < g_NumOfSubModules ; ii++ )
+		g_SubmodCtrl[ii] = SubmodCtrlTmp[ii];
 
 	InitData();
 
@@ -137,9 +134,9 @@ void CAdmPage::OnDestroy()
 	CPropertyPage::OnDestroy();
 	
 	// TODO: Add your message handler code here
-	for(int i = 0; i < m_NumOfSubModules; i++) {
-		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[i].devInfo);
-		SubmodCtrl[i].pClose(pDeviceInfo);
+	for(int i = 0; i < g_NumOfSubModules; i++) {
+		PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[i].devInfo);
+		g_SubmodCtrl[i].pClose(pDeviceInfo);
 	}
 }
 
@@ -200,8 +197,8 @@ void CAdmPage::OnAdmcfg()
 {
 	// TODO: Add your control notification handler code here
 	//int idx = m_AdmId[num].Type;
-	PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[m_AdmType-1].devInfo);
-	int nResponse = (SubmodCtrl[m_AdmType-1].pDlgProperty)(pDeviceInfo);
+	PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[m_AdmType-1].devInfo);
+	int nResponse = (g_SubmodCtrl[m_AdmType-1].pDlgProperty)(pDeviceInfo);
 
 	// если в "конфигурации" произошли изменения, уведомляем об этом программу
 	if( ((nResponse&0x11) == IDOK) && (nResponse&0x100) )
@@ -255,18 +252,14 @@ void CAdmPage::OnSelchangeAdmtype()
 	pAdmCfg->EnableWindow(enFlag);
 	CWnd* pComment = (CWnd*)GetDlgItem(IDC_COMMENT);
 	pComment->EnableWindow(enFlag);
-	m_CfgBufSize = m_AdmType ? SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
+	m_CfgBufSize = m_AdmType ? g_SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
 	
 	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	CWnd* pToSubOnly = (CWnd*)pParentWnd->GetDlgItem(IDC_TOSUBMODULEONLY);
 	if( m_AdmType == 0 )
-	{
-		pParentWnd->m_ToSubmoduleOnly = 0;
-		pToSubOnly->EnableWindow(FALSE);
-	}
+		pParentWnd->SetReadWriteDevs(READ_WRITE_BASEMODULE);
 	else if ( m_AdmType > 0 )
-		pToSubOnly->EnableWindow(TRUE);
+		pParentWnd->SetReadWriteDevs(READ_WRITE_ALL);
 	pParentWnd->UpdateData(FALSE);
 }
 
@@ -343,7 +336,7 @@ void CAdmPage::SetMaxAdm(int maxAdm)
 		pAdmCfg->EnableWindow(enFlag);
 		pComment->EnableWindow(enFlag);
 	}
-	m_CfgBufSize = m_AdmType ? SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
+	m_CfgBufSize = m_AdmType ? g_SubmodCtrl[m_AdmType - 1].devInfo.CfgMemSize : NONADM_CFGMEM_SIZE;
 }
 /*
 // Data from ADM_ID into dialog control
@@ -355,9 +348,9 @@ void CAdmPage::SetDataIntoDlg(PADM_ID pAdmId, UINT num)
 
 	m_AdmId[num].Type = 0;
 	if(pAdmId->Type)
-		for(int i = 0; i < m_NumOfSubModules; i++)
+		for(int i = 0; i < g_NumOfSubModules; i++)
 		{
-			PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[i].devInfo);
+			PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[i].devInfo);
 			if(pAdmId->Type == pDeviceInfo->Type)
 				m_AdmId[num].Type = i + 1;
 		}
@@ -389,7 +382,7 @@ void CAdmPage::GetDataFromDlg(PADM_ID pAdmId, UINT num)
 
 	if(m_AdmId[num].Type) {
 		int idx = m_AdmId[num].Type - 1;
-		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[idx].devInfo);
 		pAdmId->Type = pDeviceInfo->Type;
 	}
 	else
@@ -404,10 +397,10 @@ ULONG CAdmPage::SetDataIntoDlg(PVOID pAdmCfg, UINT num, UINT size)
 	ULONG ret;
 	if(m_AdmId[num].Type) {
 		int idx = m_AdmId[num].Type - 1;
-		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[idx].devInfo);
 		size = size < SUBMOD_CFGMEM_SIZE ? size : SUBMOD_CFGMEM_SIZE;
 		memcpy(pDeviceInfo->CfgMem, pAdmCfg, size);
-		int	retCode = (SubmodCtrl[idx].pSetProperty)(pDeviceInfo);
+		int	retCode = (g_SubmodCtrl[idx].pSetProperty)(pDeviceInfo);
 		ret = pDeviceInfo->RealCfgSize;
 	}
 	else
@@ -421,8 +414,8 @@ ULONG CAdmPage::GetDataFromDlg(PVOID pAdmCfg, UINT num)
 	ULONG ret;
 	if(m_AdmId[num].Type) {
 		int idx = m_AdmId[num].Type - 1;
-		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
-		int	retCode = (SubmodCtrl[idx].pGetProperty)(pDeviceInfo);
+		PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[idx].devInfo);
+		int	retCode = (g_SubmodCtrl[idx].pGetProperty)(pDeviceInfo);
 		if(retCode)
 			pDeviceInfo->RealCfgSize = 0;
 		else
@@ -447,9 +440,9 @@ ULONG CAdmPage::SetDataIntoDlg(PVOID pCfgMem)
 	m_AdmId[num].wType = 0;
 	if(pAdmId->wType)
 	{
-		for(int i = 0; i < m_NumOfSubModules; i++)
+		for(int i = 0; i < g_NumOfSubModules; i++)
 		{
-			PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[i].devInfo);
+			PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[i].devInfo);
 			if(pAdmId->wType == pDeviceInfo->Type)
 			{
 				m_AdmId[num].wType = i + 1;
@@ -470,10 +463,10 @@ ULONG CAdmPage::SetDataIntoDlg(PVOID pCfgMem)
 	if(m_AdmId[num].wType)
 	{
 		int idx = m_AdmId[num].wType - 1;
-		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[idx].devInfo);
 		PUCHAR pAdmCfg = (PUCHAR)pCfgMem + sizeof(ICR_IdAdm);
 		memcpy(pDeviceInfo->pCfgMem, pAdmCfg, size);
-		int	retCode = (SubmodCtrl[idx].pSetProperty)(pDeviceInfo);
+		int	retCode = (g_SubmodCtrl[idx].pSetProperty)(pDeviceInfo);
 		ret += pDeviceInfo->RealCfgSize;
 	}
 
@@ -521,9 +514,9 @@ ULONG CAdmPage::GetDataFromDlg(PVOID pCfgMem, UINT num)
 		pAdmId->dSerialNum = m_AdmId[num].dSerialNum;
 		pAdmId->bVersion = m_AdmId[num].bVersion;
 		int idx = m_AdmId[num].wType - 1;
-		PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+		PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[idx].devInfo);
 		pAdmId->wType = pDeviceInfo->Type;
-		int	retCode = (SubmodCtrl[idx].pGetProperty)(pDeviceInfo);
+		int	retCode = (g_SubmodCtrl[idx].pGetProperty)(pDeviceInfo);
 
 		PUCHAR pAdmCfg = (PUCHAR)pCfgMem + sizeof(ICR_IdAdm);
 		if(retCode)
@@ -597,7 +590,7 @@ void CAdmPage::GetIdDataFromDlg(PICR_IdAdm pAdmId, PICR_IdComment pCommentId, UI
 	pAdmId->dSerialNum = m_AdmId[num].dSerialNum;
 	pAdmId->bVersion = m_AdmId[num].bVersion;
 	int idx = m_AdmId[num].wType - 1;
-	PSUBMOD_INFO pDeviceInfo = &(SubmodCtrl[idx].devInfo);
+	PSUBMOD_INFO pDeviceInfo = &(g_SubmodCtrl[idx].devInfo);
 	pAdmId->wType = pDeviceInfo->Type;
 
 	pCommentId->wTag = COMMENT_ID_TAG;

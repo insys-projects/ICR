@@ -14,9 +14,11 @@
 #define HIDD_PP_ADMIF                           0x20084
 #define HIDD_PP_ADM                             0x20085
 #define HIDD_PP_DAC                             0x20086
+#define HIDD_WRITE_READ_DIALOG                  0x20087
 #define HIDD_PP_FIFO                            0x20088
 #define HIDD_PP_PLD                             0x20089
 #define HIDD_PP_ADM2IF                          0x2008A
+#define HIDD_FILE_BASE_FILTER                   0x2008D
  
 // Frame Controls (IDW_*) 
 // This is a part of the Microsoft Foundation Classes C++ library.

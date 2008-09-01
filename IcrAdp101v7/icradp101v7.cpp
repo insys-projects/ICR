@@ -11,10 +11,6 @@
 #define new DEBUG_NEW
 #endif
 
-// размер памяти, выделяемой под конфигурацию
-// (максимальный размер ППЗУ, устанавливаемого на модуль)
-#define BASEMOD_CFGMEM_SIZE 256
-
 #include "icr.h"
 
 #include "IcrAdp101v7.h"

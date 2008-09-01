@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\usefulMFC,..\icrinc,$(BardyIncDir)"
+				AdditionalIncludeDirectories="..\..\UsefulFunctions;..\usefulMFC;..\IcrInc;$(BardyIncDir)"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -134,7 +134,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\usefulMFC,..\icrinc,$(BardyIncDir)"
+				AdditionalIncludeDirectories="..\..\UsefulFunctions;..\usefulMFC;..\IcrInc;$(BardyIncDir)"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
@@ -209,6 +209,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\FileBaseFilterDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\IdCfgRom.cpp"
 				>
 			</File>
@@ -258,6 +262,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\WriteReadDlg.cpp"
+				>
+			</File>
 			<Filter
 				Name="Pages"
 				>
@@ -294,7 +302,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\UsefulFunctions\Functions.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\UsefulMFC\HyperLink.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyListCtrl.cpp"
 					>
 				</File>
 				<File
@@ -318,6 +334,10 @@
 			>
 			<File
 				RelativePath=".\About.h"
+				>
+			</File>
+			<File
+				RelativePath=".\FileBaseFilterDlg.h"
 				>
 			</File>
 			<File
@@ -368,6 +388,10 @@
 				RelativePath=".\stdafx.h"
 				>
 			</File>
+			<File
+				RelativePath=".\WriteReadDlg.h"
+				>
+			</File>
 			<Filter
 				Name="Pages"
 				>
@@ -404,7 +428,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\UsefulFunctions\Functions.h"
+					>
+				</File>
+				<File
 					RelativePath="..\UsefulMFC\HyperLink.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MyListCtrl.h"
 					>
 				</File>
 				<File
@@ -426,6 +458,14 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+			<File
+				RelativePath=".\res\ArrowDown.bmp"
+				>
+			</File>
+			<File
+				RelativePath=".\res\ArrowUp.bmp"
+				>
+			</File>
 			<File
 				RelativePath=".\res\IdCfgRom.ico"
 				>
