@@ -22,7 +22,8 @@
 #ifndef	__ICRBMLST_H_
 #define	__ICRBMLST_H_
 
-typedef enum _ICR_BMType {
+typedef enum _ICR_BMType 
+{
         AMBPCI      = 0x4D50,
         AMBPCM      = 0x4D23,
 		AMBVME      = 0x4D56,

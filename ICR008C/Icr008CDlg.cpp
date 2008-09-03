@@ -50,7 +50,7 @@ BOOL CIcr008CDlg::OnInitDialog()
 	// TODO:  Add extra initialization here
 	CString Title;
 	GetWindowText(Title);
-	CString Name = subInfo.Name;
+	CString Name = subInfo.sName;
 	Title = Name + _T(" ") + Title;
 	SetWindowText(Title);
 

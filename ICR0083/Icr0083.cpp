@@ -78,43 +78,43 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->Name, _T("ADM212x10M"));
+		lstrcpy(pDevInfo->sName, _T("ADM212x10M"));
 		pDevInfo->Type = ADM212x10M;
 		break;
 	case 1:
-		lstrcpy(pDevInfo->Name, _T("ADM212x25M"));
+		lstrcpy(pDevInfo->sName, _T("ADM212x25M"));
 		pDevInfo->Type = ADM212x25M;
 		break;
 	case 2:
-		lstrcpy(pDevInfo->Name, _T("ADM212x40M"));
+		lstrcpy(pDevInfo->sName, _T("ADM212x40M"));
 		pDevInfo->Type = ADM212x40M;
 		break;
 	case 3:
-		lstrcpy(pDevInfo->Name, _T("ADM212x50M"));
+		lstrcpy(pDevInfo->sName, _T("ADM212x50M"));
 		pDevInfo->Type = ADM212x50M;
 		break;
 	case 4:
-		lstrcpy(pDevInfo->Name, _T("ADM212x60M"));
+		lstrcpy(pDevInfo->sName, _T("ADM212x60M"));
 		pDevInfo->Type = ADM212x60M;
 		break;
 	case 5:
-		lstrcpy(pDevInfo->Name, _T("ADM212x100M"));
+		lstrcpy(pDevInfo->sName, _T("ADM212x100M"));
 		pDevInfo->Type = ADM212x100M;
 		break;
 	case 6:
-		lstrcpy(pDevInfo->Name, _T("ADM214x60M"));
+		lstrcpy(pDevInfo->sName, _T("ADM214x60M"));
 		pDevInfo->Type = ADM214x60M;
 		break;
 	case 7:
-		lstrcpy(pDevInfo->Name, _T("ADM214x100M"));
+		lstrcpy(pDevInfo->sName, _T("ADM214x100M"));
 		pDevInfo->Type = ADM214x100M;
 		break;
 	case 8:
-		lstrcpy(pDevInfo->Name, _T("ADM414x65M"));
+		lstrcpy(pDevInfo->sName, _T("ADM414x65M"));
 		pDevInfo->Type = ADM414x65M;
 		break;
 	case 9:
-		lstrcpy(pDevInfo->Name, _T("ADM216x100M"));
+		lstrcpy(pDevInfo->sName, _T("ADM216x100M"));
 		pDevInfo->Type = ADM216x100M;
 		break;
 	default:
@@ -122,7 +122,7 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 		return;
 	}
 	pDevInfo->pCfgMem = new UCHAR[SUBMOD_CFGMEM_SIZE];
-	pDevInfo->CfgMemSize = SUBMOD_CFGMEM_SIZE;
+	pDevInfo->nCfgMemSize = SUBMOD_CFGMEM_SIZE;
 }
 
 //***************************************************************************************
@@ -183,7 +183,7 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 		}
 		pAdmCfgMem = (UCHAR*)pAdmCfgMem + size;
 	} while(!end_flag && pAdmCfgMem < pEndAdmCfgMem);
-	pDeviceInfo->RealCfgSize = RealCfgSize;
+	pDeviceInfo->nRealCfgSize = RealCfgSize;
 	return 0;
 }
 
@@ -222,7 +222,7 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 		return 1;
 	*pCurCfgMem = END_TAG;
 	pCurCfgMem++;
-	pDeviceInfo->RealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDeviceInfo->pCfgMem);
+	pDeviceInfo->nRealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDeviceInfo->pCfgMem);
 
 	return 0;
 }
@@ -235,7 +235,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 //	int curNum = pDeviceInfo->Number;
 
 	CIcr0083Dlg dlg;
-	lstrcpy(dlg.subInfo.Name, pDeviceInfo->Name);
+	lstrcpy(dlg.subInfo.sName, pDeviceInfo->sName);
 	dlg.subInfo.Type = pDeviceInfo->Type;
 
 	switch(m_AdcCfg.bBits)

@@ -32,13 +32,13 @@
 
 // Struct info about base module
 typedef struct _BASEMOD_INFO {
-	USHORT		wSize;			// sizeof(BASEMOD_INFO) (into Plug-In)
-	PUCHAR		pCfgMem;		// Configuration memory pointer (from Plug-In)
-	ULONG		dCfgMemSize;	// Configuration memory size (from Plug-In)
-	ULONG		dRealCfgSize;	// Realy configuration memory size (from Plug-In)
-	ICR_BMType	dType;			// Base Module Type (from Plug-In)
-    TCHAR		sName[MAX_BMNAME];// Base Module Name (from Plug-In)
-	UCHAR		bAdmIfCnt;		// количество интерфейсов ADM (into Plug-In)
+	USHORT		wSize;				// sizeof(BASEMOD_INFO) (into Plug-In)
+	PUCHAR		pCfgMem;			// Configuration memory pointer (from Plug-In)
+	ULONG		nCfgMemSize;		// Configuration memory size (from Plug-In)
+	ULONG		nRealCfgSize;		// Realy configuration memory size (from Plug-In)
+	ICR_BMType	dType;				// Base Module Type (from Plug-In)
+    TCHAR		sName[MAX_BMNAME];	// Base Module Name (from Plug-In)
+	UCHAR		bAdmIfCnt;			// количество интерфейсов ADM (into Plug-In)
 } BASEMOD_INFO, *PBASEMOD_INFO;
 
 #pragma pack()

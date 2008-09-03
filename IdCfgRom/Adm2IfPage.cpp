@@ -340,7 +340,7 @@ void CAdm2IfPage::ChangeAdmIfNum()
 	pParentWnd->m_pDacPage->m_AdmIfNum = m_AdmIfNum;
 	pParentWnd->m_pFifoPage->m_AdmIfNum = m_AdmIfNum;
 	pParentWnd->m_pPldPage->m_AdmIfNum = m_AdmIfNum;
-	pParentWnd->m_pAdmPage->m_AdmNum = m_AdmIfNum;
+	pParentWnd->m_pAdmPage->m_nAdmNum = m_AdmIfNum;
 	UpdateData(FALSE); // from variable to window
 
 	ICR_IdAdm AdmId;

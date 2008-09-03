@@ -111,7 +111,7 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 		return;
 	}
 	pDevInfo->pCfgMem = new UCHAR[BASEMOD_CFGMEM_SIZE];
-	pDevInfo->dCfgMemSize = BASEMOD_CFGMEM_SIZE;
+	pDevInfo->nCfgMemSize = BASEMOD_CFGMEM_SIZE;
 }
 
 //***************************************************************************************
@@ -189,7 +189,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 		if(pCurCfgMem >= pEndCfgMem)
 			return 1;
 	} while(!end_flag && pCurCfgMem < pEndCfgMem);
-	pDeviceInfo->dRealCfgSize = RealCfgSize;
+	pDeviceInfo->nRealCfgSize = RealCfgSize;
 	return 0;
 }
 
@@ -244,7 +244,7 @@ BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDeviceInfo)
 	// тэг окончания данных не нужен (его пишет основная программа)
 //	*pSignSize = END_TAG;
 //	pSignSize++;
-	pDeviceInfo->dRealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDeviceInfo->pCfgMem);
+	pDeviceInfo->nRealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDeviceInfo->pCfgMem);
 
 	return 0;
 }

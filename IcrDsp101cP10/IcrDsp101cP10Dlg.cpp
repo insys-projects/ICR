@@ -5,6 +5,8 @@
 #include "IcrDsp101cP10App.h"
 #include "IcrDsp101cP10Dlg.h"
 
+#pragma warning (disable:4996)
+
 // CIcrDsp101cP10Dlg dialog
 
 IMPLEMENT_DYNAMIC(CIcrDsp101cP10Dlg, CDialog)

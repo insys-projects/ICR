@@ -65,7 +65,7 @@ DEVICE_API void __stdcall DEVICE_GetInfo(int* pNumDev, PDEVICE_INFO pDevInfo)
 		*pNumDev = -1;
 		return;
 	}
-	pDevInfo->dInstance = lidList.pLID[CurInst];//CurInst;
+	pDevInfo->nInstance = lidList.pLID[CurInst];//CurInst;
 
 	BRD_Info info;
 	info.size = sizeof(info);
@@ -82,11 +82,11 @@ DEVICE_API void __stdcall DEVICE_GetInfo(int* pNumDev, PDEVICE_INFO pDevInfo)
 	pDevInfo->pAdmCfgMem[1] = 0;
 	pDevInfo->pAdmCfgMem[2] = 0;
 	pDevInfo->pAdmCfgMem[3] = 0;
-	pDevInfo->dBaseCfgMemSize = BASEMOD_CFGMEM_SIZE;
-	pDevInfo->dAdmCfgMemSize[0] = SUBMOD_CFGMEM_SIZE;
-	pDevInfo->dAdmCfgMemSize[1] = 0;
-	pDevInfo->dAdmCfgMemSize[2] = 0;
-	pDevInfo->dAdmCfgMemSize[3] = 0;
+	pDevInfo->nBaseCfgMemSize = BASEMOD_CFGMEM_SIZE;
+	pDevInfo->nAdmCfgMemSize[0] = SUBMOD_CFGMEM_SIZE;
+	pDevInfo->nAdmCfgMemSize[1] = 0;
+	pDevInfo->nAdmCfgMemSize[2] = 0;
+	pDevInfo->nAdmCfgMemSize[3] = 0;
 }
 
 //***************************************************************************************
@@ -100,7 +100,7 @@ DEVICE_API void __stdcall DEVICE_Close(PDEVICE_INFO pDevInfo)
 	delete[] pDevInfo->pBaseCfgMem;
 	delete[] pDevInfo->pAdmCfgMem[0];
 //	MessageBox( NULL, "BRD_cleanup", "", MB_OK);
-	int CurInst = pDevInfo->dInstance;
+	int CurInst = pDevInfo->nInstance;
 //	if(!CurInst)
 //	int status = BRD_cleanup();
 	BRD_cleanup();
@@ -114,7 +114,7 @@ DEVICE_API void __stdcall DEVICE_Close(PDEVICE_INFO pDevInfo)
 //***************************************************************************************
 DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 {
-	int CurInst = pDevInfo->dInstance;
+	int CurInst = pDevInfo->nInstance;
 	BRD_Handle handle = BRD_open(CurInst, 0, NULL);
 	if( !handle )
 		return 0;
@@ -129,11 +129,13 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 	{
 		BRD_close(handle);
 		delete [] PuList;
-		pDevInfo->dRealBaseCfgSize = 0;
-		pDevInfo->dRealAdmCfgSize[0] = 0;
+		pDevInfo->nRealBaseCfgSize = 0;
+		pDevInfo->nRealAdmCfgSize[0] = 0;
 		return 0;
 	}
 
+	// считывание ICR базового модуля
+	int nSuccess = 0;
 	if( (bDevs == READ_WRITE_BASEMODULE) || (bDevs == READ_WRITE_ALL) )
 	{
 		ULONG puBaseIcrId = 0;
@@ -161,15 +163,17 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 		{
 			BRD_puRead(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, BASEMOD_CFGMEM_SIZE);
 			if(*(PUSHORT)pDevInfo->pBaseCfgMem == BASE_ID_TAG)
-				pDevInfo->dRealBaseCfgSize = *((PUSHORT)pDevInfo->pBaseCfgMem + 2);
-			else
-				pDevInfo->dRealBaseCfgSize = 0;
+			{
+				pDevInfo->nRealBaseCfgSize = *((PUSHORT)pDevInfo->pBaseCfgMem + 2);
+				nSuccess = 1;
+			}
 		}
-		else pDevInfo->dRealBaseCfgSize = 0;
 	}
-	else
-		pDevInfo->dRealBaseCfgSize = 0;
+	if( !nSuccess )
+		pDevInfo->nRealBaseCfgSize = 0;
 
+	// считывание ICR субмодуля
+	nSuccess = 0;
 	if( (bDevs == READ_WRITE_SUBMODULE) || (bDevs == READ_WRITE_ALL) )
 	{
 		ULONG puAdmIcrId = 0;
@@ -186,15 +190,14 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 		{
 			BRD_puRead(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], SUBMOD_CFGMEM_SIZE);
 			if(*(PUSHORT)pDevInfo->pAdmCfgMem[0] == ADM_ID_TAG)
-				pDevInfo->dRealAdmCfgSize[0] = *((PUSHORT)pDevInfo->pAdmCfgMem[0] + 2);
-			else
-				pDevInfo->dRealAdmCfgSize[0] = 0;
+			{
+				pDevInfo->nRealAdmCfgSize[0] = *((PUSHORT)pDevInfo->pAdmCfgMem[0] + 2);
+				nSuccess = 1;
+			}
 		}
-		else
-			pDevInfo->dRealAdmCfgSize[0] = 0;
 	}
-	else
-		pDevInfo->dRealAdmCfgSize[0] = 0;
+	if( !nSuccess )
+		pDevInfo->nRealAdmCfgSize[0] = 0;
 
 	BRD_close(handle);
 	delete [] PuList;
@@ -210,7 +213,7 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 //***************************************************************************************
 DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 {
-	int CurInst = pDevInfo->dInstance;
+	int CurInst = pDevInfo->nInstance;
 	BRD_Handle handle = BRD_open(CurInst, 0, NULL);
 	if( !handle )
 		return 0;
@@ -228,6 +231,7 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs
 		return 0;
 	}
 
+	// прописывание ICR базового модуля
 	if( (bDevs == READ_WRITE_BASEMODULE) || (bDevs == READ_WRITE_ALL) )
 	{
 		ULONG puBaseIcrId = 0;
@@ -254,10 +258,11 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs
 		if( puBaseIcrId )
 		{
 			BRD_puEnable(handle, puBaseIcrId);
-			BRD_puWrite(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, pDevInfo->dRealBaseCfgSize);
+			BRD_puWrite(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, pDevInfo->nRealBaseCfgSize);
 		}
 	}
 
+	// прописывание ICR субмодуля
 	if( (bDevs == READ_WRITE_SUBMODULE) || (bDevs == READ_WRITE_ALL) )
 	{
 		ULONG puAdmIcrId = 0;
@@ -273,9 +278,10 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs
 		if( puAdmIcrId )
 		{
 			BRD_puEnable(handle, puAdmIcrId);
-			BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->dRealAdmCfgSize[0]);
+			BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->nRealAdmCfgSize[0]);
 		}
 	}
+
 	BRD_close(handle);
 	delete [] PuList;
 

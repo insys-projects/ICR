@@ -83,7 +83,7 @@ BOOL CAmbPage::OnInitDialog()
 
 	CComboBox* pDevType = (CComboBox*)GetDlgItem(IDC_BMTYPE);
 	pDevType->ResetContent();
-	for(int i = 0; i < g_NumOfBaseModules; i++)
+	for(int i = 0; i < g_nNumOfBaseModules; i++)
 		pDevType->AddString(g_BaseModCtrl[i].devInfo.sName);
 	pDevType->InsertString(0, _T("AMBPCI"));
 	pDevType->SetCurSel(0);
@@ -92,17 +92,17 @@ BOOL CAmbPage::OnInitDialog()
 	UpdateData(TRUE);
 	UpdateData(FALSE);
 	BASEMOD_CTRL BaseModCtrlTmp[MAXBASEMODS];
-	for( int ii = 0; ii < g_NumOfBaseModules; ii++ )
+	for( int ii = 0; ii < g_nNumOfBaseModules; ii++ )
 	{
 		int	nIndex = pDevType->FindString(-1, g_BaseModCtrl[ii].devInfo.sName);
 		BaseModCtrlTmp[nIndex-1] = g_BaseModCtrl[ii];
 	}
-	for( int ii = 0; ii < g_NumOfBaseModules ; ii++ )
+	for( int ii = 0; ii < g_nNumOfBaseModules ; ii++ )
 		g_BaseModCtrl[ii] = BaseModCtrlTmp[ii];
 
 	m_ctrlSpinAdmIf.SetRange(0, MAX_NUMOFADMIF - 1);
 	
-	InitData();
+	SetBMTypeData();
 
     m_ToolTip.Create(this);
     m_ToolTip.AddTool(GetDlgItem(IDC_SERIALNUM), IDC_SERIALNUM);
@@ -120,30 +120,27 @@ void CAmbPage::OnDestroy()
 	CPropertyPage::OnDestroy();
 	
 	// TODO: Add your message handler code here
-	for(int i = 0; i < g_NumOfBaseModules; i++) {
+	for(int i = 0; i < g_nNumOfBaseModules; i++) {
 		PBASEMOD_INFO pDeviceInfo = &(g_BaseModCtrl[i].devInfo);
 		g_BaseModCtrl[i].pClose(pDeviceInfo);
 	}
 }
 
-
 // Функция в зависимости от типа выбранного Базового Модуля:
 // - устанавливает видимость кнопки "Подробности..."
-// - записывает в глобальную переменную m_CfgBufSize размер конфигурационной памяти Базового Модуля
+// - записывает в глобальную переменную m_nCfgBufSize размер конфигурационной памяти Базового Модуля
 // - устанавливает заголовок окна в зависимости от типа Базового Модуля
-void CAmbPage::InitData() 
+void CAmbPage::SetBMTypeData() 
 {
 	int enFlag = m_BMType ? 1 : 0;
 	CWnd* pAmbExt = (CWnd*)GetDlgItem(IDC_AMBEXT);
 	pAmbExt->EnableWindow(enFlag);
-	m_CfgBufSize = m_BMType ? g_BaseModCtrl[m_BMType - 1].devInfo.dCfgMemSize : AMBPCI_CFGMEM_SIZE;
+	m_nCfgBufSize = m_BMType ? g_BaseModCtrl[m_BMType - 1].devInfo.nCfgMemSize : AMBPCI_CFGMEM_SIZE;
 	CComboBox* pType = (CComboBox*)GetDlgItem(IDC_BMTYPE);
 	CString BaseModuleName;
 	pType->GetLBText(m_BMType, BaseModuleName);
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 	CString Title;
-//	pParentWnd->GetWindowText(Title);
-//	CString str = Title.SpanExcluding(" ");
 	Title = _T("IdCfgRom (") + BaseModuleName + _T(")");
 	pParentWnd->SetWindowText(Title);
 }
@@ -220,7 +217,7 @@ void CAmbPage::OnSelchangeBmtype()
 {
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE); // from window to variable
-	InitData();
+	SetBMTypeData();
 
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 	if( pParentWnd->m_pFileBaseDlg )
@@ -292,7 +289,7 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 	m_BMType = 0;
 	if(pBaseId->wDeviceId != AMBPCI_CFG_TAG)
 	{
-		for(int i = 0; i < g_NumOfBaseModules; i++)
+		for(int i = 0; i < g_nNumOfBaseModules; i++)
 		{
 			PBASEMOD_INFO pDeviceInfo = &(g_BaseModCtrl[i].devInfo);
 			if(pBaseId->wDeviceId == pDeviceInfo->dType)
@@ -314,7 +311,7 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 		int	retCode = (g_BaseModCtrl[idx].pSetProperty)(pDeviceInfo);
 //		m_SerialNum = pDeviceInfo->SerNum;
 		m_NumOfAdmIf = pDeviceInfo->bAdmIfCnt;
-		ret += pDeviceInfo->dRealCfgSize;
+		ret += pDeviceInfo->nRealCfgSize;
 	}
 	else
 	{
@@ -375,12 +372,12 @@ ULONG CAmbPage::GetDataFromDlg(PVOID pCfgMem)
 		pDeviceInfo->bAdmIfCnt = m_NumOfAdmIf;
 		int	retCode = (g_BaseModCtrl[idx].pGetProperty)(pDeviceInfo);
 		if(retCode)
-			pDeviceInfo->dRealCfgSize = 0;
+			pDeviceInfo->nRealCfgSize = 0;
 		else
-			memcpy(pCfgMem, pDeviceInfo->pCfgMem, pDeviceInfo->dRealCfgSize);
-		ret += pDeviceInfo->dRealCfgSize;
+			memcpy(pCfgMem, pDeviceInfo->pCfgMem, pDeviceInfo->nRealCfgSize);
+		ret += pDeviceInfo->nRealCfgSize;
 
-		pCfgMem = (PUCHAR)pCfgMem + pDeviceInfo->dRealCfgSize;
+		pCfgMem = (PUCHAR)pCfgMem + pDeviceInfo->nRealCfgSize;
 	}
 	else
 	{
@@ -433,10 +430,10 @@ void CAmbPage::OnDeltaposSpinadmif(NMHDR *pNMHDR, LRESULT *pResult)
 
 	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	if( newVal == 0 || pParentWnd->m_pAdmPage->m_AdmType == 0 )
-		pParentWnd->SetReadWriteDevs(READ_WRITE_BASEMODULE);
-	else if ( newVal > 0 && pParentWnd->m_pAdmPage->m_AdmType > 0 )
-		pParentWnd->SetReadWriteDevs(READ_WRITE_ALL);
+	if( newVal == 0 || pParentWnd->m_pAdmPage->m_nAdmType == 0 )
+		pParentWnd->m_nCanWriteSM = 0;
+	else if ( newVal > 0 && pParentWnd->m_pAdmPage->m_nAdmType > 0 )
+		pParentWnd->m_nCanWriteSM = 1;
 	pParentWnd->UpdateData(FALSE);
 	UpdateData(FALSE);
 

@@ -33,12 +33,12 @@
 
 // Struct info about submodule
 typedef struct _SUBMOD_INFO {
-	USHORT		Size;			// sizeof(SUBMOD_INFO)
+	USHORT		wSize;			// sizeof(SUBMOD_INFO)
 	PUCHAR		pCfgMem;		// Configuration memory
-	ULONG		CfgMemSize;		// Size of Configuration memory
-	ULONG		RealCfgSize;	// Realy size of Configuration memory
+	ULONG		nCfgMemSize;	// Size of Configuration memory
+	ULONG		nRealCfgSize;	// Realy size of Configuration memory
 	ICR_ADMType	Type;			// Submodule Type
-    TCHAR		Name[80];		// Submodule Name
+    TCHAR		sName[80];		// Submodule Name
 } SUBMOD_INFO, *PSUBMOD_INFO;
 
 #pragma pack()

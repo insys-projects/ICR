@@ -84,7 +84,7 @@ BOOL Icr008FDlg::OnInitDialog()
 //	SetWindowText(Title);
 	CString Title;
 	GetWindowText(Title);
-	CString Name = subInfo.Name;
+	CString Name = subInfo.sName;
 	Title = Name + _T(" ") + Title;
 	SetWindowText(Title);
 	

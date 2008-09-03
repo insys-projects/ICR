@@ -6,6 +6,8 @@
 #include "IcrAds3224k195cPciDlg.h"
 #include ".\icrAds3224k195cPcidlg.h"
 
+#pragma warning (disable:4996)
+
 // CIcrAds3224k195cPciDlg dialog
 
 IMPLEMENT_DYNAMIC(CIcrAds3224k195cPciDlg, CDialog)

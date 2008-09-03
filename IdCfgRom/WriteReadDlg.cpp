@@ -711,31 +711,31 @@ int CWriteReadDlg::Filter(CString sFoundFileName)
 	int nCurParamPos = 0;
 	sParam = sFoundFileName.Mid(sFoundFileName.Find('{', nCurParamPos)+1, sFoundFileName.Find('}', nCurParamPos)-sFoundFileName.Find('{', nCurParamPos)-1);
 	nCurParamPos = sFoundFileName.Find('}', nCurParamPos) + 1;	
-	if( sParam.MakeLower().Find(m_pFilterDlg->m_sName.MakeLower()) != 0 )
+	if( sParam.MakeLower().Find(m_pFilterDlg->m_sName.MakeLower()) < 0 )
 		return 0;
 	sParam = sFoundFileName.Mid(sFoundFileName.Find('{', nCurParamPos)+1, sFoundFileName.Find('}', nCurParamPos)-sFoundFileName.Find('{', nCurParamPos)-1);
 	nCurParamPos = sFoundFileName.Find('}', nCurParamPos) + 1;	
-	if( sParam.MakeLower().Find(m_pFilterDlg->m_sDevId.MakeLower()) != 0 )
+	if( sParam.MakeLower().Find(m_pFilterDlg->m_sDevId.MakeLower()) < 0 )
 		return 0;
 	sParam = sFoundFileName.Mid(sFoundFileName.Find('{', nCurParamPos)+1, sFoundFileName.Find('}', nCurParamPos)-sFoundFileName.Find('{', nCurParamPos)-1);
 	nCurParamPos = sFoundFileName.Find('}', nCurParamPos) + 1;
-	if( sParam.MakeLower().Find(m_pFilterDlg->m_sVer.MakeLower()) != 0 )
+	if( sParam.MakeLower().Find(m_pFilterDlg->m_sVer.MakeLower()) < 0 )
 		return 0;
 	sParam = sFoundFileName.Mid(sFoundFileName.Find('{', nCurParamPos)+1, sFoundFileName.Find('}', nCurParamPos)-sFoundFileName.Find('{', nCurParamPos)-1);
 	nCurParamPos = sFoundFileName.Find('}', nCurParamPos) + 1;	
-	if( sParam.MakeLower().Find(m_pFilterDlg->m_sZakaz.MakeLower()) != 0 )
+	if( sParam.MakeLower().Find(m_pFilterDlg->m_sZakaz.MakeLower()) < 0 )
 		return 0;
 	sParam = sFoundFileName.Mid(sFoundFileName.Find('{', nCurParamPos)+1, sFoundFileName.Find('}', nCurParamPos)-sFoundFileName.Find('{', nCurParamPos)-1);
 	nCurParamPos = sFoundFileName.Find('}', nCurParamPos) + 1;	
-	if( sParam.MakeLower().Find(m_pFilterDlg->m_sPId.MakeLower()) != 0 )
+	if( sParam.MakeLower().Find(m_pFilterDlg->m_sPId.MakeLower()) < 0 )
 		return 0;
 	sParam = sFoundFileName.Mid(sFoundFileName.Find('{', nCurParamPos)+1, sFoundFileName.Find('}', nCurParamPos)-sFoundFileName.Find('{', nCurParamPos)-1);
 	nCurParamPos = sFoundFileName.Find('}', nCurParamPos) + 1;	
-	if( sParam.MakeLower().Find(m_pFilterDlg->m_sSurname.MakeLower()) != 0 )
+	if( sParam.MakeLower().Find(m_pFilterDlg->m_sSurname.MakeLower()) < 0 )
 		return 0;
 	sParam = sFoundFileName.Mid(sFoundFileName.Find('{', nCurParamPos)+1, sFoundFileName.Find('}', nCurParamPos)-sFoundFileName.Find('{', nCurParamPos)-1);
 	nCurParamPos = sFoundFileName.Find('}', nCurParamPos) + 1;	
-	if( sParam.MakeLower().Find(m_pFilterDlg->m_sKeyword.MakeLower()) != 0 )
+	if( sParam.MakeLower().Find(m_pFilterDlg->m_sKeyword.MakeLower()) < 0 )
 		return 0;
 	// Дата
 	sParam = sFoundFileName.Mid(sFoundFileName.Find('{', nCurParamPos)+1, sFoundFileName.Find('}', nCurParamPos)-sFoundFileName.Find('{', nCurParamPos)-1);

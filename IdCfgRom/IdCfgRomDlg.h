@@ -49,28 +49,24 @@ protected:
 
 public:
 	// Controls (переменные контроля объектами окна)
-	CMyTabCtrl	m_ctrlTab;
-	CAmbPage	*m_pAmbPage;
-	CAdm2IfPage	*m_pAdmIfPage;
-	CPldPage	*m_pPldPage;
-	CFifoPage	*m_pFifoPage;
-	CDacPage	*m_pDacPage;
-	CAdmPage	*m_pAdmPage;
+	CMyTabCtrl		m_ctrlTab;
+	CAmbPage		*m_pAmbPage;
+	CAdm2IfPage		*m_pAdmIfPage;
+	CPldPage		*m_pPldPage;
+	CFifoPage		*m_pFifoPage;
+	CDacPage		*m_pDacPage;
+	CAdmPage		*m_pAdmPage;
+	CWriteReadDlg	*m_pFileBaseDlg;
+	CComboBox		m_ctrlReadWriteDevs;
 
 	CString	m_readFileExt;
-
-	CWriteReadDlg	*m_pFileBaseDlg;
 	CString m_sWriteZakaz;
 	CString m_sWriteSurname;
 	CString m_sWriteKeyword;
+	int		m_nDevType;
+	int		m_nCanWriteSM;
 
-	CComboBox	m_ctrlReadWriteDevs;
-	int			m_DevType;
-
-	PUCHAR	m_pCfgMem;
-	ULONG	m_sizeCfgMem;
-	int		m_RealBaseCfgSize;
-	int		m_RealAdmCfgSize[4];
+	//int		m_nRealAdmCfgSize[4];
 
 	// Переменные, уведомляющие, что в диалоговых полях произошли изменения ( в основных вкладках, в подробностях базового модуля и в конфигурации субмодуля)
 	USHORT	m_wDialogFieldsEdited;
@@ -160,16 +156,15 @@ public:
 
 	// ---вспомогательное
 	// заполнение буфера значениями полей
-	ULONG	DlgItemsToCfgMem();
+	ULONG	DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRealBaseCfgSize, int aRealAdmCfgSize[4]);
 	// заполнение полей значениями из буфера
-	void 	CfgMemToDlgItems();
-	// установить устройства(базовый модуль/субмодуль) для записи/чтения
-	void	SetReadWriteDevs(int nReadWriteDevs);
+	void 	CfgMemToDlgItems(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRealBaseCfgSize, int aRealAdmCfgSize[4]);
 	// узнать устройства(базовый модуль/субмодуль) для записи/чтения
 	int		GetReadWriteDevs();
 	// сохранение значений полей
 	void	SaveDialogFieldsValues();
 	// проверка сохранения значений полей
 	void 	CheckEditOfStructOfDialogFieldsValues();
+	// обработчик About'а
 	afx_msg void OnBnClickedAbout();
 };

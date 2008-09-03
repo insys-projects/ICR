@@ -17,20 +17,18 @@ public:
 	ULONG SetDataIntoDlg(PVOID pCfgMem);
 	ULONG SetComment(PVOID pCfgMem);
 	ULONG GetDataFromDlg(PVOID pCfgMem, UINT num);
-	void InitData(); 
+	void SetSMTypeData(); 
 	void SetMaxAdm(int maxAdm);
-	ULONG m_CfgBufSize;
+	ULONG m_nCfgBufSize;
 
 	void SetIdDataIntoDlg(PICR_IdAdm pAdmId, PICR_IdComment pCommentId);
 	void GetIdDataFromDlg(PICR_IdAdm pAdmId, PICR_IdComment pCommentId, UINT num);
 // Dialog Data
 	enum { IDD = IDD_PP_ADM };
-//	CSpinButtonCtrl	m_ctrlSpinAdmNum;
-	UINT	m_AdmNum;
-	int		m_AdmType;
+	UINT	m_nAdmNum;
+	int		m_nAdmType;
 	CString m_strAdmVersion;
-//	UINT	m_AdmVersion;
-	UINT	m_AdmPID;
+	UINT	m_nAdmPID;
 	CString m_sComment;
 
 protected:
@@ -48,7 +46,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void OnOK();
-//	afx_msg void OnDeltaposSpinadmnum(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnKillfocusAdmnum();
 	afx_msg void OnAdmcfg();
 	afx_msg void OnKillfocusAdmversion();
@@ -56,7 +53,6 @@ public:
 	afx_msg void OnSelchangeAdmtype();
 	afx_msg void OnDestroy();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-//	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 public:
 	afx_msg void OnEnKillfocusComment();
 };

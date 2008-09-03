@@ -78,43 +78,43 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->Name, _T("ADM1612x1M"));
+		lstrcpy(pDevInfo->sName, _T("ADM1612x1M"));
 		pDevInfo->Type = ADM1612x1M;
 		break;
 	case 1:
-		lstrcpy(pDevInfo->Name, _T("ADM214x1M"));
+		lstrcpy(pDevInfo->sName, _T("ADM214x1M"));
 		pDevInfo->Type = ADM214x1M;
 		break;
 	case 2:
-		lstrcpy(pDevInfo->Name, _T("ADM214x3M"));
+		lstrcpy(pDevInfo->sName, _T("ADM214x3M"));
 		pDevInfo->Type = ADM214x3M;
 		break;
 	case 3:
-		lstrcpy(pDevInfo->Name, _T("ADM214x10M"));
+		lstrcpy(pDevInfo->sName, _T("ADM214x10M"));
 		pDevInfo->Type = ADM214x10M;
 		break;
 	case 4:
-		lstrcpy(pDevInfo->Name, _T("ADM214x10MX"));
+		lstrcpy(pDevInfo->sName, _T("ADM214x10MX"));
 		pDevInfo->Type = ADM214x10MX;
 		break;
 	case 5:
-		lstrcpy(pDevInfo->Name, _T("ADM1614x160"));
+		lstrcpy(pDevInfo->sName, _T("ADM1614x160"));
 		pDevInfo->Type = ADM1614x160;
 		break;
 	case 6:
-		lstrcpy(pDevInfo->Name, _T("ADM216x250"));
+		lstrcpy(pDevInfo->sName, _T("ADM216x250"));
 		pDevInfo->Type = ADM216x250;
 		break;
 	case 7:
-		lstrcpy(pDevInfo->Name, _T("ADM216x2.5M"));
+		lstrcpy(pDevInfo->sName, _T("ADM216x2.5M"));
 		pDevInfo->Type = ADM216x2M5;
 		break;
 	case 8:
-		lstrcpy(pDevInfo->Name, _T("ADM416x200"));
+		lstrcpy(pDevInfo->sName, _T("ADM416x200"));
 		pDevInfo->Type = ADM416x200;
 		break;
 	case 9:
-		lstrcpy(pDevInfo->Name, _T("ADM816x48"));
+		lstrcpy(pDevInfo->sName, _T("ADM816x48"));
 		pDevInfo->Type = ADM816x48;
 		break;
 	default:
@@ -122,7 +122,7 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 		return;
 	}
 	pDevInfo->pCfgMem = new UCHAR[SUBMOD_CFGMEM_SIZE];
-	pDevInfo->CfgMemSize = SUBMOD_CFGMEM_SIZE;
+	pDevInfo->nCfgMemSize = SUBMOD_CFGMEM_SIZE;
 }
 
 //***************************************************************************************
@@ -180,7 +180,7 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDevInfo)
 		}
 		pAdmCfgMem = (UCHAR*)pAdmCfgMem + size;
 	} while(!end_flag && pAdmCfgMem < pEndAdmCfgMem);
-	pDevInfo->RealCfgSize = RealCfgSize;
+	pDevInfo->nRealCfgSize = RealCfgSize;
 	return 0;
 }
 
@@ -216,7 +216,7 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDevInfo)
 		return 1;
 	*pCurCfgMem = END_TAG;
 	pCurCfgMem++;
-	pDevInfo->RealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDevInfo->pCfgMem);
+	pDevInfo->nRealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDevInfo->pCfgMem);
 
 	return 0;
 }
@@ -229,7 +229,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDevInfo)
 //	int curNum = pDevInfo->Number;
 
 	CIcr0084Dlg dlg;
-	lstrcpy(dlg.subInfo.Name, pDevInfo->Name);
+	lstrcpy(dlg.subInfo.sName, pDevInfo->sName);
 	dlg.subInfo.Type = pDevInfo->Type;
 
 	switch(m_AdcCfg.bBits)

@@ -20,8 +20,8 @@ public:
 	ULONG SetDataIntoDlg(PVOID pCfgMem);
 	ULONG SetComment(PVOID pCfgMem);
 	ULONG GetDataFromDlg(PVOID pCfgMem);
-	void InitData(); 
-	ULONG m_CfgBufSize;
+	void SetBMTypeData(); 
+	ULONG m_nCfgBufSize;
 
 // Dialog Data
 	enum { IDD = IDD_PP_AMB };
@@ -30,7 +30,6 @@ public:
 	CSpinButtonCtrl	m_ctrlSpinAdmIf;
 	int		m_BMType;
 	CString m_strAmbVersion;
-//	UINT	m_AmbVersion;
 	CString m_sComment;
 
 protected:

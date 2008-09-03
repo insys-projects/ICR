@@ -6,6 +6,8 @@
 #include "IcrAdp101v7Dlg.h"
 #include ".\icradp101v7dlg.h"
 
+#pragma warning (disable:4996)
+
 // CIcrAdp101v7Dlg dialog
 
 IMPLEMENT_DYNAMIC(CIcrAdp101v7Dlg, CDialog)

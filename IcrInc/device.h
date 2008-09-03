@@ -43,22 +43,22 @@ enum
 
 // Struct info about device
 typedef struct _DEVICE_INFO {
-	USHORT	wSize;			// sizeof(DEVICE_INFO)
-	USHORT	wType;			// Device Type
-	UCHAR	bVersion;		// Device Version
-    TCHAR	sName[MAX_DEVNAME];// Device Name
-	ULONG	dPid;			// Device Physical ID
-    UCHAR	bBusType;		// Bus Type (Unknown, PCI, ISA, RS232, 1394, USB, PCMCIA, VME, ... )
-    USHORT	wBusNum;		// Bus Number
-    USHORT	wDevNum;		// Device Number 
-    USHORT	wSlotNum;		// Slot Number 
-	int		dInstance;		// Device Instance
-	PUCHAR	pBaseCfgMem;	// Configuration memory of base module
-	ULONG	dBaseCfgMemSize;// Size of Configuration memory of base module
-	ULONG	dRealBaseCfgSize;// Realy size of Configuration memory of base module
-	PUCHAR	pAdmCfgMem[MAX_ADMNUM];	// Configuration memory of submodule
-	ULONG	dAdmCfgMemSize[MAX_ADMNUM];// Size of Configuration memory of submodule
-	ULONG	dRealAdmCfgSize[MAX_ADMNUM];// Realy size of Configuration memory of submodule
+	USHORT	wSize;				// sizeof(DEVICE_INFO)
+	USHORT	wType;				// Device Type
+	UCHAR	bVersion;			// Device Version
+    TCHAR	sName[MAX_DEVNAME];	// Device Name
+	ULONG	nPid;				// Device Physical ID
+    UCHAR	bBusType;			// Bus Type (Unknown, PCI, ISA, RS232, 1394, USB, PCMCIA, VME, ... )
+    USHORT	wBusNum;			// Bus Number
+    USHORT	wDevNum;			// Device Number 
+    USHORT	wSlotNum;			// Slot Number 
+	int		nInstance;			// Device Instance
+	PUCHAR	pBaseCfgMem;		// Configuration memory of base module
+	ULONG	nBaseCfgMemSize;	// Size of Configuration memory of base module
+	ULONG	nRealBaseCfgSize;	// Realy size of Configuration memory of base module
+	PUCHAR	pAdmCfgMem[MAX_ADMNUM];		// Configuration memory of submodule
+	ULONG	nAdmCfgMemSize[MAX_ADMNUM];	// Size of Configuration memory of submodule
+	ULONG	nRealAdmCfgSize[MAX_ADMNUM];// Realy size of Configuration memory of submodule
 } DEVICE_INFO, *PDEVICE_INFO;
 
 #pragma pack()
