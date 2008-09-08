@@ -7,6 +7,8 @@
 UINT const MAX_NUMOFADMIF = 4;
 UINT const MAX_NUMOFSDRAM = 4;
 
+#define AMBPCI_CFGMEM_SIZE 128
+
 // CAmbPage dialog
 
 class CAmbPage : public CPropertyPage
@@ -21,7 +23,6 @@ public:
 	ULONG SetComment(PVOID pCfgMem);
 	ULONG GetDataFromDlg(PVOID pCfgMem);
 	void SetBMTypeData(); 
-	ULONG m_nCfgBufSize;
 
 // Dialog Data
 	enum { IDD = IDD_PP_AMB };

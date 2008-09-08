@@ -60,9 +60,6 @@ public:
 	CComboBox		m_ctrlReadWriteDevs;
 
 	CString	m_readFileExt;
-	CString m_sWriteZakaz;
-	CString m_sWriteSurname;
-	CString m_sWriteKeyword;
 	int		m_nDevType;
 	int		m_nCanWriteSM;
 
@@ -158,7 +155,7 @@ public:
 	// заполнение буфера значени€ми полей
 	ULONG	DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRealBaseCfgSize, int aRealAdmCfgSize[4]);
 	// заполнение полей значени€ми из буфера
-	void 	CfgMemToDlgItems(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRealBaseCfgSize, int aRealAdmCfgSize[4]);
+	void 	CfgMemToDlgItems(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int pRealBaseCfgSize, int aRealAdmCfgSize[4]);
 	// узнать устройства(базовый модуль/субмодуль) дл€ записи/чтени€
 	int		GetReadWriteDevs();
 	// сохранение значений полей
@@ -167,4 +164,6 @@ public:
 	void 	CheckEditOfStructOfDialogFieldsValues();
 	// обработчик About'а
 	afx_msg void OnBnClickedAbout();
+
+	afx_msg void OnCbnSelchangeReadWriteDev();
 };

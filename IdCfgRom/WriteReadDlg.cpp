@@ -18,10 +18,7 @@ CWriteReadDlg::CWriteReadDlg(CWnd* pParent /*=NULL*/)
 	, m_sWriteName(_T(""))
 	, m_sWriteDevId(_T(""))
 	, m_sWriteVer(_T(""))
-	, m_sWriteZakaz(_T(""))
 	, m_sWritePId(_T(""))
-	, m_sWriteSurname(_T(""))
-	, m_sWriteKeyword(_T(""))
 	, m_sWriteDate(_T(""))
 {
 	m_nLastClickedColumnNum = -1;
@@ -50,6 +47,7 @@ void CWriteReadDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_READ_BASE, m_ctrlReadBase);
 	DDX_Control(pDX, IDC_EDIT_BASE, m_ctrlEditBase);
 	DDX_Control(pDX, IDC_DELETE_BASE, m_ctrlDeleteBase);
+	DDX_Control(pDX, IDC_SAVE_BASE, m_ctrlSaveBase);
 }
 
 
@@ -265,10 +263,6 @@ void CWriteReadDlg::OnBnClickedReadBase()
 	m_sWriteKeyword = m_ctrlBase.GetItemText(nSelNum, 6);
 	m_sWriteDate = m_ctrlBase.GetItemText(nSelNum, 7);
 
-	pParentWnd->m_sWriteZakaz = m_sWriteZakaz;
-	pParentWnd->m_sWriteSurname = m_sWriteSurname;
-	pParentWnd->m_sWriteKeyword = m_sWriteKeyword;
-	
 	UpdateData(FALSE);
 }
 

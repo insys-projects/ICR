@@ -85,6 +85,7 @@ public:
 
 	CMyListCtrl m_ctrlBase;
 	CEdit m_ctrlSurname;
+	CButton m_ctrlSaveBase;
 	CButton m_ctrlReadBase;
 	CButton m_ctrlEditBase;
 	CButton m_ctrlDeleteBase;

@@ -9,7 +9,6 @@
 
 #pragma warning (disable:4996)
 
-#define NONADM_CFGMEM_SIZE 2
 #define MAXSUBMODS 256
 
 #ifdef _DEBUG
@@ -76,6 +75,8 @@ BEGIN_MESSAGE_MAP(CAdmPage, CPropertyPage)
 	//}}AFX_MSG_MAP
 //	ON_WM_ERASEBKGND()
 ON_EN_KILLFOCUS(IDC_COMMENT, &CAdmPage::OnEnKillfocusComment)
+ON_EN_CHANGE(IDC_ADMPID, &CAdmPage::OnEnChangeAdmpid)
+ON_EN_CHANGE(IDC_ADMVERSION, &CAdmPage::OnEnChangeAdmversion)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -138,12 +139,7 @@ void CAdmPage::OnDestroy()
 
 void CAdmPage::SetSMTypeData() 
 {
-	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	SetMaxAdm(pParentWnd->m_pAmbPage->m_NumOfAdmIf - 1);
-
-	m_nAdmNum = 0;
-	m_nAdmType = 0;
-	m_nAdmPID = 0;
+	UpdateData(TRUE);
 
 	for(int i = 0; i < MAX_ADMID; i++)
 	{
@@ -245,15 +241,16 @@ void CAdmPage::OnSelchangeAdmtype()
 	pAdmCfg->EnableWindow(enFlag);
 	CWnd* pComment = (CWnd*)GetDlgItem(IDC_COMMENT);
 	pComment->EnableWindow(enFlag);
-	m_nCfgBufSize = m_nAdmType ? g_SubmodCtrl[m_nAdmType - 1].devInfo.nCfgMemSize : NONADM_CFGMEM_SIZE;
 	
-	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 	if( m_nAdmType == 0 )
 		pParentWnd->m_nCanWriteSM = 0;
 	else if ( m_nAdmType > 0 )
 		pParentWnd->m_nCanWriteSM = 1;
 	pParentWnd->UpdateData(FALSE);
+
+	if( pParentWnd->m_pFileBaseDlg )
+		pParentWnd->TransferParamsFromMainToFileBaseDlg();
 }
 
 void CAdmPage::OnOK() 
@@ -325,7 +322,6 @@ void CAdmPage::SetMaxAdm(int maxAdm)
 		pAdmCfg->EnableWindow(enFlag);
 		pComment->EnableWindow(enFlag);
 	}
-	m_nCfgBufSize = m_nAdmType ? g_SubmodCtrl[m_nAdmType - 1].devInfo.nCfgMemSize : NONADM_CFGMEM_SIZE;
 }
 /*
 // Data from ADM_ID into dialog control
@@ -608,4 +604,32 @@ void CAdmPage::OnEnKillfocusComment()
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE); // from window to variable
 	strcpy((char*)m_CommentId[m_nAdmNum].abComment, m_sComment.GetBuffer());
+}
+
+void CAdmPage::OnEnChangeAdmpid()
+{
+	// TODO:  If this is a RICHEDIT control, the control will not
+	// send this notification unless you override the CPropertyPage::OnInitDialog()
+	// function and call CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+
+	// TODO:  Add your control notification handler code here
+	UpdateData(TRUE);
+	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+	if( pParentWnd->m_pFileBaseDlg )
+		pParentWnd->TransferParamsFromMainToFileBaseDlg();
+}
+
+void CAdmPage::OnEnChangeAdmversion()
+{
+	// TODO:  If this is a RICHEDIT control, the control will not
+	// send this notification unless you override the CPropertyPage::OnInitDialog()
+	// function and call CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+
+	// TODO:  Add your control notification handler code here
+	UpdateData(TRUE);
+	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+	if( pParentWnd->m_pFileBaseDlg )
+		pParentWnd->TransferParamsFromMainToFileBaseDlg();
 }

@@ -68,9 +68,6 @@ CIdCfgRomDlg::CIdCfgRomDlg(CWnd* pParent /*=NULL*/)
 	m_wDialogFieldsEdited = 0;
 	m_wBasemodFieldsEdited = 0;
 	m_wSubmodFieldsEdited = 0;
-	m_sWriteZakaz = "";
-	m_sWriteSurname = "";
-	m_sWriteKeyword = "";
 	m_pFileBaseDlg = NULL;
 }
 
@@ -95,6 +92,7 @@ BEGIN_MESSAGE_MAP(CIdCfgRomDlg, CDialog)
 	ON_BN_CLICKED(IDC_CLEAR, &CIdCfgRomDlg::OnBnClickedClear)
 //	ON_WM_LBUTTONDOWN()
 ON_WM_ACTIVATE()
+ON_CBN_SELCHANGE(IDC_READ_WRITE_DEV, &CIdCfgRomDlg::OnCbnSelchangeReadWriteDev)
 END_MESSAGE_MAP()
 
 
@@ -131,10 +129,15 @@ BOOL CIdCfgRomDlg::OnInitDialog()
 	VERIFY(m_pAdmPage->Create(CAdmPage::IDD, this));
 	m_ctrlTab.AddTab(m_pAdmPage, _T("ADM"));
 
-	m_ctrlReadWriteDevs.AddString("Базовый модуль и субмодуль");
 	m_ctrlReadWriteDevs.AddString("Базовый модуль");
 	m_ctrlReadWriteDevs.AddString("Субмодуль");
-	m_ctrlReadWriteDevs.SetCurSel(0);
+	m_ctrlReadWriteDevs.AddString("Базовый модуль и субмодуль");
+	DWORD nReg;
+	if( ReadRegistryValue("Software\\Instrumental Systems\\IdCfgRom", "ReadWriteDevs", &nReg) == ERROR_SUCCESS )
+		m_ctrlReadWriteDevs.SetCurSel(nReg);
+	else
+		m_ctrlReadWriteDevs.SetCurSel(0);
+	
 	m_nCanWriteSM = 0;
 
 	CComboBox* pDevType = (CComboBox*)GetDlgItem(IDC_DEVICETYPE);
@@ -389,14 +392,14 @@ static void ParseFileNameExt(CString& fileName)
 // Заполняет "диалоговые закладки" значениями из буфера
 // после считывания в него из файла или устройства
 //***************************************************************************************
-void CIdCfgRomDlg::CfgMemToDlgItems(PUCHAR pCfgMem, ULONG nSizeCfgMem, int *pRealBaseCfgSize, int aRealAdmCfgSize[4])
+void CIdCfgRomDlg::CfgMemToDlgItems(PUCHAR pCfgMem, ULONG nSizeCfgMem, int nRealBaseCfgSize, int aRealAdmCfgSize[4])
 {
 	PVOID	pCfgMemTmp;											// указатель на данные файла
 
 	if ( m_readFileExt == ".hex" )								// преобразуем данные типа HEX в данные типа BIN
 	{
 		m_readFileExt = "";
-		char	*binStr = new char[nSizeCfgMem/2];			// временный массив данных hex файла
+		char	*binStr = new char[nSizeCfgMem/2];				// временный массив данных hex файла
 		U32		realSizeOfHexCfgMem = 0;
 		char	*pCfgMemHex = (char*)pCfgMem; 					// указатель на данные HEX файла
 		U32		hexByte;
@@ -442,106 +445,132 @@ void CIdCfgRomDlg::CfgMemToDlgItems(PUCHAR pCfgMem, ULONG nSizeCfgMem, int *pRea
 	}
 
 	pCfgMemTmp = (PVOID)pCfgMem;
-
 	PVOID pEndCfgMem = (PVOID)((PUCHAR)pCfgMemTmp + nSizeCfgMem);
-	int end_flag = 0;
-	do
+	if( (GetReadWriteDevs() == READ_WRITE_BASEMODULE) || (GetReadWriteDevs() == READ_WRITE_ALL) )
 	{
-		USHORT sign;
-		sign = *((USHORT*)pCfgMemTmp);
+		m_pAmbPage->m_sComment = "";
 
-		USHORT size = 0;
-		switch(sign)
+		int end_flag = 0;
+		do
 		{
-		case END_TAG:
-		case ALT_END_TAG:
-			end_flag = 1;
-			break;
-		case BASE_ID_TAG:
-			{
-				*pRealBaseCfgSize = *((USHORT*)pCfgMemTmp + 2);
-				size = (USHORT)m_pAmbPage->SetDataIntoDlg(pCfgMemTmp);
-				break;
-			}
-		case COMMENT_ID_TAG:
-			{
-				size = (USHORT)m_pAmbPage->SetComment(pCfgMemTmp);
-				break;
-			}
-/*		case ADMIF_CFG_TAG:
-			{
-				m_pAdmIfPage->SetDataIntoDlg((PICR_CfgAdmIf)pCfgMemTmp);
-				size = sizeof(ICR_CfgAdmIf);
-				break;
-			}*/
-		case ADM2IF_CFG_TAG:
-			{
-				m_pAdmIfPage->SetDataIntoDlg((PICR_CfgAdm2If)pCfgMemTmp);
-				size = sizeof(ICR_CfgAdm2If);
-				break;
-			}
-		case ADC_FIFO_TAG:
-			{
-				m_pFifoPage->SetDataIntoDlg((PICR_CfgAdcFifo)pCfgMemTmp);
-				size = sizeof(ICR_CfgAdcFifo);
-				break;
-			}
-		case DAC_CFG_TAG:
-			{
-				m_pDacPage->SetDataIntoDlg((PICR_CfgDac)pCfgMemTmp);
-				size = sizeof(ICR_CfgDac);
-				break;
-			}
-		case DAC_FIFO_TAG:
-			{
-				m_pFifoPage->SetDataIntoDlg((PICR_CfgDacFifo)pCfgMemTmp);
-				size = sizeof(ICR_CfgDacFifo);
-				break;
-			}
-		case PLD_CFG_TAG:
-			{
-				m_pPldPage->SetDataIntoDlg((PICR_CfgAdmPld)pCfgMemTmp);
-				size = sizeof(ICR_CfgAdmPld);
-				break;
-			}
-		default:
-				size = *((USHORT*)pCfgMemTmp + 1);
-				size += 4;
-				break;
-		}
-		pCfgMemTmp = (PUCHAR)pCfgMemTmp + size;
-	} while(!end_flag && pCfgMemTmp < pEndCfgMem);
-	
+			USHORT sign;
+			sign = *((USHORT*)pCfgMemTmp);
 
-	pCfgMemTmp = (PVOID)(pCfgMem + *pRealBaseCfgSize);
-	end_flag = 0;
-	do
+			USHORT size = 0;
+			switch(sign)
+			{
+			case END_TAG:
+			case ALT_END_TAG:
+				end_flag = 1;
+				break;
+			case BASE_ID_TAG:
+				{
+					nRealBaseCfgSize = *((USHORT*)pCfgMemTmp + 2);
+					size = (USHORT)m_pAmbPage->SetDataIntoDlg(pCfgMemTmp);
+					break;
+				}
+			case COMMENT_ID_TAG:
+				{
+					size = (USHORT)m_pAmbPage->SetComment(pCfgMemTmp);
+					break;
+				}
+			case ADM2IF_CFG_TAG:
+				{
+					m_pAdmIfPage->SetDataIntoDlg((PICR_CfgAdm2If)pCfgMemTmp);
+					size = sizeof(ICR_CfgAdm2If);
+					break;
+				}
+			case ADC_FIFO_TAG:
+				{
+					m_pFifoPage->SetDataIntoDlg((PICR_CfgAdcFifo)pCfgMemTmp);
+					size = sizeof(ICR_CfgAdcFifo);
+					break;
+				}
+			case DAC_CFG_TAG:
+				{
+					m_pDacPage->SetDataIntoDlg((PICR_CfgDac)pCfgMemTmp);
+					size = sizeof(ICR_CfgDac);
+					break;
+				}
+			case DAC_FIFO_TAG:
+				{
+					m_pFifoPage->SetDataIntoDlg((PICR_CfgDacFifo)pCfgMemTmp);
+					size = sizeof(ICR_CfgDacFifo);
+					break;
+				}
+			case PLD_CFG_TAG:
+				{
+					m_pPldPage->SetDataIntoDlg((PICR_CfgAdmPld)pCfgMemTmp);
+					size = sizeof(ICR_CfgAdmPld);
+					break;
+				}
+			default:
+					size = *((USHORT*)pCfgMemTmp + 1);
+					size += 4;
+					break;
+			}
+			pCfgMemTmp = (PUCHAR)pCfgMemTmp + size;
+		} while(!end_flag && pCfgMemTmp < pEndCfgMem);
+
+		m_pAdmIfPage->SetMaxAdmIf(m_pAmbPage->m_NumOfAdmIf - 1);
+		m_pAdmPage->SetMaxAdm(m_pAmbPage->m_NumOfAdmIf - 1);
+		m_pPldPage->SetMaxPld(m_pAdmIfPage->m_NumOfPld - 1);
+		m_pFifoPage->SetMaxAdcFifo(m_pAdmIfPage->m_NumOfAdcFifo - 1);
+		m_pFifoPage->SetMaxDacFifo(m_pAdmIfPage->m_NumOfDacFifo - 1);
+		m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
+
+		m_pAmbPage->SetBMTypeData();
+	}
+
+	if( (GetReadWriteDevs() == READ_WRITE_SUBMODULE) || (GetReadWriteDevs() == READ_WRITE_ALL) )
 	{
-		USHORT sign = *((USHORT*)pCfgMemTmp);
-		USHORT size = 0;
-		switch(sign)
+		m_pAdmPage->m_sComment = "";
+
+		pCfgMemTmp = (PVOID)(pCfgMem + nRealBaseCfgSize);
+		int end_flag = 0;
+		do
 		{
-		case END_TAG:
-		case ALT_END_TAG:
-			end_flag = 1;
-			break;
-		case ADM_ID_TAG:
+			USHORT sign = *((USHORT*)pCfgMemTmp);
+			USHORT size = 0;
+			switch(sign)
 			{
-				size = (USHORT)m_pAdmPage->SetDataIntoDlg(pCfgMemTmp);
+			case END_TAG:
+			case ALT_END_TAG:
+				end_flag = 1;
 				break;
+			case ADM_ID_TAG:
+				{
+					size = (USHORT)m_pAdmPage->SetDataIntoDlg(pCfgMemTmp);
+					break;
+				}
+			case COMMENT_ID_TAG:
+				{
+					size = (USHORT)m_pAdmPage->SetComment(pCfgMemTmp);
+					break;
+				}
+			default:
+					size = *((USHORT*)pCfgMemTmp + 1);
+					size += 4;
+					break;
 			}
-		case COMMENT_ID_TAG:
-			{
-				size = (USHORT)m_pAdmPage->SetComment(pCfgMemTmp);
-				break;
-			}
-		default:
-				size = *((USHORT*)pCfgMemTmp + 1);
-				size += 4;
-				break;
-		}
-		pCfgMemTmp = (PUCHAR)pCfgMemTmp + size;
-	} while(!end_flag && pCfgMemTmp < pEndCfgMem);
+			pCfgMemTmp = (PUCHAR)pCfgMemTmp + size;
+		} while(!end_flag && pCfgMemTmp < pEndCfgMem);
+
+		m_pAdmPage->SetSMTypeData();
+	}
+
+	m_pAmbPage->UpdateData(TRUE);
+	if( m_pAmbPage->m_NumOfAdmIf == 0 )
+		m_nCanWriteSM = 0;
+	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
+	{
+		m_pAdmPage->UpdateData(TRUE);
+		if( m_pAdmPage->m_nAdmType == 0 )
+			m_nCanWriteSM = 0;
+		else if ( m_pAdmPage->m_nAdmType > 0 )
+			m_nCanWriteSM = 1;
+	}
+	UpdateData(FALSE);
 }
 
 void CIdCfgRomDlg::ReadThroughDialog()
@@ -552,9 +581,6 @@ void CIdCfgRomDlg::ReadThroughDialog()
 		return;
 	
 	ReadCfgFile(sFilePath);
-
-	if( m_pFileBaseDlg )
-		TransferParamsFromMainToFileBaseDlg();
 }
 
 CString CIdCfgRomDlg::ShowReadDialog()
@@ -610,9 +636,6 @@ CString CIdCfgRomDlg::ShowReadDialog()
 
 void CIdCfgRomDlg::ReadCfgFile(CString sFilePath)
 {
-	m_pAmbPage->m_sComment = "";
-	m_pAdmPage->m_sComment = "";
-
 	m_readFileExt = sFilePath.Right(4);
 	HANDLE hfile = CreateFile(	sFilePath, 
 								GENERIC_READ,
@@ -631,6 +654,7 @@ void CIdCfgRomDlg::ReadCfgFile(CString sFilePath)
 		LocalFree( lpMsgBuf );
 		return;
 	}
+
 	long lDistanceToMoveLow = 0;
 	long lDistanceToMoveHigh = 0;
 	ULONG bFileSize = SetFilePointer(hfile, lDistanceToMoveLow, &lDistanceToMoveHigh, FILE_END);
@@ -639,33 +663,16 @@ void CIdCfgRomDlg::ReadCfgFile(CString sFilePath)
 	PUCHAR	pCfgMem = new UCHAR[bFileSize];
 	ReadFile(hfile, pCfgMem, bFileSize, &dwBytesRead, NULL);
 	ULONG nSizeCfgMem = dwBytesRead;
-	m_pAdmPage->SetSMTypeData();
+
 	int nRealBaseCfgSize = 0;
 	int aRealAdmCfgSize[4] = {0, 0, 0, 0};
-	CfgMemToDlgItems(pCfgMem, nSizeCfgMem, &nRealBaseCfgSize, aRealAdmCfgSize);
+	CfgMemToDlgItems(pCfgMem, nSizeCfgMem, nRealBaseCfgSize, aRealAdmCfgSize);
 	delete [] pCfgMem;
 
-	m_pAdmIfPage->SetMaxAdmIf(m_pAmbPage->m_NumOfAdmIf - 1);
-	m_pAdmPage->SetMaxAdm(m_pAmbPage->m_NumOfAdmIf - 1);
-	m_pPldPage->SetMaxPld(m_pAdmIfPage->m_NumOfPld - 1);
-	m_pFifoPage->SetMaxAdcFifo(m_pAdmIfPage->m_NumOfAdcFifo - 1);
-	m_pFifoPage->SetMaxDacFifo(m_pAdmIfPage->m_NumOfDacFifo - 1);
-	m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
-	m_pAmbPage->SetBMTypeData();
 	CloseHandle(hfile);
 
-	m_pAmbPage->UpdateData(FALSE);
-	if( m_pAmbPage->m_NumOfAdmIf == 0 )
-		m_nCanWriteSM = 0;
-	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
-	{
-		m_pAdmPage->UpdateData(FALSE);
-		if( m_pAdmPage->m_nAdmType == 0 )
-			m_nCanWriteSM = 0;
-		else if ( m_pAdmPage->m_nAdmType > 0 )
-			m_nCanWriteSM = 1;
-	}
-	UpdateData(FALSE);
+	if( m_pFileBaseDlg )
+		TransferParamsFromMainToFileBaseDlg();
 
 	SaveDialogFieldsValues();
 }
@@ -758,7 +765,9 @@ ULONG CIdCfgRomDlg::DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRe
 		for(int i = 0; i < numOfADM; i++)
 		{
 			PUCHAR pAdmCfgMem = (PUCHAR)pCurCfgMem;
-			USHORT* pEndCfgMem = (USHORT*)pCurCfgMem + m_pAdmPage->m_nCfgBufSize;
+			m_pAdmPage->UpdateData(TRUE);
+			ULONG nAdmCfgBufSize = m_pAdmPage->m_nAdmType ? g_SubmodCtrl[m_pAdmPage->m_nAdmType - 1].devInfo.nCfgMemSize : NONADM_CFGMEM_SIZE;
+			USHORT* pEndCfgMem = (USHORT*)pCurCfgMem + nAdmCfgBufSize;
 			// страница AdmPage
 			ULONG nCfgSize = m_pAdmPage->GetDataFromDlg(pCurCfgMem, i);
 			pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + nCfgSize);
@@ -870,29 +879,43 @@ void CIdCfgRomDlg::SaveBin(CString sFilePath)
 		LocalFree( lpMsgBuf );
 		return;
 	}
-	DWORD dwBytesWritten;
-	ULONG nSizeCfgMem = m_pAmbPage->m_nCfgBufSize + m_pAdmPage->m_nCfgBufSize;
+
+	m_pAmbPage->UpdateData(TRUE);
+	m_pAdmPage->UpdateData(TRUE);
+	ULONG nAmbCfgBufSize = m_pAmbPage->m_BMType ? g_BaseModCtrl[m_pAmbPage->m_BMType - 1].devInfo.nCfgMemSize : AMBPCI_CFGMEM_SIZE;
+	ULONG nAdmCfgBufSize = m_pAdmPage->m_nAdmType ? g_SubmodCtrl[m_pAdmPage->m_nAdmType - 1].devInfo.nCfgMemSize : NONADM_CFGMEM_SIZE;
+	ULONG nSizeCfgMem = nAmbCfgBufSize + nAdmCfgBufSize;
 	PUCHAR	pCfgMem = new UCHAR[nSizeCfgMem];
+
 	int nRealBaseCfgSize = 0;
 	int aRealAdmCfgSize[4] = {0, 0, 0, 0};
 	if( DlgItemsToCfgMem(pCfgMem, nSizeCfgMem, &nRealBaseCfgSize, aRealAdmCfgSize) ) 
 	{
-		WriteFile(hfile, pCfgMem, nRealBaseCfgSize, &dwBytesWritten, NULL);
-		PUCHAR pCurCfgMem = pCfgMem + nRealBaseCfgSize;
-		for(int i = 0; i < 4; i++) 
+		// базовый модуль
+		if( (GetReadWriteDevs() == READ_WRITE_BASEMODULE) || (GetReadWriteDevs() == READ_WRITE_ALL) )
 		{
-			if(aRealAdmCfgSize[i]) 
+			DWORD dwBytesWritten;
+			WriteFile(hfile, pCfgMem, nRealBaseCfgSize, &dwBytesWritten, NULL);
+		}
+
+		// субмодуль
+		if( (GetReadWriteDevs() == READ_WRITE_SUBMODULE) || (GetReadWriteDevs() == READ_WRITE_ALL) )
+		{
+			PUCHAR pCurCfgMem = pCfgMem + nRealBaseCfgSize;
+			for(int i = 0; i < 4; i++) 
 			{
-				WriteFile(hfile, pCurCfgMem, aRealAdmCfgSize[i], &dwBytesWritten, NULL);
-				pCurCfgMem += aRealAdmCfgSize[i];
+				if(aRealAdmCfgSize[i]) 
+				{
+					DWORD dwBytesWritten;
+					WriteFile(hfile, pCurCfgMem, aRealAdmCfgSize[i], &dwBytesWritten, NULL);
+					pCurCfgMem += aRealAdmCfgSize[i];
+				}
 			}
 		}
 	}
 	else 
 	{
-//		TCHAR MsgBuf[] = _T("Недостаточно памяти для конфигурационных данных !");
 		CString MsgBuf;
-//		TCHAR MsgBuf[MAX_PATH];
 		GetMsg(MSG_NOT_ENOUGH_MEMORY, MsgBuf);
 		AfxMessageBox( MsgBuf, MB_OK|MB_ICONINFORMATION, 0);
 		return;
@@ -910,106 +933,121 @@ void CIdCfgRomDlg::SaveHex(CString sFilePath)
 	if( fout==NULL )
 		fout = stdout;
 
-	ULONG nSizeCfgMem = m_pAmbPage->m_nCfgBufSize + m_pAdmPage->m_nCfgBufSize;
+	m_pAmbPage->UpdateData(TRUE);
+	m_pAdmPage->UpdateData(TRUE);
+	ULONG nAmbCfgBufSize = m_pAmbPage->m_BMType ? g_BaseModCtrl[m_pAmbPage->m_BMType - 1].devInfo.nCfgMemSize : AMBPCI_CFGMEM_SIZE;
+	ULONG nAdmCfgBufSize = m_pAdmPage->m_nAdmType ? g_SubmodCtrl[m_pAdmPage->m_nAdmType - 1].devInfo.nCfgMemSize : NONADM_CFGMEM_SIZE;
+	ULONG nSizeCfgMem = nAmbCfgBufSize + nAdmCfgBufSize;
 	PUCHAR	pCfgMem = new UCHAR[nSizeCfgMem];
+
 	int nRealBaseCfgSize = 0;
 	int aRealAdmCfgSize[4] = {0, 0, 0, 0};
 	if( DlgItemsToCfgMem(pCfgMem, nSizeCfgMem, &nRealBaseCfgSize, aRealAdmCfgSize) )
 	{
-		// запись конфигурации базового модуля
-		U08 *hex = (U08*)pCfgMem;									// байт данных для записи в файл
-		U16	hiAddress = 0x0000;										// старшая часть адреса (первая строка)
-		U16	loAddress = 0x0000;										// младшая часть адреса (строки данных)
-		U08	controlSum;												// контрольная сумма
-			controlSum = 0x0 - ( 0x02 + ((hiAddress&0xFF00)>>8) + (hiAddress&0x00FF) + 0x04);
-		fprintf(fout, ":02000004%04X%02X\n", hiAddress, controlSum);// запись стартовой строки
-		char	str[141] = "";
-		char	strTmp[140] = "";
-		// "for": вывод строк данных
-		for( int ii=0; ii<(nRealBaseCfgSize+1); ii++ )
+		// базовый модуль
+		if( (GetReadWriteDevs() == READ_WRITE_BASEMODULE) || (GetReadWriteDevs() == READ_WRITE_ALL) )
 		{
-			// "if": запись суффикса одной строки и префикса следующей строки данных
-			if( !(ii%64) || (ii == nRealBaseCfgSize) )				//последний байт в строке или последний байт вообще
+			// запись конфигурации базового модуля
+			U08 *hex = (U08*)pCfgMem;									// байт данных для записи в файл
+			U16	hiAddress = 0x0000;										// старшая часть адреса (первая строка)
+			U16	loAddress = 0x0000;										// младшая часть адреса (строки данных)
+			U08	controlSum;												// контрольная сумма
+				controlSum = 0x0 - ( 0x02 + ((hiAddress&0xFF00)>>8) + (hiAddress&0x00FF) + 0x04);
+			fprintf(fout, ":02000004%04X%02X\n", hiAddress, controlSum);// запись стартовой строки
+			char	str[141] = "";
+			char	strTmp[140] = "";
+			// "for": вывод строк данных
+			for( int ii=0; ii<(nRealBaseCfgSize+1); ii++ )
 			{
-				// "if": запись суффикса
-				if( ii!=0 ) // не начало первой строки данных
+				// "if": запись суффикса одной строки и префикса следующей строки данных
+				if( !(ii%64) || (ii == nRealBaseCfgSize) )				//последний байт в строке или последний байт вообще
 				{
-					controlSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
-					int bytesCntInStr = ii%64 ? ii%64 : 64;			// расчёт количества байтов в строке для вывода
-					for( int jj=0; jj<bytesCntInStr; jj++)
-						controlSum += hex[ii-1-jj];
-					controlSum = 0x0 - controlSum;
-					sprintf_s(strTmp, ("%02X\n"), controlSum);
-					strcat(str, strTmp);
-					// "if": вывод последней строки данных
-					if( ii == nRealBaseCfgSize )
+					// "if": запись суффикса
+					if( ii!=0 ) // не начало первой строки данных
 					{
-						sprintf_s(strTmp, (":%02X"), bytesCntInStr);
-						strncpy(str, strTmp, 3);
-						fprintf(fout, str);							// вывод сформированной строки данных в файл
-						str[0] = 0;
-						break;
+						controlSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
+						int bytesCntInStr = ii%64 ? ii%64 : 64;			// расчёт количества байтов в строке для вывода
+						for( int jj=0; jj<bytesCntInStr; jj++)
+							controlSum += hex[ii-1-jj];
+						controlSum = 0x0 - controlSum;
+						sprintf_s(strTmp, ("%02X\n"), controlSum);
+						strcat(str, strTmp);
+						// "if": вывод последней строки данных
+						if( ii == nRealBaseCfgSize )
+						{
+							sprintf_s(strTmp, (":%02X"), bytesCntInStr);
+							strncpy(str, strTmp, 3);
+							fprintf(fout, str);							// вывод сформированной строки данных в файл
+							str[0] = 0;
+							break;
+						}
+						loAddress+=64;
 					}
-					loAddress+=64;
+					fprintf(fout, str); // вывод в файл сформированной строки данных
+					str[0] = 0;
+					// запись префикса
+					sprintf_s(strTmp, (":40%04X00"), loAddress);
+					strcat(str, strTmp);
 				}
-				fprintf(fout, str); // вывод в файл сформированной строки данных
-				str[0] = 0;
-				// запись префикса
-				sprintf_s(strTmp, (":40%04X00"), loAddress);
+				sprintf_s(strTmp, ("%02X"), hex[ii]);					// запись байта данных
 				strcat(str, strTmp);
 			}
-			sprintf_s(strTmp, ("%02X"), hex[ii]);					// запись байта данных
-			strcat(str, strTmp);
 		}
 
-		// запись конфигурации субмодулей
-		PUCHAR pCurCfgMem = pCfgMem + nRealBaseCfgSize;
-		for(int i = 0; i < 4; i++)
+		// субмодуль
+		if( (GetReadWriteDevs() == READ_WRITE_SUBMODULE) || (GetReadWriteDevs() == READ_WRITE_ALL) )
 		{
-			if(aRealAdmCfgSize[i])
+			U16	loAddress = 0x0000;
+			char	str[141] = "";
+			char	strTmp[140] = "";
+			// запись конфигурации субмодулей
+			PUCHAR pCurCfgMem = pCfgMem + nRealBaseCfgSize;
+			for(int i = 0; i < 4; i++)
 			{
-				hex = (U08*)pCurCfgMem;
-				for( int ii=0; ii<(aRealAdmCfgSize[i]+1); ii++ )
+				if(aRealAdmCfgSize[i])
 				{
-					if( !(ii%64) || (ii == aRealAdmCfgSize[i]) )
+					U08 *hex = (U08*)pCurCfgMem;
+					for( int ii=0; ii<(aRealAdmCfgSize[i]+1); ii++ )
 					{
-						if( ii!=0 )
+						if( !(ii%64) || (ii == aRealAdmCfgSize[i]) )
 						{
-							controlSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
-							int bytesCntInStr = ii%64 ? ii%64 : 64;
-							for( int jj=0; jj<bytesCntInStr; jj++)
-								controlSum += hex[ii-1-jj];
-							controlSum = 0x0 - controlSum;
-							sprintf_s(strTmp, ("%02X\n"), controlSum);
-							strcat(str, strTmp);
-							if( ii == aRealAdmCfgSize[i] )
+							if( ii!=0 )
 							{
-								sprintf_s(strTmp, (":%02X"), bytesCntInStr);
-								strncpy(str, strTmp, 3);
-								fprintf(fout, str);
-								str[0] = 0;
-								break;
+								U08	controlSum = 0x40 + ( (loAddress&0xFF00)>>8 ) + (loAddress&0x00FF);
+								int bytesCntInStr = ii%64 ? ii%64 : 64;
+								for( int jj=0; jj<bytesCntInStr; jj++)
+									controlSum += hex[ii-1-jj];
+								controlSum = 0x0 - controlSum;
+								
+								sprintf_s(strTmp, ("%02X\n"), controlSum);
+								strcat(str, strTmp);
+								if( ii == aRealAdmCfgSize[i] )
+								{
+									sprintf_s(strTmp, (":%02X"), bytesCntInStr);
+									strncpy(str, strTmp, 3);
+									fprintf(fout, str);
+									str[0] = 0;
+									break;
+								}
+								loAddress+=64;
 							}
-							loAddress+=64;
+							fprintf(fout, str);
+							str[0] = 0;
+							sprintf_s(strTmp, (":40%04X00"), loAddress);
+							strcat(str, strTmp);
 						}
-						fprintf(fout, str);
-						str[0] = 0;
-						sprintf_s(strTmp, (":40%04X00"), loAddress);
+						sprintf_s(strTmp, ("%02X"), hex[ii]);
 						strcat(str, strTmp);
 					}
-					sprintf_s(strTmp, ("%02X"), hex[ii]);
-					strcat(str, strTmp);
+					pCurCfgMem += aRealAdmCfgSize[i];
 				}
-				pCurCfgMem += aRealAdmCfgSize[i];
 			}
 		}
 		fprintf(fout, ":00000001FF");
 	}
 	else
 	{
-//		TCHAR MsgBuf[] = _T("Недостаточно памяти для конфигурационных данных !");
 		CString MsgBuf;
-//		TCHAR MsgBuf[MAX_PATH];
 		GetMsg(MSG_NOT_ENOUGH_MEMORY, MsgBuf);
 		AfxMessageBox( MsgBuf, MB_OK|MB_ICONINFORMATION, 0);
 		return;
@@ -1023,26 +1061,35 @@ void CIdCfgRomDlg::SaveHex(CString sFilePath)
 void CIdCfgRomDlg::OnBnClickedIntodev()
 {
 	// TODO: Add your control notification handler code here
-	UpdateData(TRUE);
-
-	// если в окне нет информации о субмодуле, запрещаем запись в субмодуль
+	// если в окне нет информации о субмодуле, запрещаем запись "только в субмодуль"
 	if( (GetReadWriteDevs()==READ_WRITE_SUBMODULE) && !m_nCanWriteSM )
 	{
 		AfxMessageBox("Не введены конфигурационные данные для субмодуля!");
 		return;
 	}
 
-	PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[m_nDevType].devInfo);
-	ULONG nSizeCfgMem = m_pAmbPage->m_nCfgBufSize + m_pAdmPage->m_nCfgBufSize;
+	// локальный буфер
+	m_pAmbPage->UpdateData(TRUE);
+	m_pAdmPage->UpdateData(TRUE);
+	ULONG nAmbCfgBufSize = m_pAmbPage->m_BMType ? g_BaseModCtrl[m_pAmbPage->m_BMType - 1].devInfo.nCfgMemSize : AMBPCI_CFGMEM_SIZE;
+	ULONG nAdmCfgBufSize = m_pAdmPage->m_nAdmType ? g_SubmodCtrl[m_pAdmPage->m_nAdmType - 1].devInfo.nCfgMemSize : NONADM_CFGMEM_SIZE;
+	ULONG nSizeCfgMem = nAmbCfgBufSize + nAdmCfgBufSize;
 	PUCHAR	pCfgMem = new UCHAR[nSizeCfgMem];
 
+	// заполнение локального буфера ICR информацией из полей окна
 	int nRealBaseCfgSize = 0;
 	int aRealAdmCfgSize[4] = {0, 0, 0, 0};
 	if( DlgItemsToCfgMem(pCfgMem, nSizeCfgMem, &nRealBaseCfgSize, aRealAdmCfgSize) )
 	{
-		// заполнение буфера в pDeviceInfo глобальным буфером
+		UpdateData(TRUE);
+		PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[m_nDevType].devInfo);
+
+		// заполнение буферов в pDeviceInfo локальным буфером
+		// буфер базового модуля
 		pDeviceInfo->nRealBaseCfgSize = nRealBaseCfgSize;
 		memcpy(pDeviceInfo->pBaseCfgMem, pCfgMem, nRealBaseCfgSize);
+
+		// буфера субмодулей
 		PUCHAR pCurCfgMem = pCfgMem + nRealBaseCfgSize;
 		for( int i = 0; i < 4; i++ )
 		{
@@ -1083,54 +1130,64 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 	HCURSOR  hCursorWait	= LoadCursor(NULL, IDC_WAIT); // курсор-часы
 	HCURSOR  hCursorArrow	= SetCursor(hCursorWait);
 
-	UpdateData(TRUE); // from window to variable
-	m_pAmbPage->m_sComment = "";
-	m_pAdmPage->m_sComment = "";
+	UpdateData(TRUE);
 	PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[m_nDevType].devInfo);
 	(g_DeviceCtrl[m_nDevType].pReadIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
+
+	if( (pDeviceInfo->nRealBaseCfgSize==0) && (GetReadWriteDevs()==READ_WRITE_BASEMODULE) )
+	{
+		AfxMessageBox("Считать из устройства не удалось!");
+		SetCursor(hCursorArrow);
+		return;
+	}
+	if( (pDeviceInfo->nRealAdmCfgSize[0]==0) && (pDeviceInfo->nRealAdmCfgSize[1]==0) && 
+		(pDeviceInfo->nRealAdmCfgSize[2]==0) && (pDeviceInfo->nRealAdmCfgSize[3]==0) &&
+		(GetReadWriteDevs()==READ_WRITE_SUBMODULE) )
+	{
+		AfxMessageBox("Считать из устройства не удалось!");
+		SetCursor(hCursorArrow);
+		return;
+	}
+	if( (pDeviceInfo->nRealBaseCfgSize==0) && (pDeviceInfo->nRealAdmCfgSize[0]==0) && 
+		(pDeviceInfo->nRealAdmCfgSize[1]==0) && (pDeviceInfo->nRealAdmCfgSize[2]==0) && 
+		(pDeviceInfo->nRealAdmCfgSize[3]==0) &&	(GetReadWriteDevs()==READ_WRITE_ALL) )
+	{
+		AfxMessageBox("Считать из устройства не удалось!");
+		SetCursor(hCursorArrow);
+		return;
+	}
+
+	// локальный буфер
 	ULONG nSizeCfgMem = pDeviceInfo->nBaseCfgMemSize;
 	for(int i = 0; i < 4; i++)
 		nSizeCfgMem += pDeviceInfo->nAdmCfgMemSize[i];
 	PUCHAR	pCfgMem = new UCHAR[nSizeCfgMem];
+
+	// обнуление локального буфера
 	for( ULONG ii=0; ii<nSizeCfgMem; ii++ )
 		pCfgMem[ii]=0xFF;
+
+	// заполнение локального буфера буферами из pDeviceInfo
+	// буфера базового модуля из pDeviceInfo
 	memcpy(pCfgMem, pDeviceInfo->pBaseCfgMem, pDeviceInfo->nBaseCfgMemSize);
 	int nRealBaseCfgSize = pDeviceInfo->nRealBaseCfgSize;
 	PUCHAR pCurCfgMem = pCfgMem + nRealBaseCfgSize;
+
+	// буферы субмодулей из pDeviceInfo
 	int aRealAdmCfgSize[4] = {0, 0, 0, 0};
-	for(int i = 0; i < 4; i++)
+	for( int i = 0; i < 4; i++ )
 	{
-		if(pDeviceInfo->pAdmCfgMem[i] && pDeviceInfo->nAdmCfgMemSize[i])
+		if( pDeviceInfo->pAdmCfgMem[i] && pDeviceInfo->nAdmCfgMemSize[i] )
 		{
 			memcpy(pCurCfgMem, pDeviceInfo->pAdmCfgMem[i], pDeviceInfo->nAdmCfgMemSize[i]);
 			aRealAdmCfgSize[i] = pDeviceInfo->nRealAdmCfgSize[i];
 			pCurCfgMem += aRealAdmCfgSize[i];
 		}
 	}
-	m_pAdmPage->SetSMTypeData();
-	CfgMemToDlgItems(pCfgMem, nSizeCfgMem, &nRealBaseCfgSize, aRealAdmCfgSize);
-	delete[] pCfgMem;
-	m_pAdmIfPage->SetMaxAdmIf(m_pAmbPage->m_NumOfAdmIf - 1);
-	m_pAdmPage->SetMaxAdm(m_pAmbPage->m_NumOfAdmIf - 1);
-	m_pPldPage->SetMaxPld(m_pAdmIfPage->m_NumOfPld - 1);
-	m_pFifoPage->SetMaxAdcFifo(m_pAdmIfPage->m_NumOfAdcFifo - 1);
-	m_pFifoPage->SetMaxDacFifo(m_pAdmIfPage->m_NumOfDacFifo - 1);
-	m_pDacPage->SetMaxDac(m_pAdmIfPage->m_NumOfDac - 1);
-	m_pAmbPage->SetBMTypeData();
 
-	// Разблокировать галочку "Запись только в субмодуль", если субмодуль есть, и наоборот
-	m_pAmbPage->UpdateData(FALSE);
-	if( m_pAmbPage->m_NumOfAdmIf == 0 )
-		m_nCanWriteSM = 0;
-	else if ( m_pAmbPage->m_NumOfAdmIf > 0 )
-	{
-		m_pAdmPage->UpdateData(FALSE);
-		if( m_pAdmPage->m_nAdmType == 0 )
-			m_nCanWriteSM = 0;
-		else if ( m_pAdmPage->m_nAdmType > 0 )
-			m_nCanWriteSM = 1;
-	}
-	UpdateData(FALSE);
+	// заполняем поля окна ICR информацией из локального буфера
+	CfgMemToDlgItems(pCfgMem, nSizeCfgMem, nRealBaseCfgSize, aRealAdmCfgSize);
+	delete[] pCfgMem;
 
 	SaveDialogFieldsValues();
 
@@ -1254,60 +1311,158 @@ void CIdCfgRomDlg::OnBnClickedWriteRead()
 	{
 		if( !m_pFileBaseDlg->IsWindowVisible() )
 			m_pFileBaseDlg->ShowWindow(SW_SHOW);
-		return;
+		m_pFileBaseDlg->BringWindowToTop();
+	}
+	else
+	{
+		m_pFileBaseDlg = new CWriteReadDlg();
+		m_pFileBaseDlg->Create(IDD_WRITE_READ_DIALOG, this);
+		m_pFileBaseDlg->ShowWindow(SW_SHOW);
 	}
 
-	m_pFileBaseDlg = new CWriteReadDlg();
-	m_pFileBaseDlg->Create(IDD_WRITE_READ_DIALOG, this);
 	TransferParamsFromMainToFileBaseDlg();
-	m_pFileBaseDlg->m_sWriteZakaz = m_sWriteZakaz;
-	m_pFileBaseDlg->m_sWriteSurname = m_sWriteSurname;
-	m_pFileBaseDlg->m_sWriteKeyword = m_sWriteKeyword;
-	m_pFileBaseDlg->UpdateData(FALSE);
-
-	m_pFileBaseDlg->ShowWindow(SW_SHOW);
 }
 
 void CIdCfgRomDlg::TransferParamsFromMainToFileBaseDlg()
 {
 	m_pFileBaseDlg->UpdateData(TRUE);
-
-	CString sBMType = "";
-	int nDevId = -1;
-	int nVer = -1;
-	int nPId = -1;
-
 	UpdateData(TRUE);
-	CComboBox	*pBMType = (CComboBox*)m_pAmbPage->GetDlgItem(IDC_BMTYPE);
-	pBMType->GetWindowTextA(sBMType);
-	int nBMType = m_pAmbPage->m_BMType;
-	if( nBMType )
+
+	// базовый модуль
+	CString sBMType = "";
+	int nBMDevId = -1;
+	int nBMVer = -1;
+	int nBMPId = -1;
+	if( (GetReadWriteDevs() == READ_WRITE_BASEMODULE) || (GetReadWriteDevs() == READ_WRITE_ALL) )
 	{
-		for(int ii = 0; ii < g_nNumOfBaseModules; ii++)
+		// Name
+		CComboBox	*pBMType = (CComboBox*)m_pAmbPage->GetDlgItem(IDC_BMTYPE);
+		pBMType->GetWindowTextA(sBMType);
+
+		// DevId
+		int nBMType = m_pAmbPage->m_BMType;
+		if( nBMType )
 		{
-			if( sBMType.Compare(g_BaseModCtrl[ii].devInfo.sName) == 0 )
+			for(int ii = 0; ii < g_nNumOfBaseModules; ii++)
 			{
-				nDevId = g_BaseModCtrl[ii].devInfo.dType;
-				break;
+				if( sBMType.Compare(g_BaseModCtrl[ii].devInfo.sName) == 0 )
+				{
+					nBMDevId = g_BaseModCtrl[ii].devInfo.dType;
+					break;
+				}
 			}
 		}
+		else
+			nBMDevId = AMBPCI;
+
+		// Ver
+		char	*pcc;
+		nBMVer = strtol(m_pAmbPage->m_strAmbVersion, &pcc, 16);
+
+		// PId
+		nBMPId = m_pAmbPage->m_SerialNum;
 	}
-	else
-		nDevId = AMBPCI;
-	char	*pcc;
-	nVer = strtol(m_pAmbPage->m_strAmbVersion, &pcc, 16);
-	nPId = m_pAmbPage->m_SerialNum;
+	
+	// субмодуль
+	CString sSMType = "";
+	int nSMDevId = -1;
+	int nSMVer = -1;
+	int nSMPId = -1;
+	if( (GetReadWriteDevs() == READ_WRITE_SUBMODULE) || (GetReadWriteDevs() == READ_WRITE_ALL) )
+	{
+		int nSMType = m_pAdmPage->m_nAdmType;
+		if( nSMType )
+		{
+			// Name
+			CComboBox	*pSMType = (CComboBox*)m_pAdmPage->GetDlgItem(IDC_ADMTYPE);
+			pSMType->GetWindowTextA(sSMType);
+
+			// DevId
+			for(int ii = 0; ii < g_nNumOfSubModules; ii++)
+			{
+				if( sSMType.Compare(g_SubmodCtrl[ii].devInfo.sName) == 0 )
+				{
+					nSMDevId = g_SubmodCtrl[ii].devInfo.Type;
+					break;
+				}
+			}
+
+			// Ver
+			char	*pcc;
+			nSMVer = strtol(m_pAdmPage->m_strAdmVersion, &pcc, 16);
+
+			// PId
+			nSMPId = m_pAdmPage->m_nAdmPID;
+		}
+	}
+
+	// соединяем информацию воедино
+	CString sType = "";
+	CString sDevId = "";
+	CString sVer = "";
+	CString sPId = "";
+
+	// Name
+	if( sBMType!="" )
+		sType = sBMType;
+	if( sSMType!="" )
+	{
+		if( sType!="" )
+			sType += "-";
+		sType += sSMType;
+	}
+
+	// DevId
+	if( nBMDevId!=-1 )
+		sDevId.Format("0x%04X", nBMDevId);
+	if( nSMDevId!=-1 )
+	{
+		if( sDevId!="" )
+			sDevId += "-";
+		CString sSMDevId = "";
+		sSMDevId.Format("0x%04X", nSMDevId);
+		sDevId += sSMDevId;
+	}
+
+	// Ver
+	if( nBMVer!=-1 )
+		sVer.Format("0x%04X", nBMVer);
+	if( nSMVer!=-1 )
+	{
+		if( sVer!="" )
+			sVer += "-";
+		CString sSMVer = "";
+		sSMVer.Format("0x%04X", nSMVer);
+		sVer += sSMVer;
+	}
+
+	// PId
+	if( nBMPId!=-1 )
+		sPId.Format("0x%04X", nBMPId);
+	if( nSMPId!=-1 )
+	{
+		if( sPId!="" )
+			sPId += "-";
+		CString sSMPId = "";
+		sSMPId.Format("0x%04X", nSMPId);
+		sPId += sSMPId;
+	}
 
 	CTime theTime = CTime::GetCurrentTime();
 	int nDay = theTime.GetDay();
 	int nMonth = theTime.GetMonth();
 	int nYear = theTime.GetYear();
 
-	m_pFileBaseDlg->m_sWriteName = sBMType;
-	m_pFileBaseDlg->m_sWriteDevId.Format("0x%04X", nDevId);
-	m_pFileBaseDlg->m_sWriteVer.Format("0x%02X", nVer);
-	m_pFileBaseDlg->m_sWritePId.Format("%d", nPId);
+	m_pFileBaseDlg->m_sWriteName = sType;
+	m_pFileBaseDlg->m_sWriteDevId = sDevId;
+	m_pFileBaseDlg->m_sWriteVer = sVer;
+	m_pFileBaseDlg->m_sWritePId = sPId;
 	m_pFileBaseDlg->m_sWriteDate.Format("%02d.%02d.%04d", nDay, nMonth, nYear);
+	
+	if( m_pFileBaseDlg->m_sWriteDevId == "" )
+		m_pFileBaseDlg->m_ctrlSaveBase.EnableWindow(FALSE);
+	else
+		m_pFileBaseDlg->m_ctrlSaveBase.EnableWindow(TRUE);
 
 	m_pFileBaseDlg->UpdateData(FALSE);
 }
@@ -1320,20 +1475,26 @@ void CIdCfgRomDlg::OnBnClickedClear()
 		return;
 
 	PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[m_nDevType].devInfo);
+	
+	// локальный буфер
 	ULONG nSizeCfgMem = BASEMOD_CFGMEM_SIZE + 4*SUBMOD_CFGMEM_SIZE;
 	PUCHAR	pCfgMem = new UCHAR[nSizeCfgMem];
-	pDeviceInfo->nRealBaseCfgSize = BASEMOD_CFGMEM_SIZE;
+
+	// обнуляем локальный буфер
 	for( int ii=0; ii<(int)nSizeCfgMem; ii++ )
 		pCfgMem[ii] = 0xFF;
+
+	// базовый модуль
+	pDeviceInfo->nRealBaseCfgSize = BASEMOD_CFGMEM_SIZE;
 	memcpy(pDeviceInfo->pBaseCfgMem, pCfgMem, BASEMOD_CFGMEM_SIZE);
+
+	// субмодуль
 	PUCHAR pCurCfgMem = pCfgMem + BASEMOD_CFGMEM_SIZE;
 	for( int ii = 0; ii < 4; ii++ )
 	{
 		pDeviceInfo->nRealAdmCfgSize[ii] = SUBMOD_CFGMEM_SIZE;
 		if( pDeviceInfo->pAdmCfgMem[ii] )
 		{
-			for( int jj=0; jj<SUBMOD_CFGMEM_SIZE; jj++ )
-				pCurCfgMem[jj] = 0xFF;
 			memcpy(pDeviceInfo->pAdmCfgMem[ii], pCurCfgMem, SUBMOD_CFGMEM_SIZE);
 			pCurCfgMem += SUBMOD_CFGMEM_SIZE;
 		}
@@ -1347,4 +1508,13 @@ void CIdCfgRomDlg::OnBnClickedClear()
 	delete [] pCfgMem;
 
 	SaveDialogFieldsValues();
+}
+
+void CIdCfgRomDlg::OnCbnSelchangeReadWriteDev()
+{
+	// TODO: Add your control notification handler code here
+	WriteRegistryValue("Software\\Instrumental Systems\\IdCfgRom", "ReadWriteDevs", m_ctrlReadWriteDevs.GetCurSel());
+
+	if( m_pFileBaseDlg )
+		TransferParamsFromMainToFileBaseDlg();
 }

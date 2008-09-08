@@ -7,7 +7,6 @@
 #include "IdCfgRomDlg.h"
 #include ".\ambpage.h"
 
-#define AMBPCI_CFGMEM_SIZE 128
 #define MAXBASEMODS 256
 
 #ifdef _DEBUG
@@ -120,7 +119,8 @@ void CAmbPage::OnDestroy()
 	CPropertyPage::OnDestroy();
 	
 	// TODO: Add your message handler code here
-	for(int i = 0; i < g_nNumOfBaseModules; i++) {
+	for(int i = 0; i < g_nNumOfBaseModules; i++) 
+	{
 		PBASEMOD_INFO pDeviceInfo = &(g_BaseModCtrl[i].devInfo);
 		g_BaseModCtrl[i].pClose(pDeviceInfo);
 	}
@@ -128,21 +128,21 @@ void CAmbPage::OnDestroy()
 
 // Функция в зависимости от типа выбранного Базового Модуля:
 // - устанавливает видимость кнопки "Подробности..."
-// - записывает в глобальную переменную m_nCfgBufSize размер конфигурационной памяти Базового Модуля
-// - устанавливает заголовок окна в зависимости от типа Базового Модуля
-void CAmbPage::SetBMTypeData() 
+// - устанавливает заголовок окна
+void CAmbPage::SetBMTypeData()
 {
+	UpdateData(TRUE);
 	int enFlag = m_BMType ? 1 : 0;
 	CWnd* pAmbExt = (CWnd*)GetDlgItem(IDC_AMBEXT);
 	pAmbExt->EnableWindow(enFlag);
-	m_nCfgBufSize = m_BMType ? g_BaseModCtrl[m_BMType - 1].devInfo.nCfgMemSize : AMBPCI_CFGMEM_SIZE;
+
+	CString sBaseModuleName;
 	CComboBox* pType = (CComboBox*)GetDlgItem(IDC_BMTYPE);
-	CString BaseModuleName;
-	pType->GetLBText(m_BMType, BaseModuleName);
+	pType->GetLBText(m_BMType, sBaseModuleName);
+	CString sTitle;
+	sTitle = _T("IdCfgRom (") + sBaseModuleName + _T(")");
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	CString Title;
-	Title = _T("IdCfgRom (") + BaseModuleName + _T(")");
-	pParentWnd->SetWindowText(Title);
+	pParentWnd->SetWindowText(sTitle);
 }
 /*
 /////////////////////////////////////////////////////////////////////////////
@@ -221,10 +221,7 @@ void CAmbPage::OnSelchangeBmtype()
 
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 	if( pParentWnd->m_pFileBaseDlg )
-	{
 		pParentWnd->TransferParamsFromMainToFileBaseDlg();
-		pParentWnd->m_pFileBaseDlg->UpdateData(FALSE);
-	}
 }
 
 void CAmbPage::OnKillfocusAmbversion() 
@@ -454,14 +451,10 @@ void CAmbPage::OnEnChangeSerialnum()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	UpdateData(TRUE); // from window to variable
-
+	UpdateData(TRUE);
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 	if( pParentWnd->m_pFileBaseDlg )
-	{
 		pParentWnd->TransferParamsFromMainToFileBaseDlg();
-		pParentWnd->m_pFileBaseDlg->UpdateData(FALSE);
-	}
 }
 
 void CAmbPage::OnEnChangeAmbversion()
@@ -472,12 +465,8 @@ void CAmbPage::OnEnChangeAmbversion()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	UpdateData(TRUE); // from window to variable
-
+	UpdateData(TRUE);
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 	if( pParentWnd->m_pFileBaseDlg )
-	{
 		pParentWnd->TransferParamsFromMainToFileBaseDlg();
-		pParentWnd->m_pFileBaseDlg->UpdateData(FALSE);
-	}
 }

@@ -4,6 +4,8 @@
 
 UINT const MAX_ADMID = 4;
 
+#define NONADM_CFGMEM_SIZE 2
+
 // CAdmPage dialog
 
 class CAdmPage : public CPropertyPage
@@ -19,7 +21,6 @@ public:
 	ULONG GetDataFromDlg(PVOID pCfgMem, UINT num);
 	void SetSMTypeData(); 
 	void SetMaxAdm(int maxAdm);
-	ULONG m_nCfgBufSize;
 
 	void SetIdDataIntoDlg(PICR_IdAdm pAdmId, PICR_IdComment pCommentId);
 	void GetIdDataFromDlg(PICR_IdAdm pAdmId, PICR_IdComment pCommentId, UINT num);
@@ -55,4 +56,8 @@ public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 public:
 	afx_msg void OnEnKillfocusComment();
+public:
+	afx_msg void OnEnChangeAdmpid();
+public:
+	afx_msg void OnEnChangeAdmversion();
 };
