@@ -25,6 +25,8 @@ CIdCfgRomApp::CIdCfgRomApp()
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
+	m_sCmdFileName = "";
+	m_nCmdDev = CMDDEV_BASESUB;
 }
 
 
@@ -39,9 +41,6 @@ SUBMOD_CTRL g_SubmodCtrl[MAXSUBMODS];
 int g_nNumOfDevices;
 int g_nNumOfBaseModules;
 int g_nNumOfSubModules;
-
-// изъятие информации об устройствах, базовых модулях и субмодулях из dll'ей
-void GetInfoFromDlls();
 
 // CIdCfgRomApp initialization
 
@@ -64,16 +63,36 @@ BOOL CIdCfgRomApp::InitInstance()
 
 	GetInfoFromDlls();
 
-	CIdCfgRomDlg dlg;
-	m_pMainWnd = &dlg;
-	INT_PTR nResponse = dlg.DoModal();
+	if( !ParseCommandLine() )
+		return FALSE;
+
+	// если программа запускается с именем файла в коммандной строке, не отображаем окно
+	if( m_sCmdFileName != "" )
+	{
+		CIdCfgRomDlg* dlg = new CIdCfgRomDlg();
+		dlg->Create(IDD_IDCFGROM_DIALOG);
+		dlg->ShowWindow(SW_HIDE);
+
+		dlg->m_ctrlReadWriteDevs.SetCurSel(m_nCmdDev);
+		dlg->ReadCfgFile(m_sCmdFileName);
+		dlg->OnBnClickedIntodev();
+		dlg->OnOK();
+		dlg->OnDestroy();
+		delete dlg;
+	}
+	else
+	{
+		CIdCfgRomDlg dlg;
+		m_pMainWnd = &dlg;
+		dlg.DoModal();
+	}
 
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
 	return FALSE;
 }
 
-void GetInfoFromDlls()
+void CIdCfgRomApp::GetInfoFromDlls()
 {
 	CString sDllPath = GetCurDir() + "\\*.dll";
 	WIN32_FIND_DATA FindData;
@@ -202,4 +221,54 @@ void GetInfoFromDlls()
 
 	} while(FindNextFile(hFindFiles,&FindData));
 	FindClose(hFindFiles);
+}
+
+int CIdCfgRomApp::ParseCommandLine()
+{
+	CString sCmdLine = GetCommandLine() + 1;
+	sCmdLine = sCmdLine.Mid(sCmdLine.Find('\"')+1);
+	sCmdLine.Trim();
+	if( sCmdLine.Compare("") == 0 )
+		return 1;
+
+	if( sCmdLine.Find("//")>=0 )
+	{
+		sCmdLine = sCmdLine.Left(sCmdLine.Find("//"));
+		sCmdLine.Trim();
+	}
+
+	if( sCmdLine.Find("file:") >= 0 )
+	{
+		m_sCmdFileName = sCmdLine.Mid(sCmdLine.Find("file:") + (int)strlen("file:"));
+		if( m_sCmdFileName.Find("dev:") >= 0 )
+			m_sCmdFileName = m_sCmdFileName.Left(m_sCmdFileName.Find("dev:"));
+		m_sCmdFileName.Trim();
+	}
+	if( sCmdLine.Find("dev:") >= 0 )
+	{
+		CString sCmdDev = sCmdLine.Mid(sCmdLine.Find("dev:") + (int)strlen("dev:"));
+		if( sCmdDev.Find("file:") >= 0 )
+			sCmdDev = sCmdDev.Left(sCmdDev.Find("file:"));
+		sCmdDev.Trim();
+		if( sCmdDev == "b" )
+			m_nCmdDev = CMDDEV_BASE;
+		else if( sCmdDev == "s" )
+			m_nCmdDev = CMDDEV_SUB;
+		else if( sCmdDev == "bs" )
+			m_nCmdDev = CMDDEV_BASESUB;
+	}
+	
+	if( m_sCmdFileName[0] == '\\' )
+		m_sCmdFileName = m_sCmdFileName.Mid(1);
+	m_sCmdFileName = GetCurDir() + '\\' + m_sCmdFileName;
+	WIN32_FIND_DATA		fileData;
+	HANDLE hFile = FindFirstFile((LPCSTR)m_sCmdFileName, &fileData);
+	if( hFile == INVALID_HANDLE_VALUE )
+	{
+		CString sError = "";
+		sError.Format("Не удаётся найти файл \"%s\"", m_sCmdFileName);
+		AfxMessageBox(sError);
+		return 0;
+	}
+	return 1;
 }

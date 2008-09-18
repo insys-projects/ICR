@@ -19,6 +19,13 @@
 
 #include "device.h"
 
+enum
+{
+	CMDDEV_BASE,
+	CMDDEV_SUB,
+	CMDDEV_BASESUB
+};
+
 // Struct info about device DLL 
 typedef struct {
 	HINSTANCE			 hLib;				// Dll Handle 
@@ -74,6 +81,13 @@ public:
 // Implementation
 
 	DECLARE_MESSAGE_MAP()
+
+	CString m_sCmdFileName;
+	int		m_nCmdDev;
+
+	// изъ€тие информации об устройствах, базовых модул€х и субмодул€х из dll'ей
+	void GetInfoFromDlls();
+	int ParseCommandLine();
 };
 
 extern CIdCfgRomApp theApp;

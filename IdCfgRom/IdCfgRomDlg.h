@@ -144,6 +144,8 @@ public:
 	CString ShowReadDialog();
 	// чтение значений полей из файла
 	void 	ReadCfgFile(CString sFilePath);
+	// получить размер информации о базовом модуле, если она существует
+	int GetBMCfgSizeIfExist(void *pCfgMem, void *pEndCfgMem);
 
 	// ---завершение
 	afx_msg void OnBnClickedOk();
@@ -155,7 +157,7 @@ public:
 	// заполнение буфера значениями полей
 	ULONG	DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRealBaseCfgSize, int aRealAdmCfgSize[4]);
 	// заполнение полей значениями из буфера
-	void 	CfgMemToDlgItems(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int pRealBaseCfgSize, int aRealAdmCfgSize[4]);
+	void 	CfgMemToDlgItems(PUCHAR	pCfgMem, ULONG nSizeCfgMem);
 	// узнать устройства(базовый модуль/субмодуль) для записи/чтения
 	int		GetReadWriteDevs();
 	// сохранение значений полей
