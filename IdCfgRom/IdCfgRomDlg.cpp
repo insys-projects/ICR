@@ -1121,7 +1121,7 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 		pDeviceInfo->nRealBaseCfgSize = nRealBaseCfgSize;
 		memcpy(pDeviceInfo->pBaseCfgMem, pCfgMem, nRealBaseCfgSize);
 
-		// буфера субмодулей
+		// буферы субмодулей
 		PUCHAR pCurCfgMem = pCfgMem + nRealBaseCfgSize;
 		for( int i = 0; i < 4; i++ )
 		{

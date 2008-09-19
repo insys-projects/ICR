@@ -146,7 +146,9 @@ void CAdmPage::SetSMTypeData()
 		m_AdmId[i].bAdmNum = i;
 		m_AdmId[i].dSerialNum = m_nAdmPID;
 		m_AdmId[i].wType = m_nAdmType;
-		m_AdmId[i].bVersion = 0x10;
+		char* stopstring;
+		int nAdmVersion = strtol(m_strAdmVersion, &stopstring, 16);
+		m_AdmId[i].bVersion = nAdmVersion;
 	}
 
 	int enFlag = m_nAdmType ? 1 : 0;
