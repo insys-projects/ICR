@@ -13,7 +13,7 @@
 
 ICR_CfgAdc m_AdcCfg = { ADC_CFG_TAG, 14, 0, 0, 14, 1, 1000, 1000000000, 500};
 
-ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 10, 0, 40000000, 200000000, 2};
+ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 11, 0, 40000000, 200000000, 2, 0};
 
 //
 //TODO: If this DLL is dynamically linked against the MFC DLLs,
@@ -142,6 +142,7 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				m_AdmCfg.dPllRefGen = pAdmCfg->dPllRefGen;
 				m_AdmCfg.dPllFreq = pAdmCfg->dPllFreq;
 				m_AdmCfg.bAdcCnt = pAdmCfg->bAdcCnt;
+				m_AdmCfg.bIsRF = pAdmCfg->bIsRF;
 				size = sizeof(ICR_CfgAdm);
 				RealCfgSize += size;
 				break;
@@ -166,6 +167,7 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->dPllRefGen = m_AdmCfg.dPllRefGen;
 	pAdmCfg->dPllFreq = m_AdmCfg.dPllFreq;
 	pAdmCfg->bAdcCnt = m_AdmCfg.bAdcCnt;
+	pAdmCfg->bIsRF = m_AdmCfg.bIsRF;
 
 	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgAdm));
 	if(pCurCfgMem >= pEndCfgMem)
@@ -221,6 +223,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			dlg.m_AdcBits = 4;
 			break;
 	}
+	int oldAdcBits = dlg.m_AdcBits;
 	dlg.m_AdcEncoding = m_AdcCfg.bEncoding;
 	dlg.m_AdcRange = m_AdcCfg.wRange;
 	dlg.m_AdcRateMax = m_AdcCfg.dMaxRate;
@@ -228,40 +231,23 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_NumOfAdc = m_AdmCfg.bAdcCnt;
 	dlg.m_PllRefGen = m_AdmCfg.dPllRefGen;
 	dlg.m_PllFreq = m_AdmCfg.dPllFreq;
+	dlg.m_IsRF = m_AdmCfg.bIsRF;
 
 	int nResponse = (int)dlg.DoModal();
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
-		U08	tmpAdcBits;
-		switch(dlg.m_AdcBits)
-		{
-			case 0:
-				tmpAdcBits = 8;
-				break;
-			case 1:
-				tmpAdcBits = 10;
-				break;
-			case 2:
-				tmpAdcBits = 12;
-				break;
-			case 3:
-				tmpAdcBits = 14;
-				break;
-			case 4:
-				tmpAdcBits = 16;
-				break;
-		}
 		if( 
-			m_AdcCfg.bBits != tmpAdcBits ||
+			oldAdcBits != dlg.m_AdcBits ||
 			m_AdcCfg.bEncoding != dlg.m_AdcEncoding ||
 			m_AdcCfg.wRange != dlg.m_AdcRange ||
 			m_AdcCfg.dMaxRate != dlg.m_AdcRateMax ||
 			m_AdcCfg.dMinRate != dlg.m_AdcRateMin ||
 			m_AdmCfg.bAdcCnt != dlg.m_NumOfAdc ||
 			m_AdmCfg.dPllRefGen != dlg.m_PllRefGen ||
-			m_AdmCfg.dPllFreq != dlg.m_PllFreq
+			m_AdmCfg.dPllFreq != dlg.m_PllFreq ||
+			m_AdmCfg.bIsRF != dlg.m_IsRF
 		)
 			nResponse |= 0x100;
 
@@ -291,6 +277,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		m_AdmCfg.bAdcCnt = dlg.m_NumOfAdc;
 		m_AdmCfg.dPllRefGen = dlg.m_PllRefGen;
 		m_AdmCfg.dPllFreq = dlg.m_PllFreq;
+		m_AdmCfg.bIsRF = dlg.m_IsRF;
 	}
 	else if (nResponse == IDCANCEL)
 	{

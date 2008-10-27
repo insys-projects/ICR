@@ -25,6 +25,7 @@ public:
 	UINT	m_NumOfAdc;
 	UINT	m_PllRefGen;
 	UINT	m_PllFreq;
+	BOOL	m_IsRF;
 
 	SUBMOD_INFO subInfo;
 

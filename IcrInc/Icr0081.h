@@ -21,6 +21,7 @@ typedef struct _ICR_Cfg0081 {
 	ULONG	dPllRefGen;	// опорный генератор для ФАПЧ in Hz (default 40 MHz)
 	ULONG	dPllFreq;	// частота, выдаваемая ФАПЧ in Hz (default 2 GHz)
 	UCHAR	bAdcCnt;	// количество АЦП
+	UCHAR	bIsRF;		// входной тракт: 1 - радиочастотный, 0 - нет (ADM214x200M ver 1.1)
 } ICR_Cfg0081, *PICR_Cfg0081, ICR_CfgAdm, *PICR_CfgAdm;
 
 #pragma pack(pop)    

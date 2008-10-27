@@ -12,6 +12,7 @@
 #define IDC_ADCRANGE                    1026
 #define IDC_ADCRATEMIN                  1027
 #define IDC_PLLREFGEN                   1028
+#define IDC_RF                          1029
 #define IDC_ADCRATEMAX                  1073
 #define IDD_DLG_CFG                     8000
 #define IDC_PLLFREQ                     16000

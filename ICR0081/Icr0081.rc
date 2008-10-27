@@ -108,25 +108,26 @@ FONT 8, "MS Sans Serif", 400, 0, 0xCC
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,116,160,50,14
     PUSHBUTTON      "Отмена",IDCANCEL,174,160,50,14
-    LTEXT           "Разрядность:",IDC_STATIC,69,10,47,8
-    COMBOBOX        IDC_ADCBITS,118,8,42,109,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Кодировка:",IDC_STATIC,40,29,40,8
-    COMBOBOX        IDC_ADCENCODING,83,26,106,52,CBS_DROPDOWNLIST | WS_TABSTOP
-    GROUPBOX        "Частота дискретизации (Гц)",IDC_STATIC,17,41,196,31
-    LTEXT           "Минимум:",IDC_STATIC,28,54,35,8
-    EDITTEXT        IDC_ADCRATEMIN,66,52,40,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Максимум:",IDC_STATIC,114,54,39,8
-    EDITTEXT        IDC_ADCRATEMAX,154,52,48,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Входной диапазон:",IDC_STATIC,41,80,65,8
-    EDITTEXT        IDC_ADCRANGE,109,78,40,12,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "мВ",IDC_STATIC,153,80,11,8
-    LTEXT           "Частота ФАПЧ (Гц):",IDC_STATIC,45,101,70,8
-    EDITTEXT        IDC_PLLFREQ,119,98,54,12,ES_NUMBER
-    LTEXT           "Опорный генератор ФАПЧ (Гц):",IDC_STATIC,27,122,109,8
-    EDITTEXT        IDC_PLLREFGEN,137,119,54,12,ES_NUMBER
-    LTEXT           "Кол-во АЦП:",IDC_STATIC,75,141,43,8
-    EDITTEXT        IDC_NUMOFADC,122,139,27,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,151,139,11,12
+    LTEXT           "Разрядность:",IDC_STATIC,69,9,47,8
+    COMBOBOX        IDC_ADCBITS,118,7,42,109,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Кодировка:",IDC_STATIC,40,27,40,8
+    COMBOBOX        IDC_ADCENCODING,83,24,106,52,CBS_DROPDOWNLIST | WS_TABSTOP
+    GROUPBOX        "Частота дискретизации (Гц)",IDC_STATIC,17,39,196,31
+    LTEXT           "Минимум:",IDC_STATIC,28,52,35,8
+    EDITTEXT        IDC_ADCRATEMIN,66,50,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Максимум:",IDC_STATIC,114,52,39,8
+    EDITTEXT        IDC_ADCRATEMAX,154,50,48,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Входной диапазон:",IDC_STATIC,41,77,65,8
+    EDITTEXT        IDC_ADCRANGE,109,75,40,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "мВ",IDC_STATIC,153,77,11,8
+    LTEXT           "Частота ФАПЧ (Гц):",IDC_STATIC,45,94,70,8
+    EDITTEXT        IDC_PLLFREQ,119,91,54,12,ES_NUMBER
+    LTEXT           "Опорный генератор ФАПЧ (Гц):",IDC_STATIC,27,112,109,8
+    EDITTEXT        IDC_PLLREFGEN,137,109,54,12,ES_NUMBER
+    LTEXT           "Кол-во АЦП:",IDC_STATIC,75,144,43,8
+    EDITTEXT        IDC_NUMOFADC,122,142,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,151,142,11,12
+    CONTROL         "Радиочастотный тракт",IDC_RF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,69,126,92,12
 END
 
 
@@ -289,13 +290,14 @@ BEGIN
     LTEXT           "Input Range:",IDC_STATIC,64,69,42,8
     EDITTEXT        IDC_ADCRANGE,109,67,40,12,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "mV",IDC_STATIC,153,69,11,8
-    LTEXT           "Number of ADC's:",IDC_STATIC,62,140,57,8
-    EDITTEXT        IDC_NUMOFADC,121,138,27,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,147,138,11,12
-    LTEXT           "PLL Frequency (Hz):",IDC_STATIC,54,91,66,8
-    EDITTEXT        IDC_PLLFREQ,122,89,54,12,ES_NUMBER
-    LTEXT           "PLL Reference generator (Hz):",IDC_STATIC,38,114,98,8
-    EDITTEXT        IDC_PLLREFGEN,138,112,54,12,ES_NUMBER
+    LTEXT           "Number of ADC's:",IDC_STATIC,62,143,57,8
+    EDITTEXT        IDC_NUMOFADC,121,141,27,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPINADC,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,147,141,11,12
+    LTEXT           "PLL Frequency (Hz):",IDC_STATIC,54,88,66,8
+    EDITTEXT        IDC_PLLFREQ,122,86,54,12,ES_NUMBER
+    LTEXT           "PLL Reference generator (Hz):",IDC_STATIC,38,108,98,8
+    EDITTEXT        IDC_PLLREFGEN,138,106,54,12,ES_NUMBER
+    CONTROL         "Radio-frequency channels",IDC_RF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,66,124,97,12
 END
 
 
@@ -342,18 +344,6 @@ BEGIN
     0
 END
 
-#endif    // English (U.S.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -84,6 +84,10 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 		lstrcpy(pDevInfo->sName, _T("ADMDDC4x16"));
 		pDevInfo->Type = ADMDDC4x16;
 		break;
+	case 1:
+		lstrcpy(pDevInfo->sName, _T("ADMDDC5016"));
+		pDevInfo->Type = ADMDDC5016;
+		break;
 	default:
 		*pNumDev = -1;
 		return;
@@ -215,6 +219,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			dlg.m_AdcBits = 2;
 			break;
 	}
+	int oldAdcBits = dlg.m_AdcBits;
 	dlg.m_AdcEncoding = m_AdcCfg.bEncoding;
 	dlg.m_AdcRange = m_AdcCfg.wRange;
 	dlg.m_AdcRateMax = m_AdcCfg.dMaxRate;
@@ -229,21 +234,8 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	{
 		// TODO: Place code here to handle when the dialog is
 		//  dismissed with OK
-		U08	tmpAdcBits;
-		switch(dlg.m_AdcBits)
-		{
-			case 0:
-				tmpAdcBits = 12;
-				break;
-			case 1:
-				tmpAdcBits = 14;
-				break;
-			case 2:
-				tmpAdcBits = 16;
-				break;
-		}
 		if( 
-			m_AdcCfg.bBits != tmpAdcBits ||
+			oldAdcBits != dlg.m_AdcBits ||
 			m_AdcCfg.bEncoding != dlg.m_AdcEncoding ||
 			m_AdcCfg.wRange != dlg.m_AdcRange ||
 			m_AdcCfg.dMaxRate != dlg.m_AdcRateMax ||

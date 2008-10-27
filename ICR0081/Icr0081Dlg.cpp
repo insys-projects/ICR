@@ -20,6 +20,7 @@ CIcr0081Dlg::CIcr0081Dlg(CWnd* pParent /*=NULL*/)
 	m_AdcRange = 500;
 	m_AdcRateMax = 1000000000;
 	m_AdcRateMin = 1000;
+	m_IsRF = 0;
 
 }
 
@@ -40,6 +41,7 @@ void CIcr0081Dlg::DoDataExchange(CDataExchange* pDX)
 	DDV_MinMaxUInt(pDX, m_NumOfAdc, 1, 32);
 	DDX_Text(pDX, IDC_PLLREFGEN, m_PllRefGen);
 	DDX_Text(pDX, IDC_PLLFREQ, m_PllFreq);
+	DDX_Check(pDX, IDC_RF, m_IsRF);
 }
 
 
