@@ -143,3 +143,6 @@ public:
 
 static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2,
             LPARAM lParamSort);
+
+static int CALLBACK DateCompareFunc(LPARAM lParam1, LPARAM lParam2,
+								LPARAM lParamSort);

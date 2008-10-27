@@ -269,6 +269,9 @@ void CWriteReadDlg::OnBnClickedReadBase()
 void CWriteReadDlg::OnBnClickedEditBase()
 {
 	// TODO: Add your control notification handler code here
+	if( MessageBox("Вы уверены, что хотите изменить запись и перезаписать файл?", "IdCfgRom", MB_YESNO|MB_ICONWARNING) != IDYES )
+		return;
+
 	UpdateData(TRUE);
 	CString sFilePath = MakeFilePathForFileBase();
 	int nFileExist = 0;
@@ -591,8 +594,13 @@ void CWriteReadDlg::OnLvnColumnclickBase(NMHDR *pNMHDR, LRESULT *pResult)
 
 	// сортировка
 	g_nSortColumnNum = pNMLV->iSubItem;
-	
-	m_ctrlBase.SortItems(CompareFunc, (LPARAM)&m_ctrlBase);
+
+	// для даты отдельная функция сортировки
+	int cnt = m_ctrlBase.GetHeaderCtrl()->GetItemCount();
+	if( pNMLV->iSubItem == (cnt-1) )
+		m_ctrlBase.SortItems(DateCompareFunc, (LPARAM)&m_ctrlBase);
+	else
+		m_ctrlBase.SortItems(CompareFunc, (LPARAM)&m_ctrlBase);
 
 	*pResult = 0;
 }
@@ -616,6 +624,48 @@ static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2,
 		return -strItem1.CompareNoCase(strItem2);
 	else if( g_nLastArrowType == ARROW_UP )
 		return strItem1.CompareNoCase(strItem2);
+
+	return 0;
+}
+
+static int CALLBACK DateCompareFunc(LPARAM lParam1, LPARAM lParam2,
+								LPARAM lParamSort)
+{
+	CMyListCtrl*	pListCtrl = (CMyListCtrl*) lParamSort;
+	LV_FINDINFO		a1;
+	LV_FINDINFO		a2;
+
+	a1.flags = LVFI_PARAM;
+	a2.flags = LVFI_PARAM;
+	a1.lParam = lParam1;
+	a2.lParam = lParam2;
+
+	CString	strItem1 = pListCtrl->GetItemText(pListCtrl->FindItem(&a1), g_nSortColumnNum);
+	CString	strItem2 = pListCtrl->GetItemText(pListCtrl->FindItem(&a2), g_nSortColumnNum);
+
+	CString sYear1 = strItem1.Mid(strItem1.ReverseFind('.')+1);
+	CString sYear2 = strItem2.Mid(strItem2.ReverseFind('.')+1);
+	CString sMon1 = strItem1.Mid(strItem1.Find(".")+1);
+	sMon1 = sMon1.Left(sMon1.Find("."));
+	CString sMon2 = strItem2.Mid(strItem2.Find(".")+1);
+	sMon2 = sMon2.Left(sMon2.Find("."));
+	CString sDay1 = strItem1.Left(strItem1.Find("."));
+	CString sDay2 = strItem2.Left(strItem2.Find("."));
+
+	int comp = sYear1.Compare(sYear2);
+	if( comp == 0 )
+	{
+		comp = sMon1.Compare(sMon2);
+		if( comp == 0 )
+		{
+			comp = sDay1.Compare(sDay2);
+		}
+	}
+
+	if( g_nLastArrowType == ARROW_DOWN )
+		return -comp;
+	else if( g_nLastArrowType == ARROW_UP )
+		return comp;
 
 	return 0;
 }

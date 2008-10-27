@@ -293,8 +293,8 @@ BEGIN
     PUSHBUTTON      "Запись в файл (Bin)",IDC_SAVE_FILE_BIN,555,229,75,14
     LTEXT           "База файлов",IDC_BASE_STATIC,12,7,44,8
     PUSHBUTTON      "Чтение из файла",IDC_READ_FILE,475,229,75,14
-    GROUPBOX        "Работа с базой файлов",IDC_BASE_WORK_STATIC,471,11,168,199
-    GROUPBOX        "Ручная работа с файлами",IDC_HAND_WORK_STATIC,470,214,169,57
+    GROUPBOX        "Работа с базой файлов",IDC_BASE_WORK_STATIC,468,11,171,199
+    GROUPBOX        "Ручная работа с файлами",IDC_HAND_WORK_STATIC,468,214,171,57
     EDITTEXT        IDC_WRITE_NAME,475,38,73,15,ES_AUTOHSCROLL | ES_READONLY
     LTEXT           "Имя устройства:",IDC_NAME_STATIC,477,25,57,8
     EDITTEXT        IDC_WRITE_DEVID,475,68,73,15,ES_AUTOHSCROLL | ES_READONLY
@@ -314,7 +314,7 @@ BEGIN
     PUSHBUTTON      "Удалить из базы",IDC_DELETE_BASE,555,170,75,15
     PUSHBUTTON      "Запись в файл (Hex)",IDC_SAVE_FILE_HEX,555,248,75,14
     PUSHBUTTON      "Поиск...",IDC_FILTER,555,190,75,14
-    PUSHBUTTON      "Изменить файл",IDC_EDIT_BASE,475,170,75,15
+    PUSHBUTTON      "Изменить запись",IDC_EDIT_BASE,475,170,75,15
 END
 
 IDD_FILE_BASE_FILTER DIALOGEX 0, 0, 170, 172

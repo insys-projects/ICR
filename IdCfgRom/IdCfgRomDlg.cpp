@@ -1142,6 +1142,20 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 			HCURSOR  hCursorWait = LoadCursor(NULL, IDC_WAIT); // курсор-часы
 			HCURSOR  hCursorArrow = SetCursor(hCursorWait);
 			(g_DeviceCtrl[m_nDevType].pWriteIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
+
+			// варификация путём считывания и сравнения
+			PDEVICE_INFO pDeviceInfoRead = &(g_DeviceCtrl[m_nDevType].devInfo);
+			(g_DeviceCtrl[m_nDevType].pReadIdCfgRom)(pDeviceInfoRead, GetReadWriteDevs());
+			int nErrByteNum = 0;
+			if( IsEquiv(*pDeviceInfo, *pDeviceInfoRead, &nErrByteNum) )
+				AfxMessageBox("Успешная запись!");
+			else
+			{
+				CString sErr;
+				sErr.Format("Ошибка записи! Несовпадающий байт: %d", nErrByteNum);
+				AfxMessageBox(sErr);
+			}
+
 			SaveDialogFieldsValues();
 			SetCursor(hCursorArrow);
 		}
@@ -1154,6 +1168,28 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 	}
 
 	delete[] pCfgMem;
+}
+
+int	CIdCfgRomDlg::IsEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead, int *pnErrByteNum)
+{
+	int nSize = sizeof(DeviceInfoWrite);
+	int nSize2 = sizeof(DeviceInfoRead);
+	if( nSize != nSize2 )
+		return 0;
+
+	char	*pStruct1 = (char*)&DeviceInfoWrite;
+	char	*pStruct2 = (char*)&DeviceInfoRead;
+
+	for(int ii=0; ii<nSize; ii++)
+	{
+		if( pStruct1[ii] != pStruct2[ii] )
+		{
+			*pnErrByteNum = ii;
+			return 0;
+		}
+	}
+
+	return 1;
 }
 
 void CIdCfgRomDlg::OnBnClickedFromdev()
