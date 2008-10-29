@@ -269,7 +269,7 @@ void CWriteReadDlg::OnBnClickedReadBase()
 void CWriteReadDlg::OnBnClickedEditBase()
 {
 	// TODO: Add your control notification handler code here
-	if( MessageBox("Вы уверены, что хотите изменить запись и перезаписать файл?", "IdCfgRom", MB_YESNO|MB_ICONWARNING) != IDYES )
+	if( MessageBox("Вы уверены, что хотите изменить запись и перезаписать файл?", "IdCfgRom", MB_YESNO|MB_ICONQUESTION) != IDYES )
 		return;
 
 	UpdateData(TRUE);

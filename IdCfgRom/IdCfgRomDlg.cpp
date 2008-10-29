@@ -1141,20 +1141,12 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 		{
 			HCURSOR  hCursorWait = LoadCursor(NULL, IDC_WAIT); // курсор-часы
 			HCURSOR  hCursorArrow = SetCursor(hCursorWait);
+			DEVICE_INFO DeviceInfoVerify = g_DeviceCtrl[m_nDevType].devInfo;
 			(g_DeviceCtrl[m_nDevType].pWriteIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
 
-			// варификация путём считывания и сравнения
-			PDEVICE_INFO pDeviceInfoRead = &(g_DeviceCtrl[m_nDevType].devInfo);
-			(g_DeviceCtrl[m_nDevType].pReadIdCfgRom)(pDeviceInfoRead, GetReadWriteDevs());
-			int nErrByteNum = 0;
-			if( IsEquiv(*pDeviceInfo, *pDeviceInfoRead, &nErrByteNum) )
-				AfxMessageBox("Успешная запись!");
-			else
-			{
-				CString sErr;
-				sErr.Format("Ошибка записи! Несовпадающий байт: %d", nErrByteNum);
-				AfxMessageBox(sErr);
-			}
+			// верификация путём считывания и сравнения
+			(g_DeviceCtrl[m_nDevType].pReadIdCfgRom)(&DeviceInfoVerify, GetReadWriteDevs());
+			VerifyEquiv(*pDeviceInfo, DeviceInfoVerify);
 
 			SaveDialogFieldsValues();
 			SetCursor(hCursorArrow);
@@ -1170,26 +1162,129 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 	delete[] pCfgMem;
 }
 
-int	CIdCfgRomDlg::IsEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead, int *pnErrByteNum)
+void CIdCfgRomDlg::VerifyEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead)
 {
-	int nSize = sizeof(DeviceInfoWrite);
-	int nSize2 = sizeof(DeviceInfoRead);
-	if( nSize != nSize2 )
-		return 0;
+	int nBaseErrByteNum = -1;
+	int nSubErrByteNum = -1;
+	int nBaseSizeCorrect = 0;
+	int nSubSizeCorrect = 0;
+	int nDevs = GetReadWriteDevs();
 
-	char	*pStruct1 = (char*)&DeviceInfoWrite;
-	char	*pStruct2 = (char*)&DeviceInfoRead;
-
-	for(int ii=0; ii<nSize; ii++)
+	// верифицируем данные базового модуля
+	if( (nDevs == READ_WRITE_BASEMODULE) || (nDevs == READ_WRITE_ALL) )
 	{
-		if( pStruct1[ii] != pStruct2[ii] )
+		int nSize = DeviceInfoWrite.nRealBaseCfgSize;
+		int nSize2 = DeviceInfoRead.nRealBaseCfgSize;
+
+		if( nSize == nSize2 )
 		{
-			*pnErrByteNum = ii;
-			return 0;
+			nBaseSizeCorrect = 1;
+
+			for( int jj=0; jj<nSize; jj++ )
+			{
+				if( DeviceInfoWrite.pBaseCfgMem[jj] != DeviceInfoRead.pBaseCfgMem[jj] )
+				{
+					nBaseErrByteNum = jj;
+					break;
+				}
+			}
+		}
+		else
+			nBaseErrByteNum = 0;
+	}
+
+	// верифицируем данные субмодуля
+	if( (nDevs == READ_WRITE_SUBMODULE) || (nDevs == READ_WRITE_ALL) )
+	{
+		for(int ii=0; ii<4; ii++)
+		{
+			int nSize = DeviceInfoWrite.nRealAdmCfgSize[ii];
+			int nSize2 = DeviceInfoRead.nRealAdmCfgSize[ii];
+
+			if( nSize == nSize2 )
+			{
+				int nSubSizeCorrect = 1;
+
+				for( int jj=0; jj<nSize; jj++ )
+				{
+					if( DeviceInfoWrite.pAdmCfgMem[ii][jj] != DeviceInfoRead.pAdmCfgMem[ii][jj] )
+					{
+						nSubErrByteNum = jj;
+						break;
+					}
+				}
+			}
 		}
 	}
 
-	return 1;
+	ShowEquivMessage(nBaseErrByteNum, nSubErrByteNum, nBaseSizeCorrect, nSubSizeCorrect);
+}
+void CIdCfgRomDlg::ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int nBaseSizeCorrect, int nSubSizeCorrect)
+{
+	CString sMessage = "";
+	int nErr = 0;
+
+	int nDevs = GetReadWriteDevs();
+
+	if( (nDevs == READ_WRITE_BASEMODULE) || (nDevs == READ_WRITE_ALL) )
+	{
+		CString sBaseMsg = "Базовый модуль: ";
+
+		if( nBaseErrByteNum != -1 )
+		{
+			CString sErr;
+			sErr.Format("Ошибка записи! Несовпадающий байт: %d", nBaseErrByteNum);
+			sBaseMsg += sErr;
+
+			if( nBaseSizeCorrect == 0 )
+			{
+				sBaseMsg += " Размеры не совпадают!";
+			}
+
+			nErr = 1;
+		}
+		else
+		{
+			sBaseMsg += "Успешная запись!";
+		}
+
+		sMessage += sBaseMsg;
+	}
+
+	if( (nDevs == READ_WRITE_SUBMODULE) || (nDevs == READ_WRITE_ALL) )
+	{
+		CString sSubMsg = "Субмодуль: ";
+
+		if( nSubErrByteNum != -1 )
+		{
+			CString sErr;
+			sErr.Format("Ошибка записи! Несовпадающий байт: %d", nSubErrByteNum);
+			sSubMsg += sErr;
+
+			if( nBaseSizeCorrect == 0 )
+			{
+				sSubMsg += " Размеры не совпадают!";
+			}
+
+			nErr = 1;
+		}
+		else
+		{
+			sSubMsg += "Успешная запись!";
+		}
+
+		sMessage += "\n" + sSubMsg;
+	}
+
+	if( nErr == 0 )
+	{
+		MessageBox(sMessage, "IdCfgRom", MB_OK|MB_ICONINFORMATION);
+	}
+	else if( nErr == 1 )
+	{
+
+		MessageBox(sMessage, "IdCfgRom", MB_OK|MB_ICONERROR);
+	}
 }
 
 void CIdCfgRomDlg::OnBnClickedFromdev()

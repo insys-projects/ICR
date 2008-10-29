@@ -119,10 +119,11 @@ public:
 	virtual BOOL OnInitDialog();
 
 	// ---запись/чтение/очистка устройств
-	afx_msg void OnBnClickedIntodev();
-	int				IsEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead, int *pnErrByteNum);
-	afx_msg void OnBnClickedFromdev();
-	afx_msg void OnBnClickedClear();
+	afx_msg void	OnBnClickedIntodev();
+	void			VerifyEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead);
+	void			ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int nBaseSizeCorrect, int nSubSizeCorrect);
+	afx_msg void	OnBnClickedFromdev();
+	afx_msg void	OnBnClickedClear();
 
 	// ---работа с файлами
 	// обработчик базы файлов
