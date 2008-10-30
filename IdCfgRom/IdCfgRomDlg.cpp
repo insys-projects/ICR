@@ -1141,12 +1141,11 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 		{
 			HCURSOR  hCursorWait = LoadCursor(NULL, IDC_WAIT); // курсор-часы
 			HCURSOR  hCursorArrow = SetCursor(hCursorWait);
-			DEVICE_INFO DeviceInfoVerify = g_DeviceCtrl[m_nDevType].devInfo;
+
 			(g_DeviceCtrl[m_nDevType].pWriteIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
 
 			// верификация путём считывания и сравнения
-			(g_DeviceCtrl[m_nDevType].pReadIdCfgRom)(&DeviceInfoVerify, GetReadWriteDevs());
-			VerifyEquiv(*pDeviceInfo, DeviceInfoVerify);
+			VerifyEquiv(*pDeviceInfo);
 
 			SaveDialogFieldsValues();
 			SetCursor(hCursorArrow);
@@ -1162,60 +1161,112 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 	delete[] pCfgMem;
 }
 
-void CIdCfgRomDlg::VerifyEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead)
+#define	BYTES_OK	-1
+
+enum
 {
-	int nBaseErrByteNum = -1;
-	int nSubErrByteNum = -1;
-	int nBaseSizeCorrect = 0;
-	int nSubSizeCorrect = 0;
+	SIZE_OK,
+	SIZE_NOT_EQUIV,
+	SIZE_ZERO,
+};
+
+void CIdCfgRomDlg::VerifyEquiv(DEVICE_INFO DeviceInfoWrite)
+{
+	PDEVICE_INFO pDeviceInfo = &(g_DeviceCtrl[m_nDevType].devInfo);
+	DEVICE_INFO DeviceInfoVerify;
+	DeviceInfoVerify.wSize = pDeviceInfo->wSize;
+	DeviceInfoVerify.wType = pDeviceInfo->wType;
+	DeviceInfoVerify.bVersion = pDeviceInfo->bVersion;
+	strcpy(DeviceInfoVerify.sName, pDeviceInfo->sName);
+	DeviceInfoVerify.nPid = pDeviceInfo->nPid;
+	DeviceInfoVerify.bBusType = pDeviceInfo->bBusType;
+	DeviceInfoVerify.wBusNum = pDeviceInfo->wBusNum;
+	DeviceInfoVerify.wDevNum = pDeviceInfo->wDevNum;
+	DeviceInfoVerify.wSlotNum = pDeviceInfo->wSlotNum;
+	DeviceInfoVerify.nInstance = pDeviceInfo->nInstance;
+	DeviceInfoVerify.nBaseCfgMemSize = pDeviceInfo->nBaseCfgMemSize;
+	DeviceInfoVerify.nAdmCfgMemSize[0]= pDeviceInfo->nAdmCfgMemSize[0];
+
+	DeviceInfoVerify.nRealBaseCfgSize = 0;
+	DeviceInfoVerify.nRealAdmCfgSize[0] = 0;
+	DeviceInfoVerify.pBaseCfgMem = new UCHAR[BASEMOD_CFGMEM_SIZE];
+	DeviceInfoVerify.pAdmCfgMem[0] = new UCHAR[SUBMOD_CFGMEM_SIZE];
+	for(int ii=0; ii<BASEMOD_CFGMEM_SIZE; ii++)
+	{
+		DeviceInfoVerify.pBaseCfgMem[ii]=0;
+	}
+	for(int ii=0; ii<SUBMOD_CFGMEM_SIZE; ii++)
+	{
+		DeviceInfoVerify.pAdmCfgMem[0][ii]=0;
+	}
+
+	(g_DeviceCtrl[m_nDevType].pReadIdCfgRom)(&DeviceInfoVerify, GetReadWriteDevs());
+
+	int nBaseErrByteNum = BYTES_OK;
+	int nSubErrByteNum = BYTES_OK;
+	int nBaseSizeCorrect = SIZE_OK;
+	int nSubSizeCorrect = SIZE_OK;
 	int nDevs = GetReadWriteDevs();
 
 	// верифицируем данные базового модуля
 	if( (nDevs == READ_WRITE_BASEMODULE) || (nDevs == READ_WRITE_ALL) )
 	{
 		int nSize = DeviceInfoWrite.nRealBaseCfgSize;
-		int nSize2 = DeviceInfoRead.nRealBaseCfgSize;
+		int nSize2 = DeviceInfoVerify.nRealBaseCfgSize;
 
-		if( nSize == nSize2 )
+		if (nSize2 != 0)
 		{
-			nBaseSizeCorrect = 1;
-
-			for( int jj=0; jj<nSize; jj++ )
+			if( (nSize == nSize2) )
 			{
-				if( DeviceInfoWrite.pBaseCfgMem[jj] != DeviceInfoRead.pBaseCfgMem[jj] )
+				for( int jj=0; jj<nSize; jj++ )
 				{
-					nBaseErrByteNum = jj;
-					break;
+					if( DeviceInfoWrite.pBaseCfgMem[jj] != DeviceInfoVerify.pBaseCfgMem[jj] )
+					{
+						nBaseErrByteNum = jj;
+						break;
+					}
 				}
 			}
+			else
+				nBaseSizeCorrect = SIZE_NOT_EQUIV;
 		}
 		else
-			nBaseErrByteNum = 0;
+		{
+			nBaseSizeCorrect = SIZE_ZERO;
+		}
+
 	}
 
 	// верифицируем данные субмодуля
 	if( (nDevs == READ_WRITE_SUBMODULE) || (nDevs == READ_WRITE_ALL) )
 	{
-		for(int ii=0; ii<4; ii++)
-		{
-			int nSize = DeviceInfoWrite.nRealAdmCfgSize[ii];
-			int nSize2 = DeviceInfoRead.nRealAdmCfgSize[ii];
+		int nSize = DeviceInfoWrite.nRealAdmCfgSize[0];
+		int nSize2 = DeviceInfoVerify.nRealAdmCfgSize[0];
 
+		if( nSize2 != 0 )
+		{
 			if( nSize == nSize2 )
 			{
-				int nSubSizeCorrect = 1;
-
 				for( int jj=0; jj<nSize; jj++ )
 				{
-					if( DeviceInfoWrite.pAdmCfgMem[ii][jj] != DeviceInfoRead.pAdmCfgMem[ii][jj] )
+					if( DeviceInfoWrite.pAdmCfgMem[0][jj] != DeviceInfoVerify.pAdmCfgMem[0][jj] )
 					{
 						nSubErrByteNum = jj;
 						break;
 					}
 				}
 			}
+			else
+			{
+				nSubSizeCorrect = SIZE_NOT_EQUIV;
+			}
 		}
+		else
+			nSubSizeCorrect = SIZE_ZERO;
 	}
+
+	delete DeviceInfoVerify.pBaseCfgMem;
+	delete DeviceInfoVerify.pAdmCfgMem[0];
 
 	ShowEquivMessage(nBaseErrByteNum, nSubErrByteNum, nBaseSizeCorrect, nSubSizeCorrect);
 }
@@ -1230,15 +1281,24 @@ void CIdCfgRomDlg::ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int
 	{
 		CString sBaseMsg = "Базовый модуль: ";
 
-		if( nBaseErrByteNum != -1 )
+		if( (nBaseErrByteNum != BYTES_OK) || (nBaseSizeCorrect == SIZE_NOT_EQUIV)  || (nBaseSizeCorrect == SIZE_ZERO))
 		{
-			CString sErr;
-			sErr.Format("Ошибка записи! Несовпадающий байт: %d", nBaseErrByteNum);
-			sBaseMsg += sErr;
+			sBaseMsg += "Ошибка записи!";
 
-			if( nBaseSizeCorrect == 0 )
+			if( nBaseSizeCorrect == SIZE_NOT_EQUIV )
 			{
-				sBaseMsg += " Размеры не совпадают!";
+				sBaseMsg += " Размеры записи/чтения не совпадают!";
+			}
+			else if( nBaseSizeCorrect == SIZE_ZERO )
+			{
+				sBaseMsg += " Базовый модуль остался пуст!";
+			}
+
+			if( nBaseErrByteNum != BYTES_OK )
+			{
+				CString sErr;
+				sErr.Format(" Несовпадающий байт: %d", nBaseErrByteNum);
+				sBaseMsg += sErr;
 			}
 
 			nErr = 1;
@@ -1255,15 +1315,24 @@ void CIdCfgRomDlg::ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int
 	{
 		CString sSubMsg = "Субмодуль: ";
 
-		if( nSubErrByteNum != -1 )
+		if( (nSubErrByteNum != BYTES_OK) || (nSubSizeCorrect == SIZE_NOT_EQUIV)  || (nSubSizeCorrect == SIZE_ZERO))
 		{
-			CString sErr;
-			sErr.Format("Ошибка записи! Несовпадающий байт: %d", nSubErrByteNum);
-			sSubMsg += sErr;
+			sSubMsg += "Ошибка записи!";
 
-			if( nBaseSizeCorrect == 0 )
+			if( nSubSizeCorrect == SIZE_NOT_EQUIV )
 			{
 				sSubMsg += " Размеры не совпадают!";
+			}
+			else if( nSubSizeCorrect == SIZE_ZERO )
+			{
+				sSubMsg += " Субмодуль остался пуст!";
+			}
+
+			if( nSubErrByteNum != BYTES_OK )
+			{
+				CString sErr;
+				sErr.Format(" Несовпадающий байт: %d", nSubErrByteNum);
+				sSubMsg += sErr;
 			}
 
 			nErr = 1;
