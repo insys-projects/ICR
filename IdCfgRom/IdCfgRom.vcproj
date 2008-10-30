@@ -302,7 +302,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\UsefulFunctions\Functions.cpp"
+					RelativePath="..\UsefulFunctions\Functions.cpp"
 					>
 				</File>
 				<File
@@ -428,7 +428,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\UsefulFunctions\Functions.h"
+					RelativePath="..\UsefulFunctions\Functions.h"
 					>
 				</File>
 				<File
