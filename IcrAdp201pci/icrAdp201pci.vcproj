@@ -71,7 +71,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="..\..\BARDY\BIN\IcrAdp201pci.dll"
+				OutputFile="$(OutDir)\$(ProjectName).dll"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\IcrAdp201pci.def"
 				GenerateDebugInformation="true"
