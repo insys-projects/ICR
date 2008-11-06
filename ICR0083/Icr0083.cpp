@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "Icr0083App.h"
+#include "utypes.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -11,9 +12,32 @@
 #include "icr.h"
 #include "Icr0083.h"
 
-ICR_CfgAdc m_AdcCfg = { ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500};
+ICR_CfgAdc m_aAdcCfg[10] = {{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
+						{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500}
+					   };
 
-ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2};
+
+ICR_CfgAdm m_aAdmCfg[10] = { { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2},
+							 { ADM_CFG_TAG, 14, 0, 60000000, 50000000, 40000000, 2}
+						   };
+
+S32 GetTypeAdm(ICR_ADMType type);
 
 //
 //	Note!
@@ -134,10 +158,15 @@ SUBMOD_API void __stdcall SUBMOD_Close(PSUBMOD_INFO pDevInfo)
 //***************************************************************************************
 SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 {
+	S32   idx = GetTypeAdm(pDeviceInfo->Type);
 	ULONG RealCfgSize = 0;
 	PVOID pAdmCfgMem = (PVOID)pDeviceInfo->pCfgMem;
 	PVOID pEndAdmCfgMem = (PVOID)((UCHAR*)pAdmCfgMem + SUBMOD_CFGMEM_SIZE);
-	int end_flag = 0;
+	int   end_flag = 0;
+
+	if(idx<0)
+		idx = 0;
+
 	do
 	{
 		USHORT tag = *((USHORT*)pAdmCfgMem);
@@ -153,15 +182,15 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 		case ADC_CFG_TAG:
 			{
 				PICR_CfgAdc pAdcCfg = (PICR_CfgAdc)pAdmCfgMem;
-				m_AdcCfg.wTag = pAdcCfg->wTag;
-				m_AdcCfg.wSize = pAdcCfg->wSize;
-				m_AdcCfg.bNumber = pAdcCfg->bNumber;
-				m_AdcCfg.bAdmNum = pAdcCfg->bAdmNum;
-				m_AdcCfg.bBits = pAdcCfg->bBits;
-				m_AdcCfg.bEncoding = pAdcCfg->bEncoding;
-				m_AdcCfg.dMinRate = pAdcCfg->dMinRate;
-				m_AdcCfg.dMaxRate = pAdcCfg->dMaxRate;
-				m_AdcCfg.wRange = pAdcCfg->wRange;
+				m_aAdcCfg[idx].wTag = pAdcCfg->wTag;
+				m_aAdcCfg[idx].wSize = pAdcCfg->wSize;
+				m_aAdcCfg[idx].bNumber = pAdcCfg->bNumber;
+				m_aAdcCfg[idx].bAdmNum = pAdcCfg->bAdmNum;
+				m_aAdcCfg[idx].bBits = pAdcCfg->bBits;
+				m_aAdcCfg[idx].bEncoding = pAdcCfg->bEncoding;
+				m_aAdcCfg[idx].dMinRate = pAdcCfg->dMinRate;
+				m_aAdcCfg[idx].dMaxRate = pAdcCfg->dMaxRate;
+				m_aAdcCfg[idx].wRange = pAdcCfg->wRange;
 				size = sizeof(ICR_CfgAdc);
 				RealCfgSize += size;
 				break;
@@ -169,13 +198,13 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 		case ADM_CFG_TAG:
 			{
 				PICR_CfgAdm pAdmCfg = (PICR_CfgAdm)pAdmCfgMem;
-				m_AdmCfg.wTag = pAdmCfg->wTag;
-				m_AdmCfg.wSize = pAdmCfg->wSize;
-				m_AdmCfg.bAdmIfNum = pAdmCfg->bAdmIfNum;
-				m_AdmCfg.dGen[0] = pAdmCfg->dGen[0];
-				m_AdmCfg.dGen[1] = pAdmCfg->dGen[1];
-				m_AdmCfg.dGen[2] = pAdmCfg->dGen[2];
-				m_AdmCfg.bAdcCnt = pAdmCfg->bAdcCnt;
+				m_aAdmCfg[idx].wTag = pAdmCfg->wTag;
+				m_aAdmCfg[idx].wSize = pAdmCfg->wSize;
+				m_aAdmCfg[idx].bAdmIfNum = pAdmCfg->bAdmIfNum;
+				m_aAdmCfg[idx].dGen[0] = pAdmCfg->dGen[0];
+				m_aAdmCfg[idx].dGen[1] = pAdmCfg->dGen[1];
+				m_aAdmCfg[idx].dGen[2] = pAdmCfg->dGen[2];
+				m_aAdmCfg[idx].bAdcCnt = pAdmCfg->bAdcCnt;
 				size = sizeof(ICR_CfgAdm);
 				RealCfgSize += size;
 				break;
@@ -190,17 +219,21 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 //***************************************************************************************
 SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 {
-	USHORT* pEndCfgMem = (USHORT*)(pDeviceInfo->pCfgMem) + SUBMOD_CFGMEM_SIZE/2;
-
-	USHORT* pCurCfgMem = (USHORT*)pDeviceInfo->pCfgMem;
+	S32         idx = GetTypeAdm(pDeviceInfo->Type);
+	USHORT*     pEndCfgMem = (USHORT*)(pDeviceInfo->pCfgMem) + SUBMOD_CFGMEM_SIZE/2;
+	USHORT*     pCurCfgMem = (USHORT*)pDeviceInfo->pCfgMem;
 	PICR_CfgAdm pAdmCfg = (PICR_CfgAdm)pCurCfgMem;
+
+	if(idx<0)
+		idx = 0;
+
 	pAdmCfg->wTag = ADM_CFG_TAG;
 	pAdmCfg->wSize = sizeof(ICR_CfgAdm) - 4;
 	pAdmCfg->bAdmIfNum = 0;//m_AdcCfg.AdmNumber;
-	pAdmCfg->dGen[0] = m_AdmCfg.dGen[0];
-	pAdmCfg->dGen[1] = m_AdmCfg.dGen[1];
-	pAdmCfg->dGen[2] = m_AdmCfg.dGen[2];
-	pAdmCfg->bAdcCnt = m_AdmCfg.bAdcCnt;
+	pAdmCfg->dGen[0] = m_aAdmCfg[idx].dGen[0];
+	pAdmCfg->dGen[1] = m_aAdmCfg[idx].dGen[1];
+	pAdmCfg->dGen[2] = m_aAdmCfg[idx].dGen[2];
+	pAdmCfg->bAdcCnt = m_aAdmCfg[idx].bAdcCnt;
 
 	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgAdm));
 	if(pCurCfgMem >= pEndCfgMem)
@@ -211,11 +244,11 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdcCfg->wSize = sizeof(ICR_CfgAdc) - 4;
 	pAdcCfg->bNumber = 0;
 	pAdcCfg->bAdmNum = 0;//m_AdcCfg.AdmNumber;
-	pAdcCfg->bBits = m_AdcCfg.bBits;
-	pAdcCfg->bEncoding = m_AdcCfg.bEncoding;
-	pAdcCfg->dMinRate = m_AdcCfg.dMinRate;
-	pAdcCfg->dMaxRate = m_AdcCfg.dMaxRate;
-	pAdcCfg->wRange = m_AdcCfg.wRange;
+	pAdcCfg->bBits = m_aAdcCfg[idx].bBits;
+	pAdcCfg->bEncoding = m_aAdcCfg[idx].bEncoding;
+	pAdcCfg->dMinRate = m_aAdcCfg[idx].dMinRate;
+	pAdcCfg->dMaxRate = m_aAdcCfg[idx].dMaxRate;
+	pAdcCfg->wRange = m_aAdcCfg[idx].wRange;
 
 	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgAdc));
 	if(pCurCfgMem >= pEndCfgMem)
@@ -230,6 +263,11 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 //***************************************************************************************
 SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 {
+	S32 idx = GetTypeAdm(pDeviceInfo->Type);
+
+	if(idx<0)
+		idx = 0;
+	
 	AFX_MANAGE_STATE(AfxGetStaticModuleState( ));
 
 //	int curNum = pDeviceInfo->Number;
@@ -238,7 +276,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	lstrcpy(dlg.subInfo.sName, pDeviceInfo->sName);
 	dlg.subInfo.Type = pDeviceInfo->Type;
 
-	switch(m_AdcCfg.bBits)
+	switch(m_aAdcCfg[idx].bBits)
 	{
 		case 12:
 			dlg.m_AdcBits = 0;
@@ -250,14 +288,14 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			dlg.m_AdcBits = 2;
 			break;
 	}
-	dlg.m_AdcEncoding = m_AdcCfg.bEncoding;
-	dlg.m_AdcRange = m_AdcCfg.wRange;
-	dlg.m_AdcRateMax = m_AdcCfg.dMaxRate;
-	dlg.m_AdcRateMin = m_AdcCfg.dMinRate;
-	dlg.m_NumOfAdc = m_AdmCfg.bAdcCnt;
-	dlg.m_Gen1 = m_AdmCfg.dGen[0];
-	dlg.m_Gen2 = m_AdmCfg.dGen[1];
-	dlg.m_Gen3 = m_AdmCfg.dGen[2];
+	dlg.m_AdcEncoding = m_aAdcCfg[idx].bEncoding;
+	dlg.m_AdcRange = m_aAdcCfg[idx].wRange;
+	dlg.m_AdcRateMax = m_aAdcCfg[idx].dMaxRate;
+	dlg.m_AdcRateMin = m_aAdcCfg[idx].dMinRate;
+	dlg.m_NumOfAdc = m_aAdmCfg[idx].bAdcCnt;
+	dlg.m_Gen1 = m_aAdmCfg[idx].dGen[0];
+	dlg.m_Gen2 = m_aAdmCfg[idx].dGen[1];
+	dlg.m_Gen3 = m_aAdmCfg[idx].dGen[2];
 
 	int nResponse = (int)dlg.DoModal();
 	if (nResponse == IDOK)
@@ -267,24 +305,24 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		switch(dlg.m_AdcBits)
 		{
 			case 0:
-				m_AdcCfg.bBits = 12;
+				m_aAdcCfg[idx].bBits = 12;
 				break;
 			case 1:
-				m_AdcCfg.bBits = 14;
+				m_aAdcCfg[idx].bBits = 14;
 				break;
 			case 2:
-				m_AdcCfg.bBits = 16;
+				m_aAdcCfg[idx].bBits = 16;
 				break;
 		}
-		m_AdcCfg.bEncoding = dlg.m_AdcEncoding;
-		m_AdcCfg.wRange = dlg.m_AdcRange;
-		m_AdcCfg.dMaxRate = dlg.m_AdcRateMax;
-		m_AdcCfg.dMinRate = dlg.m_AdcRateMin;
+		m_aAdcCfg[idx].bEncoding = dlg.m_AdcEncoding;
+		m_aAdcCfg[idx].wRange = dlg.m_AdcRange;
+		m_aAdcCfg[idx].dMaxRate = dlg.m_AdcRateMax;
+		m_aAdcCfg[idx].dMinRate = dlg.m_AdcRateMin;
 //		m_AdcCfg.Number = ;
-		m_AdmCfg.bAdcCnt = dlg.m_NumOfAdc;
-		m_AdmCfg.dGen[0] = dlg.m_Gen1;
-		m_AdmCfg.dGen[1] = dlg.m_Gen2;
-		m_AdmCfg.dGen[2] = dlg.m_Gen3;
+		m_aAdmCfg[idx].bAdcCnt = dlg.m_NumOfAdc;
+		m_aAdmCfg[idx].dGen[0] = dlg.m_Gen1;
+		m_aAdmCfg[idx].dGen[1] = dlg.m_Gen2;
+		m_aAdmCfg[idx].dGen[2] = dlg.m_Gen3;
 	}
 	else if (nResponse == IDCANCEL)
 	{
@@ -293,3 +331,34 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	}
 	return nResponse;
 }
+
+//***************************************************************************************
+S32 GetTypeAdm(ICR_ADMType type)
+{
+	switch(type)
+	{
+	case ADM212x10M:
+		return 0;
+	case ADM212x25M:
+		return 1;
+	case ADM212x40M:
+		return 2;
+	case ADM212x50M:
+		return 3;
+	case ADM212x60M:
+		return 4;
+	case ADM212x100M:
+		return 5;
+	case ADM214x60M:
+		return 6;
+	case ADM214x100M:
+		return 7;
+	case ADM414x65M:
+		return 8;
+	case ADM216x100M:
+		return 9;
+	default:
+		return -1;
+	}
+}
+
