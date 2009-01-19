@@ -88,7 +88,7 @@ void CFileBaseFilterDlg::OnEnChangeName()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeDevid()
@@ -100,7 +100,7 @@ void CFileBaseFilterDlg::OnEnChangeDevid()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeVer()
@@ -112,7 +112,7 @@ void CFileBaseFilterDlg::OnEnChangeVer()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeZakaz()
@@ -124,7 +124,7 @@ void CFileBaseFilterDlg::OnEnChangeZakaz()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangePid()
@@ -136,7 +136,7 @@ void CFileBaseFilterDlg::OnEnChangePid()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeSurname()
@@ -148,7 +148,7 @@ void CFileBaseFilterDlg::OnEnChangeSurname()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeKeyword()
@@ -160,7 +160,7 @@ void CFileBaseFilterDlg::OnEnChangeKeyword()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeDayStart()
@@ -172,7 +172,7 @@ void CFileBaseFilterDlg::OnEnChangeDayStart()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeMonthStart()
@@ -184,7 +184,7 @@ void CFileBaseFilterDlg::OnEnChangeMonthStart()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeYearStart()
@@ -196,7 +196,7 @@ void CFileBaseFilterDlg::OnEnChangeYearStart()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeDayEnd()
@@ -208,7 +208,7 @@ void CFileBaseFilterDlg::OnEnChangeDayEnd()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeMonthEnd()
@@ -220,7 +220,7 @@ void CFileBaseFilterDlg::OnEnChangeMonthEnd()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeYearEnd()
@@ -232,5 +232,5 @@ void CFileBaseFilterDlg::OnEnChangeYearEnd()
 
 	// TODO:  Add your control notification handler code here
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR, 1);
+	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }

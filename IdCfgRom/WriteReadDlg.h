@@ -7,7 +7,6 @@
 #include <vector>
 using namespace std;
 
-#define	FILEBASEDIR	"ConfigBase\\"
 #define	CFG_FILE_PARAMS_CNT	8
 
 enum
@@ -67,6 +66,8 @@ protected:
 
 public:
 	virtual BOOL OnInitDialog();
+	CString		GetFileBasePathFromRegistry();
+	void		SetFileBasePathToRegistry(CString sFileBasePath);
 	afx_msg void OnBnClickedSaveFileBin();
 	afx_msg void OnBnClickedSaveFileHex();
 	afx_msg void OnBnClickedReadFile();
@@ -91,6 +92,8 @@ public:
 	CButton m_ctrlDeleteBase;
 	HBITMAP m_hUpArrow;
 	HBITMAP m_hDownArrow;
+
+	CString	m_sFileBaseDir;
 
 	CString m_sWriteName;
 	CString m_sWriteDevId;
@@ -139,6 +142,9 @@ public:
 	void MoveItemRelativePosition(TItemPosition rItemPosition);
 
 	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
+public:
+	afx_msg void OnBnClickedFileBasePath();
+	LPITEMIDLIST ConvertPathToLpItemIdList(const char *pszPath);
 };
 
 static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2,

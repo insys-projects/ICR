@@ -61,6 +61,8 @@
 #define IDC_REFVOLTPVS                  1027
 #define IDC_EDIT_BASE                   1027
 #define IDC_STARTBE                     1028
+#define IDC_WRITE_ZAKAZ2                1028
+#define IDC_FILE_BASE_DIR               1028
 #define IDC_PIOBE                       1029
 #define IDC_SPINPLD                     1030
 #define IDC_SPINDAC                     1031
@@ -122,7 +124,8 @@
 #define IDC_READ_WRITE_DEV              1063
 #define IDC_ADMNUM                      1064
 #define IDC_COMBO1                      1064
-#define IDC_HOTKEY1                     1067
+#define IDC_FILE_BASE_PATH              1068
+#define IDC_STATIC_FILE_BASE_DIR        1069
 #define IDC_DACNUM                      1070
 #define IDC_DACBITS                     1071
 #define IDC_DACENCODING                 1072
@@ -140,7 +143,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        142
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1068
+#define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

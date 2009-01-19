@@ -20,6 +20,7 @@ CWriteReadDlg::CWriteReadDlg(CWnd* pParent /*=NULL*/)
 	, m_sWriteVer(_T(""))
 	, m_sWritePId(_T(""))
 	, m_sWriteDate(_T(""))
+	, m_sFileBaseDir(_T(""))
 {
 	m_nLastClickedColumnNum = -1;
 	m_hUpArrow = LoadBitmap(AfxGetResourceHandle(),MAKEINTRESOURCE(IDB_ARROW_UP));
@@ -48,6 +49,7 @@ void CWriteReadDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_EDIT_BASE, m_ctrlEditBase);
 	DDX_Control(pDX, IDC_DELETE_BASE, m_ctrlDeleteBase);
 	DDX_Control(pDX, IDC_SAVE_BASE, m_ctrlSaveBase);
+	DDX_Text(pDX, IDC_FILE_BASE_DIR, m_sFileBaseDir);
 }
 
 
@@ -68,6 +70,7 @@ BEGIN_MESSAGE_MAP(CWriteReadDlg, CDialog)
 	ON_WM_GETMINMAXINFO()
 	ON_BN_CLICKED(IDC_EDIT_BASE, &CWriteReadDlg::OnBnClickedEditBase)
 	ON_NOTIFY(NM_DBLCLK, IDC_BASE, &CWriteReadDlg::OnNMDblclkBase)
+	ON_BN_CLICKED(IDC_FILE_BASE_PATH, &CWriteReadDlg::OnBnClickedFileBasePath)
 END_MESSAGE_MAP()
 
 
@@ -95,7 +98,10 @@ BOOL CWriteReadDlg::OnInitDialog()
 	m_ctrlEditBase.EnableWindow(FALSE);
 	m_ctrlDeleteBase.EnableWindow(FALSE);
 
-	LoadFileBaseFromDir(GetCurDirFromCommandLine() + FILEBASEDIR);
+	// заполнение таблицы базой файлов
+	m_sFileBaseDir = GetFileBasePathFromRegistry();
+	UpdateData(FALSE);
+	LoadFileBaseFromDir(m_sFileBaseDir);
 
 	// установка размера и положения окна
 	WINDOWPLACEMENT place;
@@ -144,6 +150,30 @@ BOOL CWriteReadDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+CString CWriteReadDlg::GetFileBasePathFromRegistry()
+{
+	CString sFileBasePath = "";
+
+	char acFileBasePath[MAX_PATH];
+	acFileBasePath[0] = 0;
+	ReadRegistryString("Software\\Instrumental Systems\\IdCfgRom", "FileBaseDirectory", acFileBasePath, MAX_PATH);
+	if( acFileBasePath[0] != 0 )
+	{
+		sFileBasePath = acFileBasePath;
+	}
+	else
+	{
+		sFileBasePath = GetCurDirFromCommandLine() + "ConfigBase\\";
+	}
+
+	return sFileBasePath;
+}
+
+void CWriteReadDlg::SetFileBasePathToRegistry(CString sFileBasePath)
+{
+	WriteRegistryString("Software\\Instrumental Systems\\IdCfgRom", "FileBaseDirectory", sFileBasePath);
+}
+
 void CWriteReadDlg::OnBnClickedSaveFileBin()
 {
 	// TODO: Add your control notification handler code here
@@ -172,7 +202,7 @@ void CWriteReadDlg::OnBnClickedSaveBase()
 	UpdateData(TRUE);
 	CString sFilePath = MakeFilePathForFileBase();
 	
-	if( IsFileExist(GetCurDirFromCommandLine() + FILEBASEDIR, GetFileNameOfPath(sFilePath)) )
+	if( IsFileExist(m_sFileBaseDir, GetFileNameOfPath(sFilePath)) )
 	{
 		int nRes = AfxMessageBox("Файл с таким именем уже существует! Перезаписать этот файл?", MB_YESNO|MB_ICONQUESTION);
 		if( nRes==IDNO )
@@ -275,7 +305,7 @@ void CWriteReadDlg::OnBnClickedEditBase()
 	UpdateData(TRUE);
 	CString sFilePath = MakeFilePathForFileBase();
 	int nFileExist = 0;
-	if( IsFileExist(GetCurDirFromCommandLine() + FILEBASEDIR, GetFileNameOfPath(sFilePath)) )
+	if( IsFileExist(m_sFileBaseDir, GetFileNameOfPath(sFilePath)) )
 	{
 		int nRes = AfxMessageBox("Файл с таким именем уже существует! Перезаписать этот файл?", MB_YESNO|MB_ICONQUESTION);
 		if( nRes==IDNO )
@@ -336,7 +366,7 @@ CString CWriteReadDlg::FindFilePathInFileBase(int nFileIndex)
 						"{" + m_ctrlBase.GetItemText(nFileIndex, 6) + "}" +
 						"{" + m_ctrlBase.GetItemText(nFileIndex, 7) + "}" +
 						".bin";
-	return FindFileInDir(GetCurDirFromCommandLine() + FILEBASEDIR, sFileName);
+	return FindFileInDir(m_sFileBaseDir, sFileName);
 }
 
 int CWriteReadDlg::FindFileInFileBaseList()
@@ -409,7 +439,7 @@ CString CWriteReadDlg::MakeFilePathForFileBase()
 {
 	CString sFileName = "";
 
-	sFileName = GetCurDirFromCommandLine() + FILEBASEDIR + 
+	sFileName = m_sFileBaseDir + 
 				"{" + m_sWriteName + "}" + 
 				"{" + m_sWriteDevId + "}" + 
 				"{" + m_sWriteVer + "}" + 
@@ -491,26 +521,27 @@ void CWriteReadDlg::LoadFileBaseFromDir(CString sSearchDir, int nFilter)
 	HANDLE	hFind;
 	WIN32_FIND_DATA	findData;
 	hFind = FindFirstFile(sSearchFilePath, &findData);
-	if( hFind != INVALID_HANDLE_VALUE )
+	if( hFind == INVALID_HANDLE_VALUE )
+		return;
+
+	do
 	{
-		do
+		CString sFoundFileName = findData.cFileName;
+		if( (sFoundFileName.Compare(".") ==0 ) || (sFoundFileName.Compare("..") == 0) )
+			continue;
+		if( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
 		{
-			CString sFoundFileName = findData.cFileName;
-			if( (sFoundFileName.Compare(".") ==0 ) || (sFoundFileName.Compare("..") == 0) )
+			//CString	sSubSearchDir = sSearchDir + sFoundFileName;
+			//LoadFileBaseFromDir(sSubSearchDir);
+			continue;
+		}
+		if( IsCfgFile(sFoundFileName) )
+		{
+			if( nFilter && (Filter(sFoundFileName)==0) )
 				continue;
-			if( findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
-			{
-				CString	sSubSearchDir = sSearchDir + sFoundFileName;
-				LoadFileBaseFromDir(sSubSearchDir);
-			}
-			if( IsCfgFile(sFoundFileName) )
-			{
-				if( nFilter && (Filter(sFoundFileName)==0) )
-					continue;
-				AddCfgFileToList(sFoundFileName);
-			}
-		} while( FindNextFile(hFind, &findData) != 0 );
-	}
+			AddCfgFileToList(sFoundFileName);
+		}
+	} while( FindNextFile(hFind, &findData) != 0 );
 }
 
 int CWriteReadDlg::IsCfgFile(CString sFoundFileName)
@@ -946,3 +977,55 @@ void CWriteReadDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	CDialog::OnGetMinMaxInfo(lpMMI);
 }
 
+
+void CWriteReadDlg::OnBnClickedFileBasePath()
+{
+	BROWSEINFO bi;
+	bi.hwndOwner = 0;
+	bi.pidlRoot = NULL;//ConvertPathToLpItemIdList("C:\\JenyaWork\\_ICR\\");
+	char pszBuffer[MAX_PATH];
+	bi.pszDisplayName = pszBuffer;
+	bi.lpszTitle = "Выбирите директорию базы файлов";
+	bi.ulFlags = BIF_RETURNFSANCESTORS | BIF_RETURNONLYFSDIRS;
+	bi.lpfn = NULL;
+	bi.lParam = 0;
+	
+	LPITEMIDLIST pidl;
+	if( (pidl = ::SHBrowseForFolder(&bi)) == NULL )
+		return;
+
+	char acFileBaseDir[MAX_PATH];
+	if( ::SHGetPathFromIDList(pidl, acFileBaseDir) == FALSE )
+		return;
+
+	m_sFileBaseDir = acFileBaseDir;
+	if (m_sFileBaseDir.GetAt(m_sFileBaseDir.GetLength() - 1) != '\\')
+	{
+		m_sFileBaseDir += "\\";
+	}
+
+	UpdateData(FALSE);
+	LoadFileBaseFromDir(m_sFileBaseDir);
+
+	SetFileBasePathToRegistry(m_sFileBaseDir);
+}
+
+LPITEMIDLIST CWriteReadDlg::ConvertPathToLpItemIdList(const char *pszPath)
+{
+	LPITEMIDLIST  pidl;
+	LPSHELLFOLDER pDesktopFolder;
+	OLECHAR       olePath[MAX_PATH];
+	ULONG         chEaten;
+	ULONG         dwAttributes;
+	HRESULT       hr;
+
+	if (SUCCEEDED(SHGetDesktopFolder(&pDesktopFolder)))
+	{
+		MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, pszPath, -1, olePath, 
+			MAX_PATH);
+		hr = pDesktopFolder->ParseDisplayName(NULL,NULL,olePath,&chEaten,
+			&pidl,&dwAttributes);
+		pDesktopFolder->Release();
+	}
+	return pidl;
+}
