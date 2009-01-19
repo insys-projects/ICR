@@ -1,8 +1,12 @@
-#pragma once
+
+#ifndef WRITE_READ_DLG_H
+#define WRITE_READ_DLG_H
+
 #include "afxwin.h"
 #include "afxcmn.h"
 #include "MyListCtrl.h"
 #include "FileBaseFilterDlg.h"
+#include "IdCfgRomDlg.h"
 
 #include <vector>
 using namespace std;
@@ -46,6 +50,8 @@ struct TItemPosition
 	CWnd	*pWnd;
 };
 
+class CIdCfgRomDlg;
+
 // CWriteReadDlg dialog
 
 class CWriteReadDlg : public CDialog
@@ -83,6 +89,8 @@ public:
 	afx_msg void OnClose();
 	afx_msg void OnDestroy();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+
+	CIdCfgRomDlg	*m_poIdCfgRomWindow;
 
 	CMyListCtrl m_ctrlBase;
 	CEdit m_ctrlSurname;
@@ -152,3 +160,5 @@ static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2,
 
 static int CALLBACK DateCompareFunc(LPARAM lParam1, LPARAM lParam2,
 								LPARAM lParamSort);
+
+#endif // WRITE_READ_DLG_H

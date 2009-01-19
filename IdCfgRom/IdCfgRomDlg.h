@@ -1,7 +1,8 @@
 // IdCfgRomDlg.h : header file
 //
 
-#pragma once
+#ifndef ID_CFG_ROM_DLG_H
+#define ID_CFG_ROM_DLG_H
 
 #include "MyTabCtrl.h"
 
@@ -23,6 +24,8 @@ enum
 };
 
 extern HICON g_hIcon;
+
+class CWriteReadDlg;
 
 // CIdCfgRomDlg dialog
 class CIdCfgRomDlg : public CDialog
@@ -120,7 +123,7 @@ public:
 
 	// ---запись/чтение/очистка устройств
 	afx_msg void	OnBnClickedIntodev();
-	void			VerifyEquiv(DEVICE_INFO DeviceInfoWrite);
+	void			VerifyEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead);
 	void			ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int nBaseSizeCorrect, int nSubSizeCorrect);
 	afx_msg void	OnBnClickedFromdev();
 	afx_msg void	OnBnClickedClear();
@@ -171,3 +174,5 @@ public:
 
 	afx_msg void OnCbnSelchangeReadWriteDev();
 };
+
+#endif // ID_CFG_ROM_DLG_H

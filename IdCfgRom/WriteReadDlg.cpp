@@ -71,6 +71,7 @@ BEGIN_MESSAGE_MAP(CWriteReadDlg, CDialog)
 	ON_BN_CLICKED(IDC_EDIT_BASE, &CWriteReadDlg::OnBnClickedEditBase)
 	ON_NOTIFY(NM_DBLCLK, IDC_BASE, &CWriteReadDlg::OnNMDblclkBase)
 	ON_BN_CLICKED(IDC_FILE_BASE_PATH, &CWriteReadDlg::OnBnClickedFileBasePath)
+//	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 
@@ -138,13 +139,29 @@ BOOL CWriteReadDlg::OnInitDialog()
 	SaveItemPosition(this, IDC_SAVE_FILE_BIN, TOP_RIGHT);
 	SaveItemPosition(this, IDC_SAVE_FILE_HEX, TOP_RIGHT);
 	SaveItemPosition(this, IDC_READ_FILE, TOP_RIGHT);
+	SaveItemPosition(this, IDC_STATIC_FILE_BASE_DIR, TOP_RIGHT);
+	SaveItemPosition(this, IDC_FILE_BASE_DIR, TOP_RIGHT);
+	SaveItemPosition(this, IDC_FILE_BASE_PATH, TOP_RIGHT);
 
 	for( int ii=0; ii<(int)m_vItemsPositions.size(); ii++ )
 		MoveItemRelativePosition(m_vItemsPositions[ii]);
 	m_nCanResize = 1;
 
-	ModifyStyle(WS_OVERLAPPED|WS_TILED|WS_CHILD|WS_CHILDWINDOW, 0);
-	ModifyStyleEx(WS_EX_APPWINDOW|WS_EX_OVERLAPPEDWINDOW|WS_EX_TOPMOST, 0);
+	// окно отображается чуть ниже основного
+	{
+		WINDOWPLACEMENT	place;
+		GetWindowPlacement(&place);
+		WINDOWPLACEMENT	placeParent;
+		m_poIdCfgRomWindow->GetWindowPlacement(&placeParent);
+
+		WINDOWPLACEMENT placeNew = place;
+		placeNew.rcNormalPosition.left = (placeParent.rcNormalPosition.right + placeParent.rcNormalPosition.left)/2 - (place.rcNormalPosition.right)/2;
+		placeNew.rcNormalPosition.right = (placeParent.rcNormalPosition.right + placeParent.rcNormalPosition.left)/2 + (place.rcNormalPosition.right)/2;
+		placeNew.rcNormalPosition.top = placeParent.rcNormalPosition.top + 80;
+		placeNew.rcNormalPosition.bottom = placeParent.rcNormalPosition.top + 80 + place.rcNormalPosition.bottom;
+
+		SetWindowPlacement(&placeNew);
+	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -177,23 +194,20 @@ void CWriteReadDlg::SetFileBasePathToRegistry(CString sFileBasePath)
 void CWriteReadDlg::OnBnClickedSaveFileBin()
 {
 	// TODO: Add your control notification handler code here
-	CIdCfgRomDlg	*pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	pParentWnd->SaveBinThroughtDialog();
+	m_poIdCfgRomWindow->SaveBinThroughtDialog();
 	
 }
 
 void CWriteReadDlg::OnBnClickedSaveFileHex()
 {
 	// TODO: Add your control notification handler code here
-	CIdCfgRomDlg	*pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	pParentWnd->SaveHexThroughtDialog();
+	m_poIdCfgRomWindow->SaveHexThroughtDialog();
 }
 
 void CWriteReadDlg::OnBnClickedReadFile()
 {
 	// TODO: Add your control notification handler code here
-	CIdCfgRomDlg	*pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	pParentWnd->ReadThroughDialog();
+	m_poIdCfgRomWindow->ReadThroughDialog();
 }
 
 void CWriteReadDlg::OnBnClickedSaveBase()
@@ -217,8 +231,7 @@ void CWriteReadDlg::OnBnClickedSaveBase()
 
 	if(!IsDirExist(GetDirOfPath(sFilePath)))
 		CreateDirectory(GetDirOfPath(sFilePath), NULL);
-	CIdCfgRomDlg	*pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	pParentWnd->SaveBin(sFilePath);
+	m_poIdCfgRomWindow->SaveBin(sFilePath);
 
 	m_ctrlReadBase.EnableWindow(TRUE);
 	m_ctrlEditBase.EnableWindow(TRUE);
@@ -281,8 +294,7 @@ void CWriteReadDlg::OnBnClickedReadBase()
 {
 	// TODO: Add your control notification handler code here
 	int nSelNum = m_ctrlBase.GetSelectionMark();
-	CIdCfgRomDlg	*pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	pParentWnd->ReadCfgFile(FindFilePathInFileBase(nSelNum));
+	m_poIdCfgRomWindow->ReadCfgFile(FindFilePathInFileBase(nSelNum));
 
 	m_sWriteName = m_ctrlBase.GetItemText(nSelNum, 0);
 	m_sWriteDevId = m_ctrlBase.GetItemText(nSelNum, 1);
@@ -326,8 +338,7 @@ void CWriteReadDlg::OnBnClickedEditBase()
 	else
 		EditRowInList(nSelNum, m_sWriteName, m_sWriteDevId, m_sWriteVer, m_sWriteZakaz, m_sWritePId, m_sWriteSurname, m_sWriteKeyword, m_sWriteDate);
 
-	CIdCfgRomDlg	*pParentWnd = (CIdCfgRomDlg*)GetOwner();
-	pParentWnd->SaveBin(sFilePath);
+	m_poIdCfgRomWindow->SaveBin(sFilePath);
 }
 
 void CWriteReadDlg::OnBnClickedDeleteBase()
