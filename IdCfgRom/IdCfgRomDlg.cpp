@@ -1575,6 +1575,14 @@ void CIdCfgRomDlg::TransferParamsFromMainToFileBaseDlg()
 			sType += "-";
 		sType += sSMType;
 	}
+	// удаление слэша('/') из названия устройства
+	for(;;)
+	{
+		if( sType.Find('/')<0 )
+			break;
+
+		sType.Delete(sType.Find('/'));
+	}
 
 	// DevId
 	if( nBMDevId!=-1 )
