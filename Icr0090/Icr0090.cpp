@@ -81,12 +81,20 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->Name, _T("ADM214x400M(WB)"));
+		lstrcpy(pDevInfo->Name, _T("ADM214x400M"));
 		pDevInfo->Type = ADM214x400M;
 		break;
 	case 1:
-		lstrcpy(pDevInfo->Name, _T("ADM212x500(WB)"));
+		lstrcpy(pDevInfo->Name, _T("ADM212x500M"));
 		pDevInfo->Type = ADM212x500M;
+		break;
+	case 2:
+		lstrcpy(pDevInfo->Name, _T("ADM214x400MWB(LF/HF)"));
+		pDevInfo->Type = ADM214x400MWB;
+		break;
+	case 3:
+		lstrcpy(pDevInfo->Name, _T("ADM212x500MWB(LF/HF)"));
+		pDevInfo->Type = ADM212x500MWB;
 		break;
 	default:
 		*pNumDev = -1;
