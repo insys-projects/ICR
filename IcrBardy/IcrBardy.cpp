@@ -134,6 +134,7 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 		return 0;
 	}
 
+	ULONG status = BRDerr_OK;
 	// считывание ICR базового модуля
 	int nSuccess = 0;
 	if( (bDevs == READ_WRITE_BASEMODULE) || (bDevs == READ_WRITE_ALL) )
@@ -161,12 +162,15 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 
 		if( puBaseIcrId )
 		{
-			BRD_puRead(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, BASEMOD_CFGMEM_SIZE);
-			if(*(PUSHORT)pDevInfo->pBaseCfgMem == BASE_ID_TAG)
-			{
-				pDevInfo->nRealBaseCfgSize = *((PUSHORT)pDevInfo->pBaseCfgMem + 2);
-				nSuccess = 1;
-			}
+			status = BRD_puRead(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, BASEMOD_CFGMEM_SIZE);
+			if(!BRD_errcmp(status, BRDerr_OK))
+				MessageBox(NULL, "ERROR by reading base module ICR", "IcrBardy", MB_OK);
+			else
+				if(*(PUSHORT)pDevInfo->pBaseCfgMem == BASE_ID_TAG)
+				{
+					pDevInfo->nRealBaseCfgSize = *((PUSHORT)pDevInfo->pBaseCfgMem + 2);
+					nSuccess = 1;
+				}
 		}
 	}
 	if( !nSuccess )
@@ -188,12 +192,18 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 
 		if( puAdmIcrId )
 		{
-			BRD_puRead(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], SUBMOD_CFGMEM_SIZE);
-			if(*(PUSHORT)pDevInfo->pAdmCfgMem[0] == ADM_ID_TAG)
-			{
-				pDevInfo->nRealAdmCfgSize[0] = *((PUSHORT)pDevInfo->pAdmCfgMem[0] + 2);
-				nSuccess = 1;
-			}
+			//char msg[128];
+			status = BRD_puRead(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], SUBMOD_CFGMEM_SIZE);
+			//sprintf(msg, "Reading submodule ICR, status = 0X%08X", status);
+			//MessageBox(NULL, msg, "IcrBardy", MB_OK);
+			if(!BRD_errcmp(status, BRDerr_OK))
+				MessageBox(NULL, "ERROR by reading submodule ICR", "IcrBardy", MB_OK);
+			else
+				if(*(PUSHORT)pDevInfo->pAdmCfgMem[0] == ADM_ID_TAG)
+				{
+					pDevInfo->nRealAdmCfgSize[0] = *((PUSHORT)pDevInfo->pAdmCfgMem[0] + 2);
+					nSuccess = 1;
+				}
 		}
 	}
 	if( !nSuccess )
@@ -231,6 +241,7 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs
 		return 0;
 	}
 
+	ULONG status = BRDerr_OK;
 	// прописывание ICR базового модуля
 	if( (bDevs == READ_WRITE_BASEMODULE) || (bDevs == READ_WRITE_ALL) )
 	{
@@ -258,7 +269,9 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs
 		if( puBaseIcrId )
 		{
 			BRD_puEnable(handle, puBaseIcrId);
-			BRD_puWrite(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, pDevInfo->nRealBaseCfgSize);
+			status = BRD_puWrite(handle, puBaseIcrId, 0, pDevInfo->pBaseCfgMem, pDevInfo->nRealBaseCfgSize);
+			if(!BRD_errcmp(status, BRDerr_OK))
+				MessageBox(NULL, "ERROR by writing base module ICR", "IcrBardy", MB_OK);
 		}
 	}
 
@@ -278,7 +291,9 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs
 		if( puAdmIcrId )
 		{
 			BRD_puEnable(handle, puAdmIcrId);
-			BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->nRealAdmCfgSize[0]);
+			status = BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->nRealAdmCfgSize[0]);
+			if(!BRD_errcmp(status, BRDerr_OK))
+				MessageBox(NULL, "ERROR by writing submodule ICR", "IcrBardy", MB_OK);
 		}
 	}
 
