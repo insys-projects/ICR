@@ -1303,8 +1303,8 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 		SetCursor(hCursorArrow);
 		return;
 	}
-	if( (pDeviceInfo->nRealAdmCfgSize[0]==0) && (pDeviceInfo->nRealAdmCfgSize[1]==0) && 
-		(pDeviceInfo->nRealAdmCfgSize[2]==0) && (pDeviceInfo->nRealAdmCfgSize[3]==0) &&
+	if( (pDeviceInfo->nRealAdmCfgSize[0]==0) && /*(pDeviceInfo->nRealAdmCfgSize[1]==0) && 
+		(pDeviceInfo->nRealAdmCfgSize[2]==0) && (pDeviceInfo->nRealAdmCfgSize[3]==0) &&*/
 		(GetReadWriteDevs()==READ_WRITE_SUBMODULE) )
 	{
 		AfxMessageBox("ICR субмодуля пуст!");
@@ -1312,8 +1312,8 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 		return;
 	}
 	if( (pDeviceInfo->nRealBaseCfgSize==0) && (pDeviceInfo->nRealAdmCfgSize[0]==0) && 
-		(pDeviceInfo->nRealAdmCfgSize[1]==0) && (pDeviceInfo->nRealAdmCfgSize[2]==0) && 
-		(pDeviceInfo->nRealAdmCfgSize[3]==0) &&	(GetReadWriteDevs()==READ_WRITE_ALL) )
+		/*(pDeviceInfo->nRealAdmCfgSize[1]==0) && (pDeviceInfo->nRealAdmCfgSize[2]==0) && 
+		(pDeviceInfo->nRealAdmCfgSize[3]==0) &&*/	(GetReadWriteDevs()==READ_WRITE_ALL) )
 	{
 		AfxMessageBox("ICR базового модуля и субмодуля пусты!");
 		SetCursor(hCursorArrow);
