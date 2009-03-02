@@ -1328,10 +1328,10 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 		else if( (pDeviceInfo->nRealBaseCfgSize==0) && (pDeviceInfo->nRealAdmCfgSize[0]==0) )
 		{
 			AfxMessageBox("ICR базового модуля и субмодуля пусты!");
-		}
 
-		SetCursor(hCursorArrow);
-		return;
+			SetCursor(hCursorArrow);
+			return;
+		}
 	}
 
 	// локальный буфер
