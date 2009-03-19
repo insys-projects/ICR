@@ -1145,6 +1145,7 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 			(g_DeviceCtrl[m_nDevType].pWriteIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
 
 			// верификация путём считывания и сравнения
+			ClearDeviceInfoData(&DeviceInfoVerify);
 			(g_DeviceCtrl[m_nDevType].pReadIdCfgRom)(&DeviceInfoVerify, GetReadWriteDevs());
 			VerifyEquiv(*pDeviceInfo, DeviceInfoVerify);
 
@@ -1161,6 +1162,28 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 
 	delete[] pCfgMem;
 }
+
+void CIdCfgRomDlg::ClearDeviceInfoData(DEVICE_INFO *pDeviceInfo)
+{
+	// Очистить данные базового модуля
+	int nSize = pDeviceInfo->nRealBaseCfgSize;
+
+	for( int jj=0; jj<nSize; jj++ )
+	{
+		pDeviceInfo->pBaseCfgMem[jj] = 0xFF;
+	}
+
+	// Очистить данные субмодуля
+	for(int ii=0; ii<4; ii++)
+	{
+		int nSize = pDeviceInfo->nRealAdmCfgSize[ii];
+
+		for( int jj=0; jj<nSize; jj++ )
+		{
+			pDeviceInfo->pAdmCfgMem[ii][jj] = 0xFF;
+		}
+	}
+};
 
 void CIdCfgRomDlg::VerifyEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead)
 {

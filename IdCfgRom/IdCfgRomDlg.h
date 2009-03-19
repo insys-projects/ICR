@@ -123,6 +123,7 @@ public:
 
 	// ---запись/чтение/очистка устройств
 	afx_msg void	OnBnClickedIntodev();
+	void			ClearDeviceInfoData(DEVICE_INFO *pDeviceInfo);
 	void			VerifyEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead);
 	void			ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int nBaseSizeCorrect, int nSubSizeCorrect);
 	afx_msg void	OnBnClickedFromdev();
