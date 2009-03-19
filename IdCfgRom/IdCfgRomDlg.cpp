@@ -1141,15 +1141,18 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 		{
 			HCURSOR  hCursorWait = LoadCursor(NULL, IDC_WAIT); // курсор-часы
 			HCURSOR  hCursorArrow = SetCursor(hCursorWait);
-			DEVICE_INFO DeviceInfoVerify = g_DeviceCtrl[m_nDevType].devInfo;
+
+			DEVICE_INFO DeviceInfoVerify;// = g_DeviceCtrl[m_nDevType].devInfo;
+			CopyDeviceInfoDataAndClearBuffers(&DeviceInfoVerify, g_DeviceCtrl[m_nDevType].devInfo);
 			(g_DeviceCtrl[m_nDevType].pWriteIdCfgRom)(pDeviceInfo, GetReadWriteDevs());
 
 			// верификация путём считывания и сравнения
-			ClearDeviceInfoData(&DeviceInfoVerify);
 			(g_DeviceCtrl[m_nDevType].pReadIdCfgRom)(&DeviceInfoVerify, GetReadWriteDevs());
 			VerifyEquiv(*pDeviceInfo, DeviceInfoVerify);
+			DeleteDeviceInfoData(DeviceInfoVerify);
 
 			SaveDialogFieldsValues();
+
 			SetCursor(hCursorArrow);
 		}
 	}
@@ -1163,27 +1166,30 @@ void CIdCfgRomDlg::OnBnClickedIntodev()
 	delete[] pCfgMem;
 }
 
-void CIdCfgRomDlg::ClearDeviceInfoData(DEVICE_INFO *pDeviceInfo)
+void CIdCfgRomDlg::CopyDeviceInfoDataAndClearBuffers(DEVICE_INFO *pDeviceInfoTo, DEVICE_INFO DeviceInfoFrom)
 {
-	// Очистить данные базового модуля
-	int nSize = pDeviceInfo->nRealBaseCfgSize;
+	*(pDeviceInfoTo) = DeviceInfoFrom;
 
-	for( int jj=0; jj<nSize; jj++ )
+	// Создаём и очищаем данные базового модуля
 	{
-		pDeviceInfo->pBaseCfgMem[jj] = 0xFF;
-	}
+		pDeviceInfoTo->pBaseCfgMem = new UCHAR[BASEMOD_CFGMEM_SIZE];
 
-	// Очистить данные субмодуля
-	for(int ii=0; ii<4; ii++)
-	{
-		int nSize = pDeviceInfo->nRealAdmCfgSize[ii];
-
-		for( int jj=0; jj<nSize; jj++ )
+		for( int jj=0; jj<BASEMOD_CFGMEM_SIZE; jj++ )
 		{
-			pDeviceInfo->pAdmCfgMem[ii][jj] = 0xFF;
+			pDeviceInfoTo->pBaseCfgMem[jj] = 0xFF;
 		}
 	}
-};
+
+	// Создаём и очищаем данные субмодуля
+	{
+		pDeviceInfoTo->pAdmCfgMem[0] = new UCHAR[SUBMOD_CFGMEM_SIZE];
+
+		for( int jj=0; jj<SUBMOD_CFGMEM_SIZE; jj++ )
+		{
+			pDeviceInfoTo->pAdmCfgMem[0][jj] = 0xFF;
+		}
+	}
+}
 
 void CIdCfgRomDlg::VerifyEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceInfoRead)
 {
@@ -1219,29 +1225,44 @@ void CIdCfgRomDlg::VerifyEquiv(DEVICE_INFO DeviceInfoWrite, DEVICE_INFO DeviceIn
 	// верифицируем данные субмодуля
 	if( (nDevs == READ_WRITE_SUBMODULE) || (nDevs == READ_WRITE_ALL) )
 	{
-		for(int ii=0; ii<4; ii++)
+		int nSize = DeviceInfoWrite.nRealAdmCfgSize[0];
+		int nSize2 = DeviceInfoRead.nRealAdmCfgSize[0];
+
+		if( nSize == nSize2 )
 		{
-			int nSize = DeviceInfoWrite.nRealAdmCfgSize[ii];
-			int nSize2 = DeviceInfoRead.nRealAdmCfgSize[ii];
+			int nSubSizeCorrect = 1;
 
-			if( nSize == nSize2 )
+			for( int ii=0; ii<nSize; ii++ )
 			{
-				int nSubSizeCorrect = 1;
-
-				for( int jj=0; jj<nSize; jj++ )
+				if( DeviceInfoWrite.pAdmCfgMem[0][ii] != DeviceInfoRead.pAdmCfgMem[0][ii] )
 				{
-					if( DeviceInfoWrite.pAdmCfgMem[ii][jj] != DeviceInfoRead.pAdmCfgMem[ii][jj] )
-					{
-						nSubErrByteNum = jj;
-						break;
-					}
+					nSubErrByteNum = ii;
+					break;
 				}
 			}
+		}
+		else
+		{
+			nSubErrByteNum = 0;
 		}
 	}
 
 	ShowEquivMessage(nBaseErrByteNum, nSubErrByteNum, nBaseSizeCorrect, nSubSizeCorrect);
 }
+
+void CIdCfgRomDlg::DeleteDeviceInfoData(DEVICE_INFO DeviceInfoDelete)
+{
+	// Удаляем данные базового модуля
+	{
+		delete [] DeviceInfoDelete.pBaseCfgMem;
+	}
+
+	// Удаляем данные субмодуля
+	{
+		delete [] DeviceInfoDelete.pAdmCfgMem[0];
+	}
+}
+
 void CIdCfgRomDlg::ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int nBaseSizeCorrect, int nSubSizeCorrect)
 {
 	CString sMessage = "";
@@ -1261,7 +1282,7 @@ void CIdCfgRomDlg::ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int
 
 			if( nBaseSizeCorrect == 0 )
 			{
-				sBaseMsg += " Размеры не совпадают!";
+				sBaseMsg += ". Размеры не совпадают!";
 			}
 
 			nErr = 1;
@@ -1284,9 +1305,9 @@ void CIdCfgRomDlg::ShowEquivMessage(int nBaseErrByteNum, int nSubErrByteNum, int
 			sErr.Format("Ошибка записи! Несовпадающий байт: %d", nSubErrByteNum);
 			sSubMsg += sErr;
 
-			if( nBaseSizeCorrect == 0 )
+			if( nSubSizeCorrect == 0 )
 			{
-				sSubMsg += " Размеры не совпадают!";
+				sSubMsg += ". Размеры не совпадают!";
 			}
 
 			nErr = 1;
