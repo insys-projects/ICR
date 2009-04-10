@@ -1,0 +1,437 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\IcrSync8chPCI.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904e3"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "IcrSync8chPCI.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "IcrSync8chPCI.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1251
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 278, 260
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация Sync8chPCI"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "Системный генератор (Гц):",-1,55,9,92,8
+    EDITTEXT        IDC_SYSGEN,148,7,54,12,ES_NUMBER
+    LTEXT           "Частота ФАПЧ (Гц):",-1,77,75,70,8
+    EDITTEXT        IDC_PLLFREQ,148,71,54,12,ES_NUMBER
+    LTEXT           "OCXO генератор (Гц):",-1,73,59,74,8
+    EDITTEXT        IDC_OCXOGEN,148,55,54,12,ES_NUMBER
+    GROUPBOX        "Количество выходных каналов",-1,7,90,263,38,BS_CENTER
+    LTEXT           "Тактирования:",-1,22,106,51,8
+    COMBOBOX        IDC_CLKCHANS,78,104,48,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,86,239,50,14
+    PUSHBUTTON      "Отмена",IDCANCEL,142,239,50,14
+    LTEXT           "Стробирования:",-1,144,106,54,8
+    COMBOBOX        IDC_STRBCHANS,203,104,48,98,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "STROA",IDC_STROA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,144,40,12
+    CONTROL         "STROB",IDC_STROB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,160,40,12
+    CONTROL         "STROD",IDC_STROD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,176,40,12
+    CONTROL         "CLKE",IDC_CLKE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,79,152,40,12
+    CONTROL         "CLKF",IDC_CLKF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,79,167,40,12
+    CONTROL         "Дополнительные разъемы межмодульной синхронизации",IDC_SYNC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,198,212,12
+    GROUPBOX        "Наличие дополнительных каналов",-1,7,134,263,58,BS_CENTER
+    LTEXT           "Диапазон частот выходных сигналов тактирования:",-1,7,220,179,8
+    COMBOBOX        IDC_FREQRANGE,189,218,81,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Генератор 1 (Гц):",-1,89,26,58,8
+    EDITTEXT        IDC_GEN1,147,23,54,12,ES_NUMBER
+    LTEXT           "Генератор 2 (Гц):",-1,89,42,58,8
+    EDITTEXT        IDC_GEN2,147,39,54,12,ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0030, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0031, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0032, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0033, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0034, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0035, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0036, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0037, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0038, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0030, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0031, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0032, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0033, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0034, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0035, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0036, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0037, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0038, 
+    IDC_FREQRANGE, 0x403, 16, 0
+0x4648, 0x2820, 0x2d35, 0x3532, 0x3030, 0xcc20, 0xf6c3, 0x0029, 
+    IDC_FREQRANGE, 0x403, 17, 0
+0x464c, 0x2820, 0x2e30, 0x2d31, 0x3034, 0x2030, 0xc3cc, 0x29f6, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 271
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Подтвердить изменения"
+    IDCANCEL                "Отменить изменения"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMNUM            "Порядковый номер структуры SDRAM"
+    IDC_SDRAMDIMMS          "Количество установленных DIMM-модулей"
+    IDC_SDRAMROWBITS        "Количество разрядов адреса строк"
+    IDC_SDRAMCOLBITS        "Количество разрядов адреса столбцов"
+    IDC_SDRAMDIMMBANKS      "Количество банков DIMM-модуля"
+    IDC_SDRAMCHIPBANKS      "Количество банков SDRAM-микросхемы"
+    IDC_SDRAMCASLAT         "Задержка сигнала выборки адреса столбцов"
+    IDC_SDRAMPRIMWIDTH      "Ширина (в битах) первичной шины SDRAM-микросхемы"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMCNT            "Количество конфигурационных структур SDRAM"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFADC            "Количество установленных АЦП"
+    IDC_SYSGEN              "Значение системного генератора (Гц)"
+    IDC_ADCRATEMIN          "Минимальная частота дискретизации АЦП"
+    IDC_ADCRANGE            "Входной диапазон АЦП (мВольты)"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRATEMAX          "Максимальная частота дискретизации АЦП"
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 278, 260
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sync8chPCI Configuration"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    LTEXT           "System generator (Hz):",IDC_STATIC,71,10,72,8
+    EDITTEXT        IDC_SYSGEN,147,8,54,12,ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,85,240,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,141,240,50,14
+    LTEXT           "PLL Frequency (Hz):",IDC_STATIC,77,75,66,8
+    EDITTEXT        IDC_PLLFREQ,147,71,54,12,ES_NUMBER
+    LTEXT           "OCXO generator (Hz):",IDC_STATIC,73,59,70,8
+    EDITTEXT        IDC_OCXOGEN,147,55,54,12,ES_NUMBER
+    GROUPBOX        "Output channnels",IDC_STATIC,7,90,263,38,BS_CENTER
+    LTEXT           "Clock:",IDC_STATIC,53,106,21,8
+    COMBOBOX        IDC_CLKCHANS,78,104,48,105,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Strobe:",IDC_STATIC,175,106,25,8
+    COMBOBOX        IDC_STRBCHANS,203,104,48,112,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "STROA",IDC_STROA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,144,40,12
+    CONTROL         "STROB",IDC_STROB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,160,40,12
+    CONTROL         "STROD",IDC_STROD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,203,176,40,12
+    CONTROL         "CLKE",IDC_CLKE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,79,152,40,12
+    CONTROL         "CLKF",IDC_CLKF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,79,167,40,12
+    CONTROL         "Auxiliary syncro connector",IDC_SYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,90,198,97,12
+    GROUPBOX        "Auxiliary channels",IDC_STATIC,7,134,263,58,BS_CENTER
+    LTEXT           "Frequency range of clock output:",IDC_STATIC,43,220,106,8
+    COMBOBOX        IDC_FREQRANGE,152,218,81,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Generator 1 (Hz):",IDC_STATIC,88,26,55,8
+    EDITTEXT        IDC_GEN1,147,23,54,12,ES_NUMBER
+    LTEXT           "Generator 2 (Hz):",IDC_STATIC,88,42,55,8
+    EDITTEXT        IDC_GEN2,147,39,54,12,ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0030, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0031, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0032, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0033, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0034, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0035, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0036, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0037, 
+    IDC_CLKCHANS, 0x403, 2, 0
+0x0038, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0030, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0031, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0032, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0033, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0034, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0035, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0036, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0037, 
+    IDC_STRBCHANS, 0x403, 2, 0
+0x0038, 
+    IDC_FREQRANGE, 0x403, 16, 0
+0x4648, 0x2820, 0x2d35, 0x3532, 0x3030, 0xcc20, 0xf6c3, 0x0029, 
+    IDC_FREQRANGE, 0x403, 17, 0
+0x464c, 0x2820, 0x2e30, 0x2d31, 0x3034, 0x2030, 0xc3cc, 0x29f6, "\000" 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 271
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDOK                    "Confirm of changes"
+    IDCANCEL                "Cancel of changes"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMNUM            "SDRAM structure number"
+    IDC_SDRAMDIMMS          "Number of SDRAM DIMM-modules"
+    IDC_SDRAMROWBITS        "Number of bits of row address"
+    IDC_SDRAMCOLBITS        "Number of bits of column address"
+    IDC_SDRAMDIMMBANKS      "Number of SDRAM DIMM-module banks"
+    IDC_SDRAMCHIPBANKS      "Number of SDRAM chip banks"
+    IDC_SDRAMCASLAT         "SDRAM CAS Latency"
+    IDC_SDRAMPRIMWIDTH      "Primary DDR SDRAM Width"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_SDRAMCNT            "Number of SDRAM structures"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_NUMOFADC            "Number of installed ADC"
+    IDC_SYSGEN              "Value of System Generator (Hz)"
+    IDC_ADCRATEMIN          "Minimum sampling rate of ADC"
+    IDC_ADCRANGE            "ADC input range"
+END
+
+STRINGTABLE 
+BEGIN
+    IDC_ADCRATEMAX          "Maximum sampling rate of ADC"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\IcrSync8chPCI.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
