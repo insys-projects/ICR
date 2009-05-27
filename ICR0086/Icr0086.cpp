@@ -16,7 +16,7 @@
 
 ICR_CfgAdc m_AdcCfg = { ADC_CFG_TAG, 14, 0, 0, 14, 1, 10000000, 100000000, 500};
 
-ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 8, 0, 100000000, 4, 16, 0};
+ICR_CfgAdm m_AdmCfg = { ADM_CFG_TAG, 8, 0, 100000000, 4, 4, 0};
 
 //
 //	Note!
