@@ -720,7 +720,7 @@ ULONG CIdCfgRomDlg::DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRe
 	ULONG nCfgSize = m_pAmbPage->GetDataFromDlg(pCurCfgMem);
 	pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + nCfgSize);
 	if( pCurCfgMem >= pEndCfgMem )
-		return -1;
+		return 0;
 
 	int numOfADM = m_pAmbPage->m_NumOfAdmIf;
 	if( numOfADM>0 )
@@ -728,24 +728,28 @@ ULONG CIdCfgRomDlg::DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRe
 		for(int i = 0; i < numOfADM; i++)
 		{
 			// страница Adm2If
+			if((USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdm2If)) >= pEndCfgMem)
+				return 0;
 			m_pAdmIfPage->GetDataFromDlg((PICR_CfgAdm2If)pCurCfgMem, i);
 			int numOfADCFIFO = ((PICR_CfgAdm2If)pCurCfgMem)->bAdcFifoCnt;
 			int numOfDAC = ((PICR_CfgAdm2If)pCurCfgMem)->bDacCnt;
 			int numOfDACFIFO = ((PICR_CfgAdm2If)pCurCfgMem)->bDacFifoCnt;
 			int numOfPld = ((PICR_CfgAdm2If)pCurCfgMem)->bPldCnt;
 			pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdm2If));
-			if(pCurCfgMem >= pEndCfgMem)
-				return -1;
+// 			if(pCurCfgMem >= pEndCfgMem)
+// 				return 0;
 
 			if( numOfADCFIFO )
 			{
 				for(int idx = 0; idx < numOfADCFIFO; idx++)
 				{
 					// страница FifoPage
+					if((USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdcFifo)) >= pEndCfgMem)
+						return 0;
 					m_pFifoPage->GetDataFromDlg((PICR_CfgAdcFifo)pCurCfgMem, idx, i);
 					pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdcFifo));
-					if(pCurCfgMem >= pEndCfgMem)
-						return -1;
+// 					if(pCurCfgMem >= pEndCfgMem)
+// 						return 0;
 				}
 			}
 
@@ -754,10 +758,12 @@ ULONG CIdCfgRomDlg::DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRe
 				for(int idx = 0; idx < numOfDAC; idx++)
 				{
 					// страница DacPage
+					if((USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgDac)) >= pEndCfgMem)
+						return 0;
 					m_pDacPage->GetDataFromDlg((PICR_CfgDac)pCurCfgMem, idx, i);
 					pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgDac));
-					if(pCurCfgMem >= pEndCfgMem)
-						return -1;
+// 					if(pCurCfgMem >= pEndCfgMem)
+// 						return 0;
 				}
 			}
 
@@ -766,10 +772,12 @@ ULONG CIdCfgRomDlg::DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRe
 				for(int idx = 0; idx < numOfDACFIFO; idx++)
 				{
 					// страница FifoPage
+					if((USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgDacFifo)) >= pEndCfgMem)
+						return 0;
 					m_pFifoPage->GetDataFromDlg((PICR_CfgDacFifo)pCurCfgMem, idx, i);
 					pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgDacFifo));
-					if(pCurCfgMem >= pEndCfgMem)
-						return -1;
+// 					if(pCurCfgMem >= pEndCfgMem)
+// 						return 0;
 				}
 			}
 
@@ -778,10 +786,12 @@ ULONG CIdCfgRomDlg::DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRe
 				for(int idx = 0; idx < numOfPld; idx++)
 				{
 					// страница PldPage
+					if((USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdmPld)) >= pEndCfgMem)
+						return 0;
 					m_pPldPage->GetDataFromDlg((PICR_CfgAdmPld)pCurCfgMem, idx, i);
 					pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgAdmPld));
-					if(pCurCfgMem >= pEndCfgMem)
-						return -1;
+// 					if(pCurCfgMem >= pEndCfgMem)
+// 						return 0;
 				}
 			}
 		}
@@ -804,7 +814,7 @@ ULONG CIdCfgRomDlg::DlgItemsToCfgMem(PUCHAR	pCfgMem, ULONG nSizeCfgMem, int *pRe
 			ULONG nCfgSize = m_pAdmPage->GetDataFromDlg(pCurCfgMem, i);
 			pCurCfgMem = (USHORT*)((PUCHAR)pCurCfgMem + nCfgSize);
 			if(pCurCfgMem >= pEndCfgMem)
-				return -1;
+				return 0;
 			aRealAdmCfgSize[i] = ULONG((PUCHAR)pCurCfgMem - pAdmCfgMem);
 			USHORT* pSizeAll = (USHORT*)pAdmCfgMem;
 			pSizeAll[2] = aRealAdmCfgSize[i];

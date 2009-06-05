@@ -4,6 +4,9 @@
 
 //#include "AdmIfPage.h"
 #include "Adm2IfPage.h"
+#include "afxwin.h"
+
+#include "NumEdit.h"
 
 UINT const MAX_DACCFG = 4;
 
@@ -65,4 +68,18 @@ public:
 	afx_msg void OnKillfocusDacratemin();
 	afx_msg void OnSelchangeDacbits();
 //	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	CButton m_btnDacAFSet;
+	afx_msg void OnBnClickedAfset();
+	CNumEdit m_edtDacRangeAF;
+	CEdit m_edtDacAFCoff;
+	CEdit m_edtDisableDacRangeAF;
+	CEdit m_edtDisableDacAFCoff;
+	CButton m_btnDacPFSet;
+	afx_msg void OnBnClickedPfset();
+	CEdit m_edtDacHPFCoff;
+	CEdit m_edtDacLPFCoff;
+	CEdit m_edtDacRangePF;
+	CEdit m_edtDisableDacHPFCoff;
+	CEdit m_edtDisableDacLPFCoff;
+	CEdit m_edtDisableDacRangePF;
 };

@@ -52,6 +52,18 @@ void CDacPage::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_DACBITS, m_DacBits);
 	//}}AFX_DATA_MAP
 	DDV_MinMaxUInt(pDX, m_DacNum, 0, m_DacMax);
+	DDX_Control(pDX, IDC_AFSET, m_btnDacAFSet);
+	DDX_Control(pDX, IDC_DACRANGEAF, m_edtDacRangeAF);
+	DDX_Control(pDX, IDC_DACAFCOFF, m_edtDacAFCoff);
+	DDX_Control(pDX, IDC_DISDACRANGEAF, m_edtDisableDacRangeAF);
+	DDX_Control(pDX, IDC_DISDACAFCOFF, m_edtDisableDacAFCoff);
+	DDX_Control(pDX, IDC_PFSET, m_btnDacPFSet);
+	DDX_Control(pDX, IDC_DACHPFCOFF, m_edtDacHPFCoff);
+	DDX_Control(pDX, IDC_DACLPFCOFF, m_edtDacLPFCoff);
+	DDX_Control(pDX, IDC_DACRANGEPF, m_edtDacRangePF);
+	DDX_Control(pDX, IDC_DISDACRANGEPF, m_edtDisableDacRangePF);
+	DDX_Control(pDX, IDC_DISDACLPFCOFF, m_edtDisableDacLPFCoff);
+	DDX_Control(pDX, IDC_DISDACHPFCOFF, m_edtDisableDacHPFCoff);
 }
 
 
@@ -71,6 +83,8 @@ BEGIN_MESSAGE_MAP(CDacPage, CPropertyPage)
 	ON_CBN_SELCHANGE(IDC_DACBITS, OnSelchangeDacbits)
 	//}}AFX_MSG_MAP
 //	ON_WM_CTLCOLOR()
+ON_BN_CLICKED(IDC_AFSET, &CDacPage::OnBnClickedAfset)
+ON_BN_CLICKED(IDC_PFSET, &CDacPage::OnBnClickedPfset)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -113,6 +127,9 @@ BOOL CDacPage::OnInitDialog()
     m_ToolTip.AddTool(GetDlgItem(IDC_DACRATEMAX), IDC_DACRATEMAX);
     m_ToolTip.AddTool(GetDlgItem(IDC_DACRATEMIN), IDC_DACRATEMIN);
     m_ToolTip.AddTool(GetDlgItem(IDC_DACBITS), IDC_DACBITS);
+
+	m_btnDacAFSet.SetCheck(TRUE);
+	m_btnDacPFSet.SetCheck(TRUE);
 
 //    EnableToolTips(TRUE);
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -253,6 +270,53 @@ void CDacPage::ChangeDacNum()
 	m_DacAFCoff = m_DacCfg[m_AdmIfNum][num].wAFCutoff * 100;
 	m_DacLPFCoff = m_DacCfg[m_AdmIfNum][num].wPFCutoffLo;
 	m_DacHPFCoff = m_DacCfg[m_AdmIfNum][num].wPFCutoffHi;
+	
+	if(m_DacRangeAF == 0xFFFF)
+	{
+		m_edtDacRangeAF.ShowWindow(FALSE);
+		m_edtDacAFCoff.ShowWindow(FALSE);
+
+		m_edtDisableDacRangeAF.ShowWindow(TRUE);
+		m_edtDisableDacAFCoff.ShowWindow(TRUE);
+
+		m_btnDacAFSet.SetCheck(FALSE);
+	}
+	else
+	{
+		m_edtDacRangeAF.ShowWindow(TRUE);
+		m_edtDacAFCoff.ShowWindow(TRUE);
+
+		m_edtDisableDacRangeAF.ShowWindow(FALSE);
+		m_edtDisableDacAFCoff.ShowWindow(FALSE);
+
+		m_btnDacAFSet.SetCheck(TRUE);
+	}
+
+	if(m_DacRangePF == 0xFFFF)
+	{
+		m_edtDacHPFCoff.ShowWindow(FALSE);
+		m_edtDacLPFCoff.ShowWindow(FALSE);
+		m_edtDacRangePF.ShowWindow(FALSE);
+
+		m_edtDisableDacHPFCoff.ShowWindow(TRUE);
+		m_edtDisableDacLPFCoff.ShowWindow(TRUE);
+		m_edtDisableDacRangePF.ShowWindow(TRUE);
+
+		m_btnDacPFSet.SetCheck(FALSE);
+	}
+	else
+	{
+		m_edtDacHPFCoff.ShowWindow(TRUE);
+		m_edtDacLPFCoff.ShowWindow(TRUE);
+		m_edtDacRangePF.ShowWindow(TRUE);
+
+		m_edtDisableDacHPFCoff.ShowWindow(FALSE);
+		m_edtDisableDacLPFCoff.ShowWindow(FALSE);
+		m_edtDisableDacRangePF.ShowWindow(FALSE);
+
+		m_btnDacPFSet.SetCheck(TRUE);
+	}
+
 	UpdateData(FALSE); // from variable to window
 }
 
@@ -327,6 +391,52 @@ void CDacPage::SetDataIntoDlg(PICR_CfgDac pDacCfg)
 		m_DacLPFCoff = m_DacCfg[AdmNum][num].wPFCutoffLo;
 		m_DacHPFCoff = m_DacCfg[AdmNum][num].wPFCutoffHi;
 		UpdateData(FALSE);
+
+		if(m_DacRangeAF == 0xFFFF)
+		{
+			m_edtDacRangeAF.ShowWindow(FALSE);
+			m_edtDacAFCoff.ShowWindow(FALSE);
+
+			m_edtDisableDacRangeAF.ShowWindow(TRUE);
+			m_edtDisableDacAFCoff.ShowWindow(TRUE);
+
+			m_btnDacAFSet.SetCheck(FALSE);
+		}
+		else
+		{
+			m_edtDacRangeAF.ShowWindow(TRUE);
+			m_edtDacAFCoff.ShowWindow(TRUE);
+
+			m_edtDisableDacRangeAF.ShowWindow(FALSE);
+			m_edtDisableDacAFCoff.ShowWindow(FALSE);
+
+			m_btnDacAFSet.SetCheck(TRUE);
+		}
+
+		if(m_DacRangePF == 0xFFFF)
+		{
+			m_edtDacHPFCoff.ShowWindow(FALSE);
+			m_edtDacLPFCoff.ShowWindow(FALSE);
+			m_edtDacRangePF.ShowWindow(FALSE);
+
+			m_edtDisableDacHPFCoff.ShowWindow(TRUE);
+			m_edtDisableDacLPFCoff.ShowWindow(TRUE);
+			m_edtDisableDacRangePF.ShowWindow(TRUE);
+
+			m_btnDacPFSet.SetCheck(FALSE);
+		}
+		else
+		{
+			m_edtDacHPFCoff.ShowWindow(TRUE);
+			m_edtDacLPFCoff.ShowWindow(TRUE);
+			m_edtDacRangePF.ShowWindow(TRUE);
+
+			m_edtDisableDacHPFCoff.ShowWindow(FALSE);
+			m_edtDisableDacLPFCoff.ShowWindow(FALSE);
+			m_edtDisableDacRangePF.ShowWindow(FALSE);
+
+			m_btnDacPFSet.SetCheck(TRUE);
+		}
 	}
 }
 
@@ -368,3 +478,76 @@ void CDacPage::GetDataFromDlg(PICR_CfgDac pDacCfg, UINT num, UINT AdmNum)
 //	// TODO:  Return a different brush if the default is not desired
 //	return hbr;
 //}
+
+void CDacPage::OnBnClickedAfset()
+{
+	// TODO: Add your control notification handler code here
+
+	if(m_btnDacAFSet.GetCheck() == BST_CHECKED)
+	{
+		m_DacRangeAF = 1000;
+		m_DacAFCoff  = 1000000;
+
+		m_edtDacRangeAF.ShowWindow(TRUE);
+		m_edtDacAFCoff.ShowWindow(TRUE);
+		
+		m_edtDisableDacRangeAF.ShowWindow(FALSE);
+		m_edtDisableDacAFCoff.ShowWindow(FALSE);
+
+		UpdateData(FALSE);	
+	}
+	else
+	{
+		m_DacRangeAF = 0xFFFF;
+		m_DacAFCoff  = 0xFFFF;
+
+		m_edtDacRangeAF.ShowWindow(FALSE);
+		m_edtDacAFCoff.ShowWindow(FALSE);
+
+		m_edtDisableDacRangeAF.ShowWindow(TRUE);
+		m_edtDisableDacAFCoff.ShowWindow(TRUE);
+	}
+
+	m_DacCfg[m_AdmIfNum][m_DacNum].wAFRange  = m_DacRangeAF;
+	m_DacCfg[m_AdmIfNum][m_DacNum].wAFCutoff = m_DacAFCoff;
+}
+
+void CDacPage::OnBnClickedPfset()
+{
+	// TODO: Add your control notification handler code here
+
+	if(m_btnDacPFSet.GetCheck() == BST_CHECKED)
+	{
+		m_DacHPFCoff = 5000;
+		m_DacLPFCoff = 3;
+		m_DacRangePF = 500;
+
+		m_edtDacHPFCoff.ShowWindow(TRUE);
+		m_edtDacLPFCoff.ShowWindow(TRUE);
+		m_edtDacRangePF.ShowWindow(TRUE);
+
+		m_edtDisableDacHPFCoff.ShowWindow(FALSE);
+		m_edtDisableDacLPFCoff.ShowWindow(FALSE);
+		m_edtDisableDacRangePF.ShowWindow(FALSE);
+		
+		UpdateData(FALSE);	
+	}
+	else
+	{
+		m_DacHPFCoff = 0xFFFF;
+		m_DacLPFCoff = 0xFFFF;
+		m_DacRangePF = 0xFFFF;
+
+		m_edtDacHPFCoff.ShowWindow(FALSE);
+		m_edtDacLPFCoff.ShowWindow(FALSE);
+		m_edtDacRangePF.ShowWindow(FALSE);
+
+		m_edtDisableDacHPFCoff.ShowWindow(TRUE);
+		m_edtDisableDacLPFCoff.ShowWindow(TRUE);
+		m_edtDisableDacRangePF.ShowWindow(TRUE);
+	}
+
+	m_DacCfg[m_AdmIfNum][m_DacNum].wPFCutoffHi = m_DacHPFCoff;
+	m_DacCfg[m_AdmIfNum][m_DacNum].wPFCutoffLo = m_DacLPFCoff;
+	m_DacCfg[m_AdmIfNum][m_DacNum].wPFRange	   = m_DacRangePF;
+}

@@ -7,7 +7,8 @@
 UINT const MAX_NUMOFADMIF = 4;
 UINT const MAX_NUMOFSDRAM = 4;
 
-#define AMBPCI_CFGMEM_SIZE 128
+#define AMBPCI_CFGMEM_SIZE 256
+//#define AMBPCI_CFGMEM_SIZE 128
 
 // CAmbPage dialog
 

@@ -34,7 +34,7 @@ END_MESSAGE_MAP()
 void CNumEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
 	// TODO: Add your message handler code here and/or call default
-	CString Holder = "`~!@#$%^&*()_+|=\\qwertyuiop[]asdfghjkl;'zxcvbnm,/QWERTYUIOP{}ASDFGHJKL:/ZXCVBNM<>?/";
+	CString Holder = " `~!@#$%^&*()_+|=\\qwertyuiop[]asdfghjkl;'zxcvbnm,/QWERTYUIOP{}ASDFGHJKL:/ZXCVBNM<>?/";
 
 	// 1st pass on unwanted characters
 	if (Holder.Find(nChar) != -1)
@@ -64,7 +64,7 @@ void CNumEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 		temp_char = temp_str[i];
 
-		if ((temp_char == '+') || (temp_char == '-')) {
+		if ((temp_char == '+') || (temp_char == '-') || (temp_char == ' ')) {
 			bSignTyped = true;
 		} else if (temp_char == '.') {
 			bPeriodTyped = true;

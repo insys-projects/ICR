@@ -1,13 +1,17 @@
  
 // Commands (ID_* and IDM_*) 
+[-] mapping_data_source::init error: file not found
  
 // Prompts (IDP_*) 
+[-] mapping_data_source::init error: file not found
  
 // Resources (IDR_*) 
+[-] mapping_data_source::init error: file not found
 #define HIDR_MAINFRAME                          0x20083
 #define HIDR_MAINFRAME1                         0x20084
  
 // Dialogs (IDD_*) 
+[-] mapping_data_source::init error: file not found
 #define HIDD_ABOUTBOX                           0x20064
 #define HIDD_IDCFGROM_DIALOG                    0x20066
 #define HIDD_PP_AMB                             0x2006B
@@ -21,6 +25,7 @@
 #define HIDD_FILE_BASE_FILTER                   0x2008D
  
 // Frame Controls (IDW_*) 
+[-] mapping_data_source::init error: file not found
 // This is a part of the Microsoft Foundation Classes C++ library.
 // Copyright (C) Microsoft Corporation
 // All rights reserved.
