@@ -270,53 +270,7 @@ void CDacPage::ChangeDacNum()
 	m_DacAFCoff = m_DacCfg[m_AdmIfNum][num].wAFCutoff * 100;
 	m_DacLPFCoff = m_DacCfg[m_AdmIfNum][num].wPFCutoffLo;
 	m_DacHPFCoff = m_DacCfg[m_AdmIfNum][num].wPFCutoffHi;
-	
-	if(m_DacRangeAF == 0xFFFF)
-	{
-		m_edtDacRangeAF.ShowWindow(FALSE);
-		m_edtDacAFCoff.ShowWindow(FALSE);
-
-		m_edtDisableDacRangeAF.ShowWindow(TRUE);
-		m_edtDisableDacAFCoff.ShowWindow(TRUE);
-
-		m_btnDacAFSet.SetCheck(FALSE);
-	}
-	else
-	{
-		m_edtDacRangeAF.ShowWindow(TRUE);
-		m_edtDacAFCoff.ShowWindow(TRUE);
-
-		m_edtDisableDacRangeAF.ShowWindow(FALSE);
-		m_edtDisableDacAFCoff.ShowWindow(FALSE);
-
-		m_btnDacAFSet.SetCheck(TRUE);
-	}
-
-	if(m_DacRangePF == 0xFFFF)
-	{
-		m_edtDacHPFCoff.ShowWindow(FALSE);
-		m_edtDacLPFCoff.ShowWindow(FALSE);
-		m_edtDacRangePF.ShowWindow(FALSE);
-
-		m_edtDisableDacHPFCoff.ShowWindow(TRUE);
-		m_edtDisableDacLPFCoff.ShowWindow(TRUE);
-		m_edtDisableDacRangePF.ShowWindow(TRUE);
-
-		m_btnDacPFSet.SetCheck(FALSE);
-	}
-	else
-	{
-		m_edtDacHPFCoff.ShowWindow(TRUE);
-		m_edtDacLPFCoff.ShowWindow(TRUE);
-		m_edtDacRangePF.ShowWindow(TRUE);
-
-		m_edtDisableDacHPFCoff.ShowWindow(FALSE);
-		m_edtDisableDacLPFCoff.ShowWindow(FALSE);
-		m_edtDisableDacRangePF.ShowWindow(FALSE);
-
-		m_btnDacPFSet.SetCheck(TRUE);
-	}
-
+	SetFiltersParamDlg();
 	UpdateData(FALSE); // from variable to window
 }
 
@@ -390,53 +344,8 @@ void CDacPage::SetDataIntoDlg(PICR_CfgDac pDacCfg)
 		m_DacAFCoff = m_DacCfg[AdmNum][num].wAFCutoff * 100;
 		m_DacLPFCoff = m_DacCfg[AdmNum][num].wPFCutoffLo;
 		m_DacHPFCoff = m_DacCfg[AdmNum][num].wPFCutoffHi;
+		SetFiltersParamDlg();
 		UpdateData(FALSE);
-
-		if(m_DacRangeAF == 0xFFFF)
-		{
-			m_edtDacRangeAF.ShowWindow(FALSE);
-			m_edtDacAFCoff.ShowWindow(FALSE);
-
-			m_edtDisableDacRangeAF.ShowWindow(TRUE);
-			m_edtDisableDacAFCoff.ShowWindow(TRUE);
-
-			m_btnDacAFSet.SetCheck(FALSE);
-		}
-		else
-		{
-			m_edtDacRangeAF.ShowWindow(TRUE);
-			m_edtDacAFCoff.ShowWindow(TRUE);
-
-			m_edtDisableDacRangeAF.ShowWindow(FALSE);
-			m_edtDisableDacAFCoff.ShowWindow(FALSE);
-
-			m_btnDacAFSet.SetCheck(TRUE);
-		}
-
-		if(m_DacRangePF == 0xFFFF)
-		{
-			m_edtDacHPFCoff.ShowWindow(FALSE);
-			m_edtDacLPFCoff.ShowWindow(FALSE);
-			m_edtDacRangePF.ShowWindow(FALSE);
-
-			m_edtDisableDacHPFCoff.ShowWindow(TRUE);
-			m_edtDisableDacLPFCoff.ShowWindow(TRUE);
-			m_edtDisableDacRangePF.ShowWindow(TRUE);
-
-			m_btnDacPFSet.SetCheck(FALSE);
-		}
-		else
-		{
-			m_edtDacHPFCoff.ShowWindow(TRUE);
-			m_edtDacLPFCoff.ShowWindow(TRUE);
-			m_edtDacRangePF.ShowWindow(TRUE);
-
-			m_edtDisableDacHPFCoff.ShowWindow(FALSE);
-			m_edtDisableDacLPFCoff.ShowWindow(FALSE);
-			m_edtDisableDacRangePF.ShowWindow(FALSE);
-
-			m_btnDacPFSet.SetCheck(TRUE);
-		}
 	}
 }
 
@@ -550,4 +459,53 @@ void CDacPage::OnBnClickedPfset()
 	m_DacCfg[m_AdmIfNum][m_DacNum].wPFCutoffHi = m_DacHPFCoff;
 	m_DacCfg[m_AdmIfNum][m_DacNum].wPFCutoffLo = m_DacLPFCoff;
 	m_DacCfg[m_AdmIfNum][m_DacNum].wPFRange	   = m_DacRangePF;
+}
+
+void CDacPage::SetFiltersParamDlg(void)
+{
+	if(m_DacRangeAF == 0xFFFF)
+	{
+		m_edtDacRangeAF.ShowWindow(FALSE);
+		m_edtDacAFCoff.ShowWindow(FALSE);
+
+		m_edtDisableDacRangeAF.ShowWindow(TRUE);
+		m_edtDisableDacAFCoff.ShowWindow(TRUE);
+
+		m_btnDacAFSet.SetCheck(FALSE);
+	}
+	else
+	{
+		m_edtDacRangeAF.ShowWindow(TRUE);
+		m_edtDacAFCoff.ShowWindow(TRUE);
+
+		m_edtDisableDacRangeAF.ShowWindow(FALSE);
+		m_edtDisableDacAFCoff.ShowWindow(FALSE);
+
+		m_btnDacAFSet.SetCheck(TRUE);
+	}
+
+	if(m_DacRangePF == 0xFFFF)
+	{
+		m_edtDacHPFCoff.ShowWindow(FALSE);
+		m_edtDacLPFCoff.ShowWindow(FALSE);
+		m_edtDacRangePF.ShowWindow(FALSE);
+
+		m_edtDisableDacHPFCoff.ShowWindow(TRUE);
+		m_edtDisableDacLPFCoff.ShowWindow(TRUE);
+		m_edtDisableDacRangePF.ShowWindow(TRUE);
+
+		m_btnDacPFSet.SetCheck(FALSE);
+	}
+	else
+	{
+		m_edtDacHPFCoff.ShowWindow(TRUE);
+		m_edtDacLPFCoff.ShowWindow(TRUE);
+		m_edtDacRangePF.ShowWindow(TRUE);
+
+		m_edtDisableDacHPFCoff.ShowWindow(FALSE);
+		m_edtDisableDacLPFCoff.ShowWindow(FALSE);
+		m_edtDisableDacRangePF.ShowWindow(FALSE);
+
+		m_btnDacPFSet.SetCheck(TRUE);
+	}
 }

@@ -82,4 +82,5 @@ public:
 	CEdit m_edtDisableDacHPFCoff;
 	CEdit m_edtDisableDacLPFCoff;
 	CEdit m_edtDisableDacRangePF;
+	void SetFiltersParamDlg(void);
 };
