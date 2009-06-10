@@ -1,0 +1,12 @@
+; Icr64Z5.def : Declares the module parameters for the DLL.
+
+LIBRARY      "Icr64Z5"
+
+EXPORTS
+    ; Explicit exports can go here
+	BASEMOD_GetInfo
+	BASEMOD_Close
+	BASEMOD_SetProperty
+	BASEMOD_GetProperty
+	BASEMOD_DialogProperty
+	
