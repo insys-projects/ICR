@@ -3,6 +3,7 @@
 #pragma warning (disable:4996)
 
 #include "icr.h"
+#include "afxwin.h"
 
 UINT const MAX_NUMOFADMIF = 4;
 UINT const MAX_NUMOFSDRAM = 4;
@@ -58,4 +59,8 @@ public:
 	afx_msg void OnEnChangeSerialnum();
 public:
 	afx_msg void OnEnChangeAmbversion();
+public:
+	CComboBox m_ctrlType;
+public:
+	CEdit m_ctrlAdmNum;
 };

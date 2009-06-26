@@ -1,0 +1,264 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\IcrVK3.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "IcrVK3.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "IcrVK3.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 421, 283
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация ВК-3"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,308,262,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,364,262,50,14
+    GROUPBOX        "",IDC_STATIC,7,3,219,110
+    LTEXT           "Порядковый номер изделия:",IDC_STATIC,59,13,99,8
+    EDITTEXT        IDC_NUM,161,11,60,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Количество слотов динамической памяти:",IDC_STATIC,13,30,145,8
+    LTEXT           "Частота системного генератора:",IDC_STATIC,45,46,113,8
+    COMBOBOX        IDC_DDRNUM,161,28,60,47,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SYSFREQ,161,45,60,47,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Частота опорного генератора:",IDC_STATIC,53,63,106,8
+    COMBOBOX        IDC_REFFREQ,161,62,60,47,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "ЦАП смещения",IDC_DACBIAS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,89,98,66,10
+    LTEXT           "Разрядность ЦАП смещения:",IDC_STATIC,59,81,99,8
+    EDITTEXT        IDC_BIASBITS,161,80,60,13,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Тип ПЛИС",IDC_STATIC,233,3,181,66,BS_CENTER
+    EDITTEXT        IDC_PLDTYPE,289,15,83,14,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Тип:",IDC_STATIC,259,35,16,8
+    COMBOBOX        IDC_TYPE,276,33,54,49,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Объем:",IDC_STATIC,338,35,26,8
+    EDITTEXT        IDC_VOL,366,33,40,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Скорость:",IDC_STATIC,240,51,36,8
+    COMBOBOX        IDC_SPEED,276,50,54,46,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Выводы:",IDC_STATIC,334,51,31,8
+    EDITTEXT        IDC_PIN,366,50,40,13,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "АЦП",IDC_STATIC,233,74,181,183,BS_CENTER
+    LTEXT           "Количество каналов:",IDC_STATIC,283,84,74,8
+    EDITTEXT        IDC_ADCCHANNUM,361,84,47,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Число входов коммутатора:",IDC_STATIC,261,102,96,8
+    EDITTEXT        IDC_INPNUM,361,100,47,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Тип фильтра:",IDC_STATIC,310,120,47,8
+    COMBOBOX        IDC_ADCFTYPE,361,119,47,50,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Диапазон регулировки смещения:",IDC_STATIC,240,138,117,8
+    COMBOBOX        IDC_ADCRANGEBIAS,361,137,47,48,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Разрядность:",IDC_STATIC,310,156,47,8
+    EDITTEXT        IDC_ADCBITS,361,155,48,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Макс. частота дискретизации:",IDC_STATIC,251,174,106,8
+    CONTROL         "Входной амплитудный диапазон:",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,242,192,115,10
+    COMBOBOX        IDC_INPAMPL,361,191,48,53,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Входное сопротивление:",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,271,210,86,10
+    COMBOBOX        IDC_INPR,361,209,48,47,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Дополнительный вход",IDC_DACINPADD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,259,227,93,10
+    CONTROL         "Тюнер",IDC_TUNER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,357,227,38,10
+    CONTROL         "Селектор синхроимпульсов",IDC_SELECTOR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,276,242,109,10
+    GROUPBOX        "ЦАП",IDC_STATIC,7,119,219,138,BS_CENTER
+    LTEXT           "Количество каналов:",IDC_STATIC,76,133,74,8
+    LTEXT           "Число выходов:",IDC_STATIC,94,150,56,8
+    EDITTEXT        IDC_OUTNUM,152,149,47,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Тип фильтра:",IDC_STATIC,104,167,47,8
+    COMBOBOX        IDC_DACFTYPE,152,166,47,42,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Диапазон регулировки смещения:",IDC_STATIC,34,184,117,8
+    COMBOBOX        IDC_DACRANGEBIAS,152,183,47,47,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Разрядность:",IDC_STATIC,104,202,47,8
+    EDITTEXT        IDC_DACBITS,152,200,48,13,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Выходной амплитудный диапазон:",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,30,219,121,10
+    COMBOBOX        IDC_OUTAMPL,152,218,48,58,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Выходное сопротивление:",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | WS_GROUP,59,236,92,10
+    COMBOBOX        IDC_OUTR,152,235,48,60,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_SAMPLEFREQ,361,172,47,41,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_DACCHANNUM,152,131,47,13,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 414
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 276
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_DDRNUM, 0x403, 2, 0
+0x0030, 
+    IDC_DDRNUM, 0x403, 2, 0
+0x0031, 
+    IDC_SYSFREQ, 0x403, 11, 0
+0x3636, 0x362e, 0x3636, 0xcc20, 0xf6c3, "\000" 
+    IDC_REFFREQ, 0x403, 7, 0
+0x3031, 0xcc20, 0xf6c3, "\000" 
+    IDC_TYPE, 0x403, 10, 0
+0x4358, 0x5333, 0x2e2e, 0x412e, 0x004e, 
+    IDC_SPEED, 0x403, 2, 0
+0x0034, 
+    IDC_SPEED, 0x403, 2, 0
+0x0035, 
+    IDC_ADCFTYPE, 0x403, 7, 0
+0x4c50, 0x2d50, 0x3531, "\000" 
+    IDC_ADCRANGEBIAS, 0x403, 7, 0
+0x3031, 0x2030, 0xc2ec, "\000" 
+    IDC_INPAMPL, 0x403, 8, 0
+0x3731, 0x3030, 0xec20, 0x00c2, 
+    IDC_INPR, 0x403, 6, 0
+0x3035, 0xce20, 0x00ec, 
+    IDC_INPR, 0x403, 6, 0
+0x3537, 0xce20, 0x00ec, 
+    IDC_INPR, 0x403, 6, 0
+0x2031, 0xcecc, 0x00ec, 
+    IDC_DACFTYPE, 0x403, 7, 0
+0x4c50, 0x2d50, 0x3531, "\000" 
+    IDC_DACRANGEBIAS, 0x403, 7, 0
+0x3035, 0x2030, 0xc2ec, "\000" 
+    IDC_OUTAMPL, 0x403, 8, 0
+0x3131, 0x3030, 0xec20, 0x00c2, 
+    IDC_OUTR, 0x403, 6, 0
+0x3035, 0xce20, 0x00ec, 
+    IDC_OUTR, 0x403, 6, 0
+0x3537, 0xce20, 0x00ec, 
+    IDC_SAMPLEFREQ, 0x403, 7, 0
+0x3038, 0xcc20, 0xf6c3, "\000" 
+    IDC_SAMPLEFREQ, 0x403, 8, 0
+0x3031, 0x2030, 0xc3cc, 0x00f6, 
+    0
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\IcrVK3.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -30,6 +30,7 @@ typedef enum _ICR_BMType
 		ADS1648		= 0x1648,
 		ADS2448		= 0x2048,
 		VK2			= 0x564B,
+		VK3			= 0x5506,
         ADS210x200M	= 0x1002,
 		ADP101PCI	= 0x5065,
 		DSP101cP10	= 0x5365,

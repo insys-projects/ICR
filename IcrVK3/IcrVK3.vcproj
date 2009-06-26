@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="Icr64Z5"
-	ProjectGUID="{8E359832-D4CA-4912-9532-6CF80EDDD2FB}"
-	RootNamespace="Icr64Z5"
+	Name="IcrVK3"
+	ProjectGUID="{F81BB8EA-EB9F-4961-B237-15D78B6A6331}"
+	RootNamespace="IcrVK3"
 	Keyword="MFCDLLProj"
 	>
 	<Platforms>
@@ -42,9 +42,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				UseUnicodeResponseFiles="true"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\icrinc,$(BardyIncDir)"
+				AdditionalIncludeDirectories="C:\Андрей\WORK\_ICR\UsefulMFC;..\icrinc;&quot;$(BardyIncDir)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -69,7 +68,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="2"
-				ModuleDefinitionFile=".\Icr64Z5.def"
+				ModuleDefinitionFile=".\IcrVK3.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -128,8 +127,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				UseUnicodeResponseFiles="true"
-				AdditionalIncludeDirectories="..\icrinc,$(BardyIncDir)"
+				AdditionalIncludeDirectories="C:\Андрей\WORK\_ICR\UsefulMFC;..\icrinc;&quot;$(BardyIncDir)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
@@ -152,7 +150,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				LinkIncremental="1"
-				ModuleDefinitionFile=".\Icr64Z5.def"
+				ModuleDefinitionFile=".\IcrVK3.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -195,15 +193,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Icr64Z5.cpp"
+				RelativePath=".\IcrVK3.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Icr64Z5.def"
+				RelativePath=".\IcrVK3.def"
 				>
 			</File>
 			<File
-				RelativePath=".\Icr64Z5Dlg.cpp"
+				RelativePath=".\IcrVK3Dlg.cpp"
 				>
 			</File>
 			<File
@@ -233,15 +231,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\IcrInc\Icr64Z5.h"
+				RelativePath="..\IcrInc\IcrVK3.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Icr64Z5App.h"
+				RelativePath=".\IcrVK3App.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Icr64Z5Dlg.h"
+				RelativePath=".\IcrVK3Dlg.h"
 				>
 			</File>
 			<File
@@ -259,11 +257,11 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath=".\Icr64Z5.rc"
+				RelativePath=".\IcrVK3.rc"
 				>
 			</File>
 			<File
-				RelativePath=".\res\Icr64Z5.rc2"
+				RelativePath=".\res\IcrVK3.rc2"
 				>
 			</File>
 		</Filter>
@@ -275,7 +273,7 @@
 	<Globals>
 		<Global
 			Name="RESOURCE_FILE"
-			Value="Icr64Z5.rc"
+			Value="IcrVK3.rc"
 		/>
 	</Globals>
 </VisualStudioProject>

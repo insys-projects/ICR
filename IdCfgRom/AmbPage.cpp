@@ -46,10 +46,12 @@ void CAmbPage::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SPINADMIF, m_ctrlSpinAdmIf);
 	DDX_CBIndex(pDX, IDC_BMTYPE, m_BMType);
 	DDX_Text(pDX, IDC_AMBVERSION, m_strAmbVersion);
-//	DDX_Text(pDX, IDC_AMBVERSION, m_AmbVersion);
+	//	DDX_Text(pDX, IDC_AMBVERSION, m_AmbVersion);
 	//}}AFX_DATA_MAP
 	DDV_MinMaxUInt(pDX, m_NumOfAdmIf, 0, MAX_NUMOFADMIF - 1);
 	DDX_Text(pDX, IDC_COMMENT, m_sComment);
+	DDX_Control(pDX, IDC_BMTYPE, m_ctrlType);
+	DDX_Control(pDX, IDC_NUMOFADMIF, m_ctrlAdmNum);
 }
 
 
@@ -215,6 +217,9 @@ void CAmbPage::OnAmbext()
 
 void CAmbPage::OnSelchangeBmtype() 
 {
+	CString str;
+	int val;
+
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE); // from window to variable
 	SetBMTypeData();
@@ -222,6 +227,33 @@ void CAmbPage::OnSelchangeBmtype()
 	CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 	if( pParentWnd->m_pFileBaseDlg )
 		pParentWnd->TransferParamsFromMainToFileBaseDlg();
+
+	m_ctrlType.GetLBText(m_ctrlType.GetCurSel(), str);
+
+	if(!str.Compare("VK3"))
+	{
+		m_NumOfAdmIf = 0;
+ 		pParentWnd->m_nCanWriteSM = 0;
+		m_ctrlAdmNum.EnableWindow(FALSE);
+ 	}
+	else
+	{
+		m_NumOfAdmIf = 1;
+		pParentWnd->m_nCanWriteSM = 1;
+		m_ctrlAdmNum.EnableWindow(TRUE);
+	}
+
+	UpdateData(FALSE);
+
+	UpdateData(TRUE); // from window to variable
+
+	pParentWnd->m_pAdmIfPage->SetMaxAdmIf(m_NumOfAdmIf - 1);
+	pParentWnd->m_pAdmPage->SetMaxAdm(m_NumOfAdmIf - 1);
+
+	pParentWnd->m_pPldPage->SetMaxPld(pParentWnd->m_pAdmIfPage->m_NumOfPld - 1);
+	pParentWnd->m_pFifoPage->SetMaxAdcFifo(pParentWnd->m_pAdmIfPage->m_NumOfAdcFifo - 1);
+	pParentWnd->m_pFifoPage->SetMaxDacFifo(pParentWnd->m_pAdmIfPage->m_NumOfDacFifo - 1);
+	pParentWnd->m_pDacPage->SetMaxDac(pParentWnd->m_pAdmIfPage->m_NumOfDac - 1);
 }
 
 void CAmbPage::OnKillfocusAmbversion() 
