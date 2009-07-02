@@ -218,7 +218,6 @@ void CAmbPage::OnAmbext()
 void CAmbPage::OnSelchangeBmtype() 
 {
 	CString str;
-	int val;
 
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE); // from window to variable
@@ -232,15 +231,22 @@ void CAmbPage::OnSelchangeBmtype()
 
 	if(!str.Compare("VK3"))
 	{
+		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+		pParentWnd->m_ctrlReadWriteDevs.SetCurSel(0);
+		pParentWnd->m_ctrlReadWriteDevs.EnableWindow(FALSE);
+
 		m_NumOfAdmIf = 0;
  		pParentWnd->m_nCanWriteSM = 0;
-		m_ctrlAdmNum.EnableWindow(FALSE);
+		m_ctrlAdmNum.EnableWindow(TRUE);
  	}
 	else
 	{
+		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+		pParentWnd->m_ctrlReadWriteDevs.EnableWindow(TRUE);
+
 		m_NumOfAdmIf = 1;
 		pParentWnd->m_nCanWriteSM = 1;
-		m_ctrlAdmNum.EnableWindow(TRUE);
+		m_ctrlAdmNum.EnableWindow(FALSE);
 	}
 
 	UpdateData(FALSE);
