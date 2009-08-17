@@ -15,8 +15,8 @@
 #include "IcrVK3.h"
 
 // инициализация конфигурационных структур
-ICR_CfgVK3 m_AdpVK3Cfg = {VK3_CFG_TAG, 57, 0, 1, 66.666, 10, 1, 8, 1, 1, 1, 
-1, 100, 16, 80, 1700, 75, 1, 1, 1, 1, 1, 500, 14, 1100, 75, {0, 0, 0, 0, 1400, 676, 5}};
+ICR_CfgVK3 m_AdpVK3Cfg = {VK3_CFG_TAG, 57, 0, 1, 66666000, 10, 1, 8, 1, 1, 1, 
+"PLP-15", 100, 16, 80, 1700, 75, 1, 1, 1, 1, "PLP-15", 500, 14, 1100, 75, {0, 0, 0, 0, 1400, 676, 5}};
 
 //
 //TODO: If this DLL is dynamically linked against the MFC DLLs,
@@ -138,14 +138,14 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 				m_AdpVK3Cfg.wSize = pAdpCfg->wSize;
 				m_AdpVK3Cfg.nNum = pAdpCfg->nNum;
 				m_AdpVK3Cfg.bDdrModuleNum = pAdpCfg->bDdrModuleNum;
-				m_AdpVK3Cfg.fSysGen = pAdpCfg->fSysGen;
-				m_AdpVK3Cfg.wRefGen = pAdpCfg->wRefGen;
+				m_AdpVK3Cfg.nSysGen = pAdpCfg->nSysGen;
+				m_AdpVK3Cfg.nRefGen = pAdpCfg->nRefGen;
 				m_AdpVK3Cfg.bDacBiasBits = pAdpCfg->bDacBiasBits;
 				m_AdpVK3Cfg.isDacBias = pAdpCfg->isDacBias;
 				m_AdpVK3Cfg.bAdcChanNum = pAdpCfg->bAdcChanNum;
 				m_AdpVK3Cfg.bAdcInpNum = pAdpCfg->bAdcInpNum;
-				m_AdpVK3Cfg.bAdcTypeF = pAdpCfg->bAdcTypeF;
-				m_AdpVK3Cfg.wAdcBiasRange = pAdpCfg->wAdcBiasRange;
+				strcpy((char*)m_AdpVK3Cfg.abAdcTypeF, (char*)pAdpCfg->abAdcTypeF);
+				m_AdpVK3Cfg.nAdcBiasRange = pAdpCfg->nAdcBiasRange;
 				m_AdpVK3Cfg.bAdcBits = pAdpCfg->bAdcBits;
 				m_AdpVK3Cfg.wMaxfreqSampl = pAdpCfg->wMaxfreqSampl;
 				m_AdpVK3Cfg.wInpAmplRange = pAdpCfg->wInpAmplRange;
@@ -155,10 +155,10 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 				m_AdpVK3Cfg.isSelectorSinch = pAdpCfg->isSelectorSinch;
 				m_AdpVK3Cfg.bDacChanNum = pAdpCfg->bDacChanNum;
 				m_AdpVK3Cfg.bDacOutNum = pAdpCfg->bDacOutNum;
-				m_AdpVK3Cfg.bDacTypeF = pAdpCfg->bDacTypeF;
-				m_AdpVK3Cfg.wDacBiasRange = pAdpCfg->wDacBiasRange;
+				strcpy((char*)m_AdpVK3Cfg.abDacTypeF, (char*)pAdpCfg->abDacTypeF);
+				m_AdpVK3Cfg.nDacBiasRange = pAdpCfg->nDacBiasRange;
 				m_AdpVK3Cfg.bDacBits = pAdpCfg->bDacBits;
-				m_AdpVK3Cfg.wOutAmplRange = pAdpCfg->wOutAmplRange;
+				m_AdpVK3Cfg.nOutAmplRange = pAdpCfg->nOutAmplRange;
 				m_AdpVK3Cfg.nOutR = pAdpCfg->nOutR;
 				m_AdpVK3Cfg.rPldType.bType = pAdpCfg->rPldType.bType;
 				m_AdpVK3Cfg.rPldType.wVolume = pAdpCfg->rPldType.wVolume;
@@ -196,14 +196,14 @@ BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDeviceInfo)
 	pAdpCfg->wSize = sizeof(ICR_CfgVK3) - 4;
 	pAdpCfg->nNum = m_AdpVK3Cfg.nNum;
 	pAdpCfg->bDdrModuleNum = m_AdpVK3Cfg.bDdrModuleNum;
-	pAdpCfg->fSysGen = m_AdpVK3Cfg.fSysGen;
-	pAdpCfg->wRefGen = m_AdpVK3Cfg.wRefGen;
+	pAdpCfg->nSysGen = m_AdpVK3Cfg.nSysGen;
+	pAdpCfg->nRefGen = m_AdpVK3Cfg.nRefGen;
 	pAdpCfg->bDacBiasBits = m_AdpVK3Cfg.bDacBiasBits;
 	pAdpCfg->isDacBias = m_AdpVK3Cfg.isDacBias;
 	pAdpCfg->bAdcChanNum = m_AdpVK3Cfg.bAdcChanNum;
 	pAdpCfg->bAdcInpNum = m_AdpVK3Cfg.bAdcInpNum;
-	pAdpCfg->bAdcTypeF = m_AdpVK3Cfg.bAdcTypeF;
-	pAdpCfg->wAdcBiasRange = m_AdpVK3Cfg.wAdcBiasRange;
+	strcpy((char*)pAdpCfg->abAdcTypeF, (char*)m_AdpVK3Cfg.abAdcTypeF);
+	pAdpCfg->nAdcBiasRange = m_AdpVK3Cfg.nAdcBiasRange;
 	pAdpCfg->bAdcBits = m_AdpVK3Cfg.bAdcBits;
 	pAdpCfg->wMaxfreqSampl = m_AdpVK3Cfg.wMaxfreqSampl;
 	pAdpCfg->wInpAmplRange = m_AdpVK3Cfg.wInpAmplRange;
@@ -213,10 +213,10 @@ BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDeviceInfo)
 	pAdpCfg->isSelectorSinch = m_AdpVK3Cfg.isSelectorSinch;
 	pAdpCfg->bDacChanNum = m_AdpVK3Cfg.bDacChanNum;
 	pAdpCfg->bDacOutNum = m_AdpVK3Cfg.bDacOutNum;
-	pAdpCfg->bDacTypeF = m_AdpVK3Cfg.bDacTypeF;
-	pAdpCfg->wDacBiasRange = m_AdpVK3Cfg.wDacBiasRange;
+	strcpy((char*)pAdpCfg->abDacTypeF, (char*)m_AdpVK3Cfg.abDacTypeF);
+	pAdpCfg->nDacBiasRange = m_AdpVK3Cfg.nDacBiasRange;
 	pAdpCfg->bDacBits = m_AdpVK3Cfg.bDacBits;
-	pAdpCfg->wOutAmplRange = m_AdpVK3Cfg.wOutAmplRange;
+	pAdpCfg->nOutAmplRange = m_AdpVK3Cfg.nOutAmplRange;
 	pAdpCfg->nOutR = m_AdpVK3Cfg.nOutR;
 	pAdpCfg->rPldType.bType = m_AdpVK3Cfg.rPldType.bType;
 	pAdpCfg->rPldType.wVolume = m_AdpVK3Cfg.rPldType.wVolume;
@@ -249,27 +249,27 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 
 	dlg.m_nNum = m_AdpVK3Cfg.nNum;
 	dlg.m_bDdrModuleNum = m_AdpVK3Cfg.bDdrModuleNum;
-	dlg.m_fSysGen = m_AdpVK3Cfg.fSysGen;
-	dlg.m_wRefGen = m_AdpVK3Cfg.wRefGen;
+	dlg.m_dSysGen = (double)m_AdpVK3Cfg.nSysGen / (double)1000000;
+	dlg.m_dRefGen = (double)m_AdpVK3Cfg.nRefGen / (double)1000000;
 	dlg.m_bDacBiasBits = m_AdpVK3Cfg.bDacBiasBits;
 	dlg.m_isDacBias = m_AdpVK3Cfg.isDacBias;
 	dlg.m_bAdcChanNum = m_AdpVK3Cfg.bAdcChanNum;
 	dlg.m_bAdcInpNum = m_AdpVK3Cfg.bAdcInpNum;
-	dlg.m_bAdcTypeF = m_AdpVK3Cfg.bAdcTypeF;
-	dlg.m_wAdcBiasRange = m_AdpVK3Cfg.wAdcBiasRange;
+	dlg.m_sAdcTypeF.SetString((char*)m_AdpVK3Cfg.abAdcTypeF);
+	dlg.m_nAdcBiasRange = m_AdpVK3Cfg.nAdcBiasRange;
 	dlg.m_bAdcBits = m_AdpVK3Cfg.bAdcBits;
 	dlg.m_nMaxfreqSampl = m_AdpVK3Cfg.wMaxfreqSampl;
-	dlg.m_wInpAmplRange = m_AdpVK3Cfg.wInpAmplRange;
+	dlg.m_nInpAmplRange = m_AdpVK3Cfg.wInpAmplRange;
 	dlg.m_nInpR = m_AdpVK3Cfg.nInpR;
 	dlg.m_isAdcInpAdd = m_AdpVK3Cfg.isAdcInpAdd;
 	dlg.m_isTuner = m_AdpVK3Cfg.isTuner;
 	dlg.m_isSelectorSinch = m_AdpVK3Cfg.isSelectorSinch;
 	dlg.m_nDacChanNum = m_AdpVK3Cfg.bDacChanNum;
 	dlg.m_bDacOutNum = m_AdpVK3Cfg.bDacOutNum;
-	dlg.m_bDacTypeF = m_AdpVK3Cfg.bDacTypeF;
-	dlg.m_wDacBiasRange = m_AdpVK3Cfg.wDacBiasRange;
+	dlg.m_sDacTypeF.SetString((char*)m_AdpVK3Cfg.abDacTypeF);
+	dlg.m_nDacBiasRange = m_AdpVK3Cfg.nDacBiasRange;
 	dlg.m_bDacBits = m_AdpVK3Cfg.bDacBits;
-	dlg.m_wOutAmplRange = m_AdpVK3Cfg.wOutAmplRange;
+	dlg.m_nOutAmplRange = m_AdpVK3Cfg.nOutAmplRange;
 	dlg.m_nOutR = m_AdpVK3Cfg.nOutR;
 	dlg.m_bType = m_AdpVK3Cfg.rPldType.bType;
 	dlg.m_nVolume = m_AdpVK3Cfg.rPldType.wVolume;
@@ -283,27 +283,27 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 		//  dismissed with OK
 		m_AdpVK3Cfg.nNum = dlg.m_nNum;
 		m_AdpVK3Cfg.bDdrModuleNum = dlg.m_bDdrModuleNum;
-		m_AdpVK3Cfg.fSysGen = dlg.m_fSysGen;
-		m_AdpVK3Cfg.wRefGen = dlg.m_wRefGen;
+		m_AdpVK3Cfg.nSysGen = dlg.m_dSysGen * 1000000;
+		m_AdpVK3Cfg.nRefGen = dlg.m_dRefGen * 1000000;
 		m_AdpVK3Cfg.bDacBiasBits = dlg.m_bDacBiasBits;
 		m_AdpVK3Cfg.isDacBias = dlg.m_isDacBias;
 		m_AdpVK3Cfg.bAdcChanNum = dlg.m_bAdcChanNum;
 		m_AdpVK3Cfg.bAdcInpNum = dlg.m_bAdcInpNum;
-		m_AdpVK3Cfg.bAdcTypeF = dlg.m_bAdcTypeF;
-		m_AdpVK3Cfg.wAdcBiasRange = dlg.m_wAdcBiasRange;
+		strcpy((char*)m_AdpVK3Cfg.abAdcTypeF, dlg.m_sAdcTypeF.GetString());
+		m_AdpVK3Cfg.nAdcBiasRange = dlg.m_nAdcBiasRange;
 		m_AdpVK3Cfg.bAdcBits = dlg.m_bAdcBits;
 		m_AdpVK3Cfg.wMaxfreqSampl = dlg.m_nMaxfreqSampl;
-		m_AdpVK3Cfg.wInpAmplRange = dlg.m_wInpAmplRange;
+		m_AdpVK3Cfg.wInpAmplRange = dlg.m_nInpAmplRange;
 		m_AdpVK3Cfg.nInpR = dlg.m_nInpR;
 		m_AdpVK3Cfg.isAdcInpAdd = dlg.m_isAdcInpAdd;
 		m_AdpVK3Cfg.isTuner = dlg.m_isTuner;
 		m_AdpVK3Cfg.isSelectorSinch = dlg.m_isSelectorSinch;
 		m_AdpVK3Cfg.bDacChanNum = dlg.m_nDacChanNum;
 		m_AdpVK3Cfg.bDacOutNum = dlg.m_bDacOutNum;
-		m_AdpVK3Cfg.bDacTypeF = dlg.m_bDacTypeF;
-		m_AdpVK3Cfg.wDacBiasRange = dlg.m_wDacBiasRange;
+		strcpy((char*)m_AdpVK3Cfg.abDacTypeF, dlg.m_sDacTypeF.GetString());
+		m_AdpVK3Cfg.nDacBiasRange = dlg.m_nDacBiasRange;
 		m_AdpVK3Cfg.bDacBits = dlg.m_bDacBits;
-		m_AdpVK3Cfg.wOutAmplRange = dlg.m_wOutAmplRange;
+		m_AdpVK3Cfg.nOutAmplRange = dlg.m_nOutAmplRange;
 		m_AdpVK3Cfg.nOutR = dlg.m_nOutR;
 		m_AdpVK3Cfg.rPldType.bType = dlg.m_bType;
 		m_AdpVK3Cfg.rPldType.wVolume = dlg.m_nVolume;

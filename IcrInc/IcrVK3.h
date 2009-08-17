@@ -24,15 +24,15 @@ typedef struct _ICR_Cfg5506
 	U16		wSize;			// size of all following fields of structure (without wTag + wSize) = sizeof(ICR_XXXX) - 4
 	U32		nNum;			// Порядковый номер изделия
 	U08		bDdrModuleNum;	// Количество слотов динамической памяти
-	REAL32	fSysGen;		// Частота системного генератора (MHz) - 66.666
-	U16		wRefGen;		// Частота опорного генератора (MHz) - 10
+	U32		nSysGen;		// Частота системного генератора (MHz) - 66.666
+	U32		nRefGen;		// Частота опорного генератора (MHz) - 10
 	U08		isDacBias;		// ЦАП смещения
 	U08		bDacBiasBits;	// Разрядность ЦАП смещения
 	U08		bAdcChanNum;	// Количество каналов АЦП 0, 1
 	U08		bAdcInpNum;		// Число входов коммутатора АЦП - 0, 1, 2
 	U08		isAdcInpAdd;	// Дополнительный вход АЦП, 1 - есть, 0 - нет
-	U08		bAdcTypeF;		// Тип фильтра АЦП, 1 - PLP-15
-	U16		wAdcBiasRange;	// Диапазон регулировки смещения АЦП (mV), 100
+	U08		abAdcTypeF[16];		// Тип фильтра АЦП, 1 - PLP-15
+	U32		nAdcBiasRange;	// Диапазон регулировки смещения АЦП (mV), 100
 	U08		bAdcBits;		// Разрядность АЦП 16
 	U16		wMaxfreqSampl;	// Максимальная частота дискретизации (MHz), 80, 100
 	U16		wInpAmplRange;	// Входной амплитудный диапазон 1700 mV
@@ -41,10 +41,10 @@ typedef struct _ICR_Cfg5506
 	U08		isSelectorSinch;// Селектор синхроимпульсов, 1 - есть, 0 - нет
 	U08		bDacChanNum;	// Количество каналов ЦАП 0, 1
 	U08		bDacOutNum;		// Число выходов ЦАП - 0, 1, 2
-	U08		bDacTypeF;		// Тип фильтра ЦАП, 1 - PLP-15
-	U16		wDacBiasRange;	// Диапазон регулировки смещения ЦАП (mV), 500
+	U08	    abDacTypeF[16];	// Тип фильтра ЦАП, 1 - PLP-15
+	U32		nDacBiasRange;	// Диапазон регулировки смещения ЦАП (mV), 500
 	U08		bDacBits;		// Разрядность ЦАП 14
-	U16		wOutAmplRange;	// Выходной амплитудный диапазон 1100 mV
+	U32		nOutAmplRange;	// Выходной амплитудный диапазон 1100 mV
 	U32		nOutR;			// Выходное сопротивление, 50 Ом, 75 Ом
 	
 	_ICR_Cfg0510	rPldType;	// Тип ПЛИС

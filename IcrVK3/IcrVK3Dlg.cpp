@@ -13,6 +13,7 @@ IMPLEMENT_DYNAMIC(IcrVK3Dlg, CDialog)
 IcrVK3Dlg::IcrVK3Dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(IcrVK3Dlg::IDD, pParent)
 	, m_sPldType(_T(""))
+	, m_dSysGen(0)
 {
 
 }
@@ -36,21 +37,22 @@ void IcrVK3Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_ADCBITS, m_bAdcBits);
 	DDX_Text(pDX, IDC_PLDTYPE, m_sPldType);
 	DDX_Control(pDX, IDC_DDRNUM, m_ctrlDdrModuleNum);
-	DDX_Control(pDX, IDC_SYSFREQ, m_ctrlSysGen);
-	DDX_Control(pDX, IDC_REFFREQ, m_ctrlRefGen);
+	DDX_Text(pDX, IDC_SYSFREQ, m_dSysGen);
+	DDX_Text(pDX, IDC_REFFREQ, m_dRefGen);
 	DDX_Control(pDX, IDC_DACBIAS, m_ctrlDacBiasSet);
-	DDX_Control(pDX, IDC_DACRANGEBIAS, m_ctrlDacBiasRange);
+	DDX_Text(pDX, IDC_DACRANGEBIAS, m_nDacBiasRange);
 	DDX_Control(pDX, IDC_DACCHANNUM, m_ctrlDacChanNum);
 	DDX_Control(pDX, IDC_OUTNUM, m_ctrlDacOutNum);
-	DDX_Control(pDX, IDC_DACFTYPE, m_ctrlDacTypeF);
+	DDX_Text(pDX, IDC_DACFTYPE, m_sDacTypeF);
 	DDX_Control(pDX, IDC_DACBITS, m_ctrlDacBits);
-	DDX_Control(pDX, IDC_OUTAMPL, m_ctrlOutAmplRange);
+	DDX_Text(pDX, IDC_OUTAMPL, m_nOutAmplRange);
 	DDX_Control(pDX, IDC_OUTR, m_ctrlOutR);
 	DDX_Control(pDX, IDC_BIASBITS, m_ctrlDacBiasBits);
-	DDX_Control(pDX, IDC_ADCRANGEBIAS, m_ctrlAdcBiasRange);
+	DDX_Text(pDX, IDC_ADCRANGEBIAS, m_nAdcBiasRange);
 	DDX_Control(pDX, IDC_ADCFTYPE, m_ctrlAdcTypeF);
+	DDX_Text(pDX, IDC_ADCFTYPE, m_sAdcTypeF);
 	DDX_Control(pDX, IDC_SAMPLEFREQ, m_ctrlMaxfreqSampl);
-	DDX_Control(pDX, IDC_INPAMPL, m_ctrlInpAmplRange);
+	DDX_Text(pDX, IDC_INPAMPL, m_nInpAmplRange);
 	DDX_Control(pDX, IDC_INPR, m_ctrlInpR);
 	DDX_Control(pDX, IDC_DACINPADD, m_ctrlAdcInpAdd);
 	DDX_Control(pDX, IDC_TUNER, m_ctrlTuner);
@@ -58,8 +60,15 @@ void IcrVK3Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_INPNUM, m_ctrlAdcInpNum);
 	DDX_Control(pDX, IDC_ADCBITS, m_ctrlAdcBits);
 	DDX_Control(pDX, IDC_ADCCHANNUM, m_ctrlAdcChanNum);
-	DDX_Control(pDX, IDC_TYPE, m_ctrlType);
 	DDX_Control(pDX, IDC_SPEED, m_ctrlSpeedGrade);
+	DDX_Control(pDX, IDC_SYSFREQ, m_ctrlSysGen);
+	DDX_Control(pDX, IDC_REFFREQ, m_ctrlRefGen);
+	DDX_Control(pDX, IDC_DACRANGEBIAS, m_ctrlDacBiasRange);
+	DDX_Control(pDX, IDC_OUTAMPL, m_ctrlOutAmplRange);
+	DDX_Control(pDX, IDC_ADCRANGEBIAS, m_ctrlAdcBiasRange);
+	DDX_Control(pDX, IDC_INPAMPL, m_ctrlInpAmplRange);
+	DDX_Text(pDX, IDC_TYPE, m_sType);
+	DDX_Control(pDX, IDC_DACFTYPE, m_ctrlDacTypeF);
 }
 
 
@@ -117,30 +126,7 @@ BOOL IcrVK3Dlg::OnInitDialog()
 
 	m_ctrlDdrModuleNum.SetCurSel(m_bDdrModuleNum); 
 
-	switch((int)m_fSysGen)
-	{
-		case 66: m_ctrlSysGen.SetCurSel(0); break;
-	}
-
-	switch(m_wRefGen)
-	{
-		case 10: m_ctrlRefGen.SetCurSel(0); break;
-	}
-
-	switch(m_bDacTypeF)
-	{
-		case 1: m_ctrlDacTypeF.SetCurSel(0); break;
-	}
-
-	switch(m_wDacBiasRange)
-	{
-		case 500: m_ctrlDacBiasRange.SetCurSel(0); break;
-	}
-
-	switch(m_wOutAmplRange)
-	{
-		case 1100: m_ctrlOutAmplRange.SetCurSel(0);
-	}
+	m_sType.SetString("XC3S...AN");
 
 	switch(m_nOutR)
 	{
@@ -148,25 +134,10 @@ BOOL IcrVK3Dlg::OnInitDialog()
 		case 75: m_ctrlOutR.SetCurSel(1); break;
 	}
 
-	switch(m_bAdcTypeF)
-	{
-		case 1: m_ctrlAdcTypeF.SetCurSel(0); break;
-	}
-
-	switch(m_wAdcBiasRange)
-	{
-		case 100: m_ctrlAdcBiasRange.SetCurSel(0); break;
-	}
-
 	switch(m_nMaxfreqSampl)
 	{
 		case 80: m_ctrlMaxfreqSampl.SetCurSel(0); break;
 		case 100: m_ctrlMaxfreqSampl.SetCurSel(1); break;
-	}
-
-	switch(m_wInpAmplRange)
-	{
-		case 1700: m_ctrlInpAmplRange.SetCurSel(0); break;
 	}
 
 	switch(m_nInpR)
@@ -184,8 +155,6 @@ BOOL IcrVK3Dlg::OnInitDialog()
 	DacParamEnable(m_nDacChanNum);
 	m_ctrlDacBiasSet.SetCheck(m_isDacBias);
 	BiasParamEnable(m_isDacBias);
-
-	m_ctrlType.SetCurSel(m_bType);
 
 	switch(m_bSpeedGrade)
 	{
@@ -352,9 +321,7 @@ void IcrVK3Dlg::CreatePldType(void)
 	CString str;
 	U32		idx;
 
-	m_sPldType.Delete(0, m_sPldType.GetLength());
-	m_ctrlType.GetLBText(m_ctrlType.GetCurSel(), str);
-	m_sPldType.Append(str);
+	m_sPldType.SetString(m_sType.GetString());
 	idx = m_sPldType.Find("...");
 	m_sPldType.Delete(idx, 3);
 	str.Format("%d", m_nVolume);
@@ -435,34 +402,11 @@ void IcrVK3Dlg::OnDestroy()
 {
 	CDialog::OnDestroy();
 
+	//UpdateData(FALSE);
+
 	// TODO: Add your message handler code here
 
 	m_bDdrModuleNum = m_ctrlDdrModuleNum.GetCurSel(); 
-
-	switch(m_ctrlSysGen.GetCurSel())
-	{
-		case 0: m_fSysGen = 66.666; break;
-	}
-
-	switch(m_ctrlRefGen.GetCurSel())
-	{
-		case 0: m_wRefGen = 10; break;
-	}
-
-	switch(m_ctrlDacTypeF.GetCurSel())
-	{
-		case 0: m_bDacTypeF = 1; break;
-	}
-
-	switch(m_ctrlDacBiasRange.GetCurSel())
-	{
-		case 0: m_wDacBiasRange = 500; break;
-	}
-
-	switch(m_ctrlOutAmplRange.SetCurSel(0))
-	{
-		case 0: m_wOutAmplRange = 1100; break;
-	}
 
 	switch(m_ctrlOutR.GetCurSel())
 	{
@@ -470,25 +414,10 @@ void IcrVK3Dlg::OnDestroy()
 		case 1: m_nOutR = 75; break;
 	}
 
-	switch(m_ctrlAdcTypeF.GetCurSel())
-	{
-		case 0: m_bAdcTypeF = 1; break;
-	}
-
-	switch(m_ctrlAdcBiasRange.GetCurSel())
-	{
-		case 0: m_wAdcBiasRange = 100; break;
-	}
-
 	switch(m_ctrlMaxfreqSampl.GetCurSel())
 	{
 		case 0: m_nMaxfreqSampl = 80; break;
 		case 1: m_nMaxfreqSampl = 100; break;
-	}
-
-	switch(m_ctrlInpAmplRange.GetCurSel())
-	{
-		case 0: m_wInpAmplRange = 1700; break;
 	}
 
 	switch(m_ctrlInpR.GetCurSel())
@@ -502,7 +431,6 @@ void IcrVK3Dlg::OnDestroy()
 	m_isTuner = m_ctrlTuner.GetCheck();
 	m_isSelectorSinch = m_ctrlSelectorSinch.GetCheck();
 	m_isDacBias = m_ctrlDacBiasSet.GetCheck();
-	m_bType = m_ctrlType.GetCurSel();
 
 	switch(m_ctrlSpeedGrade.GetCurSel())
 	{

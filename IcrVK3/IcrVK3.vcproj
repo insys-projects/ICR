@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="C:\Андрей\WORK\_ICR\UsefulMFC;..\icrinc;&quot;$(BardyIncDir)&quot;"
+				AdditionalIncludeDirectories="C:\Andrej\WORK\_ICR\UsefulMFC;..\icrinc;&quot;$(BardyIncDir)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -67,6 +67,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="..\bin\$(ProjectName).dll"
 				LinkIncremental="2"
 				ModuleDefinitionFile=".\IcrVK3.def"
 				GenerateDebugInformation="true"
@@ -205,6 +206,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\UsefulMFC\NumEdit.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -240,6 +245,10 @@
 			</File>
 			<File
 				RelativePath=".\IcrVK3Dlg.h"
+				>
+			</File>
+			<File
+				RelativePath="..\UsefulMFC\NumEdit.h"
 				>
 			</File>
 			<File

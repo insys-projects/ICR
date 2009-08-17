@@ -9,7 +9,6 @@
 #define IDC_REFFREQ                     10003
 #define IDC_DACBIAS                     10004
 #define IDC_BIASBITS                    10005
-#define IDC_EDIT2                       10006
 #define IDC_PLDTYPE                     10006
 #define IDC_TYPE                        10007
 #define IDC_VOL                         10008
@@ -33,6 +32,7 @@
 #define IDC_DACBITS                     10027
 #define IDC_OUTAMPL                     10028
 #define IDC_OUTR                        10029
+#define IDC_EDIT3                       10041
 
 // Next default values for new objects
 // 
@@ -40,7 +40,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        10002
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         10023
+#define _APS_NEXT_CONTROL_VALUE         10042
 #define _APS_NEXT_SYMED_VALUE           10000
 #endif
 #endif
