@@ -46,8 +46,6 @@ typedef struct _ICR_Cfg5506
 	U08		bDacBits;		// Разрядность ЦАП 14
 	U32		nOutAmplRange;	// Выходной амплитудный диапазон 1100 mV
 	U32		nOutR;			// Выходное сопротивление, 50 Ом, 75 Ом
-	
-	_ICR_Cfg0510	rPldType;	// Тип ПЛИС
 } ICR_Cfg5506, *PICR_Cfg5506, ICR_CfgVK3, *PICR_CfgVK3;
 
 #pragma pack(pop) 

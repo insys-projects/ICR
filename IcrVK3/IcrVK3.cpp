@@ -15,8 +15,10 @@
 #include "IcrVK3.h"
 
 // инициализация конфигурационных структур
-ICR_CfgVK3 m_AdpVK3Cfg = {VK3_CFG_TAG, 57, 0, 1, 66666000, 10, 1, 8, 1, 1, 1, 
-"PLP-15", 100, 16, 80, 1700, 75, 1, 1, 1, 1, "PLP-15", 500, 14, 1100, 75, {0, 0, 0, 0, 1400, 676, 5}};
+ICR_CfgVK3 m_AdpVK3Cfg = {VK3_CFG_TAG, 57, 0, 1, 66666000, 10000000, 1, 8, 1, 1, 1, 
+"PLP-15", 100, 16, 80, 1700, 75, 1, 1, 1, 1, "PLP-15", 500, 14, 1100, 75};
+
+_ICR_Cfg0510	m_PldType = {PLD_CFG_TAG, 0, 0, 0, 1400, 676, 5};	// Тип ПЛИС
 
 //
 //TODO: If this DLL is dynamically linked against the MFC DLLs,
@@ -131,43 +133,52 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 			end_flag = 1;
 			RealCfgSize += 2;
 			break;
+
+		case PLD_CFG_TAG:
+		{
+			PICR_Cfg0510 pPldType = (PICR_Cfg0510)pCurCfgMem;
+			m_PldType.bType = pPldType->bType;
+			m_PldType.wVolume = pPldType->wVolume;
+			m_PldType.bSpeedGrade = pPldType->bSpeedGrade;
+			m_PldType.wPins = pPldType->wPins;
+			size = sizeof(ICR_Cfg0510);
+			RealCfgSize += size;
+			break;
+		}
+
 		case VK3_CFG_TAG:
-			{
-				PICR_CfgVK3 pAdpCfg = (PICR_CfgVK3)pCurCfgMem;
-				m_AdpVK3Cfg.wTag = pAdpCfg->wTag;
-				m_AdpVK3Cfg.wSize = pAdpCfg->wSize;
-				m_AdpVK3Cfg.nNum = pAdpCfg->nNum;
-				m_AdpVK3Cfg.bDdrModuleNum = pAdpCfg->bDdrModuleNum;
-				m_AdpVK3Cfg.nSysGen = pAdpCfg->nSysGen;
-				m_AdpVK3Cfg.nRefGen = pAdpCfg->nRefGen;
-				m_AdpVK3Cfg.bDacBiasBits = pAdpCfg->bDacBiasBits;
-				m_AdpVK3Cfg.isDacBias = pAdpCfg->isDacBias;
-				m_AdpVK3Cfg.bAdcChanNum = pAdpCfg->bAdcChanNum;
-				m_AdpVK3Cfg.bAdcInpNum = pAdpCfg->bAdcInpNum;
-				strcpy((char*)m_AdpVK3Cfg.abAdcTypeF, (char*)pAdpCfg->abAdcTypeF);
-				m_AdpVK3Cfg.nAdcBiasRange = pAdpCfg->nAdcBiasRange;
-				m_AdpVK3Cfg.bAdcBits = pAdpCfg->bAdcBits;
-				m_AdpVK3Cfg.wMaxfreqSampl = pAdpCfg->wMaxfreqSampl;
-				m_AdpVK3Cfg.wInpAmplRange = pAdpCfg->wInpAmplRange;
-				m_AdpVK3Cfg.nInpR = pAdpCfg->nInpR;
-				m_AdpVK3Cfg.isAdcInpAdd = pAdpCfg->isAdcInpAdd;
-				m_AdpVK3Cfg.isTuner = pAdpCfg->isTuner;
-				m_AdpVK3Cfg.isSelectorSinch = pAdpCfg->isSelectorSinch;
-				m_AdpVK3Cfg.bDacChanNum = pAdpCfg->bDacChanNum;
-				m_AdpVK3Cfg.bDacOutNum = pAdpCfg->bDacOutNum;
-				strcpy((char*)m_AdpVK3Cfg.abDacTypeF, (char*)pAdpCfg->abDacTypeF);
-				m_AdpVK3Cfg.nDacBiasRange = pAdpCfg->nDacBiasRange;
-				m_AdpVK3Cfg.bDacBits = pAdpCfg->bDacBits;
-				m_AdpVK3Cfg.nOutAmplRange = pAdpCfg->nOutAmplRange;
-				m_AdpVK3Cfg.nOutR = pAdpCfg->nOutR;
-				m_AdpVK3Cfg.rPldType.bType = pAdpCfg->rPldType.bType;
-				m_AdpVK3Cfg.rPldType.wVolume = pAdpCfg->rPldType.wVolume;
-				m_AdpVK3Cfg.rPldType.bSpeedGrade = pAdpCfg->rPldType.bSpeedGrade;
-				m_AdpVK3Cfg.rPldType.wPins = pAdpCfg->rPldType.wPins;
-				size = sizeof(ICR_CfgVK3);
-				RealCfgSize += size;
-				break;
-			}
+		{
+			PICR_CfgVK3 pAdpCfg = (PICR_CfgVK3)pCurCfgMem;
+			m_AdpVK3Cfg.wTag = pAdpCfg->wTag;
+			m_AdpVK3Cfg.wSize = pAdpCfg->wSize;
+			m_AdpVK3Cfg.nNum = pAdpCfg->nNum;
+			m_AdpVK3Cfg.bDdrModuleNum = pAdpCfg->bDdrModuleNum;
+			m_AdpVK3Cfg.nSysGen = pAdpCfg->nSysGen;
+			m_AdpVK3Cfg.nRefGen = pAdpCfg->nRefGen;
+			m_AdpVK3Cfg.bDacBiasBits = pAdpCfg->bDacBiasBits;
+			m_AdpVK3Cfg.isDacBias = pAdpCfg->isDacBias;
+			m_AdpVK3Cfg.bAdcChanNum = pAdpCfg->bAdcChanNum;
+			m_AdpVK3Cfg.bAdcInpNum = pAdpCfg->bAdcInpNum;
+			strcpy((char*)m_AdpVK3Cfg.abAdcTypeF, (char*)pAdpCfg->abAdcTypeF);
+			m_AdpVK3Cfg.nAdcBiasRange = pAdpCfg->nAdcBiasRange;
+			m_AdpVK3Cfg.bAdcBits = pAdpCfg->bAdcBits;
+			m_AdpVK3Cfg.wMaxfreqSampl = pAdpCfg->wMaxfreqSampl;
+			m_AdpVK3Cfg.wInpAmplRange = pAdpCfg->wInpAmplRange;
+			m_AdpVK3Cfg.nInpR = pAdpCfg->nInpR;
+			m_AdpVK3Cfg.isAdcInpAdd = pAdpCfg->isAdcInpAdd;
+			m_AdpVK3Cfg.isTuner = pAdpCfg->isTuner;
+			m_AdpVK3Cfg.isSelectorSinch = pAdpCfg->isSelectorSinch;
+			m_AdpVK3Cfg.bDacChanNum = pAdpCfg->bDacChanNum;
+			m_AdpVK3Cfg.bDacOutNum = pAdpCfg->bDacOutNum;
+			strcpy((char*)m_AdpVK3Cfg.abDacTypeF, (char*)pAdpCfg->abDacTypeF);
+			m_AdpVK3Cfg.nDacBiasRange = pAdpCfg->nDacBiasRange;
+			m_AdpVK3Cfg.bDacBits = pAdpCfg->bDacBits;
+			m_AdpVK3Cfg.nOutAmplRange = pAdpCfg->nOutAmplRange;
+			m_AdpVK3Cfg.nOutR = pAdpCfg->nOutR;
+			size = sizeof(ICR_CfgVK3);
+			RealCfgSize += size;
+			break;
+		}
 		default: 
 			end_flag = 1;
 			break;
@@ -218,12 +229,19 @@ BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDeviceInfo)
 	pAdpCfg->bDacBits = m_AdpVK3Cfg.bDacBits;
 	pAdpCfg->nOutAmplRange = m_AdpVK3Cfg.nOutAmplRange;
 	pAdpCfg->nOutR = m_AdpVK3Cfg.nOutR;
-	pAdpCfg->rPldType.bType = m_AdpVK3Cfg.rPldType.bType;
-	pAdpCfg->rPldType.wVolume = m_AdpVK3Cfg.rPldType.wVolume;
-	pAdpCfg->rPldType.bSpeedGrade = m_AdpVK3Cfg.rPldType.bSpeedGrade;
-	pAdpCfg->rPldType.wPins = m_AdpVK3Cfg.rPldType.wPins;
-
+	
 	pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_CfgVK3));
+	if(pCurCfgMem >= pEndCfgMem)
+		return 1;
+
+	PICR_Cfg0510 pPldType = (PICR_Cfg0510)pCurCfgMem;
+	pPldType->wTag = PLD_CFG_TAG; 
+	pPldType->bType = m_PldType.bType;
+	pPldType->wVolume = m_PldType.wVolume;
+	pPldType->bSpeedGrade = m_PldType.bSpeedGrade;
+	pPldType->wPins = m_PldType.wPins;
+
+	pCurCfgMem = (PUSHORT)((PUCHAR)pCurCfgMem + sizeof(ICR_Cfg0510));
 	if(pCurCfgMem >= pEndCfgMem)
 		return 1;
 
@@ -271,10 +289,11 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	dlg.m_bDacBits = m_AdpVK3Cfg.bDacBits;
 	dlg.m_nOutAmplRange = m_AdpVK3Cfg.nOutAmplRange;
 	dlg.m_nOutR = m_AdpVK3Cfg.nOutR;
-	dlg.m_bType = m_AdpVK3Cfg.rPldType.bType;
-	dlg.m_nVolume = m_AdpVK3Cfg.rPldType.wVolume;
-	dlg.m_bSpeedGrade = m_AdpVK3Cfg.rPldType.bSpeedGrade;
-	dlg.m_nPins = m_AdpVK3Cfg.rPldType.wPins;
+	
+	dlg.m_bType = m_PldType.bType;
+	dlg.m_nVolume = m_PldType.wVolume;
+	dlg.m_bSpeedGrade = m_PldType.bSpeedGrade;
+	dlg.m_nPins = m_PldType.wPins;
 
 	int nResponse = (int)dlg.DoModal();
 	if (nResponse == IDOK)
@@ -305,10 +324,11 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 		m_AdpVK3Cfg.bDacBits = dlg.m_bDacBits;
 		m_AdpVK3Cfg.nOutAmplRange = dlg.m_nOutAmplRange;
 		m_AdpVK3Cfg.nOutR = dlg.m_nOutR;
-		m_AdpVK3Cfg.rPldType.bType = dlg.m_bType;
-		m_AdpVK3Cfg.rPldType.wVolume = dlg.m_nVolume;
-		m_AdpVK3Cfg.rPldType.bSpeedGrade = dlg.m_bSpeedGrade;
-		m_AdpVK3Cfg.rPldType.wPins = dlg.m_nPins;
+		
+		m_PldType.bType = dlg.m_bType;
+		m_PldType.wVolume = dlg.m_nVolume;
+		m_PldType.bSpeedGrade = dlg.m_bSpeedGrade;
+		m_PldType.wPins = dlg.m_nPins;
 	}
 	else if (nResponse == IDCANCEL)
 	{

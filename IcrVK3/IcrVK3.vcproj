@@ -128,7 +128,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="C:\Андрей\WORK\_ICR\UsefulMFC;..\icrinc;&quot;$(BardyIncDir)&quot;"
+				AdditionalIncludeDirectories="C:\Andrej\WORK\_ICR\UsefulMFC;..\icrinc;&quot;$(BardyIncDir)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
