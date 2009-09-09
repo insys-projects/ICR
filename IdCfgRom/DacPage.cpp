@@ -296,6 +296,9 @@ void CDacPage::SetMaxDac(int maxDac)
 	CWnd* pDacRangePF = (CWnd*)GetDlgItem(IDC_DACRANGEPF);
 	CWnd* pDacRateMax = (CWnd*)GetDlgItem(IDC_DACRATEMAX);
 	CWnd* pDacRateMin = (CWnd*)GetDlgItem(IDC_DACRATEMIN);
+	CWnd* pDacAfset = (CWnd*)GetDlgItem(IDC_AFSET);
+	CWnd* pDacPfset = (CWnd*)GetDlgItem(IDC_PFSET);
+
 	
 	pDacNum->EnableWindow(enFlag);
 	pDacBits->EnableWindow(enFlag);
@@ -307,6 +310,8 @@ void CDacPage::SetMaxDac(int maxDac)
 	pDacRangePF->EnableWindow(enFlag);
 	pDacRateMax->EnableWindow(enFlag);
 	pDacRateMin->EnableWindow(enFlag);
+	pDacAfset->EnableWindow(enFlag);
+	pDacPfset->EnableWindow(enFlag);
 }
 
 // Data from DAC_CFG into dialog control
