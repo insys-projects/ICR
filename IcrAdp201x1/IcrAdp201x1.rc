@@ -1,0 +1,322 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\IcrAdp201x1.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "IcrAdp201x1.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "IcrAdp201x1.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 200, 220
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация Adp201x1"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "MGT генератор (МГц):",IDC_STATIC,40,97,77,8
+    EDITTEXT        IDC_MGTGEN,120,95,39,12,ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,30,200,57,14
+    PUSHBUTTON      "Отмена",IDCANCEL,112,200,57,14
+    CONTROL         "Разъём LLCU",IDC_LLCU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,57,59,12
+    GROUPBOX        "Процессор обработки сигналов",IDC_STATIC,7,114,186,77,BS_CENTER
+    LTEXT           "Частота:",IDC_STATIC,93,129,31,8
+    COMBOBOX        IDC_CPUCLK,128,127,55,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Синтезатор",IDC_STATIC,7,23,186,29,BS_CENTER
+    CONTROL         "Присутствует",IDC_DDSBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,34,62,12
+    LTEXT           "Тип:",IDC_STATIC,110,33,17,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_DDSTYPE,129,33,49,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "SDRAM при ПЛИС:",IDC_STATIC,46,78,62,8
+    COMBOBOX        IDC_PLDSDRAM,113,75,48,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Присутствует",IDC_CPUBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,128,61,12
+    LTEXT           "SDRAM:",IDC_STATIC,17,151,26,8
+    COMBOBOX        IDC_CPUSDRAM,46,148,56,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "FLASH:",IDC_STATIC,109,151,26,8
+    COMBOBOX        IDC_CPUFLASH,136,148,47,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Системный генератор (Гц):",IDC_STATIC,20,9,93,8
+    EDITTEXT        IDC_SYSGEN,116,7,62,12,ES_NUMBER
+    LTEXT           "Опорный генератор (МГц):",IDC_STATIC,31,171,93,8
+    EDITTEXT        IDC_REFCPUGEN,128,169,39,12,ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 193
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 213
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_CPUCLK, 0x403, 8, 0
+0x3035, 0x2030, 0xc3cc, 0x00f6, 
+    IDC_CPUCLK, 0x403, 8, 0
+0x3036, 0x2030, 0xc3cc, 0x00f6, 
+    IDC_DDSTYPE, 0x403, 6, 0
+0x4420, 0x5344, 0x0035, 
+    IDC_DDSTYPE, 0x403, 7, 0
+0x4420, 0x5344, 0x3036, "\000" 
+    IDC_PLDSDRAM, 0x403, 3, 0
+0x3020, "\000" 
+    IDC_PLDSDRAM, 0x403, 9, 0
+0x3120, 0xc320, 0xe0e1, 0xf2e9, "\000" 
+    IDC_PLDSDRAM, 0x403, 10, 0
+0x3220, 0xc320, 0xe0e1, 0xf2e9, 0x00e0, 
+    IDC_CPUSDRAM, 0x403, 3, 0
+0x3020, "\000" 
+    IDC_CPUSDRAM, 0x403, 11, 0
+0x3120, 0x3832, 0x4d20, 0xe0e1, 0xf2e9, "\000" 
+    IDC_CPUSDRAM, 0x403, 11, 0
+0x3220, 0x3635, 0x4d20, 0xe0e1, 0xf2e9, "\000" 
+    IDC_CPUSDRAM, 0x403, 11, 0
+0x3520, 0x3231, 0xcc20, 0xe0e1, 0xf2e9, "\000" 
+    IDC_CPUFLASH, 0x403, 3, 0
+0x3020, "\000" 
+    IDC_CPUFLASH, 0x403, 10, 0
+0x3220, 0x4d20, 0xe0e1, 0xf2e9, 0x00e0, 
+    IDC_CPUFLASH, 0x403, 10, 0
+0x3420, 0x4d20, 0xe0e1, 0xf2e9, 0x00e0, 
+    0
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 200, 220
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Adp201x1 Configuration"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "System generator (Hz):",IDC_STATIC,28,9,78,8
+    EDITTEXT        IDC_SYSGEN,109,7,62,12,ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,30,200,57,14
+    PUSHBUTTON      "Cancel",IDCANCEL,111,200,57,14
+    GROUPBOX        "Synthesizer",IDC_STATIC,7,23,186,29,BS_CENTER
+    CONTROL         "Presence",IDC_DDSBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,34,69,12
+    LTEXT           "Type:",IDC_STATIC,107,33,20,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_DDSTYPE,130,33,49,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "MGT generatior (MHz):",IDC_STATIC,40,97,74,8
+    EDITTEXT        IDC_MGTGEN,120,95,39,12
+    CONTROL         "LLCU connector",IDC_LLCU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,70,57,64,12
+    GROUPBOX        "Digital Signal Processor",IDC_STATIC,7,114,186,77,BS_CENTER
+    LTEXT           "Clock:",IDC_STATIC,98,129,23,8
+    COMBOBOX        IDC_CPUCLK,126,127,55,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "SDRAM by PLD:",IDC_STATIC,55,76,51,8
+    COMBOBOX        IDC_PLDSDRAM,110,73,48,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Presence",IDC_CPUBE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,128,61,12
+    LTEXT           "SDRAM:",IDC_STATIC,18,151,26,8
+    COMBOBOX        IDC_CPUSDRAM,46,148,56,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "FLASH:",IDC_STATIC,107,151,26,8
+    COMBOBOX        IDC_CPUFLASH,134,148,48,96,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Reference generator (MHz):",IDC_STATIC,31,171,93,8
+    EDITTEXT        IDC_REFCPUGEN,128,169,39,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 193
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 213
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_DDSTYPE, 0x403, 6, 0
+0x4420, 0x5344, 0x0035, 
+    IDC_DDSTYPE, 0x403, 7, 0
+0x4420, 0x5344, 0x3036, "\000" 
+    IDC_CPUCLK, 0x403, 8, 0
+0x3035, 0x2030, 0x484d, 0x007a, 
+    IDC_CPUCLK, 0x403, 9, 0
+0x3620, 0x3030, 0x4d20, 0x7a48, "\000" 
+    IDC_PLDSDRAM, 0x403, 3, 0
+0x3020, "\000" 
+    IDC_PLDSDRAM, 0x403, 9, 0
+0x3120, 0x4720, 0x7942, 0x6574, "\000" 
+    IDC_PLDSDRAM, 0x403, 9, 0
+0x3220, 0x4720, 0x7942, 0x6574, "\000" 
+    IDC_CPUSDRAM, 0x403, 3, 0
+0x3020, "\000" 
+    IDC_CPUSDRAM, 0x403, 11, 0
+0x3120, 0x3832, 0x4d20, 0x7942, 0x6574, "\000" 
+    IDC_CPUSDRAM, 0x403, 11, 0
+0x3220, 0x3635, 0x4d20, 0x7942, 0x6574, "\000" 
+    IDC_CPUSDRAM, 0x403, 11, 0
+0x3520, 0x3231, 0x4d20, 0x7942, 0x6574, "\000" 
+    IDC_CPUFLASH, 0x403, 3, 0
+0x3020, "\000" 
+    IDC_CPUFLASH, 0x403, 9, 0
+0x3220, 0x4d20, 0x7942, 0x6574, "\000" 
+    IDC_CPUFLASH, 0x403, 9, 0
+0x3420, 0x4d20, 0x7942, 0x6574, "\000" 
+    0
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\IcrAdp201x1.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
