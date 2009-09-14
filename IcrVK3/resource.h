@@ -33,6 +33,11 @@
 #define IDC_OUTAMPL                     10028
 #define IDC_OUTR                        10029
 #define IDC_EDIT3                       10041
+#define IDC_ISADC                       10043
+#define IDC_ISDAC                       10044
+#define IDC_DACSAMPLEFREQ               10047
+#define IDC_ADCSAMPLEFREQ               10048
+#define IDC_COMBO1                      10049
 
 // Next default values for new objects
 // 
@@ -40,7 +45,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        10002
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         10042
+#define _APS_NEXT_CONTROL_VALUE         10050
 #define _APS_NEXT_SYMED_VALUE           10000
 #endif
 #endif

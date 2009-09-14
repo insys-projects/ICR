@@ -12,7 +12,6 @@ IMPLEMENT_DYNAMIC(IcrVK3Dlg, CDialog)
 
 IcrVK3Dlg::IcrVK3Dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(IcrVK3Dlg::IDD, pParent)
-	, m_sPldType(_T(""))
 	, m_dSysGen(0)
 {
 
@@ -27,21 +26,14 @@ void IcrVK3Dlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_NUM, m_nNum);
 	DDX_Text(pDX, IDC_BIASBITS, m_bDacBiasBits);
-	DDX_Text(pDX, IDC_DACCHANNUM, m_nDacChanNum);
 	DDX_Text(pDX, IDC_OUTNUM, m_bDacOutNum);
 	DDX_Text(pDX, IDC_DACBITS, m_bDacBits);
-	DDX_Text(pDX, IDC_VOL, m_nVolume);
-	DDX_Text(pDX, IDC_PIN, m_nPins);
-	DDX_Text(pDX, IDC_ADCCHANNUM, m_bAdcChanNum);
 	DDX_Text(pDX, IDC_INPNUM, m_bAdcInpNum);
 	DDX_Text(pDX, IDC_ADCBITS, m_bAdcBits);
-	DDX_Text(pDX, IDC_PLDTYPE, m_sPldType);
-	DDX_Control(pDX, IDC_DDRNUM, m_ctrlDdrModuleNum);
 	DDX_Text(pDX, IDC_SYSFREQ, m_dSysGen);
 	DDX_Text(pDX, IDC_REFFREQ, m_dRefGen);
 	DDX_Control(pDX, IDC_DACBIAS, m_ctrlDacBiasSet);
 	DDX_Text(pDX, IDC_DACRANGEBIAS, m_nDacBiasRange);
-	DDX_Control(pDX, IDC_DACCHANNUM, m_ctrlDacChanNum);
 	DDX_Control(pDX, IDC_OUTNUM, m_ctrlDacOutNum);
 	DDX_Text(pDX, IDC_DACFTYPE, m_sDacTypeF);
 	DDX_Control(pDX, IDC_DACBITS, m_ctrlDacBits);
@@ -51,7 +43,6 @@ void IcrVK3Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_ADCRANGEBIAS, m_nAdcBiasRange);
 	DDX_Control(pDX, IDC_ADCFTYPE, m_ctrlAdcTypeF);
 	DDX_Text(pDX, IDC_ADCFTYPE, m_sAdcTypeF);
-	DDX_Control(pDX, IDC_SAMPLEFREQ, m_ctrlMaxfreqSampl);
 	DDX_Text(pDX, IDC_INPAMPL, m_nInpAmplRange);
 	DDX_Control(pDX, IDC_INPR, m_ctrlInpR);
 	DDX_Control(pDX, IDC_DACINPADD, m_ctrlAdcInpAdd);
@@ -59,31 +50,32 @@ void IcrVK3Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_SELECTOR, m_ctrlSelectorSinch);
 	DDX_Control(pDX, IDC_INPNUM, m_ctrlAdcInpNum);
 	DDX_Control(pDX, IDC_ADCBITS, m_ctrlAdcBits);
-	DDX_Control(pDX, IDC_ADCCHANNUM, m_ctrlAdcChanNum);
-	DDX_Control(pDX, IDC_SPEED, m_ctrlSpeedGrade);
 	DDX_Control(pDX, IDC_SYSFREQ, m_ctrlSysGen);
 	DDX_Control(pDX, IDC_REFFREQ, m_ctrlRefGen);
 	DDX_Control(pDX, IDC_DACRANGEBIAS, m_ctrlDacBiasRange);
 	DDX_Control(pDX, IDC_OUTAMPL, m_ctrlOutAmplRange);
 	DDX_Control(pDX, IDC_ADCRANGEBIAS, m_ctrlAdcBiasRange);
 	DDX_Control(pDX, IDC_INPAMPL, m_ctrlInpAmplRange);
-	DDX_Text(pDX, IDC_TYPE, m_sType);
 	DDX_Control(pDX, IDC_DACFTYPE, m_ctrlDacTypeF);
+	DDX_Control(pDX, IDC_ISADC, m_ctrlAdcChanNum);
+	DDX_Control(pDX, IDC_ISDAC, m_ctrlDacChanNum);
+	DDX_Control(pDX, IDC_DDRNUM, m_ctrlDdrModuleNum);
+	DDX_Text(pDX, IDC_DACSAMPLEFREQ, m_nDacMaxfreqSampl);
+	DDX_Text(pDX, IDC_ADCSAMPLEFREQ, m_nAdcMaxfreqSampl);
+	DDX_Control(pDX, IDC_DACSAMPLEFREQ, m_ctrlDacMaxfreqSampl);
+	DDX_Control(pDX, IDC_ADCSAMPLEFREQ, m_ctrlAdcMaxfreqSampl);
+	DDX_Control(pDX, IDC_PLDTYPE, m_ctrlPldType);
 }
 
 
 BEGIN_MESSAGE_MAP(IcrVK3Dlg, CDialog)
-//	ON_EN_CHANGE(IDC_DACCHANNUM, &IcrVK3Dlg::OnEnChangeDacchannum)
-//	ON_EN_UPDATE(IDC_DACCHANNUM, &IcrVK3Dlg::OnEnUpdateDacchannum)
-ON_EN_CHANGE(IDC_DACCHANNUM, &IcrVK3Dlg::OnEnChangeDacchannum)
 ON_CBN_SELCHANGE(IDC_OUTAMPL, &IcrVK3Dlg::OnCbnSelchangeOutampl)
-ON_EN_CHANGE(IDC_ADCCHANNUM, &IcrVK3Dlg::OnEnChangeAdcchannum)
 ON_BN_CLICKED(IDC_DACBIAS, &IcrVK3Dlg::OnBnClickedDacbias)
-ON_CBN_SELCHANGE(IDC_TYPE, &IcrVK3Dlg::OnCbnSelchangeType)
-ON_CBN_SELCHANGE(IDC_SPEED, &IcrVK3Dlg::OnCbnSelchangeSpeed)
-ON_EN_CHANGE(IDC_VOL, &IcrVK3Dlg::OnEnChangeVol)
-ON_EN_CHANGE(IDC_PIN, &IcrVK3Dlg::OnEnChangePin)
 ON_WM_DESTROY()
+ON_BN_CLICKED(IDC_ISADC, &IcrVK3Dlg::OnBnClickedIsadc)
+ON_BN_CLICKED(IDC_ISDAC, &IcrVK3Dlg::OnBnClickedIsdac)
+ON_BN_CLICKED(IDC_DDRNUM, &IcrVK3Dlg::OnBnClickedDdrnum)
+ON_CBN_SELCHANGE(IDC_PLDTYPE, &IcrVK3Dlg::OnCbnSelchangePldtype)
 END_MESSAGE_MAP()
 
 
@@ -101,43 +93,33 @@ BOOL IcrVK3Dlg::OnInitDialog()
 	m_ToolTip.AddTool(GetDlgItem(IDC_REFFREQ), IDC_REFFREQ);
 	m_ToolTip.AddTool(GetDlgItem(IDC_BIASBITS), IDC_BIASBITS);
 	m_ToolTip.AddTool(GetDlgItem(IDC_DACBIAS), IDC_DACBIAS);
-	m_ToolTip.AddTool(GetDlgItem(IDC_DACCHANNUM), IDC_DACCHANNUM);
 	m_ToolTip.AddTool(GetDlgItem(IDC_OUTNUM), IDC_OUTNUM);
 	m_ToolTip.AddTool(GetDlgItem(IDC_DACFTYPE), IDC_DACFTYPE);
 	m_ToolTip.AddTool(GetDlgItem(IDC_DACRANGEBIAS), IDC_DACRANGEBIAS);
 	m_ToolTip.AddTool(GetDlgItem(IDC_DACBITS), IDC_DACBITS);
 	m_ToolTip.AddTool(GetDlgItem(IDC_OUTAMPL), IDC_OUTAMPL);
 	m_ToolTip.AddTool(GetDlgItem(IDC_OUTR), IDC_OUTR);
-	m_ToolTip.AddTool(GetDlgItem(IDC_TYPE), IDC_TYPE);
-	m_ToolTip.AddTool(GetDlgItem(IDC_VOL), IDC_VOL);
-	m_ToolTip.AddTool(GetDlgItem(IDC_SPEED), IDC_SPEED);
-	m_ToolTip.AddTool(GetDlgItem(IDC_PIN), IDC_PIN);
-	m_ToolTip.AddTool(GetDlgItem(IDC_ADCCHANNUM), IDC_ADCCHANNUM);
+	m_ToolTip.AddTool(GetDlgItem(IDC_ISADC), IDC_ISADC);
+	m_ToolTip.AddTool(GetDlgItem(IDC_ISDAC), IDC_ISDAC);
 	m_ToolTip.AddTool(GetDlgItem(IDC_INPNUM), IDC_INPNUM);
 	m_ToolTip.AddTool(GetDlgItem(IDC_ADCFTYPE), IDC_ADCFTYPE);
 	m_ToolTip.AddTool(GetDlgItem(IDC_ADCRANGEBIAS), IDC_ADCRANGEBIAS);
 	m_ToolTip.AddTool(GetDlgItem(IDC_ADCBITS), IDC_ADCBITS);
-	m_ToolTip.AddTool(GetDlgItem(IDC_SAMPLEFREQ), IDC_SAMPLEFREQ);
 	m_ToolTip.AddTool(GetDlgItem(IDC_INPAMPL), IDC_INPAMPL);
 	m_ToolTip.AddTool(GetDlgItem(IDC_INPR), IDC_INPR);
 	m_ToolTip.AddTool(GetDlgItem(IDC_DACINPADD), IDC_DACINPADD);
 	m_ToolTip.AddTool(GetDlgItem(IDC_TUNER), IDC_TUNER);
 	m_ToolTip.AddTool(GetDlgItem(IDC_SELECTOR), IDC_SELECTOR);
+	m_ToolTip.AddTool(GetDlgItem(IDC_DACSAMPLEFREQ), IDC_DACSAMPLEFREQ); 
+	m_ToolTip.AddTool(GetDlgItem(IDC_ADCSAMPLEFREQ), IDC_ADCSAMPLEFREQ); 
+	m_ToolTip.AddTool(GetDlgItem(IDC_PLDTYPE), IDC_PLDTYPE); 
 
-	m_ctrlDdrModuleNum.SetCurSel(m_bDdrModuleNum); 
-
-	m_sType.SetString("XC3S...AN");
+	m_ctrlDdrModuleNum.SetCheck(m_bDdrModuleNum); 
 
 	switch(m_nOutR)
 	{
 		case 50: m_ctrlOutR.SetCurSel(0); break;
 		case 75: m_ctrlOutR.SetCurSel(1); break;
-	}
-
-	switch(m_nMaxfreqSampl)
-	{
-		case 80: m_ctrlMaxfreqSampl.SetCurSel(0); break;
-		case 100: m_ctrlMaxfreqSampl.SetCurSel(1); break;
 	}
 
 	switch(m_nInpR)
@@ -151,19 +133,19 @@ BOOL IcrVK3Dlg::OnInitDialog()
 	m_ctrlTuner.SetCheck(m_isTuner);
 	m_ctrlSelectorSinch.SetCheck(m_isSelectorSinch);
 
+	m_ctrlAdcChanNum.SetCheck(m_bAdcChanNum);
+	m_ctrlDacChanNum.SetCheck(m_bDacChanNum);
 	AdcParamEnable(m_bAdcChanNum);
-	DacParamEnable(m_nDacChanNum);
+	DacParamEnable(m_bDacChanNum);
 	m_ctrlDacBiasSet.SetCheck(m_isDacBias);
 	BiasParamEnable(m_isDacBias);
 
 	switch(m_bSpeedGrade)
 	{
-		case 4: m_ctrlSpeedGrade.SetCurSel(0); break;
-		case 5: m_ctrlSpeedGrade.SetCurSel(1); break;
+		case 4: m_ctrlPldType.SetCurSel(0); break;
+		case 5: m_ctrlPldType.SetCurSel(1); break;
 	}
 	
-	CreatePldType();
-
 	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -212,7 +194,7 @@ void IcrVK3Dlg::AdcParamEnable(U08 isSet)
 	m_ctrlAdcInpNum.EnableWindow(isSet);
 	m_ctrlAdcTypeF.EnableWindow(isSet);
 	m_ctrlAdcBits.EnableWindow(isSet);
-	m_ctrlMaxfreqSampl.EnableWindow(isSet);
+	m_ctrlAdcMaxfreqSampl.EnableWindow(isSet);
 	m_ctrlInpAmplRange.EnableWindow(isSet);
 	m_ctrlInpR.EnableWindow(isSet);
 	m_ctrlAdcInpAdd.EnableWindow(isSet);
@@ -223,7 +205,7 @@ void IcrVK3Dlg::AdcParamEnable(U08 isSet)
 	{
 		if(m_ctrlDacBiasSet.GetCheck())
 		{
-			if(m_nDacChanNum)
+			if(m_bDacChanNum)
 				m_ctrlAdcBiasRange.EnableWindow(TRUE);
 			else
 				m_ctrlAdcBiasRange.EnableWindow(FALSE);
@@ -235,59 +217,9 @@ void IcrVK3Dlg::AdcParamEnable(U08 isSet)
 		m_ctrlAdcBiasRange.EnableWindow(isSet);
 }
 
-void IcrVK3Dlg::OnEnChangeDacchannum()
-{
-	// TODO:  If this is a RICHEDIT control, the control will not
-	// send this notification unless you override the CDialog::OnInitDialog()
-	// function and call CRichEditCtrl().SetEventMask()
-	// with the ENM_CHANGE flag ORed into the mask.
-
-	// TODO:  Add your control notification handler code here
-	
-	CString str;
-	U32 k;
-
-	k = GetDlgItemText(IDC_DACCHANNUM, str);
-
-	if(k)
-		UpdateData();
-	else
-		return;
-
-	if(m_nDacChanNum == 0)
-		DacParamEnable(FALSE);
-	else
-		DacParamEnable(TRUE);
-}
-
 void IcrVK3Dlg::OnCbnSelchangeOutampl()
 {
 	// TODO: Add your control notification handler code here
-}
-
-void IcrVK3Dlg::OnEnChangeAdcchannum()
-{
-	// TODO:  If this is a RICHEDIT control, the control will not
-	// send this notification unless you override the CDialog::OnInitDialog()
-	// function and call CRichEditCtrl().SetEventMask()
-	// with the ENM_CHANGE flag ORed into the mask.
-
-	// TODO:  Add your control notification handler code here
-
-	CString str;
-	U32 k;
-
-	k = GetDlgItemText(IDC_ADCCHANNUM, str);
-
-	if(k)
-		UpdateData();
-	else
-		return;
-
-	if(m_bAdcChanNum == 0)
-		AdcParamEnable(FALSE);
-	else
-		AdcParamEnable(TRUE);
 }
 
 void IcrVK3Dlg::OnBnClickedDacbias()
@@ -307,88 +239,6 @@ void IcrVK3Dlg::BiasParamEnable(U08 isSet)
 		m_ctrlAdcBiasRange.EnableWindow(FALSE);
 }
 
-void IcrVK3Dlg::OnCbnSelchangeType()
-{
-	// TODO: Add your control notification handler code here
-UpdateData();
-	CreatePldType();
-
-	
-}
-
-void IcrVK3Dlg::CreatePldType(void)
-{
-	CString str;
-	U32		idx;
-
-	m_sPldType.SetString(m_sType.GetString());
-	idx = m_sPldType.Find("...");
-	m_sPldType.Delete(idx, 3);
-	str.Format("%d", m_nVolume);
-	m_sPldType.Insert(idx, str);
-	m_sPldType.Append("-");
-	m_ctrlSpeedGrade.GetLBText(m_ctrlSpeedGrade.GetCurSel(), str);
-	m_sPldType.Append(str);
-	m_sPldType.Append("FGG");
-	str.Format("%d", m_nPins);
-	m_sPldType.Append(str);
-
-	UpdateData(FALSE);
-}
-
-void IcrVK3Dlg::OnCbnSelchangeSpeed()
-{
-	// TODO: Add your control notification handler code here
-UpdateData();
-	CreatePldType();
-
-	
-}
-
-void IcrVK3Dlg::OnEnChangeVol()
-{
-	// TODO:  If this is a RICHEDIT control, the control will not
-	// send this notification unless you override the CDialog::OnInitDialog()
-	// function and call CRichEditCtrl().SetEventMask()
-	// with the ENM_CHANGE flag ORed into the mask.
-
-	// TODO:  Add your control notification handler code here
-	CString str;
-	U32 k;
-
-	k = GetDlgItemText(IDC_VOL, str);
-
-	if(!k)
-		return;
-
-	UpdateData();
-	CreatePldType();
-
-	
-}
-
-void IcrVK3Dlg::OnEnChangePin()
-{
-	// TODO:  If this is a RICHEDIT control, the control will not
-	// send this notification unless you override the CDialog::OnInitDialog()
-	// function and call CRichEditCtrl().SetEventMask()
-	// with the ENM_CHANGE flag ORed into the mask.
-
-	// TODO:  Add your control notification handler code here
-	CString str;
-	U32 k;
-
-	k = GetDlgItemText(IDC_PIN, str);
-
-	if(!k)
-		return;
-
-	UpdateData();
-	CreatePldType();
-
-	
-}
-
 BOOL IcrVK3Dlg::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: Add your specialized code here and/or call the base class
@@ -406,18 +256,12 @@ void IcrVK3Dlg::OnDestroy()
 
 	// TODO: Add your message handler code here
 
-	m_bDdrModuleNum = m_ctrlDdrModuleNum.GetCurSel(); 
+	m_bDdrModuleNum = m_ctrlDdrModuleNum.GetCheck(); 
 
 	switch(m_ctrlOutR.GetCurSel())
 	{
 		case 0: m_nOutR = 50; break;
 		case 1: m_nOutR = 75; break;
-	}
-
-	switch(m_ctrlMaxfreqSampl.GetCurSel())
-	{
-		case 0: m_nMaxfreqSampl = 80; break;
-		case 1: m_nMaxfreqSampl = 100; break;
 	}
 
 	switch(m_ctrlInpR.GetCurSel())
@@ -432,9 +276,42 @@ void IcrVK3Dlg::OnDestroy()
 	m_isSelectorSinch = m_ctrlSelectorSinch.GetCheck();
 	m_isDacBias = m_ctrlDacBiasSet.GetCheck();
 
-	switch(m_ctrlSpeedGrade.GetCurSel())
+	switch(m_ctrlPldType.GetCurSel())
 	{
 		case 0: m_bSpeedGrade = 4; break;
 		case 1: m_bSpeedGrade = 5; break;
 	}
+}
+
+void IcrVK3Dlg::OnBnClickedIsadc()
+{
+	// TODO: Add your control notification handler code here
+
+	m_bAdcChanNum = m_ctrlAdcChanNum.GetCheck();
+	AdcParamEnable(m_bAdcChanNum);
+}
+
+void IcrVK3Dlg::OnBnClickedIsdac()
+{
+	// TODO: Add your control notification handler code here
+
+	m_bDacChanNum = m_ctrlDacChanNum.GetCheck();
+	DacParamEnable(m_bDacChanNum);
+}
+
+void IcrVK3Dlg::OnBnClickedDdrnum()
+{
+	// TODO: Add your control notification handler code here
+
+	m_bDacChanNum = m_ctrlDdrModuleNum.GetCheck();
+}
+
+void IcrVK3Dlg::OnCbnSelchangePldtype()
+{
+	// TODO: Add your control notification handler code here
+
+	if(m_ctrlPldType.GetCurSel())
+		m_bSpeedGrade = 5;
+	else
+		m_bSpeedGrade = 4;
 }

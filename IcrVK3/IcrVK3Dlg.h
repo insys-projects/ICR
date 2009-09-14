@@ -31,9 +31,9 @@ public:
 	U08 m_bDdrModuleNum;
 	double m_dSysGen;
 	double m_dRefGen;
+	U08 m_bAdcChanNum;
 	U08 m_bDacBiasBits;
 	U08 m_isDacBias;
-	U08 m_bAdcChanNum;
 	U08 m_bAdcInpNum;
 	CString m_sAdcTypeF;
 	U32 m_nAdcBiasRange;
@@ -44,7 +44,7 @@ public:
 	U08 m_isAdcInpAdd;
 	U08 m_isTuner;
 	U08 m_isSelectorSinch;
-	U32 m_nDacChanNum;
+	U08 m_bDacChanNum;
 	U08 m_bDacOutNum;
 	CString m_sDacTypeF;
 	U32 m_nDacBiasRange;
@@ -57,27 +57,20 @@ public:
 	U32 m_nPins;
 
 	CToolTipCtrl	m_ToolTip;
-	CComboBox		m_ctrlDdrModuleNum;
 	CComboBox		m_ctrlOutR;
-	CComboBox		m_ctrlMaxfreqSampl;
 	CComboBox		m_ctrlInpR;
-	CComboBox		m_ctrlSpeedGrade;
 	CButton			m_ctrlDacBiasSet;
 	CButton			m_ctrlAdcInpAdd;
 	CButton			m_ctrlTuner;
-	CString			m_sPldType;
-	CString			m_sType;
 	CButton			m_ctrlSelectorSinch;
 	CNumEdit		m_ctrlSysGen;
 	CNumEdit		m_ctrlRefGen;
-	CEdit			m_ctrlDacChanNum;
 	CEdit			m_ctrlDacOutNum;
 	CEdit			m_ctrlDacBits;
 	CEdit			m_ctrlDacBiasBits;
 	CEdit			m_ctrlAdcTypeF;
 	CEdit			m_ctrlAdcInpNum;
 	CEdit			m_ctrlAdcBits;
-	CEdit			m_ctrlAdcChanNum;
 	CEdit			m_ctrlDacBiasRange;
 	CEdit			m_ctrlOutAmplRange;
 	CEdit			m_ctrlAdcBiasRange;
@@ -89,19 +82,36 @@ public:
 	void DacParamEnable(U08 isSet = TRUE);
 	void AdcParamEnable(U08 isSet);
 	void BiasParamEnable(U08 isSet);
-	void CreatePldType(void);
 	afx_msg void OnBnClickedDacset();
 	afx_msg void OnEnChangeDacchannum();
 	afx_msg void OnCbnSelchangeOutampl();
-	afx_msg void OnEnChangeAdcchannum();
 	afx_msg void OnBnClickedDacbias();
-	afx_msg void OnCbnSelchangeType();
-	afx_msg void OnCbnSelchangeSpeed();
-	afx_msg void OnEnChangeVol();
-	afx_msg void OnEnChangePin();
 	afx_msg void OnDestroy();
 	afx_msg void OnEnChangeSysfreq();
 	afx_msg void OnEnUpdateSysfreq();
+	afx_msg void OnBnClickedIsadc();
+public:
+	CButton m_ctrlAdcChanNum;
+public:
+	CButton m_ctrlDacChanNum;
+public:
+	afx_msg void OnBnClickedIsdac();
+public:
+	CButton m_ctrlDdrModuleNum;
+public:
+	afx_msg void OnBnClickedDdrnum();
+public:
+	U32 m_nDacMaxfreqSampl;
+public:
+	CEdit m_ctrlDacMaxfreqSampl;
+public:
+	CEdit m_ctrlAdcMaxfreqSampl;
+public:
+	U32 m_nAdcMaxfreqSampl;
+public:
+	CComboBox m_ctrlPldType;
+public:
+	afx_msg void OnCbnSelchangePldtype();
 };
 
 #endif // _ICRVK3DLG_H
