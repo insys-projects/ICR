@@ -70,6 +70,7 @@ typedef enum _ICR_ADMType {
         ADMDDC2WBL16    = 0x0A0A,
         ADMDDC5016		= 0x0A0B,
         ADMDDC416x100M	= 0x0A0C,
+        ADMDDC214x400M	= 0x0A0D,
         ADMDDS9854      = 0x0B00,
         ADMDDS9852A     = 0x0B01,
         ADMQM9854       = 0x0B10,
