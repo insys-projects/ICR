@@ -30,6 +30,11 @@ public:
 	UINT	m_Range1;
 	UINT	m_Range2;
 	UINT	m_Range3;
+	int		m_ClrDeviations;
+	int		m_awRangeDeviation[2][2][2][4];	// отклонение ШП от номинала (разы) (default 10000)
+										// [тип входа][Rвх/ФНЧ][номер АЦП][номер ШП]
+	int		m_awBiasDeviation[2][2][2][4];	// отклонения смещения нуля (разы) (default 0)
+										// [тип входа][Rвх/ФНЧ][номер АЦП][номер ШП]
 
 	SUBMOD_INFO subInfo;
 
@@ -41,4 +46,6 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedButtonCleardeviation();
 };

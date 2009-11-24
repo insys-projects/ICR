@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "Icr0090App.h"
+#include "Icr0090Dlg.h"
 //#include "Icr0090Dlg.h"
 
 // CIcr0090Dlg dialog
@@ -25,6 +26,18 @@ CIcr0090Dlg::CIcr0090Dlg(CWnd* pParent /*=NULL*/)
 	m_Range1 = 2000;
 	m_Range2 = 500;
 	m_Range3 = 100;
+
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+		for( iiAdc=0; iiAdc<2; iiAdc++ )
+		for( iiR=0; iiR<2; iiR++ )
+		for( iiP=0; iiP<2; iiP++ )
+		{
+			m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = 10000;
+			m_awBiasDeviation[iiP][iiR][iiAdc][iiRange] = 0;
+		}
+	}
 }
 
 CIcr0090Dlg::~CIcr0090Dlg()
@@ -50,10 +63,45 @@ void CIcr0090Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_RANGE1, m_Range1);
 	DDX_Text(pDX, IDC_RANGE2, m_Range2);
 	DDX_Text(pDX, IDC_RANGE3, m_Range3);
+
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE0, m_awBiasDeviation[0][0][0][0]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE1, m_awBiasDeviation[0][0][0][1]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE2, m_awBiasDeviation[0][0][0][2]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE3, m_awBiasDeviation[0][0][0][3]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH1_RANGE0, m_awBiasDeviation[0][0][1][0]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH1_RANGE1, m_awBiasDeviation[0][0][1][1]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH1_RANGE2, m_awBiasDeviation[0][0][1][2]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH1_RANGE3, m_awBiasDeviation[0][0][1][3]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH0_RANGE0, m_awBiasDeviation[0][1][0][0]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH0_RANGE1, m_awBiasDeviation[0][1][0][1]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH0_RANGE2, m_awBiasDeviation[0][1][0][2]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH0_RANGE3, m_awBiasDeviation[0][1][0][3]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH1_RANGE0, m_awBiasDeviation[0][1][1][0]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH1_RANGE1, m_awBiasDeviation[0][1][1][1]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH1_RANGE2, m_awBiasDeviation[0][1][1][2]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH1_RANGE3, m_awBiasDeviation[0][1][1][3]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH0_RANGE0, m_awBiasDeviation[1][0][0][0]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH0_RANGE1, m_awBiasDeviation[1][0][0][1]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH0_RANGE2, m_awBiasDeviation[1][0][0][2]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH0_RANGE3, m_awBiasDeviation[1][0][0][3]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH1_RANGE0, m_awBiasDeviation[1][0][1][0]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH1_RANGE1, m_awBiasDeviation[1][0][1][1]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH1_RANGE2, m_awBiasDeviation[1][0][1][2]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH1_RANGE3, m_awBiasDeviation[1][0][1][3]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH0_RANGE0, m_awBiasDeviation[1][1][0][0]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH0_RANGE1, m_awBiasDeviation[1][1][0][1]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH0_RANGE2, m_awBiasDeviation[1][1][0][2]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH0_RANGE3, m_awBiasDeviation[1][1][0][3]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH1_RANGE0, m_awBiasDeviation[1][1][1][0]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH1_RANGE1, m_awBiasDeviation[1][1][1][1]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH1_RANGE2, m_awBiasDeviation[1][1][1][2]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH1_RANGE3, m_awBiasDeviation[1][1][1][3]);
+
 }
 
 
 BEGIN_MESSAGE_MAP(CIcr0090Dlg, CDialog)
+	ON_BN_CLICKED(IDC_BUTTON_CLEARDEVIATION, &CIcr0090Dlg::OnBnClickedButtonCleardeviation)
 END_MESSAGE_MAP()
 
 
@@ -79,7 +127,7 @@ BOOL CIcr0090Dlg::OnInitDialog()
 	//SetWindowText(Title);
 	CString Title;
 	GetWindowText(Title);
-	CString Name = subInfo.Name;
+	CString Name = subInfo.sName;
 	Title = Name + _T(" ") + Title;
 	SetWindowText(Title);
 	 
@@ -96,4 +144,20 @@ BOOL CIcr0090Dlg::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CIcr0090Dlg::OnBnClickedButtonCleardeviation()
+{
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+		for( iiAdc=0; iiAdc<2; iiAdc++ )
+		for( iiR=0; iiR<2; iiR++ )
+		for( iiP=0; iiP<2; iiP++ )
+		{
+			m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = 10000;
+			m_awBiasDeviation[iiP][iiR][iiAdc][iiRange] = 0;
+		}
+	}
+	UpdateData(FALSE);
 }

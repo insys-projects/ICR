@@ -15,8 +15,27 @@ ICR_CfgAdc g_AdcCfg = { ADC_CFG_TAG, 14, 0, 0, 14, 1, 1000, 400000000, 500};
 
 ICR_CfgAdm g_AdmCfg = { ADM_CFG_TAG, 51, 0, 2, 0, {400000000, 300000000}, 
 						{10000, 2000, 500, 100}, 
-						{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000},
-						{0, 0, 0, 0}, {0, 0, 0, 0}
+						0,
+						{
+						  {
+							{{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
+							{{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
+						  },
+						  {
+							  {{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
+							  {{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
+						  }
+						},
+						{
+						  {
+							{{0, 0, 0, 0}, {0, 0, 0, 0}},
+							{{0, 0, 0, 0}, {0, 0, 0, 0}},
+						  },
+						  {
+							{{0, 0, 0, 0}, {0, 0, 0, 0}},
+							{{0, 0, 0, 0}, {0, 0, 0, 0}},
+						  }
+						}
 					};
 
 //
@@ -43,6 +62,7 @@ ICR_CfgAdm g_AdmCfg = { ADM_CFG_TAG, 51, 0, 2, 0, {400000000, 300000000},
 //		Please see MFC Technical Notes 33 and 58 for additional
 //		details.
 //
+
 
 
 // CIcr0090App
@@ -81,19 +101,19 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->Name, _T("ADM214x400M"));
+		lstrcpy(pDevInfo->sName, _T("ADM214x400M"));
 		pDevInfo->Type = ADM214x400M;
 		break;
 	case 1:
-		lstrcpy(pDevInfo->Name, _T("ADM212x500M"));
+		lstrcpy(pDevInfo->sName, _T("ADM212x500M"));
 		pDevInfo->Type = ADM212x500M;
 		break;
 	case 2:
-		lstrcpy(pDevInfo->Name, _T("ADM214x400MWB(LF/HF)"));
+		lstrcpy(pDevInfo->sName, _T("ADM214x400MWB(LF/HF)"));
 		pDevInfo->Type = ADM214x400MWB;
 		break;
 	case 3:
-		lstrcpy(pDevInfo->Name, _T("ADM212x500MWB(LF/HF)"));
+		lstrcpy(pDevInfo->sName, _T("ADM212x500MWB(LF/HF)"));
 		pDevInfo->Type = ADM212x500MWB;
 		break;
 	default:
@@ -101,7 +121,7 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 		return;
 	}
 	pDevInfo->pCfgMem = new UCHAR[SUBMOD_CFGMEM_SIZE];
-	pDevInfo->CfgMemSize = SUBMOD_CFGMEM_SIZE;
+	pDevInfo->nCfgMemSize = SUBMOD_CFGMEM_SIZE;
 }
 
 //***************************************************************************************
@@ -149,7 +169,7 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 			{
 				PICR_CfgAdm pAdmCfg = (PICR_CfgAdm)pAdmCfgMem;
 				g_AdmCfg.wTag = pAdmCfg->wTag;
-				g_AdmCfg.wSize = pAdmCfg->wSize;
+				g_AdmCfg.wSize = sizeof(ICR_CfgAdm);
 				g_AdmCfg.bAdmIfNum = pAdmCfg->bAdmIfNum;
 				g_AdmCfg.bAdcCnt = pAdmCfg->bAdcCnt;
 
@@ -161,14 +181,26 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				g_AdmCfg.awRange[2]  = pAdmCfg->awRange[2];
 				g_AdmCfg.awRange[3]  = pAdmCfg->awRange[3];
 
-				size = sizeof(ICR_CfgAdm);
+				{
+					int		iiP, iiR, iiAdc, iiRange;
+					for( iiRange=0; iiRange<4; iiRange++ )
+					for( iiAdc=0; iiAdc<2; iiAdc++ )
+					for( iiR=0; iiR<2; iiR++ )
+					for( iiP=0; iiP<2; iiP++ )
+					{
+						g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange] = pAdmCfg->awRangeDeviation[iiP][iiR][iiAdc][iiRange]; 
+						g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = pAdmCfg->awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+					}
+				}
+
+				size = 4 + pAdmCfg->wSize;
 				RealCfgSize += size;
 				break;
 			}
 		}
 		pAdmCfgMem = (UCHAR*)pAdmCfgMem + size;
 	} while(!end_flag && pAdmCfgMem < pEndAdmCfgMem);
-	pDeviceInfo->RealCfgSize = RealCfgSize;
+	pDeviceInfo->nRealCfgSize = RealCfgSize;
 	return 0;
 }
 
@@ -192,6 +224,18 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->awRange[2]  = g_AdmCfg.awRange[2];
 	pAdmCfg->awRange[3]  = g_AdmCfg.awRange[3];
 
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+		for( iiAdc=0; iiAdc<2; iiAdc++ )
+		for( iiR=0; iiR<2; iiR++ )
+		for( iiP=0; iiP<2; iiP++ )
+		{
+			pAdmCfg->awRangeDeviation[iiP][iiR][iiAdc][iiRange] = g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange];
+			pAdmCfg->awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+		}
+	}
+
 	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgAdm));
 	if(pCurCfgMem >= pEndCfgMem)
 		return 1;
@@ -212,8 +256,10 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 		return 1;
 	*pCurCfgMem = END_TAG;
 	pCurCfgMem++;
-	pDeviceInfo->RealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDeviceInfo->pCfgMem);
+	pDeviceInfo->nRealCfgSize = ULONG((PUCHAR)pCurCfgMem - pDeviceInfo->pCfgMem);
 
+	int		sza = sizeof(ICR_CfgAdm);
+	int		szb = sizeof(ICR_CfgAdc);
 	return 0;
 }
 
@@ -225,7 +271,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 //	int curNum = pDeviceInfo->Number;
 
 	CIcr0090Dlg dlg;
-	lstrcpy(dlg.subInfo.Name, pDeviceInfo->Name);
+	lstrcpy(dlg.subInfo.sName, pDeviceInfo->sName);
 	dlg.subInfo.Type = pDeviceInfo->Type;
 
 	switch(g_AdcCfg.bBits)
@@ -260,7 +306,25 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_Range2   = g_AdmCfg.awRange[2];
 	dlg.m_Range3   = g_AdmCfg.awRange[3];
 
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+		for( iiAdc=0; iiAdc<2; iiAdc++ )
+		for( iiR=0; iiR<2; iiR++ )
+		for( iiP=0; iiP<2; iiP++ )
+		{
+			dlg.m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange];
+			dlg.m_awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+		}
+	}
+
+
+	//
+	// Вызвать диалоговое окно
+	//
 	int nResponse = (int)dlg.DoModal();
+
+
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
@@ -334,6 +398,18 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		g_AdmCfg.awRange[1]  = dlg.m_Range1;
 		g_AdmCfg.awRange[2]  = dlg.m_Range2;
 		g_AdmCfg.awRange[3]  = dlg.m_Range3;
+
+		{
+			int		iiP, iiR, iiAdc, iiRange;
+			for( iiRange=0; iiRange<4; iiRange++ )
+			for( iiAdc=0; iiAdc<2; iiAdc++ )
+			for( iiR=0; iiR<2; iiR++ )
+			for( iiP=0; iiP<2; iiP++ )
+			{
+				g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange] = dlg.m_awRangeDeviation[iiP][iiR][iiAdc][iiRange];
+				g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = dlg.m_awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+			}
+		}
 	}
 	else if (nResponse == IDCANCEL)
 	{
