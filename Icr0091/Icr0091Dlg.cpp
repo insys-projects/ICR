@@ -30,6 +30,18 @@ CIcr0091Dlg::CIcr0091Dlg(CWnd* pParent /*=NULL*/)
 	m_Range1 = 2000;
 	m_Range2 = 500;
 	m_Range3 = 100;
+
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+		for( iiAdc=0; iiAdc<2; iiAdc++ )
+		for( iiR=0; iiR<2; iiR++ )
+		for( iiP=0; iiP<2; iiP++ )
+		{
+			m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = 10000;
+			m_awBiasDeviation[iiP][iiR][iiAdc][iiRange] = 0;
+		}
+	}
 }
 
 CIcr0091Dlg::~CIcr0091Dlg()
@@ -60,10 +72,44 @@ void CIcr0091Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_RANGE1, m_Range1);
 	DDX_Text(pDX, IDC_RANGE2, m_Range2);
 	DDX_Text(pDX, IDC_RANGE3, m_Range3);
+
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE0, m_awBiasDeviation[0][0][0][0]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE1, m_awBiasDeviation[0][0][0][1]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE2, m_awBiasDeviation[0][0][0][2]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE3, m_awBiasDeviation[0][0][0][3]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH1_RANGE0, m_awBiasDeviation[0][0][1][0]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH1_RANGE1, m_awBiasDeviation[0][0][1][1]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH1_RANGE2, m_awBiasDeviation[0][0][1][2]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH1_RANGE3, m_awBiasDeviation[0][0][1][3]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH0_RANGE0, m_awBiasDeviation[0][1][0][0]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH0_RANGE1, m_awBiasDeviation[0][1][0][1]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH0_RANGE2, m_awBiasDeviation[0][1][0][2]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH0_RANGE3, m_awBiasDeviation[0][1][0][3]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH1_RANGE0, m_awBiasDeviation[0][1][1][0]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH1_RANGE1, m_awBiasDeviation[0][1][1][1]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH1_RANGE2, m_awBiasDeviation[0][1][1][2]);
+	DDX_Text(pDX, IDC_BIASDV_P0_R1_CH1_RANGE3, m_awBiasDeviation[0][1][1][3]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH0_RANGE0, m_awBiasDeviation[1][0][0][0]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH0_RANGE1, m_awBiasDeviation[1][0][0][1]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH0_RANGE2, m_awBiasDeviation[1][0][0][2]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH0_RANGE3, m_awBiasDeviation[1][0][0][3]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH1_RANGE0, m_awBiasDeviation[1][0][1][0]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH1_RANGE1, m_awBiasDeviation[1][0][1][1]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH1_RANGE2, m_awBiasDeviation[1][0][1][2]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R0_CH1_RANGE3, m_awBiasDeviation[1][0][1][3]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH0_RANGE0, m_awBiasDeviation[1][1][0][0]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH0_RANGE1, m_awBiasDeviation[1][1][0][1]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH0_RANGE2, m_awBiasDeviation[1][1][0][2]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH0_RANGE3, m_awBiasDeviation[1][1][0][3]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH1_RANGE0, m_awBiasDeviation[1][1][1][0]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH1_RANGE1, m_awBiasDeviation[1][1][1][1]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH1_RANGE2, m_awBiasDeviation[1][1][1][2]);
+	DDX_Text(pDX, IDC_BIASDV_P1_R1_CH1_RANGE3, m_awBiasDeviation[1][1][1][3]);
 }
 
 
 BEGIN_MESSAGE_MAP(CIcr0091Dlg, CDialog)
+	ON_BN_CLICKED(IDC_BUTTON_CLEARDEVIATION, &CIcr0091Dlg::OnBnClickedButtonCleardeviation)
 END_MESSAGE_MAP()
 
 
@@ -106,4 +152,20 @@ BOOL CIcr0091Dlg::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CIcr0091Dlg::OnBnClickedButtonCleardeviation()
+{
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+		for( iiAdc=0; iiAdc<2; iiAdc++ )
+		for( iiR=0; iiR<2; iiR++ )
+		for( iiP=0; iiP<2; iiP++ )
+		{
+			m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = 10000;
+			m_awBiasDeviation[iiP][iiR][iiAdc][iiRange] = 0;
+		}
+	}
+	UpdateData(FALSE);
 }

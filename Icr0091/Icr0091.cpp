@@ -18,9 +18,28 @@ ICR_CfgAdm g_AdmCfg = { ADM_CFG_TAG, 70, 0, 2, 0,
 						1000000000, 10000000, 1000000000, 1, 
 						0, 0, 
 						0, 0,
+						0,
 						{10000, 2000, 500, 100}, 
-						{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000},
-						{0, 0, 0, 0}, {0, 0, 0, 0}
+						{
+						  {
+							{{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
+							{{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
+						  },
+						  {
+							  {{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
+							  {{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
+						  }
+						},
+						{
+						  {
+							{{0, 0, 0, 0}, {0, 0, 0, 0}},
+							{{0, 0, 0, 0}, {0, 0, 0, 0}},
+						  },
+						  {
+							{{0, 0, 0, 0}, {0, 0, 0, 0}},
+							{{0, 0, 0, 0}, {0, 0, 0, 0}},
+						  }
+						}
 					};
 
 //
@@ -159,6 +178,18 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				g_AdmCfg.awRange[2]  = pAdmCfg->awRange[2];
 				g_AdmCfg.awRange[3]  = pAdmCfg->awRange[3];
 
+				{
+					int		iiP, iiR, iiAdc, iiRange;
+					for( iiRange=0; iiRange<4; iiRange++ )
+					for( iiAdc=0; iiAdc<2; iiAdc++ )
+					for( iiR=0; iiR<2; iiR++ )
+					for( iiP=0; iiP<2; iiP++ )
+					{
+						g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange] = pAdmCfg->awRangeDeviation[iiP][iiR][iiAdc][iiRange]; 
+						g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = pAdmCfg->awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+					}
+				}
+
 				size = sizeof(ICR_CfgAdm);
 				RealCfgSize += size;
 				break;
@@ -195,6 +226,18 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->awRange[1]  = g_AdmCfg.awRange[1];
 	pAdmCfg->awRange[2]  = g_AdmCfg.awRange[2];
 	pAdmCfg->awRange[3]  = g_AdmCfg.awRange[3];
+
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+		for( iiAdc=0; iiAdc<2; iiAdc++ )
+		for( iiR=0; iiR<2; iiR++ )
+		for( iiP=0; iiP<2; iiP++ )
+		{
+			pAdmCfg->awRangeDeviation[iiP][iiR][iiAdc][iiRange] = g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange];
+			pAdmCfg->awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+		}
+	}
 
 	pCurCfgMem = (USHORT*)((UCHAR*)pCurCfgMem + sizeof(ICR_CfgAdm));
 	if(pCurCfgMem >= pEndCfgMem)
@@ -269,7 +312,24 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_Range2   = g_AdmCfg.awRange[2];
 	dlg.m_Range3   = g_AdmCfg.awRange[3];
 
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+		for( iiAdc=0; iiAdc<2; iiAdc++ )
+		for( iiR=0; iiR<2; iiR++ )
+		for( iiP=0; iiP<2; iiP++ )
+		{
+			dlg.m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange];
+			dlg.m_awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+		}
+	}
+
+
+	//
+	// Вызвать диалоговое окно
+	//
 	int nResponse = (int)dlg.DoModal();
+
 	if (nResponse == IDOK)
 	{
 		// TODO: Place code here to handle when the dialog is
@@ -353,6 +413,18 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		g_AdmCfg.awRange[1]  = dlg.m_Range1;
 		g_AdmCfg.awRange[2]  = dlg.m_Range2;
 		g_AdmCfg.awRange[3]  = dlg.m_Range3;
+
+		{
+			int		iiP, iiR, iiAdc, iiRange;
+			for( iiRange=0; iiRange<4; iiRange++ )
+			for( iiAdc=0; iiAdc<2; iiAdc++ )
+			for( iiR=0; iiR<2; iiR++ )
+			for( iiP=0; iiP<2; iiP++ )
+			{
+				g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange] = dlg.m_awRangeDeviation[iiP][iiR][iiAdc][iiRange];
+				g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = dlg.m_awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+			}
+		}
 	}
 	else if (nResponse == IDCANCEL)
 	{

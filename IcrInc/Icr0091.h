@@ -28,12 +28,13 @@ typedef struct _ICR_Cfg0091 {
 	U32	nRefGen2;             // опорный генератор 2 (Гц)
 	U08	nRefGen2Type;         // тип опорного генератора 2
 	U08	nReserve0;            // резерв
+	U16	nReserve1;            // резерв
 	U32	nLpfPassBand;         // частота среза ФНЧ (Гц)
 	U16 awRange[4];	          // шкалы преобразования для Standard (мВ) (default 10000, 2000, 500, 100)
-	U16	awRangeDeviation0[4]; // отклонение ШП от номинала для АЦП0 (разы) (default 10000)
-	U16	awRangeDeviation1[4]; // отклонение ШП от номинала для АЦП1 (разы) (default 10000)
-	U16 awRelativeBias0[4];   // относительное смещение нуля для АЦП0 (разы) (default 0)
-	U16 awRelativeBias1[4];   // относительное смещение нуля для АЦП1 (разы) (default 0)
+	S16	awRangeDeviation[2][2][2][4];	// отклонение ШП от номинала (разы) (default 10000)
+										// [тип входа][Rвх/ФНЧ][номер АЦП][номер ШП]
+	S16 awBiasDeviation[2][2][2][4];	// отклонения смещения нуля (разы) (default 0)
+										// [тип входа][Rвх/ФНЧ][номер АЦП][номер ШП]
 } ICR_Cfg0091, *PICR_Cfg0091, ICR_CfgAdm, *PICR_CfgAdm;
 
 #pragma pack(pop)    
