@@ -23,6 +23,8 @@ public:
 	void GetDataFromDlg(PICR_CfgAdm2If pAdmIfCfg, UINT num);
 	void SetMaxAdmIf(int maxAdmIf);
 
+	void PageEnable(U08 isEnable);
+
 // Dialog Data
 	enum { IDD = IDD_PP_ADM2IF };
 	CSpinButtonCtrl	m_ctrlSpinPld;

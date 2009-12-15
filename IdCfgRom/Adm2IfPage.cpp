@@ -485,3 +485,32 @@ BOOL CAdm2IfPage::PreTranslateMessage(MSG* pMsg)
 
 	return CPropertyPage::PreTranslateMessage(pMsg);
 }
+
+void CAdm2IfPage::PageEnable(U08 isEnable)
+{
+	CWnd* pAdmIfNum = (CWnd*)GetDlgItem(IDC_ADMIFNUM);
+	CWnd* pAdmIfType = (CWnd*)GetDlgItem(IDC_ADMIFTYPE);
+	CWnd* pNumOfPld = (CWnd*)GetDlgItem(IDC_NUMOFPLD);
+	CWnd* pNumOfAdcFifo = (CWnd*)GetDlgItem(IDC_NUMOFADCFIFO);
+	CWnd* pNumOfDac = (CWnd*)GetDlgItem(IDC_NUMOFDAC);
+	CWnd* pNumOfDacFifo = (CWnd*)GetDlgItem(IDC_NUMOFDACFIFO);
+	CWnd* pStart = (CWnd*)GetDlgItem(IDC_STARTBE);
+	CWnd* pPio = (CWnd*)GetDlgItem(IDC_PIOBE);
+	CWnd* pPioType = (CWnd*)GetDlgItem(IDC_PIOTYPE);
+	CWnd* pGen1 = (CWnd*)GetDlgItem(IDC_GEN1);
+	CWnd* pGen2 = (CWnd*)GetDlgItem(IDC_GEN2);
+	CWnd* pRefVoltsPvs = (CWnd*)GetDlgItem(IDC_REFVOLTPVS);
+
+	pAdmIfNum->EnableWindow(isEnable);
+	pAdmIfType->EnableWindow(isEnable);
+	pNumOfPld->EnableWindow(isEnable);
+	pNumOfAdcFifo->EnableWindow(isEnable);
+	pNumOfDac->EnableWindow(isEnable);
+	pNumOfDacFifo->EnableWindow(isEnable);
+	pStart->EnableWindow(isEnable);
+	pPio->EnableWindow(isEnable);
+	pPioType->EnableWindow(isEnable);
+	pGen1->EnableWindow(isEnable);
+	pGen2->EnableWindow(isEnable);
+	pRefVoltsPvs->EnableWindow(isEnable);
+}

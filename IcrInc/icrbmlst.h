@@ -58,6 +58,7 @@ typedef enum _ICR_BMType
 		SYNC8CHPCI	= 0x50A2,
 		ADP201X1AMB	= 0x5504,
 		ADP201X1DSP	= 0x5505,
+		DR16        = 0x53B0
 } ICR_BMType;
 
 #endif	// __ICRBMLST_H_ 

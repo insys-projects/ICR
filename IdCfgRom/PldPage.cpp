@@ -348,3 +348,17 @@ BOOL CPldPage::PreTranslateMessage(MSG* pMsg)
 
 	return CPropertyPage::PreTranslateMessage(pMsg);
 }
+
+void CPldPage::PageEnable(U08 isEnable)
+{
+	CWnd* pPldNum = (CWnd*)GetDlgItem(IDC_PLDNUM);
+	CWnd* pPldType = (CWnd*)GetDlgItem(IDC_PLDTYPE);
+	CWnd* pPldPins = (CWnd*)GetDlgItem(IDC_PLDPINS);
+	CWnd* pPldRate = (CWnd*)GetDlgItem(IDC_PLDRATE);
+	CWnd* pPldSize = (CWnd*)GetDlgItem(IDC_PLDSIZE);
+	pPldNum->EnableWindow(0);
+	pPldType->EnableWindow(isEnable);
+	pPldPins->EnableWindow(isEnable);
+	pPldRate->EnableWindow(isEnable);
+	pPldSize->EnableWindow(isEnable);
+}

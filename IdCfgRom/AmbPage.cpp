@@ -234,20 +234,22 @@ void CAmbPage::OnSelchangeBmtype()
 		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 		pParentWnd->m_ctrlReadWriteDevs.SetCurSel(0);
 		pParentWnd->m_ctrlReadWriteDevs.EnableWindow(FALSE);
-
-		m_NumOfAdmIf = 0;
- 		pParentWnd->m_nCanWriteSM = 0;
-		m_ctrlAdmNum.EnableWindow(TRUE);
  	}
+	else if(!str.Compare("DR16"))
+	{
+		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
+		pParentWnd->m_ctrlReadWriteDevs.SetCurSel(0);
+		pParentWnd->m_ctrlReadWriteDevs.EnableWindow(FALSE);
+	}
 	else
 	{
 		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 		pParentWnd->m_ctrlReadWriteDevs.EnableWindow(TRUE);
-
-		m_NumOfAdmIf = 1;
-		pParentWnd->m_nCanWriteSM = 1;
-		m_ctrlAdmNum.EnableWindow(FALSE);
 	}
+
+	m_NumOfAdmIf = 1;
+	pParentWnd->m_nCanWriteSM = 1;
+	m_ctrlAdmNum.EnableWindow(FALSE);
 
 	UpdateData(FALSE);
 
@@ -255,8 +257,21 @@ void CAmbPage::OnSelchangeBmtype()
 
 	pParentWnd->m_pAdmIfPage->SetMaxAdmIf(m_NumOfAdmIf - 1);
 	pParentWnd->m_pAdmPage->SetMaxAdm(m_NumOfAdmIf - 1);
-
 	pParentWnd->m_pPldPage->SetMaxPld(pParentWnd->m_pAdmIfPage->m_NumOfPld - 1);
+
+	if(!str.Compare("DR16"))
+	{
+		pParentWnd->m_pPldPage->PageEnable(1);
+		pParentWnd->m_pAdmIfPage->PageEnable(0);
+	}
+
+	if(!str.Compare("VK3"))
+	{
+		pParentWnd->m_pPldPage->PageEnable(0);
+		pParentWnd->m_pAdmIfPage->PageEnable(0);
+	}
+
+		
 	pParentWnd->m_pFifoPage->SetMaxAdcFifo(pParentWnd->m_pAdmIfPage->m_NumOfAdcFifo - 1);
 	pParentWnd->m_pFifoPage->SetMaxDacFifo(pParentWnd->m_pAdmIfPage->m_NumOfDacFifo - 1);
 	pParentWnd->m_pDacPage->SetMaxDac(pParentWnd->m_pAdmIfPage->m_NumOfDac - 1);

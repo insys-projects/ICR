@@ -51,8 +51,8 @@ typedef struct _ICR_Cfg53B0
 	U16		wDucRange;			// шкала преобразования DUC (мВ)
 	U32		nGenFreq;			// частота опорного генератора (Гц)
 	U16		wGenPrec;			// точночть частоты опорного генератора (0.01 ppm)
-	U32		nSyntFreql;			// частота синтезатора
-} ICR_Cfg53B0, *PICR_Cfg53B0, ICR_CfgVK3, *PICR_CfgVK3;
+	U32		nSyntFreq;			// частота синтезатора
+} ICR_Cfg53B0, *PICR_Cfg53B0, ICR_CfgDR16, *PICR_CfgDR16;
 
 #pragma pack(pop) 
 

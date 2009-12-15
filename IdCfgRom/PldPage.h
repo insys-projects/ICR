@@ -21,6 +21,8 @@ public:
 	void GetDataFromDlg(PICR_CfgAdmPld pPldCfg, UINT num, UINT AdmNum);
 	void SetMaxPld(int maxPld);
 
+	void PageEnable(U08 isEnable);
+
 // Dialog Data
 	enum { IDD = IDD_PP_PLD };
 	CSpinButtonCtrl	m_ctrlSpinPldNum;
