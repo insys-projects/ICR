@@ -1,0 +1,258 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\IcrDR16.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""     // Standard components\r\n"
+    "#endif\r\n"
+    "1 TYPELIB ""IcrDR16.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904e4"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Company name>"
+            VALUE "FileDescription", "TODO: <File description>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "IcrDR16.dll"
+            VALUE "LegalCopyright", "TODO: (c) <Company name>.  All rights reserved."
+            VALUE "OriginalFilename", "IcrDR16.dll"
+            VALUE "ProductName", "TODO: <Product name>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DLG_CFG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 326
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 257
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DLG_CFG DIALOGEX 0, 0, 333, 265
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Конфигурация DR16"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,113,243,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,169,243,50,14
+    CONTROL         "DUC",IDC_DUC,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,77,13,54,8,WS_EX_TRANSPARENT
+    GROUPBOX        "",IDC_STATIC,7,3,132,156
+    CONTROL         "Трансформаторный выход DUC",IDC_DUC_TRANSFORMATOR,
+                    "Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,24,122,8,WS_EX_TRANSPARENT
+    CONTROL         "Опорный генератор",IDC_GENERATOR,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,35,122,8,WS_EX_TRANSPARENT
+    CONTROL         "Синтезатор частоты",IDC_SYNTHESIZER,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,46,122,8,WS_EX_TRANSPARENT
+    CONTROL         "Вход внешнего такта",IDC_EXT_TACT_INPUT,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,57,122,8,WS_EX_TRANSPARENT
+    CONTROL         "Вход внешнего старта",IDC_EXT_START_INPUT,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,68,122,8,WS_EX_TRANSPARENT
+    CONTROL         "Выход внешнего старта",IDC_EXT_START_OUTPUT,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,79,122,8,WS_EX_TRANSPARENT
+    CONTROL         "LINKs",IDC_LINKS,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,90,122,8,WS_EX_TRANSPARENT
+    CONTROL         "PIOX",IDC_PIOX,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,101,122,8,WS_EX_TRANSPARENT
+    CONTROL         "SYNX",IDC_SYNX,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,112,122,8,WS_EX_TRANSPARENT
+    CONTROL         "LVDS PIOX",IDC_LVDS_PIOX,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,123,122,8,WS_EX_TRANSPARENT
+    CONTROL         "PCI 64 бит",IDC_PCI64,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,134,122,8,WS_EX_TRANSPARENT
+    CONTROL         "Индустриальное исполнение",IDC_INDUSTRIAL,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | BS_RIGHT | WS_TABSTOP,9,145,122,8,WS_EX_TRANSPARENT
+    GROUPBOX        "ADC",IDC_STATIC,146,3,180,156,BS_CENTER
+    RTEXT           "Количество:",IDC_STATIC,236,22,44,8
+    EDITTEXT        IDC_ADC_CNT,281,21,37,13,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Разрядность:",IDC_STATIC,232,38,47,8
+    COMBOBOX        IDC_ADC_BITS,281,37,37,54,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Мин. частота дискретизации (МГц):",IDC_STATIC,156,54,123,8
+    EDITTEXT        IDC_ADC_MIN_RATE,281,53,37,13,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Макс. частота дискретизации (МГц):",IDC_STATIC,153,70,126,8
+    RTEXT           "Нижняя частота среза (МГц):",IDC_STATIC,179,86,100,8
+    EDITTEXT        IDC_ADC_LOW_FREQ,281,85,37,13,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Верхняя частота среза (МГц):",IDC_STATIC,177,102,102,8
+    EDITTEXT        IDC_ADC_HIGH_FREQ,281,101,37,13,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Входное сопротивление (Ом):",IDC_STATIC,177,118,102,8
+    COMBOBOX        IDC_ADC_MAX_RATE,281,69,37,54,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_ADC_INP_RESIST,281,117,37,54,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Амплитудная шкала (В):",IDC_STATIC,191,134,84,8
+    COMBOBOX        IDC_ADC_RANGE,281,133,37,82,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "DDC",IDC_STATIC,7,161,155,29,BS_CENTER
+    LTEXT           "Число микросхем:",IDC_STATIC,41,172,61,8
+    COMBOBOX        IDC_DDC_CNT,103,171,28,54,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "DUC",IDC_STATIC,7,192,155,45,BS_CENTER
+    RTEXT           "Верхняя частота среза (МГц):",IDC_STATIC,14,204,102,8
+    EDITTEXT        IDC_DUC_HIGH_FREQ,118,202,37,13,ES_AUTOHSCROLL | ES_NUMBER
+    RTEXT           "Амплитудная шкала (В):",IDC_STATIC,32,220,84,8
+    COMBOBOX        IDC_DUC_RANGE,118,218,37,82,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "GEN",IDC_STATIC,169,161,157,76,BS_CENTER
+    LTEXT           "Частота ОГ(МГц):",IDC_STATIC,218,181,62,8
+    EDITTEXT        IDC_GEN_FREQ,281,179,37,13,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Точность частоты ОГ (ppm):",IDC_STATIC,182,197,98,8
+    EDITTEXT        IDC_GEN_PREC,281,195,37,13,ES_AUTOHSCROLL
+    LTEXT           "Частота синтезатора (МГц):",IDC_STATIC,183,212,97,8
+    EDITTEXT        IDC_SYNT_FREQ,281,211,37,13,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DLG_CFG DLGINIT
+BEGIN
+    IDC_ADC_BITS, 0x403, 3, 0
+0x3231, "\000" 
+    IDC_ADC_BITS, 0x403, 3, 0
+0x3431, "\000" 
+    IDC_ADC_BITS, 0x403, 3, 0
+0x3631, "\000" 
+    IDC_ADC_MAX_RATE, 0x403, 3, 0
+0x3536, "\000" 
+    IDC_ADC_MAX_RATE, 0x403, 3, 0
+0x3038, "\000" 
+    IDC_ADC_MAX_RATE, 0x403, 4, 0
+0x3031, 0x0035, 
+    IDC_ADC_MAX_RATE, 0x403, 4, 0
+0x3231, 0x0035, 
+    IDC_ADC_INP_RESIST, 0x403, 3, 0
+0x3035, "\000" 
+    IDC_ADC_INP_RESIST, 0x403, 3, 0
+0x3537, "\000" 
+    IDC_ADC_RANGE, 0x403, 6, 0
+0x2e30, 0x3630, 0x0032, 
+    IDC_ADC_RANGE, 0x403, 6, 0
+0x2e30, 0x3231, 0x0035, 
+    IDC_ADC_RANGE, 0x403, 5, 0
+0x2e30, 0x3532, "\000" 
+    IDC_ADC_RANGE, 0x403, 4, 0
+0x2e30, 0x0035, 
+    IDC_ADC_RANGE, 0x403, 2, 0
+0x0031, 
+    IDC_DDC_CNT, 0x403, 2, 0
+0x0031, 
+    IDC_DDC_CNT, 0x403, 2, 0
+0x0032, 
+    IDC_DDC_CNT, 0x403, 2, 0
+0x0033, 
+    IDC_DDC_CNT, 0x403, 2, 0
+0x0034, 
+    IDC_DUC_RANGE, 0x403, 5, 0
+0x2e30, 0x3532, "\000" 
+    IDC_DUC_RANGE, 0x403, 4, 0
+0x2e30, 0x0035, 
+    IDC_DUC_RANGE, 0x403, 2, 0
+0x0031, 
+    0
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\IcrDR16.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"     // Standard components
+#endif
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
