@@ -25,6 +25,7 @@
 
 const USHORT AMBPCD_CFG_TAG = 0x4D44; // тэг для структуры конфигурационных параметров базового модуля AMBPCD
 const USHORT AMBPCX_CFG_TAG = 0x4D58; // тэг для структуры конфигурационных параметров базового модуля AMBPCX
+const USHORT AMBPEX2_CFG_TAG = 0x5508; // тэг для структуры конфигурационных параметров базового модуля AMBPEX2
 
 // AMBPCD/AMBPCX modules configuration
 // Конфигурационные параметры базовых модулей AMBPCD/AMBPCX
