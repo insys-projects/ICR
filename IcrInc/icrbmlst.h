@@ -49,6 +49,9 @@ typedef enum _ICR_BMType
         ADS10x2G	= 0x1020,
         AMBPEX1     = 0x5502,
         AMBPEX8     = 0x5503,
+		ADP201X1AMB	= 0x5504,
+		ADP201X1DSP	= 0x5505,
+        AMBPEX2     = 0x5508,
 		ADP64Z2A	= 0x642A,
 		ADP6713		= 0x6713,
 		ADP64Z1		= 0x6431,
@@ -56,8 +59,6 @@ typedef enum _ICR_BMType
 		ADP64Z5		= 0x6435,
 		ADP6203		= 0x6202,
 		SYNC8CHPCI	= 0x50A2,
-		ADP201X1AMB	= 0x5504,
-		ADP201X1DSP	= 0x5505,
 		DR16        = 0x53B0
 } ICR_BMType;
 

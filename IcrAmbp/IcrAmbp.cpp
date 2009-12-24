@@ -99,6 +99,10 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 		lstrcpy(pDevInfo->sName, _T("AMBPCX"));
 		pDevInfo->dType = AMBPCX;
 		break;
+	case 2:
+		lstrcpy(pDevInfo->sName, _T("AMBPEX2"));
+		pDevInfo->dType = AMBPEX2;
+		break;
 	default:
 		*pNumDev = -1;
 	}
