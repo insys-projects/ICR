@@ -74,4 +74,6 @@ public:
 	S32 m_isClkOut;
 public:
 	S32 m_isIndustrial;
+public:
+	afx_msg void OnBnClickedIspll();
 };

@@ -82,6 +82,7 @@ BEGIN_MESSAGE_MAP(Icr0092Dlg, CDialog)
 //	ON_BN_CLICKED(IDC_ISPLL, &Icr0092Dlg::OnBnClickedIspll)
 //	ON_EN_KILLFOCUS(IDC_OSCFREQ, &Icr0092Dlg::OnEnKillfocusOscfreq)
 	ON_EN_KILLFOCUS(IDC_GEN, &Icr0092Dlg::OnEnKillfocusGen)
+	ON_BN_CLICKED(IDC_ISPLL, &Icr0092Dlg::OnBnClickedIspll)
 END_MESSAGE_MAP()
 
 
@@ -122,11 +123,20 @@ BOOL Icr0092Dlg::OnInitDialog()
     m_ToolTip.AddTool(GetDlgItem(IDCANCEL), IDCANCEL);
 	m_ToolTip.AddTool(GetDlgItem(IDC_GEN_PREC), IDC_GEN_PREC);
 
-// 	if ( m_nOscFreq > 0 )
-// 	{
-		m_isPll = 1;
+ 	if ( m_nOscFreq > 0 )
+	{
+ 		m_isPll = 1;
 		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
 		pPll->EnableWindow(TRUE);
+	}
+	else
+	{
+		m_isPll = 0;	
+		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
+		pPll->EnableWindow(FALSE);
+	}
+
+
 		CWnd* pIsGen = (CWnd*)GetDlgItem(IDC_ISGEN);
 		pIsGen->EnableWindow(TRUE);
 		if( m_isGen == 1 )
@@ -302,5 +312,26 @@ void Icr0092Dlg::OnEnKillfocusGen()
 	UpdateData(TRUE);
 	if( m_nGen == 0 )
 		m_nGen = 1;
+	UpdateData(FALSE);
+}
+
+void Icr0092Dlg::OnBnClickedIspll()
+{
+	// TODO: Add your control notification handler code here
+	UpdateData(TRUE);
+	
+	if(m_isPll == 0)
+	{
+		m_nOscFreq = 0;
+		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
+		pPll->EnableWindow(FALSE);
+	}
+	else
+	{
+		m_nOscFreq = 1;
+		CWnd* pPll = (CWnd*)GetDlgItem(IDC_OSCFREQ);
+		pPll->EnableWindow(TRUE);
+	}
+
 	UpdateData(FALSE);
 }
