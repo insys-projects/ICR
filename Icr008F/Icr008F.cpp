@@ -77,7 +77,7 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, _T("ADMDAC216x400M"));
+		lstrcpy(pDevInfo->sName, _T("ADMDAC216x400Mv1.0"));
 		pDevInfo->Type = ADMDAC216x400M;
 		break;
 	default:
