@@ -26,11 +26,9 @@ public:
 	CSpinButtonCtrl m_ctrlSpinDac;
 	CComboBox m_ctrlDacOutResist;
 	CComboBox m_ctrlQuadModType;
-	CComboBox m_ctrlOutCasMod;
 	S32 	m_isFreqTune;
 	BOOL	m_ExtClk;
 	CString	m_sOutResist;
-	int		m_OutCasMod;
 	S32  	m_isPll;
 	S32	    m_isGen;
 	BOOL	m_QuadMod;

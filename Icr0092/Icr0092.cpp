@@ -77,8 +77,8 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, _T("ADMDAC216x400Mv2.0"));
-		pDevInfo->Type = ADMDAC216x400M;
+		lstrcpy(pDevInfo->sName, _T("ADMDAC216x400M v2.0"));
+		pDevInfo->Type = ADMDAC216x400MV2;
 		break;
 	default:
 		*pNumDev = -1;
@@ -227,7 +227,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_nLpfCutoff = g_AdmCfg.dLPFCutoff;
 	dlg.m_sOutResist.Format("%d", g_AdmCfg.bOutResist);
 	dlg.m_nOscFreq = g_AdmCfg.dOscFreq/1000000;
-	dlg.m_OutCasMod = g_AdmCfg.bOutCasMod;
 	dlg.m_QuadModType = g_AdmCfg.bQuadModType;
 	dlg.m_ExtClk = g_AdmCfg.bIsExtClk;
 
@@ -252,7 +251,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			(g_AdmCfg.bOutResist != (atoi(dlg.m_sOutResist.GetString()))) ||
 			g_AdmCfg.dOscFreq != (dlg.m_nOscFreq*1000000) ||
 			(g_AdmCfg.wGenPrec != (atof(dlg.m_sGenPrec.GetString()) * 100)) ||
-			g_AdmCfg.bOutCasMod != dlg.m_OutCasMod ||
 			g_AdmCfg.bQuadModType != dlg.m_QuadModType ||
 			g_AdmCfg.bIsExtClk != dlg.m_ExtClk ||
 			g_AdmCfg.bIsClkout != dlg.m_isClkOut ||
@@ -270,7 +268,6 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		g_AdmCfg.dLPFCutoff = dlg.m_nLpfCutoff;
 		g_AdmCfg.bOutResist = atoi(dlg.m_sOutResist.GetString());
 		g_AdmCfg.dOscFreq = dlg.m_nOscFreq * 1000000;
-		g_AdmCfg.bOutCasMod = dlg.m_OutCasMod;
 		g_AdmCfg.bQuadModType = dlg.m_QuadModType;
 		g_AdmCfg.bIsExtClk = dlg.m_ExtClk;
 		g_AdmCfg.wGenPrec = atof(dlg.m_sGenPrec.GetString()) * 100;

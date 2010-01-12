@@ -32,9 +32,7 @@ Icr0092Dlg::Icr0092Dlg(CWnd* pParent /*=NULL*/)
 	, m_ExtClk(FALSE)
 	, m_isClkOut(1)
 	, m_isIndustrial(0)
-	, m_OutCasMod(0)
 {
-	m_OutCasMod = 0;
 	m_QuadModType = 0;
 }
 
@@ -54,8 +52,6 @@ void Icr0092Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CLKOUT,     m_isClkOut);
 	DDX_Check(pDX, IDC_INDUSTRIAL, m_isIndustrial);
 
-	DDX_Control(pDX, IDC_OUTCASMOD, m_ctrlOutCasMod);
-
 	DDX_Check(pDX, IDC_ISGEN, m_isGen);
 	DDX_Check(pDX, IDC_GENTUNE, m_isFreqTune);
 	DDX_Control(pDX, IDC_SPINDAC, m_ctrlSpinDac);
@@ -64,7 +60,6 @@ void Icr0092Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_QUADMOD, m_QuadMod);
 	DDX_Check(pDX, IDC_EXTCLK, m_ExtClk);
 	DDX_CBString(pDX, IDC_DACOUTRESIST, m_sOutResist);
-	DDX_CBIndex(pDX, IDC_OUTCASMOD, m_OutCasMod);
 
 	DDX_Text(pDX, IDC_GEN, m_nGen);
 	DDX_Text(pDX, IDC_DACRANGE, m_nDacRange);
@@ -118,7 +113,6 @@ BOOL Icr0092Dlg::OnInitDialog()
 	m_ToolTip.AddTool(GetDlgItem(IDC_ISGEN), IDC_ISGEN);
 	m_ToolTip.AddTool(GetDlgItem(IDC_GENTUNE), IDC_GENTUNE);
 	m_ToolTip.AddTool(GetDlgItem(IDC_OSCFREQ), IDC_OSCFREQ1);
-	m_ToolTip.AddTool(GetDlgItem(IDC_OUTCASMOD), IDC_OUTCASMOD);
 	m_ToolTip.AddTool(GetDlgItem(IDOK), IDOK);
     m_ToolTip.AddTool(GetDlgItem(IDCANCEL), IDCANCEL);
 	m_ToolTip.AddTool(GetDlgItem(IDC_GEN_PREC), IDC_GEN_PREC);
