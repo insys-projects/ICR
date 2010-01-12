@@ -224,7 +224,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_nGen = g_AdmCfg.dGen;
 	dlg.m_isFreqTune = g_AdmCfg.bFreqTune;
 	dlg.m_bNumOfDac = g_AdmCfg.bDacCnt;
-	dlg.m_nLpfCutoff = g_AdmCfg.dLPFCutoff;
+	dlg.m_nLpfCutoff = g_AdmCfg.dLPFCutoff/1000000;
 	dlg.m_sOutResist.Format("%d", g_AdmCfg.bOutResist);
 	dlg.m_nOscFreq = g_AdmCfg.dOscFreq/1000000;
 	dlg.m_QuadModType = g_AdmCfg.bQuadModType;
@@ -247,7 +247,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			g_AdmCfg.dGen != dlg.m_nGen ||
 			g_AdmCfg.bFreqTune != dlg.m_isFreqTune ||
 			g_AdmCfg.bDacCnt != dlg.m_bNumOfDac ||
-			g_AdmCfg.dLPFCutoff != dlg.m_nLpfCutoff ||
+			g_AdmCfg.dLPFCutoff != (dlg.m_nLpfCutoff*1000000) ||
 			(g_AdmCfg.bOutResist != (atoi(dlg.m_sOutResist.GetString()))) ||
 			g_AdmCfg.dOscFreq != (dlg.m_nOscFreq*1000000) ||
 			(g_AdmCfg.wGenPrec != (atof(dlg.m_sGenPrec.GetString()) * 100)) ||
@@ -265,7 +265,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		g_AdmCfg.dGen = dlg.m_nGen;
 		g_AdmCfg.bFreqTune = dlg.m_isFreqTune;
 		g_AdmCfg.bDacCnt = dlg.m_bNumOfDac;
-		g_AdmCfg.dLPFCutoff = dlg.m_nLpfCutoff;
+		g_AdmCfg.dLPFCutoff = dlg.m_nLpfCutoff * 1000000;
 		g_AdmCfg.bOutResist = atoi(dlg.m_sOutResist.GetString());
 		g_AdmCfg.dOscFreq = dlg.m_nOscFreq * 1000000;
 		g_AdmCfg.bQuadModType = dlg.m_QuadModType;
