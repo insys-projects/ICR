@@ -62,7 +62,7 @@ void IcrDR16Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text    (pDX, IDC_ADC_MIN_RATE,    	 m_nAdcMinRate);
 	DDX_Control (pDX, IDC_ADC_MAX_RATE,      m_ctrlAdcMaxRate);
 	DDX_CBString(pDX, IDC_ADC_MAX_RATE,      m_sAdcMaxRate);
-	DDX_Text    (pDX, IDC_ADC_LOW_FREQ,    	 m_nAdcLowFreq);
+	DDX_Text    (pDX, IDC_ADC_LOW_FREQ,    	 m_sAdcLowFreq);
 	DDX_Text    (pDX, IDC_ADC_HIGH_FREQ,   	 m_nAdcHighFreq);
 	DDX_Control (pDX, IDC_ADC_INP_RESIST,    m_ctrlAdcInpResist);
 	DDX_CBString(pDX, IDC_ADC_INP_RESIST,    m_sAdcInpResist);
@@ -77,6 +77,7 @@ void IcrDR16Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control (pDX, IDC_GEN_PREC,          m_ctrlGenPrec);
 	DDX_Text    (pDX, IDC_GEN_PREC,   	     m_sGenPrec);
 	DDX_Text    (pDX, IDC_SYNT_FREQ,   	     m_nSyntFreq);
+	DDX_Control(pDX, IDC_ADC_LOW_FREQ,       m_ctrlAdcLowFreq);
 }
 
 

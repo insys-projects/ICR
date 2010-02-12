@@ -49,7 +49,6 @@ public:
 	S32 m_isIndustrial;
 	U08 m_bAdcCnt;
 	U32 m_nAdcMinRate;
-	U32 m_nAdcLowFreq;
 	U32 m_nAdcHighFreq;
 	U32 m_nDucHighFreq;
 	U32 m_nGenFreq;
@@ -62,8 +61,10 @@ public:
 	CString m_sDdcCnt;
 	CString m_sDucRange;
 	CString m_sGenPrec;
+	CString m_sAdcLowFreq;
 
 	CNumEdit m_ctrlGenPrec;
+	CNumEdit m_ctrlAdcLowFreq;
 
 	CNumComboBox m_ctrlAdcBits;
 	CNumComboBox m_ctrlAdcMaxRate;

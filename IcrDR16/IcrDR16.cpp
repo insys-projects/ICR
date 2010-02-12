@@ -85,7 +85,7 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, "DR16");
+		lstrcpy(pDevInfo->sName, "DR-16");
 		pDevInfo->dType = DR16;
 		break;
 	default:
@@ -272,7 +272,7 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	dlg.m_sAdcBits.Format("%d", g_AdpDR16Cfg.bAdcBits);
 	dlg.m_nAdcMinRate		 = g_AdpDR16Cfg.nAdcMinRate / 1000000;
 	dlg.m_sAdcMaxRate.Format("%d", g_AdpDR16Cfg.nAdcMaxRate / 1000000);
-	dlg.m_nAdcLowFreq        = g_AdpDR16Cfg.nAdcLowFreq / 1000000;
+	dlg.m_sAdcLowFreq.Format("%.3f", (REAL32)g_AdpDR16Cfg.nAdcLowFreq / (REAL32)1000000);
 	dlg.m_nAdcHighFreq       = g_AdpDR16Cfg.nAdcHighFreq / 1000000;
 	dlg.m_sAdcInpResist.Format("%d", g_AdpDR16Cfg.bAdcInpResist);
 	dlg.m_sAdcRange.Format("%f", (REAL32)g_AdpDR16Cfg.wAdcRange / (REAL32)1000);
@@ -308,7 +308,7 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 			g_AdpDR16Cfg.bAdcBits		    != atoi(dlg.m_sAdcBits.GetString()) ||
 			(g_AdpDR16Cfg.nAdcMinRate       != (dlg.m_nAdcMinRate * 1000000)) ||
 			(g_AdpDR16Cfg.nAdcMaxRate	    != (atoi(dlg.m_sAdcMaxRate.GetString()) * 1000000)) ||
-			(g_AdpDR16Cfg.nAdcLowFreq       != (dlg.m_nAdcLowFreq * 1000000)) ||
+			(g_AdpDR16Cfg.nAdcLowFreq   	!= (atof(dlg.m_sAdcLowFreq.GetString()) * 1000000)) ||
 			(g_AdpDR16Cfg.nAdcHighFreq      != (dlg.m_nAdcHighFreq * 1000000)) ||
 			g_AdpDR16Cfg.bAdcInpResist      != atoi(dlg.m_sAdcInpResist.GetString()) ||
 			(g_AdpDR16Cfg.wAdcRange   	    != (atof(dlg.m_sAdcRange.GetString()) * 1000)) ||
@@ -338,7 +338,7 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 			g_AdpDR16Cfg.bAdcBits		    = atoi(dlg.m_sAdcBits.GetString());	
 			g_AdpDR16Cfg.nAdcMinRate        = dlg.m_nAdcMinRate * 1000000;
 			g_AdpDR16Cfg.nAdcMaxRate        = atoi(dlg.m_sAdcMaxRate.GetString()) * 1000000;
-			g_AdpDR16Cfg.nAdcLowFreq        = dlg.m_nAdcLowFreq * 1000000;
+			g_AdpDR16Cfg.nAdcLowFreq   	    = (atof(dlg.m_sAdcLowFreq.GetString()) * 1000000);
 			g_AdpDR16Cfg.nAdcHighFreq       = dlg.m_nAdcHighFreq * 1000000;
 			g_AdpDR16Cfg.bAdcInpResist	    = atoi(dlg.m_sAdcInpResist.GetString());	
 			g_AdpDR16Cfg.wAdcRange          = atof(dlg.m_sAdcRange.GetString()) * 1000;
