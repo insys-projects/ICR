@@ -235,7 +235,7 @@ void CAmbPage::OnSelchangeBmtype()
 		pParentWnd->m_ctrlReadWriteDevs.SetCurSel(0);
 		pParentWnd->m_ctrlReadWriteDevs.EnableWindow(FALSE);
  	}
-	else if(!str.Compare("DR16"))
+	else if(!str.Compare("DR-16"))
 	{
 		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 		pParentWnd->m_ctrlReadWriteDevs.SetCurSel(0);
