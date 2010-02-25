@@ -59,7 +59,8 @@ typedef enum _ICR_BMType
 		ADP64Z5		= 0x6435,
 		ADP6203		= 0x6202,
 		SYNC8CHPCI	= 0x50A2,
-		DR16        = 0x53B0
+		DR16        = 0x53B0,
+		SYNCCP6		= 0x53A2
 } ICR_BMType;
 
 #endif	// __ICRBMLST_H_ 
