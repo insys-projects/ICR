@@ -189,6 +189,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 				m_Ambpex5Cfg.bDdsType = pAmbpex5Cfg->bDdsType;
 				m_Ambpex5Cfg.bSPFCnt = pAmbpex5Cfg->bSPFCnt;
 				m_Ambpex5Cfg.dRefGen5 = pAmbpex5Cfg->dRefGen5;
+				m_Ambpex5Cfg.bSramCfgCnt = pAmbpex5Cfg->bSramCfgCnt;
 				pDeviceInfo->bAdmIfCnt = pAmbpex5Cfg->bAdmIfCnt;
 				size = sizeof(ICR_CfgAmbpex5);
 				RealCfgSize += size;
