@@ -19,6 +19,8 @@ IcrSync_cP6Dlg::IcrSync_cP6Dlg(CWnd* pParent /*=NULL*/)
 
 IcrSync_cP6Dlg::~IcrSync_cP6Dlg()
 {
+	IcrSync_cP6Dlg *p;
+	p->DoModal()
 }
 
 void IcrSync_cP6Dlg::DoDataExchange(CDataExchange* pDX)
