@@ -40,6 +40,7 @@ typedef enum _ICR_ADMType {
 		ADM212x500M     = 0x0258,
 		ADM212x500MWB   = 0x0259,
         ADM1612x65M     = 0x0260,
+        ADM212x1G       = 0x0270,
         ADM214x1M       = 0x0400,
         ADM214x3M       = 0x0401,
         ADM214x10M      = 0x0402,
