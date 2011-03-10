@@ -68,6 +68,7 @@ BEGIN_MESSAGE_MAP(CFileBaseFilterDlg, CDialog)
 	ON_EN_CHANGE(IDC_DAY_END, &CFileBaseFilterDlg::OnEnChangeDayEnd)
 	ON_EN_CHANGE(IDC_MONTH_END, &CFileBaseFilterDlg::OnEnChangeMonthEnd)
 	ON_EN_CHANGE(IDC_YEAR_END, &CFileBaseFilterDlg::OnEnChangeYearEnd)
+	ON_BN_CLICKED(IDC_BUTTON1, &CFileBaseFilterDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -87,8 +88,8 @@ void CFileBaseFilterDlg::OnEnChangeName()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeDevid()
@@ -99,8 +100,8 @@ void CFileBaseFilterDlg::OnEnChangeDevid()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeVer()
@@ -111,8 +112,8 @@ void CFileBaseFilterDlg::OnEnChangeVer()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeZakaz()
@@ -123,8 +124,8 @@ void CFileBaseFilterDlg::OnEnChangeZakaz()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangePid()
@@ -135,8 +136,8 @@ void CFileBaseFilterDlg::OnEnChangePid()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeSurname()
@@ -147,8 +148,8 @@ void CFileBaseFilterDlg::OnEnChangeSurname()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeKeyword()
@@ -159,8 +160,8 @@ void CFileBaseFilterDlg::OnEnChangeKeyword()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeDayStart()
@@ -171,8 +172,8 @@ void CFileBaseFilterDlg::OnEnChangeDayStart()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeMonthStart()
@@ -183,8 +184,8 @@ void CFileBaseFilterDlg::OnEnChangeMonthStart()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeYearStart()
@@ -195,8 +196,8 @@ void CFileBaseFilterDlg::OnEnChangeYearStart()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeDayEnd()
@@ -207,8 +208,8 @@ void CFileBaseFilterDlg::OnEnChangeDayEnd()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeMonthEnd()
@@ -219,8 +220,8 @@ void CFileBaseFilterDlg::OnEnChangeMonthEnd()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
-	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
-	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }
 
 void CFileBaseFilterDlg::OnEnChangeYearEnd()
@@ -231,6 +232,14 @@ void CFileBaseFilterDlg::OnEnChangeYearEnd()
 	// with the ENM_CHANGE flag ORed into the mask.
 
 	// TODO:  Add your control notification handler code here
+	//CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
+	//pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
+}
+
+void CFileBaseFilterDlg::OnBnClickedButton1()
+{
+	// TODO: Add your control notification handler code here
+
 	CWriteReadDlg	*pParentWnd = (CWriteReadDlg*)GetOwner();
 	pParentWnd->LoadFileBaseFromDir(pParentWnd->m_sFileBaseDir, 1);
 }

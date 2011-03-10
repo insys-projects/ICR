@@ -101,6 +101,14 @@ void CIdCfgRomApp::GetInfoFromDlls()
 		return;
 	do
 	{
+		CString sDll = FindData.cFileName;
+
+		sDll = sDll.Right(4);
+		sDll = sDll.MakeLower();
+
+		if(sDll != ".dll")
+			continue;
+
 		HINSTANCE hLib = LoadLibrary(FindData.cFileName);
 		if( !hLib )
 			continue;

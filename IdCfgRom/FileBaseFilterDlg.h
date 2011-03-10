@@ -47,4 +47,6 @@ public:
 	CString m_sDayEnd;
 	CString m_sMonthEnd;
 	CString m_sYearEnd;
+public:
+	afx_msg void OnBnClickedButton1();
 };
