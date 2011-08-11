@@ -84,7 +84,8 @@ typedef enum _ICR_ADMType {
         ADME1T1		    = 0x0D00,
         ADMFOTR		    = 0x0D10,
         ADMDIO32	    = 0x0F00,
-        ADMDIOV		    = 0x0F10
+        ADMDIOV		    = 0x0F10,
+		FM814x125M		= 0x1010
 } ICR_ADMType;
 
 #endif	// __ICRADMLST_H_ 
