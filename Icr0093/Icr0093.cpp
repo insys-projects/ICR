@@ -14,7 +14,7 @@
 ICR_CfgAdc g_AdcCfg = { ADC_CFG_TAG, 14, 0, 0, 10, 1, 10000000, 1000000000, 500};
 
 ICR_CfgAdm g_AdmCfg = { ADM_CFG_TAG, 31, 0, 8, 0, 
-						0, 2500, 1, 10000000, 1400000000,
+						0, 2500, 1, 0x49, 10000000, 1400000000,
 						{ 10000, 8000, 6000, 4000, 2000, 1000, 0, 0 }
 					  };
 
@@ -120,6 +120,7 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				g_AdmCfg.bDacType	    = pAdmCfg->bDacType;	
 				g_AdmCfg.wDacRange	    = pAdmCfg->wDacRange;	
 				g_AdmCfg.bGenType	    = pAdmCfg->bGenType;	
+				g_AdmCfg.bGenAdr	    = pAdmCfg->bGenAdr;	
 				g_AdmCfg.nGenRef        = pAdmCfg->nGenRef;   
 				g_AdmCfg.nGenRefMax     = pAdmCfg->nGenRefMax;
 				for( ii=0; ii<8; ii++ )
@@ -154,6 +155,7 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->bDacType	    = g_AdmCfg.bDacType;	
 	pAdmCfg->wDacRange	    = g_AdmCfg.wDacRange;	
 	pAdmCfg->bGenType	    = g_AdmCfg.bGenType;	
+	pAdmCfg->bGenAdr	    = g_AdmCfg.bGenAdr;	
 	pAdmCfg->nGenRef        = g_AdmCfg.nGenRef;   
 	pAdmCfg->nGenRefMax     = g_AdmCfg.nGenRefMax;
 	for( ii=0; ii<8; ii++ )
@@ -224,6 +226,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_DacType   = g_AdmCfg.bDacType;
 	dlg.m_DacRange  = g_AdmCfg.wDacRange;
 	dlg.m_GenType   = g_AdmCfg.bGenType;
+	dlg.m_GenAdr    = g_AdmCfg.bGenAdr;
 	dlg.m_GenRef    = g_AdmCfg.nGenRef;
 	dlg.m_GenRefMax = g_AdmCfg.nGenRefMax;
 	dlg.m_Range0   = g_AdmCfg.awRange[0];
@@ -273,6 +276,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			g_AdmCfg.bDacType    != dlg.m_DacType ||
 			g_AdmCfg.wDacRange   != dlg.m_DacRange ||
 			g_AdmCfg.bGenType    != dlg.m_GenType ||
+			g_AdmCfg.bGenAdr     != dlg.m_GenAdr ||
 			g_AdmCfg.nGenRef     != dlg.m_GenRef ||
 			g_AdmCfg.nGenRefMax  != dlg.m_GenRefMax ||
 			g_AdmCfg.awRange[0]  != dlg.m_Range0 ||
@@ -313,6 +317,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		g_AdmCfg.bDacType   = dlg.m_DacType;
 		g_AdmCfg.wDacRange  = dlg.m_DacRange;
 		g_AdmCfg.bGenType   = dlg.m_GenType;
+		g_AdmCfg.bGenAdr    = dlg.m_GenAdr;
 		g_AdmCfg.nGenRef    = dlg.m_GenRef;
 		g_AdmCfg.nGenRefMax = dlg.m_GenRefMax;
 		g_AdmCfg.awRange[0]  = dlg.m_Range0;

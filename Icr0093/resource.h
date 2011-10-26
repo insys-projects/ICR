@@ -20,7 +20,6 @@
 #define IDC_BIASDV_P0_R1_CH0_RANGE0     1034
 #define IDC_RANGE5                      1034
 #define IDC_BIASDV_P1_R0_CH0_RANGE0     1035
-#define IDC_RANGE6                      1035
 #define IDC_BIASDV_P1_R1_CH0_RANGE0     1036
 #define IDC_BIASDV_P0_R0_CH0_RANGE1     1037
 #define IDC_BIASDV_P0_R1_CH0_RANGE1     1038
@@ -68,6 +67,8 @@
 #define IDC_GENTYPE                     8012
 #define IDC_GENREF                      8013
 #define IDC_GENREFMAX                   8014
+#define IDC_GENADR                      8015
+#define IDC_GENREF2                     8015
 
 // Next default values for new objects
 // 

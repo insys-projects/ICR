@@ -23,6 +23,7 @@ CIcr0093Dlg::CIcr0093Dlg(CWnd* pParent /*=NULL*/)
 	m_DacType = 0;
 	m_DacRange = 2500;
 	m_GenType = 1;
+	m_GenAdr = 0x49;
 	m_GenRef = 10000000;
 	m_GenRefMax = 280000000;
 
@@ -53,7 +54,6 @@ void CIcr0093Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_ADCTYPE, m_AdcType);
 	DDX_CBIndex(pDX, IDC_DACTYPE, m_DacType);
 	DDX_Text(pDX, IDC_DACRANGE, m_DacRange);
-	DDX_Text(pDX, IDC_GENREF, m_GenRef);
 	DDX_CBIndex(pDX, IDC_GENTYPE, m_GenType);
 	DDX_Text(pDX, IDC_GENREF, m_GenRef);
 	DDX_Text(pDX, IDC_GENREFMAX, m_GenRefMax);
@@ -63,6 +63,12 @@ void CIcr0093Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_RANGE3, m_Range3);
 	DDX_Text(pDX, IDC_RANGE4, m_Range4);
 	DDX_Text(pDX, IDC_RANGE5, m_Range5);
+
+	CHAR		strGenAdr[10];
+
+	sprintf_s( strGenAdr, "%X", m_GenAdr );
+	DDX_Text(pDX, IDC_GENADR, strGenAdr, sizeof(strGenAdr) );
+	sscanf_s( strGenAdr, "%X", &m_GenAdr );
 }
 
 

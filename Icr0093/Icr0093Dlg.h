@@ -28,6 +28,7 @@ public:
 	int		m_DacType;
 	UINT	m_DacRange;
 	int		m_GenType;
+	DWORD	m_GenAdr;
 	UINT	m_GenRef;
 	UINT	m_GenRefMax;
 	UINT	m_Range0;
