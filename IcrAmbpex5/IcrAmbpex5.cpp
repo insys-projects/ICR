@@ -184,6 +184,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 		//		break;
 		//	}
 		case AMBPEX5_CFG_TAG:
+		case FMC105P_CFG_TAG:
 			{
 				PICR_CfgAmbpex5 pAmbpex5Cfg = (PICR_CfgAmbpex5)pCurCfgMem;
 				m_Ambpex5Cfg.wTag = pAmbpex5Cfg->wTag;
