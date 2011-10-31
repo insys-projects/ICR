@@ -22,11 +22,13 @@
 #pragma pack(push, 1)    
 
 const USHORT AMBPEX5_CFG_TAG = 0x5507; // тэг для структуры конфигурационных параметров базового модуля AMBPEX8
+const USHORT FMC105P_CFG_TAG = 0x5509; // тэг для структуры конфигурационных параметров базового модуля FMC105P
+
 
 // AMBPEX5/FMC105P modules configuration
 // Конфигурационные параметры базовых модулей AMBPEX5/FMC105P
 typedef struct _ICR_CfgAmbpex5 {
-	USHORT	wTag;			// тэг структуры (AMBPEX5_CFG_TAG)
+	USHORT	wTag;			// тэг структуры (AMBPEX5_CFG_TAG или FMC105P_CFG_TAG)
 	USHORT	wSize;			// размер всех следующих полей структуры
 	UCHAR	bAdmIfCnt;		// количество интерфейсов ADM
 	ULONG	dSysGen;		// System generator in Hz (default 250 MHz)
