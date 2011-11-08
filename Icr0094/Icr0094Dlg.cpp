@@ -145,6 +145,7 @@ void CIcr0094Dlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CIcr0094Dlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_CLEARDEVIATION, &CIcr0094Dlg::OnBnClickedButtonCleardeviation)
+	ON_BN_CLICKED(IDC_BUTTON_CLEARRANGE, &CIcr0094Dlg::OnBnClickedButtonClearRange)
 END_MESSAGE_MAP()
 
 
@@ -191,6 +192,7 @@ BOOL CIcr0094Dlg::OnInitDialog()
 
 void CIcr0094Dlg::OnBnClickedButtonCleardeviation()
 {
+	UpdateData(TRUE);
 	{
 		int		iiP, iiR, iiAdc, iiRange;
 		for( iiRange=0; iiRange<4; iiRange++ )
@@ -198,9 +200,24 @@ void CIcr0094Dlg::OnBnClickedButtonCleardeviation()
 		for( iiR=0; iiR<2; iiR++ )
 		for( iiP=0; iiP<2; iiP++ )
 		{
-			m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = 10000;
 			m_awBiasDeviation[iiP][iiR][iiAdc][iiRange] = 0;
 		}
+	}
+	UpdateData(FALSE);
+}
+
+void CIcr0094Dlg::OnBnClickedButtonClearRange()
+{
+	UpdateData(TRUE);
+	{
+		int		iiP, iiR, iiAdc, iiRange;
+		for( iiRange=0; iiRange<4; iiRange++ )
+			for( iiAdc=0; iiAdc<2; iiAdc++ )
+				for( iiR=0; iiR<2; iiR++ )
+					for( iiP=0; iiP<2; iiP++ )
+					{
+						m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = 10000;
+					}
 	}
 	UpdateData(FALSE);
 }

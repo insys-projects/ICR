@@ -51,4 +51,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButtonCleardeviation();
+	afx_msg void OnBnClickedButtonClearRange();
 };
