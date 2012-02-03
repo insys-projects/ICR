@@ -1,35 +1,23 @@
-// Icr0094.cpp : Defines the initialization routines for the DLL.
+// Icr0095.cpp : Defines the initialization routines for the DLL.
 //
 
 #include "stdafx.h"
-#include "Icr0094App.h"
+#include "Icr0095App.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 #include "icr.h"
-#include "Icr0094.h"
+#include "Icr0095.h"
 
-ICR_CfgAdc g_AdcCfg = { ADC_CFG_TAG, 14, 0, 0, 14, 1, 1000, 250000000, 500};
+ICR_CfgAdc g_AdcCfg = { ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 500000000, 500};
 
-ICR_CfgAdm g_AdmCfg = { ADM_CFG_TAG, 168, 0, 2, 0, 0, 500, 1, 0x49, 10000000, 1400000000,
-						4, 1, 
-						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-						{ {	{{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
-							{{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
-						  },
-						  { {{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
-							{{10000, 10000, 10000, 10000}, {10000, 10000, 10000, 10000}},
-						  }
-						},
-						{ { {{0, 0, 0, 0}, {0, 0, 0, 0}},
-							{{0, 0, 0, 0}, {0, 0, 0, 0}},
-						  },
-						  { {{0, 0, 0, 0}, {0, 0, 0, 0}},
-							{{0, 0, 0, 0}, {0, 0, 0, 0}},
-						  }
-						}
+ICR_CfgAdm g_AdmCfg = { ADM_CFG_TAG, 56, 0, 4, 0, 0, 500, 1, 0x49, 155520000, 280000000,
+						4,  
+						{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+						{ 10000, 10000, 10000, 10000}, 
+						{0, 0, 0, 0}
 					};
 
 //
@@ -59,29 +47,29 @@ ICR_CfgAdm g_AdmCfg = { ADM_CFG_TAG, 168, 0, 2, 0, 0, 500, 1, 0x49, 10000000, 14
 
 
 
-// CIcr0094App
+// CIcr0095App
 
-BEGIN_MESSAGE_MAP(CIcr0094App, CWinApp)
+BEGIN_MESSAGE_MAP(CIcr0095App, CWinApp)
 END_MESSAGE_MAP()
 
 
-// CIcr0094App construction
+// CIcr0095App construction
 
-CIcr0094App::CIcr0094App()
+CIcr0095App::CIcr0095App()
 {
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
 
-// The one and only CIcr0094App object
+// The one and only CIcr0095App object
 
-CIcr0094App theApp;
+CIcr0095App theApp;
 
 
-// CIcr0094App initialization
+// CIcr0095App initialization
 
-BOOL CIcr0094App::InitInstance()
+BOOL CIcr0095App::InitInstance()
 {
 	CWinApp::InitInstance();
 
@@ -95,8 +83,8 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 	switch(curNum)
 	{
 	case 0:
-		lstrcpy(pDevInfo->sName, _T("FM214x250M"));
-		pDevInfo->Type = FM214x250M;
+		lstrcpy(pDevInfo->sName, _T("FM412x500M"));
+		pDevInfo->Type = FM412x500M;
 		break;
 	default:
 		*pNumDev = -1;
@@ -163,17 +151,13 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				g_AdmCfg.nGenRef     = pAdmCfg->nGenRef;    
 				g_AdmCfg.nGenRefMax  = pAdmCfg->nGenRefMax; 
 				g_AdmCfg.bSyntType	 = pAdmCfg->bSyntType;	
-				g_AdmCfg.bAttType	 = pAdmCfg->bAttType;	
 
 				{
-					int		iiP, iiR, iiAdc, iiRange;
-					for( iiRange=0; iiRange<4; iiRange++ )
-					for( iiAdc=0; iiAdc<2; iiAdc++ )
-					for( iiR=0; iiR<2; iiR++ )
-					for( iiP=0; iiP<2; iiP++ )
+					int		iiAdc;
+					for( iiAdc=0; iiAdc<4; iiAdc++ )
 					{
-						g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange] = pAdmCfg->awRangeDeviation[iiP][iiR][iiAdc][iiRange]; 
-						g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = pAdmCfg->awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+						g_AdmCfg.awRangeDeviation[iiAdc] = pAdmCfg->awRangeDeviation[iiAdc]; 
+						g_AdmCfg.awBiasDeviation[iiAdc]  = pAdmCfg->awBiasDeviation[iiAdc];
 					}
 				}
 
@@ -208,17 +192,13 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->nGenRef     = g_AdmCfg.nGenRef;    
 	pAdmCfg->nGenRefMax  = g_AdmCfg.nGenRefMax; 
 	pAdmCfg->bSyntType	 = g_AdmCfg.bSyntType;	
-	pAdmCfg->bAttType	 = g_AdmCfg.bAttType;	
 
 	{
-		int		iiP, iiR, iiAdc, iiRange;
-		for( iiRange=0; iiRange<4; iiRange++ )
-		for( iiAdc=0; iiAdc<2; iiAdc++ )
-		for( iiR=0; iiR<2; iiR++ )
-		for( iiP=0; iiP<2; iiP++ )
+		int		iiAdc;
+		for( iiAdc=0; iiAdc<4; iiAdc++ )
 		{
-			pAdmCfg->awRangeDeviation[iiP][iiR][iiAdc][iiRange] = g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange];
-			pAdmCfg->awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+			pAdmCfg->awRangeDeviation[iiAdc] = g_AdmCfg.awRangeDeviation[iiAdc];
+			pAdmCfg->awBiasDeviation[iiAdc]  = g_AdmCfg.awBiasDeviation[iiAdc];
 		}
 	}
 
@@ -256,7 +236,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 
 //	int curNum = pDeviceInfo->Number;
 
-	CIcr0094Dlg dlg;
+	CIcr0095Dlg dlg;
 	lstrcpy(dlg.subInfo.sName, pDeviceInfo->sName);
 	dlg.subInfo.Type = pDeviceInfo->Type;
 
@@ -292,17 +272,13 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_GenRef    = g_AdmCfg.nGenRef;    
 	dlg.m_GenRefMax = g_AdmCfg.nGenRefMax; 
 	dlg.m_SyntType  = g_AdmCfg.bSyntType;	
-	dlg.m_AttType   = g_AdmCfg.bAttType;	
 
 	{
-		int		iiP, iiR, iiAdc, iiRange;
-		for( iiRange=0; iiRange<4; iiRange++ )
-		for( iiAdc=0; iiAdc<2; iiAdc++ )
-		for( iiR=0; iiR<2; iiR++ )
-		for( iiP=0; iiP<2; iiP++ )
+		int		iiAdc;
+		for( iiAdc=0; iiAdc<4; iiAdc++ )
 		{
-			dlg.m_awRangeDeviation[iiP][iiR][iiAdc][iiRange] = g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange];
-			dlg.m_awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+			dlg.m_awRangeDeviation[iiAdc] = g_AdmCfg.awRangeDeviation[iiAdc];
+			dlg.m_awBiasDeviation[iiAdc]  = g_AdmCfg.awBiasDeviation[iiAdc];
 		}
 	}
 
@@ -351,8 +327,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			g_AdmCfg.bGenAdr	 != dlg.m_GenAdr    ||
 			g_AdmCfg.nGenRef     != dlg.m_GenRef    ||
 			g_AdmCfg.nGenRefMax  != dlg.m_GenRefMax ||
-			g_AdmCfg.bSyntType	 != dlg.m_SyntType  ||
-			g_AdmCfg.bAttType	 != dlg.m_AttType
+			g_AdmCfg.bSyntType	 != dlg.m_SyntType
 		)
 			nResponse |= 0x100;
 
@@ -389,17 +364,13 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		g_AdmCfg.nGenRef     = dlg.m_GenRef;
 		g_AdmCfg.nGenRefMax  = dlg.m_GenRefMax;
 		g_AdmCfg.bSyntType	 = dlg.m_SyntType;
-		g_AdmCfg.bAttType	 = dlg.m_AttType;
 
 		{
-			int		iiP, iiR, iiAdc, iiRange;
-			for( iiRange=0; iiRange<4; iiRange++ )
-			for( iiAdc=0; iiAdc<2; iiAdc++ )
-			for( iiR=0; iiR<2; iiR++ )
-			for( iiP=0; iiP<2; iiP++ )
+			int		iiAdc;
+			for( iiAdc=0; iiAdc<4; iiAdc++ )
 			{
-				g_AdmCfg.awRangeDeviation[iiP][iiR][iiAdc][iiRange] = dlg.m_awRangeDeviation[iiP][iiR][iiAdc][iiRange];
-				g_AdmCfg.awBiasDeviation[iiP][iiR][iiAdc][iiRange]  = dlg.m_awBiasDeviation[iiP][iiR][iiAdc][iiRange];
+				g_AdmCfg.awRangeDeviation[iiAdc] = dlg.m_awRangeDeviation[iiAdc];
+				g_AdmCfg.awBiasDeviation[iiAdc]  = dlg.m_awBiasDeviation[iiAdc];
 			}
 		}
 	}

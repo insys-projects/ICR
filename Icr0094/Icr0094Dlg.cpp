@@ -27,7 +27,7 @@ CIcr0094Dlg::CIcr0094Dlg(CWnd* pParent /*=NULL*/)
 	m_GenAdr = 0x49;
 	m_GenRef = 0;
 	m_GenRefMax = 280000000;
-	m_SyntType = 1;
+	m_SyntType = 4;
 	m_AttType = 1;
 
 	{
