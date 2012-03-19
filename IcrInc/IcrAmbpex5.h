@@ -22,7 +22,7 @@
 #pragma pack(push, 1)    
 
 const USHORT AMBPEX5_CFG_TAG = 0x5507; // тэг для структуры конфигурационных параметров базового модуля AMBPEX8
-const USHORT FMC105P_CFG_TAG = 0x5509; // тэг для структуры конфигурационных параметров базового модуля FMC105P
+//const USHORT FMC105P_CFG_TAG = 0x5509; // тэг для структуры конфигурационных параметров базового модуля FMC105P
 
 
 // AMBPEX5/FMC105P modules configuration

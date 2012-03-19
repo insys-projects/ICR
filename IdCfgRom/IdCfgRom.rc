@@ -511,6 +511,10 @@ BEGIN
 0x4358, 0x5635, 0x5853, 0x2e2e, 0x542e, "\000" 
     IDC_PLDTYPE, 0x403, 11, 0
 0x4358, 0x5635, 0x5846, 0x2e2e, 0x542e, "\000" 
+    IDC_PLDTYPE, 0x403, 11, 0
+0x4358, 0x5636, 0x5853, 0x2e2e, 0x542e, "\000" 
+    IDC_PLDTYPE, 0x403, 11, 0
+0x4358, 0x5636, 0x584c, 0x2e2e, 0x542e, "\000" 
     IDC_PLDRATE, 0x403, 2, 0
 0x0031, 
     IDC_PLDRATE, 0x403, 2, 0
@@ -788,8 +792,8 @@ IDR_MAINFRAME1          ICON                    "res\\idr_main.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,5,0
- PRODUCTVERSION 1,0,5,0
+ FILEVERSION 1,0,6,0
+ PRODUCTVERSION 1,0,6,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -807,12 +811,12 @@ BEGIN
             VALUE "Comments", "Используется для чтения/записи Идентификационного и Конфигурационного ПЗУ"
             VALUE "CompanyName", "ЗАО ""Инструментальные Системы"""
             VALUE "FileDescription", "Клиентдля Идентификационного и Конфигурационного ПЗУ"
-            VALUE "FileVersion", "1.05"
+            VALUE "FileVersion", "1.06"
             VALUE "InternalName", "IdCfgRom"
-            VALUE "LegalCopyright", "Copyright (C) 2003-2006 ЗАО ""ИнСис"""
+            VALUE "LegalCopyright", "Copyright (C) 2003-2012 ЗАО ""ИнСис"""
             VALUE "OriginalFilename", "IdCfgRom.exe"
             VALUE "ProductName", "Система Идентификационного и Конфигурационного ПЗУ"
-            VALUE "ProductVersion", "1.05"
+            VALUE "ProductVersion", "1.06"
         END
     END
     BLOCK "VarFileInfo"
@@ -1310,6 +1314,10 @@ BEGIN
 0x4358, 0x5635, 0x5853, 0x2e2e, 0x542e, "\000" 
     IDC_PLDTYPE, 0x403, 11, 0
 0x4358, 0x5635, 0x5846, 0x2e2e, 0x542e, "\000" 
+    IDC_PLDTYPE, 0x403, 11, 0
+0x4358, 0x5636, 0x5853, 0x2e2e, 0x542e, "\000" 
+    IDC_PLDTYPE, 0x403, 11, 0
+0x4358, 0x5636, 0x584c, 0x2e2e, 0x542e, "\000" 
     IDC_PLDRATE, 0x403, 2, 0
 0x0031, 
     IDC_PLDRATE, 0x403, 2, 0
@@ -1561,8 +1569,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,5,0
- PRODUCTVERSION 1,0,5,0
+ FILEVERSION 1,0,6,0
+ PRODUCTVERSION 1,0,6,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1580,12 +1588,12 @@ BEGIN
             VALUE "Comments", "Using for to read/write Identification & Configuration ROM"
             VALUE "CompanyName", "Instrumental Systems Corporation"
             VALUE "FileDescription", "Client for Identification & Configuration ROM"
-            VALUE "FileVersion", "1.05"
+            VALUE "FileVersion", "1.06"
             VALUE "InternalName", "IdCfgRom.exe"
-            VALUE "LegalCopyright", "(C) 2003-2006 InSys Corp.  All rights reserved."
+            VALUE "LegalCopyright", "(C) 2003-2012 InSys Corp.  All rights reserved."
             VALUE "OriginalFilename", "IdCfgRom.exe"
             VALUE "ProductName", "Identification & Configuration ROM System"
-            VALUE "ProductVersion", "1.05"
+            VALUE "ProductVersion", "1.06"
         END
     END
     BLOCK "VarFileInfo"

@@ -91,10 +91,10 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 		lstrcpy(pDevInfo->sName, _T("AMBPEX5"));
 		pDevInfo->dType = AMBPEX5;
 		break;
-	case 1:
-		lstrcpy(pDevInfo->sName, _T("FMC105P"));
-		pDevInfo->dType = FMC105P;
-		break;
+	//case 1:
+	//	lstrcpy(pDevInfo->sName, _T("FMC105P"));
+	//	pDevInfo->dType = FMC105P;
+	//	break;
 	default:
 		*pNumDev = -1;
 	}
@@ -184,7 +184,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 		//		break;
 		//	}
 		case AMBPEX5_CFG_TAG:
-		case FMC105P_CFG_TAG:
+//		case FMC105P_CFG_TAG:
 			{
 				PICR_CfgAmbpex5 pAmbpex5Cfg = (PICR_CfgAmbpex5)pCurCfgMem;
 				m_Ambpex5Cfg.wTag = pAmbpex5Cfg->wTag;
