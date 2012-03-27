@@ -11,28 +11,28 @@
 #include "icr.h"
 #include "Icr0084.h"
 
-ICR_CfgAdc m_aAdcCfg[10] = {{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-						    { ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-							{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-							{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-							{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-							{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-							{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-							{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-							{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500},
-							{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 500}
+ICR_CfgAdc m_aAdcCfg[10] = {{ ADC_CFG_TAG, 14, 0, 0, 12, 1, 1000, 1000000, 2500},	//ADM1612x1M:
+						    { ADC_CFG_TAG, 14, 0, 0, 14, 1, 1000, 1000000, 500},	//ADM214x1M:
+							{ ADC_CFG_TAG, 14, 0, 0, 14, 1, 1000, 3000000, 500},	//ADM214x3M:
+							{ ADC_CFG_TAG, 14, 0, 0, 14, 1, 1000, 10000000, 500},	//ADM214x10M:
+							{ ADC_CFG_TAG, 14, 0, 0, 14, 1, 1000, 10000000, 500},	//ADM214x10MX:
+							{ ADC_CFG_TAG, 14, 0, 0, 14, 1, 1000, 160000, 500},	//ADM1614x160:
+							{ ADC_CFG_TAG, 14, 0, 0, 16, 1, 1000, 250000, 500},	//ADM216x250:
+							{ ADC_CFG_TAG, 14, 0, 0, 16, 1, 1000, 2500000, 500},	//ADM216x2M5:
+							{ ADC_CFG_TAG, 14, 0, 0, 16, 1, 1000, 200000, 500},	//ADM416x200:
+							{ ADC_CFG_TAG, 14, 0, 0, 16, 1, 1000, 48000, 500}		//ADM816x48:
 						   };
 
-ICR_CfgAdm m_aAdmCfg[10] = {{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2},
-							{ ADM_CFG_TAG, 2, 0, 2}
+ICR_CfgAdm m_aAdmCfg[10] = {{ ADM_CFG_TAG, 2, 0, 16},	//ADM1612x1M
+							{ ADM_CFG_TAG, 2, 0, 2},	//ADM214x1M:
+							{ ADM_CFG_TAG, 2, 0, 2},	//ADM214x3M:
+							{ ADM_CFG_TAG, 2, 0, 2},	//ADM214x10M
+							{ ADM_CFG_TAG, 2, 0, 2},	//ADM214x10M
+							{ ADM_CFG_TAG, 2, 0, 16},	//ADM1614x16
+							{ ADM_CFG_TAG, 2, 0, 2},	//ADM216x250
+							{ ADM_CFG_TAG, 2, 0, 2},	//ADM216x2M5
+							{ ADM_CFG_TAG, 2, 0, 4},	//ADM416x200
+							{ ADM_CFG_TAG, 2, 0, 8}		//ADM816x48:
 						   };
 
 S32 GetTypeAdm(ICR_ADMType type);
