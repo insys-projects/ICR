@@ -89,17 +89,21 @@ typedef wchar_t			BRDCHAR;
 #define BRDC_strchr		wcschr
 #define BRDC_strstr		wcsstr
 #define BRDC_strtol		wcstol
+#define BRDC_strtoul	wcstoul
 #define BRDC_strtod		wcstod
 #define BRDC_atol		_wtol
 #define BRDC_atoi		_wtoi
+#define BRDC_atoi64		_wtoi64
 #define BRDC_atof		_wtof
 #define BRDC_printf		wprintf
+#define BRDC_fprintf	fwprintf
 #define BRDC_sprintf	swprintf
 #define BRDC_vsprintf	vswprintf
 #define BRDC_sscanf		swscanf
 #define BRDC_fopen		_wfopen
 #define BRDC_sopen		_wsopen
 #define BRDC_fgets		fgetws
+#define BRDC_fputs		fputws
 #define BRDC_getenv		_wgetenv
 #define BRDC_main		wmain
 #else
@@ -115,17 +119,21 @@ typedef char			BRDCHAR;
 #define BRDC_strchr		strchr
 #define BRDC_strstr		strstr
 #define BRDC_strtol		strtol
+#define BRDC_strtoul	strtoul
 #define BRDC_strtod		strtod
 #define BRDC_atol		atol
 #define BRDC_atoi		atoi
+#define BRDC_atoi64		_atoi64
 #define BRDC_atof		atof
 #define BRDC_printf		printf
+#define BRDC_fprintf	fprintf
 #define BRDC_sprintf	sprintf
 #define BRDC_vsprintf	vsprintf
 #define BRDC_sscanf		sscanf
 #define BRDC_fopen		fopen
 #define BRDC_sopen		sopen
 #define BRDC_fgets		fgets
+#define BRDC_fputs		fputs
 #define BRDC_getenv		getenv
 #define BRDC_main		main
 #endif
