@@ -160,7 +160,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 				m_DspNodeCfg.wPldVolume = pDspNodeCfg->wPldVolume;
 				m_DspNodeCfg.wPldPins = pDspNodeCfg->wPldPins;
 				m_DspNodeCfg.bPldSpeedGrade = pDspNodeCfg->bPldSpeedGrade;
-				m_DspNodeCfg.bPioType = pDspNodeCfg->bPioType;
+				m_DspNodeCfg.bPioType = 0;
 				m_DspNodeCfg.bSramCfgCnt = 0;
 				m_DspNodeCfg.bLoadRom = 0;
 				size = sizeof(ICR_CfgDspNode);
@@ -264,7 +264,7 @@ BASEMOD_API int __stdcall BASEMOD_GetProperty(PBASEMOD_INFO pDeviceInfo)
 			pDspCfg->wPldVolume = m_DspNodeCfg.wPldVolume;
 			pDspCfg->wPldPins = m_DspNodeCfg.wPldPins;
 			pDspCfg->bPldSpeedGrade = m_DspNodeCfg.bPldSpeedGrade;
-			pDspCfg->bPioType = m_DspNodeCfg.bPioType;
+			pDspCfg->bPioType = 0;
 			pDspCfg->bSramCfgCnt = 0;
 			pDspCfg->bLoadRom = 0;
 
@@ -317,8 +317,6 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 	dlg.m_DspPldVolume = m_DspNodeCfg.wPldVolume;
 	dlg.m_DspPldPins = m_DspNodeCfg.wPldPins;
 	dlg.m_DspPldRate = m_DspNodeCfg.bPldSpeedGrade;
-	dlg.m_isPio = m_DspNodeCfg.bPioType ? 1 : 0;
-	dlg.m_PioType = dlg.m_isPio ? (m_DspNodeCfg.bPioType - 1) : -1;
 
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
@@ -336,7 +334,6 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 			m_DspNodeCfg.wPldVolume != dlg.m_DspPldVolume ||
 			m_DspNodeCfg.wPldPins != dlg.m_DspPldPins ||
 			m_DspNodeCfg.bPldSpeedGrade != dlg.m_DspPldRate ||
-			m_DspNodeCfg.bPioType != (dlg.m_isPio ? (dlg.m_PioType + 1) : 0) ||
 			m_Fmc105pCfg.bGen0Type != dlg.m_Gen0Type ||
 			m_Fmc105pCfg.nRefGen0 != dlg.m_RefGen0 ||
 			m_Fmc105pCfg.nRefMaxGen0 != dlg.m_RefMaxGen0 ||
@@ -363,7 +360,7 @@ BASEMOD_API int __stdcall BASEMOD_DialogProperty(PBASEMOD_INFO pDeviceInfo)
 		m_DspNodeCfg.wPldVolume = dlg.m_DspPldVolume;
 		m_DspNodeCfg.wPldPins = dlg.m_DspPldPins;
 		m_DspNodeCfg.bPldSpeedGrade = dlg.m_DspPldRate;
-		m_DspNodeCfg.bPioType = dlg.m_isPio ? (dlg.m_PioType + 1) : 0;
+		m_DspNodeCfg.bPioType = 0;
 		m_DspNodeCfg.bSramCfgCnt = 0;
 		m_DspNodeCfg.bLoadRom = 0;
 

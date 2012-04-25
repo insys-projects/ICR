@@ -26,8 +26,6 @@ CIcrFmc105pDlg::CIcrFmc105pDlg(CWnd* pParent /*=NULL*/)
 	, m_DspPldPins(0)
 	, m_DspPldRate(0)
 	, m_strDspPldName(_T(""))
-	, m_isPio(FALSE)
-	, m_PioType(0)
 {
 	m_AdrSwitch = 0x48;
 	m_Gen0Type = 0;
@@ -59,8 +57,6 @@ void CIcrFmc105pDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_PLDTYPE, m_ctrlDspPldType);
 	DDX_Control(pDX, IDC_PLDRATE, m_ctrlDspPldRate);
 	DDX_Text(pDX, IDC_PLDNAME, m_strDspPldName);
-	DDX_Check(pDX, IDC_PIOBE, m_isPio);
-	DDX_CBIndex(pDX, IDC_PIOTYPE, m_PioType);
 	//DDX_CBIndex(pDX, IDC_GENTYPE, m_Gen0Type);
 	DDX_Control(pDX, IDC_GENTYPE, m_ctrlGen0Type);
 	DDX_Text(pDX, IDC_GENREF, m_RefGen0);
@@ -85,7 +81,6 @@ BEGIN_MESSAGE_MAP(CIcrFmc105pDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_PLDTYPE, OnCbnSelchangePldtype)
 	ON_EN_KILLFOCUS(IDC_PLDVOLUME, OnEnKillfocusPldvolume)
 	ON_CBN_SELCHANGE(IDC_PLDRATE, OnCbnSelchangePldrate)
-	ON_BN_CLICKED(IDC_PIOBE, OnBnClickedPiobe)
 	ON_EN_KILLFOCUS(IDC_DSPCNT, &OnEnKillfocusDspcnt)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_SPINDSPCNT, &OnDeltaposSpindspcnt)
 	ON_EN_KILLFOCUS(IDC_DSPNUM, &OnEnKillfocusDspnum)
@@ -127,9 +122,6 @@ BOOL CIcrFmc105pDlg::OnInitDialog()
     m_ToolTip.AddTool(GetDlgItem(IDC_PLDVOLUME), IDC_PLDVOLUME);
     m_ToolTip.AddTool(GetDlgItem(IDC_PLDPINS), IDC_PLDPINS);
 	
-    m_ToolTip.AddTool(GetDlgItem(IDC_PIOBE), IDC_PIOBE);
-    m_ToolTip.AddTool(GetDlgItem(IDC_PIOTYPE), IDC_PIOTYPE);
-
 	m_ToolTip.AddTool(GetDlgItem(IDOK), IDOK);
     m_ToolTip.AddTool(GetDlgItem(IDCANCEL), IDCANCEL);
 
@@ -218,14 +210,6 @@ void CIcrFmc105pDlg::OnCbnSelchangePldrate()
 	// TODO: Add your control notification handler code here
 	UpdateData(TRUE); // from window to variable
 	SetPldName();
-}
-
-void CIcrFmc105pDlg::OnBnClickedPiobe()
-{
-	// TODO: Add your control notification handler code here
-	UpdateData(TRUE); // from window to variable
-	CWnd* pPioType = (CWnd*)GetDlgItem(IDC_PIOTYPE);
-	pPioType->EnableWindow(m_isPio);
 }
 
 void CIcrFmc105pDlg::OnBnClickedDdsbe()
@@ -333,7 +317,6 @@ void CIcrFmc105pDlg::LockUnlockDspWindows(USHORT wLock)
 	CWnd* pDspNum = (CWnd*)GetDlgItem(IDC_DSPNUM);
 	CWnd* pPldVolume = (CWnd*)GetDlgItem(IDC_PLDVOLUME);
 	CWnd* pPldPins = (CWnd*)GetDlgItem(IDC_PLDPINS);
-	CWnd* pPioType = (CWnd*)GetDlgItem(IDC_PIOTYPE);
 	if( wLock == LOCK )
 	{
 		pDspNum->EnableWindow(FALSE);
@@ -342,7 +325,6 @@ void CIcrFmc105pDlg::LockUnlockDspWindows(USHORT wLock)
 		m_ctrlDspPldRate.EnableWindow(FALSE);
 		pPldVolume->EnableWindow(FALSE);
 		pPldPins->EnableWindow(FALSE);
-		pPioType->EnableWindow(FALSE);
 	}
 	else if ( wLock == UNLOCK )
 	{
@@ -352,7 +334,6 @@ void CIcrFmc105pDlg::LockUnlockDspWindows(USHORT wLock)
 		m_ctrlDspPldRate.EnableWindow(TRUE);
 		pPldVolume->EnableWindow(TRUE);
 		pPldPins->EnableWindow(TRUE);
-		pPioType->EnableWindow(TRUE);
 	}
 }
 

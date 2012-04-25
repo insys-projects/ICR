@@ -66,9 +66,6 @@ public:
 	int m_DspPldRate;
 
 	CString m_strDspPldName;
-	BOOL m_isPio;
-	int m_PioType;
-	afx_msg void OnBnClickedPiobe();
 
 	double m_Gen5;
 	double m_Gen6;
