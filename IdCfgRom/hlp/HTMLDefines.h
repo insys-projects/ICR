@@ -19,6 +19,7 @@
 #define HIDD_PP_PLD                             0x20089
 #define HIDD_PP_ADM2IF                          0x2008A
 #define HIDD_FILE_BASE_FILTER                   0x2008D
+#define HIDD_SPLASHSCREEN                       0x2008E
  
 // Frame Controls (IDW_*) 
 // This is a part of the Microsoft Foundation Classes C++ library.

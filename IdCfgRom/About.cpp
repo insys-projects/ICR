@@ -68,3 +68,8 @@ void CAbout::OnDestroy()
 	delete m_pHlWWW;
 	delete m_pHlEmail;
 }
+
+//void CAbout::Create()
+//{
+//	CDialog::Create(CAbout::IDD);
+//}

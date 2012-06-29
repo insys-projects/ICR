@@ -244,6 +244,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Splash.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -383,6 +387,10 @@
 			</File>
 			<File
 				RelativePath=".\resource.hm"
+				>
+			</File>
+			<File
+				RelativePath=".\Splash.h"
 				>
 			</File>
 			<File

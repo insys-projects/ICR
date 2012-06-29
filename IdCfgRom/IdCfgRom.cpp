@@ -5,6 +5,7 @@
 #include "IdCfgRom.h"
 #include "IdCfgRomDlg.h"
 
+#include "Splash.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -61,12 +62,23 @@ BOOL CIdCfgRomApp::InitInstance()
 	// TODO: You should modify this string to be something appropriate
 	// such as the name of your company or organization
 
+	HCURSOR  hCursorWait = ::LoadCursor(NULL, IDC_WAIT); // курсор-часы
+	HCURSOR  hCursorPrev = SetCursor(hCursorWait);
+
+//	AfxMessageBox("1", MB_OK);
+	CSplash splash;
+	splash.Create();
+	//aboutSplash.ShowWindow(SW_SHOW);
 	GetInfoFromDlls();
+	splash.ShowWindow(SW_HIDE);
+	//AfxMessageBox("2", MB_OK);
+
+	SetCursor(hCursorPrev);
 
 	if( !ParseCommandLine() )
 		return FALSE;
 
-	// если программа запускается с именем файла в коммандной строке, не отображаем окно
+	// если программа запускается с именем файла в командной строке, не отображаем окно
 	if( m_sCmdFileName != "" )
 	{
 		CIdCfgRomDlg* dlg = new CIdCfgRomDlg();

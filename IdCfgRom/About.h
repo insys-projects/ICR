@@ -11,7 +11,7 @@ class CAbout : public CDialog
 public:
 	CAbout(CWnd* pParent = NULL);   // standard constructor
 //	virtual ~CAbout();
-
+	//void Create();
 // Dialog Data
 	enum { IDD = IDD_ABOUTBOX };
 

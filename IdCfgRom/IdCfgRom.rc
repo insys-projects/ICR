@@ -257,18 +257,18 @@ BEGIN
 END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 219, 118
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "О программе IdCfgRom"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,22,20,20
     CTEXT           "ППЗУ идентификации и конфигурации",IDC_STATIC,35,15,150,8,SS_NOPREFIX
-    CTEXT           "Copyright (C) 2002-2006",IDC_STATIC,71,51,77,8
+    CTEXT           "Copyright (C) 2002-2012",IDC_STATIC,71,51,77,8
     DEFPUSHBUTTON   "OK",IDOK,83,97,50,14,WS_GROUP
     CTEXT           "ЗАО ""Инструментальные Системы""",IDC_FIRMNAME,45,38,129,8
     LTEXT           "http://www.insys.ru",IDC_HL_WWW,77,65,63,8
     LTEXT           "info@insys.ru",IDC_HL_Email,88,77,43,8
-    LTEXT           "Версия 1.05",IDC_STATIC,87,26,42,8
+    LTEXT           "Версия 1.07",IDC_STATIC,87,26,42,8
 END
 
 IDD_IDCFGROM_DIALOG DIALOGEX 0, 0, 261, 306
@@ -360,6 +360,18 @@ BEGIN
     LTEXT           "с",IDC_STATIC,12,147,8,8
     EDITTEXT        IDC_DAY_START,18,144,14,14,ES_AUTOHSCROLL
     PUSHBUTTON      "Поиск",IDC_BUTTON1,85,109,78,15
+END
+
+IDD_SPLASHSCREEN DIALOGEX 0, 0, 200, 70
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Подождите, пожалуйста"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,22,20,20
+    CTEXT           "ППЗУ идентификации и конфигурации",IDC_STATIC,35,15,150,8,SS_NOPREFIX
+    CTEXT           "Copyright (C) 2002-2012",IDC_STATIC,71,51,77,8
+    CTEXT           "ЗАО ""Инструментальные Системы""",IDC_FIRMNAME,45,38,129,8
+    LTEXT           "Версия 1.07",IDC_STATIC,87,26,42,8
 END
 
 
@@ -457,6 +469,14 @@ BEGIN
         RIGHTMARGIN, 163
         TOPMARGIN, 7
         BOTTOMMARGIN, 165
+    END
+
+    IDD_SPLASHSCREEN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 193
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 63
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -792,8 +812,8 @@ IDR_MAINFRAME1          ICON                    "res\\idr_main.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,6,0
- PRODUCTVERSION 1,0,6,0
+ FILEVERSION 1,0,7,0
+ PRODUCTVERSION 1,0,7,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -811,12 +831,12 @@ BEGIN
             VALUE "Comments", "Используется для чтения/записи Идентификационного и Конфигурационного ПЗУ"
             VALUE "CompanyName", "ЗАО ""Инструментальные Системы"""
             VALUE "FileDescription", "Клиентдля Идентификационного и Конфигурационного ПЗУ"
-            VALUE "FileVersion", "1.06"
+            VALUE "FileVersion", "1.07"
             VALUE "InternalName", "IdCfgRom"
             VALUE "LegalCopyright", "Copyright (C) 2003-2012 ЗАО ""ИнСис"""
             VALUE "OriginalFilename", "IdCfgRom.exe"
             VALUE "ProductName", "Система Идентификационного и Конфигурационного ПЗУ"
-            VALUE "ProductVersion", "1.06"
+            VALUE "ProductVersion", "1.07"
         END
     END
     BLOCK "VarFileInfo"
@@ -937,6 +957,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 // Dialog
 //
+
+IDD_SPLASHSCREEN DIALOGEX 0, 0, 200, 79
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Wait one moment, please!"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,22,20,20
+    CTEXT           "Identification & Configuration ROM",IDC_STATIC,50,10,119,8,SS_NOPREFIX
+    CTEXT           "Copyright (C) 2002-20012",IDC_STATIC,71,46,81,8
+    CTEXT           "Instrumental Systems Corp.",IDC_FIRMNAME,59,33,107,8
+    LTEXT           "Version 1.07",IDC_STATIC,87,21,40,8
+END
 
 IDD_IDCFGROM_DIALOG DIALOGEX 0, 0, 260, 286
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
@@ -1150,18 +1182,18 @@ BEGIN
 END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 219, 118
-STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "About IdCfgRom"
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,22,20,20
     CTEXT           "Identification & Configuration ROM",IDC_STATIC,50,15,119,8,SS_NOPREFIX
-    CTEXT           "Copyright (C) 2002-2006",IDC_STATIC,71,51,77,8
+    CTEXT           "Copyright (C) 2002-2012",IDC_STATIC,71,51,77,8
     DEFPUSHBUTTON   "OK",IDOK,83,97,50,14,WS_GROUP
     CTEXT           "Instrumental Systems Corp.",IDC_FIRMNAME,59,38,107,8
     LTEXT           "http://www.insys.ru",IDC_HL_WWW,77,65,63,8
     LTEXT           "info@insys.ru",IDC_HL_Email,88,77,43,8
-    LTEXT           "Version 1.05",IDC_STATIC,87,26,40,8
+    LTEXT           "Version 1.07",IDC_STATIC,87,26,40,8
 END
 
 
@@ -1173,76 +1205,12 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO 
 BEGIN
-    IDD_IDCFGROM_DIALOG, DIALOG
+    IDD_SPLASHSCREEN, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 253
+        RIGHTMARGIN, 193
         TOPMARGIN, 7
-        BOTTOMMARGIN, 279
-    END
-
-    IDD_PP_ADMIF, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 228
-        TOPMARGIN, 6
-        BOTTOMMARGIN, 149
-    END
-
-    IDD_PP_PLD, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 228
-        TOPMARGIN, 6
-        BOTTOMMARGIN, 149
-    END
-
-    IDD_PP_FIFO, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 228
-        TOPMARGIN, 6
-        BOTTOMMARGIN, 149
-    END
-
-    IDD_PP_DAC, DIALOG
-    BEGIN
-        LEFTMARGIN, 6
-        RIGHTMARGIN, 228
-        TOPMARGIN, 6
-        BOTTOMMARGIN, 157
-    END
-
-    IDD_PP_AMB, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 228
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 149
-    END
-
-    IDD_PP_ADM2IF, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 228
-        TOPMARGIN, 6
-        BOTTOMMARGIN, 149
-    END
-
-    IDD_PP_ADM, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 228
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 149
-    END
-
-    IDD_ABOUTBOX, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 212
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 111
+        BOTTOMMARGIN, 72
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -1569,8 +1537,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,6,0
- PRODUCTVERSION 1,0,6,0
+ FILEVERSION 1,0,7,0
+ PRODUCTVERSION 1,0,7,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1588,12 +1556,12 @@ BEGIN
             VALUE "Comments", "Using for to read/write Identification & Configuration ROM"
             VALUE "CompanyName", "Instrumental Systems Corporation"
             VALUE "FileDescription", "Client for Identification & Configuration ROM"
-            VALUE "FileVersion", "1.06"
+            VALUE "FileVersion", "1.07"
             VALUE "InternalName", "IdCfgRom.exe"
             VALUE "LegalCopyright", "(C) 2003-2012 InSys Corp.  All rights reserved."
             VALUE "OriginalFilename", "IdCfgRom.exe"
             VALUE "ProductName", "Identification & Configuration ROM System"
-            VALUE "ProductVersion", "1.06"
+            VALUE "ProductVersion", "1.07"
         END
     END
     BLOCK "VarFileInfo"

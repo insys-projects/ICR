@@ -17,6 +17,7 @@
 #define IDB_ARROW_DOWN                  138
 #define IDB_ARROW_UP                    140
 #define IDD_FILE_BASE_FILTER            141
+#define IDD_SPLASHSCREEN                142
 #define IDC_READ                        1000
 #define IDC_SAVE                        1001
 #define IDC_FROMDEV                     1002
