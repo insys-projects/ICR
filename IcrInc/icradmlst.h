@@ -89,7 +89,8 @@ typedef enum _ICR_ADMType {
 		FM814x125M		= 0x1010,
 		FM214x250M		= 0x1020,
 		FM412x500M		= 0x1030,
-		FM212x1G		= 0x1040
+		FM212x1G		= 0x1040,
+		FM816x250M		= 0x1050,
 } ICR_ADMType;
 
 #endif	// __ICRADMLST_H_ 
