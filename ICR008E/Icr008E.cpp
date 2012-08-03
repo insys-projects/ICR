@@ -86,6 +86,14 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 		lstrcpy(pDevInfo->sName, _T("ADM818x800"));
 		pDevInfo->Type = ADM818x800;
 		break;
+	case 2:
+		lstrcpy(pDevInfo->sName, _T("ADM818x1M5"));
+		pDevInfo->Type = ADM818x1M5;
+		break;
+	case 3:
+		lstrcpy(pDevInfo->sName, _T("ADM1624x128"));
+		pDevInfo->Type = ADM1624x128;
+		break;
 	default:
 		*pNumDev = -1;
 		return;
