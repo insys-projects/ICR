@@ -96,6 +96,14 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 		lstrcpy(pDevInfo->sName, _T("FMC106P"));
 		pDevInfo->dType = FMC106P;
 		break;
+	case 2:
+		lstrcpy(pDevInfo->sName, _T("FMC114V"));
+		pDevInfo->dType = FMC114V;
+		break;
+	case 3:
+		lstrcpy(pDevInfo->sName, _T("FMC115cP"));
+		pDevInfo->dType = FMC115CP;
+		break;
 	default:
 		*pNumDev = -1;
 	}
