@@ -41,7 +41,7 @@ void CAmbPage::DoDataExchange(CDataExchange* pDX)
 	CPropertyPage::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CAmbPage)
 	DDX_Text(pDX, IDC_SERIALNUM, m_SerialNum);
-	DDV_MinMaxUInt(pDX, m_SerialNum, 1, 99999);
+	DDV_MinMaxUInt(pDX, m_SerialNum, 1, 999999);
 	DDX_Text(pDX, IDC_NUMOFADMIF, m_NumOfAdmIf);
 	DDX_Control(pDX, IDC_SPINADMIF, m_ctrlSpinAdmIf);
 	DDX_CBIndex(pDX, IDC_BMTYPE, m_BMType);
