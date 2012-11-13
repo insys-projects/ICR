@@ -120,7 +120,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\IcrInc"
+				AdditionalIncludeDirectories="..\IcrInc;.\GeneratedFiles;&quot;$(QTDIR)\include&quot;;&quot;.\GeneratedFiles\$(ConfigurationName)&quot;;&quot;$(QTDIR)\include\qtmain&quot;;&quot;$(QTDIR)\include\QtCore&quot;;&quot;$(QTDIR)\include\QtGui&quot;;&quot;$(QTDIR)\include\QtXml&quot;;.\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;ICRXXXX_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -139,7 +139,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="QtCore4_is.lib QtGui4_is.lib QtXml4_is.lib"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(QTDIR)\lib"
 				ModuleDefinitionFile="IcrXXXX.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"

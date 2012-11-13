@@ -116,7 +116,6 @@ void ParamsTreeWidget::AddParam(QString sNameGroup, TIcrParam *pParam)
 	ParamTreeItem *pParamItem = new ParamTreeItem;
 //	TSection *prSection;
 	QString sText;
-	U32 i, nFlag;
 
 	pParamItem->setHead(0);
 	pParamItem->setEnable(1);
@@ -387,7 +386,6 @@ void ParamsTreeWidget::mouseDoubleClickEvent(QMouseEvent *event)
 	QTreeWidget::mousePressEvent(event);
 	QTreeWidgetItem *item = itemAt(event->pos());
 	ParamTreeItem *pItem = dynamic_cast<ParamTreeItem *>(item);
-	Qt::CheckState isCheck;
 
 	if(event->button() != Qt::LeftButton)
 		return;
@@ -440,7 +438,6 @@ QWidget *ParamDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem
 	QSpinBox *pSpinIntEditor;
 	DoubleSpinBoxEx *pSpinDoubleEditor;
 	QComboBox *pComboBoxEditor;
-	QCheckBox *pCheckBoxEditor;
 	QLineEdit *pEdit;
 
 	U32 nType;
@@ -577,8 +574,7 @@ void ParamDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, con
 	QSpinBox *pSpinIntEditor;
 	DoubleSpinBoxEx *pSpinDoubleEditor;
 	QComboBox *pComboBoxEditor;
-	QCheckBox *pCheckBoxEditor;
-	U32 nType, nLen;
+	U32 nType;
 	QString str;
 	QStringList lsStr;
 	U08 isChanged = 0;
