@@ -1,0 +1,11 @@
+; IcrBaseX.def : Declares the module parameters for the DLL.
+
+LIBRARY      "IcrBaseX"
+
+EXPORTS
+    ; Explicit exports can go here
+	BASEMOD_GetInfo
+	BASEMOD_Close
+	BASEMOD_SetProperty
+	BASEMOD_GetProperty
+	BASEMOD_DialogProperty
