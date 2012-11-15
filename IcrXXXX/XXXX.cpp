@@ -445,6 +445,25 @@ TIcrParam ParseField(const QDomElement &cFieldDomEl)
 		// Тип
 		rIcrParam.nType = PARAM_TYPE_HEX;
 	}
+	else if(cFieldDomEl.attribute("type") == "bin")
+	{
+		// Минимальное значение
+		sStr.setNum(INT_MIN);
+		rIcrParam.nMin = cFieldDomEl.attribute("min", sStr).toInt(&isOk, 2);
+
+		if(!isOk)
+			rIcrParam.nMin = INT_MIN;
+
+		// Максимальное значение
+		sStr.setNum(INT_MAX);
+		rIcrParam.nMax = cFieldDomEl.attribute("max", sStr).toInt(&isOk, 2);
+
+		if(!isOk)
+			rIcrParam.nMin = INT_MAX;
+
+		// Тип
+		rIcrParam.nType = PARAM_TYPE_BIN;
+	}
 	else if((cFieldDomEl.attribute("type") == "double") || 
 		(cFieldDomEl.attribute("type") == "spin-double"))
 	{

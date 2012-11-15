@@ -18,7 +18,7 @@
 #include <QStyle>
 
 #include "DoubleValidator.h"
-#include "HexValidator.h"
+#include "ValidatorEx.h"
 
 // »конка плюс-минус дл€ дерева
 static QIcon drawIndicatorIcon(const QPalette &palette, QStyle *style)
@@ -526,7 +526,20 @@ QWidget *ParamDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem
 		{
 			pEdit = new QLineEdit(parent);
 
-			HexValidator *pValidator = new HexValidator(pParam->nMin, pParam->nMax, pEdit);
+			ValidatorEx *pValidator = new ValidatorEx(pParam->nMin, pParam->nMax, 16, pEdit);
+
+			pEdit->setValidator(pValidator);
+
+			pEditor = pEdit;
+
+			break;
+		}
+
+		case PARAM_TYPE_BIN:
+		{
+			pEdit = new QLineEdit(parent);
+
+			ValidatorEx *pValidator = new ValidatorEx(pParam->nMin, pParam->nMax, 2, pEdit);
 
 			pEdit->setValidator(pValidator);
 
@@ -638,6 +651,7 @@ void ParamDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, con
 		case PARAM_TYPE_INT:
 		case PARAM_TYPE_DOUBLE:
 		case PARAM_TYPE_HEX:
+		case PARAM_TYPE_BIN:
 		default:
 		{
 			pEdit = dynamic_cast<QLineEdit *>(editor);

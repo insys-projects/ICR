@@ -223,10 +223,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\HexValidator.h"
-				>
-			</File>
-			<File
 				RelativePath=".\IcrXXXXDlg.h"
 				>
 			</File>
@@ -269,6 +265,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ValidatorEx.h"
+				>
+			</File>
+			<File
 				RelativePath=".\XXXX.h"
 				>
 			</File>
@@ -307,6 +307,10 @@
 			</File>
 			<File
 				RelativePath=".\generatedfiles\debug\moc_qwinwidget.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\generatedfiles\ui_IcrXXXXDlg.h"
 				>
 			</File>
 		</Filter>
