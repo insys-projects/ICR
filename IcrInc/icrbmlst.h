@@ -16,6 +16,7 @@
 //  23-03-05 - added define for ADP201PCI
 //	14-01-08 - added define for 64Z2A
 //	28-01-08 - added define for 6713, 64Z1, 64Z4, 6203
+//	19-10-12 - added define for 6678 boards FMC110, FMC113, FMC114
 //
 //*******************************************************************
 
@@ -65,8 +66,12 @@ typedef enum _ICR_BMType
 		FMC105P		= 0x5509,
 		FMC106P		= 0x550A,
 		FMC114V		= 0x550C,
-		FMC115CP	= 0x53B1
+		FMC115CP	= 0x53B1,
+		FMC110_6678	= 0x6610,
+		FMC113_6678	= 0x6613,
+		FMC114_6678	= 0x6614
 } ICR_BMType;
+
 
 #endif	// __ICRBMLST_H_ 
 
