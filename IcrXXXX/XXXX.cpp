@@ -87,6 +87,10 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 			if((rIcrParam.nType == PARAM_TYPE_DOUBLE) ||
 				(rIcrParam.nType == PARAM_TYPE_SPIN_DOUBLE))
 				rIcrParam.sValue.setNum((REAL64)nVal / pow(10., (REAL64)rIcrParam.nPrec), 'f', rIcrParam.nPrec);
+			else if(rIcrParam.nType == PARAM_TYPE_BIN)
+				rIcrParam.sValue.setNum(nVal, 2);
+			else if(rIcrParam.nType == PARAM_TYPE_HEX)
+				rIcrParam.sValue.setNum(nVal, 16);
 			else
 				rIcrParam.sValue.setNum(nVal);
 		}
@@ -151,8 +155,13 @@ int XXXX_GetProperty(PSUBMOD_INFO pDeviceInfo)
 				dVal = rIcrParam.sValue.toDouble();
 				nVal = dVal * pow(10.,(REAL64)rIcrParam.nPrec);
 			}
+			else if(rIcrParam.nType == PARAM_TYPE_BIN)
+				nVal = rIcrParam.sValue.toInt(0, 2);
+			else if(rIcrParam.nType == PARAM_TYPE_HEX)
+				nVal = rIcrParam.sValue.toInt(0, 16);
 			else
 				nVal = rIcrParam.sValue.toInt();
+
 			memcpy(pCurCfgMem + rIcrParam.nOffset, &nVal, rIcrParam.nSize);
 		}
 	}
