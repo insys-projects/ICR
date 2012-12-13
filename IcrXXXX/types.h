@@ -39,6 +39,8 @@ struct TIcrParam
 
 	// Только для "list"
 	ItemList lrItem;
+
+	QString sGroupName;
 	
 // 	TIcrParam::TIcrParam()
 // 	{

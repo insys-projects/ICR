@@ -7,17 +7,31 @@
 
 class IcrXXXXDlg : public QDialog, public Ui::IcrXXXXDlgClass
 {
-	QList<TIcrParam *> m_lpIcrParams;
+	Q_OBJECT
+
+	QList<TIcrParam *>	m_lpIcrParams;
+	QList<TGroup *> m_lpGroup;
+	QMultiMap<QString, ParamTreeItem *> m_mpGroupItems;
 
 public:
-	IcrXXXXDlg(const IcrParamList &lIcrParams, QWidget *parent = 0, Qt::WFlags flags = 0);
+	IcrXXXXDlg(const IcrParamList &lIcrParams, QList<TGroup *> &lpGroup, QWidget *parent = 0, Qt::WFlags flags = 0);
 	~IcrXXXXDlg();
 
 	IcrParamList GetIcrParams();
+	QList<TGroup *> GetGroups();
  
 private:
 	void FillTree();
 	void SetIcrParams(const IcrParamList &lIcrParams);
+
+protected:
+	virtual void showEvent(QShowEvent * pEvent);
+
+private slots:
+	// ўелчок правой кнопкой
+	void slotItemRightClicked();
+	// »зменить цвет группы
+	void slotColorGroup();
 };
 
 #endif // ICRXXXXDLG_H

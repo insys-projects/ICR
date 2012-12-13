@@ -29,5 +29,6 @@ void XXXX_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo, int isBase = 0);
 int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo);
 int XXXX_GetProperty(PSUBMOD_INFO pDeviceInfo);
 int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo);
+void XXXX_Close(PSUBMOD_INFO pDevInfo);
 
 #endif // XXXX_H

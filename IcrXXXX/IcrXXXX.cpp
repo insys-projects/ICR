@@ -46,7 +46,7 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 //***************************************************************************************
 SUBMOD_API void __stdcall SUBMOD_Close(PSUBMOD_INFO pDevInfo)
 {
-	delete[] pDevInfo->pCfgMem;
+	XXXX_Close(pDevInfo);
 }
 
 //***************************************************************************************

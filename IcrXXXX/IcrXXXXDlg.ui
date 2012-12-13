@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="ParamsTreeWidget" name="m_pParamTreeWidget">
+     <property name="contextMenuPolicy">
+      <enum>Qt::ActionsContextMenu</enum>
+     </property>
      <property name="columnCount">
       <number>2</number>
      </property>
@@ -72,6 +75,11 @@
     </layout>
    </item>
   </layout>
+  <action name="m_pActionColorGroup">
+   <property name="text">
+    <string>Изменить цвет группы...</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

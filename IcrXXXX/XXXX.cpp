@@ -3,24 +3,39 @@
 #include "qwinwidget.h"
 
 #include <QStringList>
+#include <QFile>
+#include <QTextStream>
 
-QStringList g_lsNames;	// Названия устройств
-QList<U32>	g_lnTypes;	// Типы устройств
-QStringList g_lsFiles;	// Файлы
+typedef QList<TGroup *> GroupList;
+
+QStringList			g_lsNames;	// Названия устройств
+QList<U32>			g_lnTypes;	// Типы устройств
+QStringList			g_lsFiles;	// Файлы
 QList<IcrParamList> g_llIcrParams;
-QList<int> g_lnStructCount;
-QList<int> g_lisBase;
+QList<int>			g_lnStructCount;
+QList<int>			g_lisBase;
+QList<GroupList>	g_llGroup;	// Список групп
 
 void CreateLists(int isBase = 0);
-IcrParamList ParseXml(const QString &sFileName);
+void ParseXml(const QString &sFileName, IcrParamList &lIcrParam, GroupList &lGroup);
 TIcrParam ParseField(const QDomElement &cFieldDomEl);
 ItemList GetItemsList(const QDomElement &cFieldDomEl);
 U08 *FindTag(U08 *pBuf, U32 nTag);
+
+// Получить цвет группы
+QColor *GetColorGroup(QDomElement &element);
+// Записать в файл цвета группы
+void WriteColorGroup(U32 nFileIdx, TGroup *prGroup);
+
+// Установка значения атрибута
+void SetAttribute(QString &sTag, const QString &sTagName, const QString &sTagValue);
 
 void XXXX_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo, int isBase)
 {
 	QByteArray	cArr;
 	U32			nCfgMemSize = BASEMOD_CFGMEM_SIZE;
+	IcrParamList	lIcrParams;
+	GroupList		lGroups;
 
 	if(g_lsNames.isEmpty())
 		CreateLists(isBase);
@@ -43,7 +58,10 @@ void XXXX_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo, int isBase)
 	pDevInfo->pCfgMem = new UCHAR[nCfgMemSize];
 	pDevInfo->nCfgMemSize = nCfgMemSize;
 
-	g_llIcrParams << ParseXml(g_lsFiles[curNum]);
+	ParseXml(g_lsFiles[curNum], lIcrParams, lGroups);
+
+	g_llIcrParams << lIcrParams;
+	g_llGroup << lGroups;
 }
 
 int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
@@ -188,6 +206,7 @@ int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	QSize parentSize, dlgSize;
 	RECT  pos;
 	int   nX, nY;
+	TGroup *pGroup;
 
 	if(nIdx == -1)
 		return 0;
@@ -195,11 +214,12 @@ int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	int argc = 0;
 	int nRet = 0;
 
-	IcrXXXXDlg dlg(g_llIcrParams[nIdx]);
+	IcrXXXXDlg dlg(g_llIcrParams[nIdx], g_llGroup[nIdx]);
 
-	int k = g_llIcrParams[nIdx].size();
+	int k  = g_llIcrParams[nIdx].size();
+	int k1 = g_llGroup[nIdx].size();
 
-	dlg.resize(500, 124 + 21 * (k - 2 - g_lnStructCount[nIdx]));
+	dlg.resize(500, 124 + 21 * (k - 2 - g_lnStructCount[nIdx]) + 22 * k1);
 
 	HWND parent = GetForegroundWindow();
 
@@ -228,11 +248,31 @@ int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 
 	// Показать диалог
 	if(dlg.exec())
+	{
 		g_llIcrParams.replace(nIdx, dlg.GetIcrParams());	
+
+		foreach(pGroup, g_llGroup[nIdx])
+			WriteColorGroup(nIdx, pGroup);
+	}
 
 	dlg.setParent(0);
 
 	return 0;
+}
+
+void XXXX_Close(PSUBMOD_INFO pDevInfo)
+{
+	TGroup *pGroup;
+	GroupList lGroup;
+	S32 nIdx = g_lnTypes.indexOf(pDevInfo->Type);
+
+	if(nIdx != -1)
+	{
+		foreach(pGroup, lGroup)
+			delete	pGroup;
+	}
+
+	delete[] pDevInfo->pCfgMem;
 }
 
 void CreateLists(int isBase)
@@ -248,6 +288,8 @@ void CreateLists(int isBase)
 	QFile			cFile;
 	QDomDocument	cXmlDocument; 
 	QDomElement		cRoot, cElement;
+
+	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("CP1251"));
 
 	lsNameFilters << "Icr*.xml";
 	lsFiles = cDir.entryList(lsNameFilters, QDir::Files);
@@ -304,28 +346,29 @@ void CreateLists(int isBase)
 	}
 }
 
-IcrParamList ParseXml(const QString &sFileName)
+void ParseXml(const QString &sFileName, IcrParamList &lIcrParams, GroupList &lGroup)
 {
 	QFile			cFile(sFileName);
 	QDomDocument	cXmlDocument; 
-	QDomElement		cRoot, cStructDomEl, cFieldDomEl;
+	QDomElement		cRoot, cStructDomEl, cFieldDomEl, cGroupDomEl, child;
 	TIcrParam		rIcrParam;
 	QString			sStr;
-	IcrParamList	lIcrParams;
 	int				nStructCount = 0;
+	TGroup			*prGroup;
+	QColor			*pColor;
 
 	if(!cFile.open(QFile::ReadOnly | QFile::Text)) 
 	{
 		cFile.close();
 		g_lnStructCount << nStructCount;
-		return lIcrParams;
+		return;
 	}
 
 	if(!cXmlDocument.setContent(&cFile)) 
 	{
 		cFile.close();
 		g_lnStructCount << nStructCount;
-		return lIcrParams;
+		return;
 	}
 
 	cFile.close();
@@ -335,7 +378,7 @@ IcrParamList ParseXml(const QString &sFileName)
 	if(cRoot.nodeName() != "icr")
 	{
 		g_lnStructCount << nStructCount;
-		return lIcrParams;
+		return;
 	}
 
 	cStructDomEl = cRoot.firstChildElement("struct");
@@ -370,11 +413,39 @@ IcrParamList ParseXml(const QString &sFileName)
 
 		lIcrParams << rIcrParam;
 
+		cGroupDomEl  = cStructDomEl.firstChildElement("group");
+
+		while(!cGroupDomEl.isNull())
+		{	// Создаем группу
+			prGroup = new TGroup;
+			pColor = GetColorGroup(cGroupDomEl);
+			prGroup->color   = *pColor; // Цвет группы
+			prGroup->sName   = cGroupDomEl.attribute("title"); // Название группы
+			prGroup->isOpen  = cGroupDomEl.attribute("open", "1").toInt(); // Свернута или развернута группа
+			lGroup << prGroup;
+
+			cFieldDomEl = cGroupDomEl.firstChildElement("field");
+
+			while(!cFieldDomEl.isNull())
+			{	// Перебор всех полей структуры
+				rIcrParam = ParseField(cFieldDomEl);
+				rIcrParam.sGroupName = prGroup->sName;
+				lIcrParams << rIcrParam;
+
+				cFieldDomEl = cFieldDomEl.nextSiblingElement("field");
+			}
+
+			cGroupDomEl = cGroupDomEl.nextSiblingElement("group");
+		}
+
 		cFieldDomEl = cStructDomEl.firstChildElement("field");
 
 		while(!cFieldDomEl.isNull())
 		{	// Перебор всех полей структуры
 			rIcrParam = ParseField(cFieldDomEl);
+
+			if(lGroup.size() > 0)
+				rIcrParam.sGroupName = "Прочее";
 
 			lIcrParams << rIcrParam;
 
@@ -386,7 +457,14 @@ IcrParamList ParseXml(const QString &sFileName)
 
 	g_lnStructCount << nStructCount;
 
-	return lIcrParams;
+	if(lGroup.size() > 0)
+	{
+		prGroup = new TGroup;
+		prGroup->color   = QColor(255, 255, 255); // Цвет группы
+		prGroup->sName   = "Прочее"; // Название группы
+		prGroup->isOpen  = 1; // Свернута или развернута группа
+		lGroup << prGroup;
+	}
 }
 
 TIcrParam ParseField(const QDomElement &cFieldDomEl)
@@ -538,4 +616,123 @@ U08 *FindTag(U08 *pBuf, U32 nTag)
 	}
 
 	return pBuf;
+}
+
+// Получить цвет группы
+QColor *GetColorGroup(QDomElement &element)
+{
+	U32 r, g, b;
+	QString str = element.attribute("color");
+
+	if(str.isEmpty())
+		return new QColor(255, 255, 255, 255);
+
+
+	QStringList sList = str.split(",");
+
+	foreach(QString str, sList)
+		str = str.trimmed();
+
+	r = sList[0].toInt();
+	g = sList[1].toInt();
+	b = sList[2].toInt();
+
+	return new QColor(r, g, b, 255);
+}
+
+// Записать в файл цвета группы
+void WriteColorGroup(U32 nFileIdx, TGroup *prGroup)
+{
+	QFile file(g_lsFiles[nFileIdx]);
+	QDomDocument XmlDocument; 
+	QDomElement root, group;
+	QString sColor, str, str1, sFileData, sOpen;
+	/*	U32 nOpenIdx, nColorIdx, nEndIdx;*/
+	QStringList sList;
+
+	if(!file.open(QFile::ReadWrite | QFile::Text)) 
+	{
+		file.close();
+		return;
+	}
+
+	QTextStream strm(&file);
+	strm.setCodec(QTextCodec::codecForName("UTF8"));
+
+	// Ищем нужную группу
+	str = strm.readLine();
+
+	while(!str.isNull())
+	{
+		if((str.indexOf("title=\"" + prGroup->sName + "\"") != -1) && (str.indexOf("group") != -1))
+			break; // Нужная группа найдена
+
+		sFileData += str + '\n';
+
+		str = strm.readLine(); // Чтение новой строки
+	}
+	// ------------------
+
+	// Установка атрибута color
+	str1.setNum(prGroup->color.red());
+	sColor = str1 + ",";
+
+	str1.setNum(prGroup->color.green());
+	sColor += str1 + ",";
+
+	str1.setNum(prGroup->color.blue());
+	sColor += str1;
+
+	SetAttribute(str, QString("color"), sColor);	
+	sFileData += str + '\n';
+	// -------------------
+
+	sFileData += strm.readAll();
+
+	file.close();
+
+	file.remove();
+
+	if(!file.open(QFile::ReadWrite | QFile::Text)) 
+	{
+		file.close();
+		return;
+	}
+
+	strm.setDevice(&file);
+	strm.setCodec(QTextCodec::codecForName("UTF8"));
+	strm << sFileData;
+
+	file.close();
+}
+
+// Установка значения атрибута
+void SetAttribute(QString &sTag, const QString &sAttrName, const QString &sTagValue)
+{
+	QString sOpen, str;
+	QStringList sList;
+	U32 nStartIdx, nEndIdx, nLen;
+
+	nStartIdx = sTag.indexOf(sAttrName + "=");
+
+	if(nStartIdx == -1)
+	{	// Атрибут отсутствует
+		sOpen = sTagValue;
+		nEndIdx = sTag.indexOf('>');
+		sOpen = " " + sAttrName +"=\"" + sOpen + "\"";
+		sTag.insert(nEndIdx, sOpen);
+	}
+	else
+	{	// Атрибут присутствует
+		str = sTag.right(sTag.length() - nStartIdx); 
+		nEndIdx = str.indexOf('\"');
+		nEndIdx = str.indexOf('\"', nEndIdx + 1);
+		str = str.left(nEndIdx);
+		nLen = str.length() + 1;
+		sList = str.split("=\"");
+		sList[1] = sTagValue;
+		str = sList.join("=\"") + '\"';
+		sTag.remove(nStartIdx, nLen);
+		sTag.insert(nStartIdx, str);
+	}
 }

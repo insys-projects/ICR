@@ -112,14 +112,19 @@ ParamsTreeWidget::ParamsTreeWidget(QWidget *parent) : QTreeWidget(parent)
 void ParamsTreeWidget::AddParam(QString sNameGroup, TIcrParam *pParam)
 {
 	QList<QTreeWidgetItem *> pListItem = findItems(sNameGroup, Qt::MatchFixedString, 0);
-//	ParamTreeItem *pGroupItem = dynamic_cast<ParamTreeItem *>(pListItem[0]);
+	ParamTreeItem *pGroupItem = 0;
 	ParamTreeItem *pParamItem = new ParamTreeItem;
 //	TSection *prSection;
 	QString sText;
 
+	if(pListItem.size() > 0)
+		pGroupItem = dynamic_cast<ParamTreeItem *>(pListItem[0]);
+
 	pParamItem->setHead(0);
 	pParamItem->setEnable(1);
-//	pParamItem->SetColorGroup(pGroupItem->ColorGroup());
+
+	if(pGroupItem)
+		pParamItem->SetColorGroup(pGroupItem->ColorGroup());
 	
 // 	if(pParam->prJiniAttr != 0)
 // 	{
@@ -205,10 +210,13 @@ void ParamsTreeWidget::AddParam(QString sNameGroup, TIcrParam *pParam)
 	
 	pParamItem->setParam(pParam);
 
-	invisibleRootItem()->addChild(pParamItem);
-
-// 	pGroupItem->addChild(pParamItem);
-// 	pGroupItem->setExpanded(true);
+	if(pGroupItem)
+	{
+		pGroupItem->addChild(pParamItem);
+		pGroupItem->setExpanded(true);
+	}
+	else
+		invisibleRootItem()->addChild(pParamItem);
 }
 
 // Удалить все параметры
