@@ -19,7 +19,7 @@
 ICR_CfgAmbp m_AmbpCfg = { AMBPCD_CFG_TAG, 8, 1, 66000000, 0, 0, 0};
 //ICR_CfgAmbp m_AmbpcdCfg = { AMBPCD_CFG_TAG, 4, 1, 2, 0, 0};
 //ICR_CfgAmbp m_AmbpcxCfg = { AMBPCX_CFG_TAG, 4, 1, 0, 0, 0};
-ICR_CfgDdrSdram m_SdramCfg = { DDRSDRAM_CFG_TAG, 7, 0, 1, 13, 9, 1, 4, 4, 2};
+ICR_CfgDdrSdram m_SdramCfg = { DDRSDRAM_CFG_TAG, 8, 0, 1, 13, 9, 1, 4, 4, 2};
 ICR_CfgDspNode m_DspNodeCfg = {DSPNODE_CFG_TAG, 10, 0, 4, 1000, 896, 5, 0, 0, 0};
 ICR_CfgSram m_SramCfg = { SRAM_CFG_TAG, 4, 0, 0, 1, 2};
 
