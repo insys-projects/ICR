@@ -104,6 +104,26 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 		lstrcpy(pDevInfo->sName, _T("FMC115cP"));
 		pDevInfo->dType = FMC115CP;
 		break;
+	case 4:
+		lstrcpy(pDevInfo->sName, _T("FMC110P"));
+		pDevInfo->dType = FMC110P;
+		break;
+	case 5:
+		lstrcpy(pDevInfo->sName, _T("FMC113E"));
+		pDevInfo->dType = FMC113E;
+		break;
+	case 6:
+		lstrcpy(pDevInfo->sName, _T("FMC108V"));
+		pDevInfo->dType = FMC108V;
+		break;
+	case 7:
+		lstrcpy(pDevInfo->sName, _T("FMC103E2"));
+		pDevInfo->dType = FMC103E2;
+		break;
+	case 8:
+		lstrcpy(pDevInfo->sName, _T("FMC112cP"));
+		pDevInfo->dType = FMC112CP;
+		break;
 	default:
 		*pNumDev = -1;
 	}
@@ -194,6 +214,13 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 		//	}
 		case FMC105P_CFG_TAG:
 		case FMC106P_CFG_TAG:
+		case FMC103E2_CFG_TAG:
+		case FMC114V_CFG_TAG:
+		case FMC110P_CFG_TAG:
+		case FMC113E_CFG_TAG:
+		case FMC108V_CFG_TAG:
+		case FMC115ÑP_CFG_TAG:
+		case FMC112CP_CFG_TAG:
 			{
 				PICR_CfgFmc105p pFmc105pCfg = (PICR_CfgFmc105p)pCurCfgMem;
 				m_Fmc105pCfg.wTag = pFmc105pCfg->wTag;
