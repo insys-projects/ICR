@@ -28,7 +28,7 @@ const USHORT FMC114V_CFG_TAG = 0x550C; // тэг для структуры конфигурационных пар
 const USHORT FMC110P_CFG_TAG = 0x550D; // тэг для структуры конфигурационных параметров базового модуля FMC110D
 const USHORT FMC113E_CFG_TAG = 0x550E; // тэг для структуры конфигурационных параметров базового модуля FMC113E
 const USHORT FMC108V_CFG_TAG = 0x550F; // тэг для структуры конфигурационных параметров базового модуля FMC108V
-const USHORT FMC115СP_CFG_TAG = 0x53B1; // тэг для структуры конфигурационных параметров базового модуля FMC115cP
+const USHORT FMC115CP_CFG_TAG = 0x53B1; // тэг для структуры конфигурационных параметров базового модуля FMC115cP
 const USHORT FMC112CP_CFG_TAG = 0x53B2; // тэг для структуры конфигурационных параметров базового модуля FMC112cP
 
 // FMC105P/FMC106P modules configuration
