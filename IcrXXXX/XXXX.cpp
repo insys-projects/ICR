@@ -203,9 +203,7 @@ int XXXX_GetProperty(PSUBMOD_INFO pDeviceInfo)
 int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 {
 	S32 nIdx = g_lnTypes.indexOf(pDeviceInfo->Type);
-	QSize parentSize, dlgSize;
-	RECT  pos;
-	int   nX, nY;
+
 	TGroup *pGroup;
 
 	if(nIdx == -1)
@@ -223,17 +221,6 @@ int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 
 	HWND parent = GetForegroundWindow();
 
-	// Вычисление координат размещения диалога
-	GetWindowRect(parent, &pos);
-	
-	dlgSize = dlg.size();
-
-	nX = (pos.right - pos.left - dlgSize.width()) / 2;
-	nY = (pos.bottom - pos.top - dlgSize.height()) / 2;
-
-	dlg.move(pos.left + nX, pos.top + nY);
-	// ---------------------------------------
-	
 	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("CP1251")); 
 
 	dlg.setWindowTitle("Конфигурация " + g_lsNames[nIdx]);
@@ -484,6 +471,13 @@ TIcrParam ParseField(const QDomElement &cFieldDomEl)
 	rIcrParam.nSize = sStr.toInt();
 
 	rIcrParam.sValue = cFieldDomEl.attribute("default", "");
+
+	rIcrParam.nType = PARAM_TYPE_STRING;
+
+	rIcrParam.isInvisible = cFieldDomEl.attribute("invisible", "0").toInt();
+
+	if(rIcrParam.isInvisible)
+		return rIcrParam;
 
 	sStr = cFieldDomEl.attribute("type", "");
 

@@ -211,10 +211,7 @@ void ParamsTreeWidget::AddParam(QString sNameGroup, TIcrParam *pParam)
 	pParamItem->setParam(pParam);
 
 	if(pGroupItem)
-	{
 		pGroupItem->addChild(pParamItem);
-		pGroupItem->setExpanded(true);
-	}
 	else
 		invisibleRootItem()->addChild(pParamItem);
 }

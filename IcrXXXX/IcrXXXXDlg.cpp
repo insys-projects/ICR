@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QtXml/QDomDocument>
 #include <QColorDialog>
+#include <QDesktopWidget>
 
 IcrXXXXDlg::IcrXXXXDlg(const IcrParamList &lIcrParams,  QList<TGroup *> &lpGroup, QWidget *parent, Qt::WFlags flags)
 			: QDialog(parent, flags | Qt::WindowCloseButtonHint)
@@ -60,11 +61,13 @@ void IcrXXXXDlg::FillTree()
 	foreach(pGroup, m_lpGroup)
 		m_mpGroupItems.insert(pGroup->sName, m_pParamTreeWidget->AddGroup(pGroup));	
 
+	m_pParamTreeWidget->ExpandedGroups(m_lpGroup);
+
 	foreach(pIcrParam, m_lpIcrParams)
 	{
-		if(pIcrParam->nTag != -1)
+		if((pIcrParam->nTag != -1) || pIcrParam->isInvisible)
 			continue;
-
+		
 		pTreeItem = new ParamTreeItem;
 
 		m_pParamTreeWidget->AddParam(pIcrParam->sGroupName, pIcrParam);	
@@ -108,8 +111,26 @@ void IcrXXXXDlg::showEvent(QShowEvent * pEvent)
 		lpTree = m_pParamTreeWidget->findItems(sOther, Qt::MatchFixedString, 0);
 
 		if(lpTree.size() == 0)
-			setFixedHeight(size().height() - 22);
+			resize(size().width(), size().height() - 22);
 	}
+
+	if(size().height() > (QApplication::desktop()->height() - 100))
+		resize(size().width(), QApplication::desktop()->height() - 100);
+
+	HWND parent = GetForegroundWindow();
+
+	RECT  pos;
+
+	// Вычисление координат размещения диалога
+	GetWindowRect(parent, &pos);
+
+	QSize dlgSize = size();
+
+	U32 nX = (pos.right - pos.left - dlgSize.width()) / 2;
+	U32 nY = (pos.bottom - pos.top - dlgSize.height()) / 2;
+
+	move(pos.left + nX, pos.top + nY);
+	// ---------------------------------------
 }
 
 // Щелчок правой кнопкой

@@ -18,13 +18,14 @@ struct TIcrParam
 // class TIcrParam
 {
 // public:
-	QString sName;		// Имя параметра
-	QString sValue;		// Значение параметра
-	QString sDefValue;	// Значение по умолчанию 
-	U32		nOffset;	// Смещение в структуре
-	U32		nSize;		// Размер
-	S32		nTag;		// Тэг
-	S32		nType;		// Тип параметра
+	QString sName;			// Имя параметра
+	QString sValue;			// Значение параметра
+	QString sDefValue;		// Значение по умолчанию 
+	U32		nOffset;		// Смещение в структуре
+	U32		nSize;			// Размер
+	S32		nTag;			// Тэг
+	S32		nType;			// Тип параметра
+	U08		isInvisible;	// 1 - невидимый параметр
 
 	// Только для "spin_int", "int", "hex"
 	S32		nMin; // Минимальное значение 
