@@ -1,0 +1,100 @@
+﻿<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FMC110P-6678" type="0x6610" base="1"/>
+  <dev name="FMC114V-6678" type="0x6614" base="1"/>
+  <dev name="PEX-SRIO-6678" type="0x6615" base="1"/>
+
+  <struct tag="0x6610" size="44">
+
+    <field name="DEVCONF" offset="4" size="2" default="101" min="0" max="0111" type="bin"/>
+
+    <field name="CPUTYPE" offset="6" size="2" default="8" type="list">
+      <item val="8" descr="TI6678" />
+      <item val="4" descr="TI6674" />
+      <item val="2" descr="TI6672" />
+      <item val="1" descr="TI6671" />
+    </field>
+
+    <field name="CPU   CLK" offset="8" size="4" default="100.0" type="double" min="50" max="250" prec="6"/>
+    <field name="PCIe  CLK" offset="12" size="4" default="100.0" type="double" min="100" max="100" prec="6"/>
+    <field name="PA    CLK" offset="16" size="4" default="156.25" type="double" min="100" max="350" prec="6"/>
+    <field name="DDR3  CLK" offset="20" size="4" default="156.25" type="double" min="100" max="350" prec="6"/>
+    <field name="SRIO  CLK" offset="24" size="4" default="156.25" type="double" min="100" max="350" prec="6"/>
+    <field name="HYPER CLK" offset="28" size="4" default="156.25" type="double" min="100" max="350" prec="6"/>
+<!--
+    <field name="CPU   CLK" offset="8" size="4"  default="100000000" min="50" max="250" prec="3"/>
+    <field name="PCIe  CLK" offset="12" size="4" default="100000000" min="100" max="100" prec="3"/>
+    <field name="PA    CLK" offset="16" size="4" default="156250000" min="100" max="350" prec="3"/>
+    <field name="DDR3  CLK" offset="20" size="4" default="156250000" min="100" max="350" prec="3"/>
+    <field name="SRIO  CLK" offset="24" size="4" default="156250000" min="100" max="350" prec="3"/>
+    <field name="HYPER CLK" offset="28" size="4" default="156250000" min="100" max="350" prec="3"/>
+-->
+    <field name="ETHERNET0" offset="32" size="1" default="1" type="list">
+      <item val="1" descr="Есть Ethernet 0" />
+      <item val="0" descr="Нет  Ethernet 0" />
+    </field>
+
+    <field name="ETHERNET1" offset="33" size="1" default="1" type="list">
+      <item val="1" descr="Есть Ethernet 1" />
+      <item val="0" descr="Нет  Ethernet 1" />
+    </field>
+
+    <field name="SRIO" offset="34" size="1" default="1" type="list">
+      <item val="1" descr="Есть SRIO" />
+      <item val="0" descr="Нет  SRIO" />
+    </field>
+
+    <field name="HYPERLINK" offset="35" size="1" default="1" type="list">
+      <item val="1" descr="Есть HYPERLINK" />
+      <item val="0" descr="Нет  HYPERLINK" />
+    </field>
+
+    <field name="PCIExpress" offset="36" size="1" default="1" type="list">
+      <item val="1" descr="Есть PCIExpress" />
+      <item val="0" descr="Нет  PCIExpress" />
+    </field>
+
+    <field name="RS-232" offset="37" size="1" default="1" type="list">
+      <item val="1" descr="Есть RS-232" />
+      <item val="0" descr="Нет  RS-232" />
+    </field>
+
+    <field name="SPI" offset="38" size="1" default="1" type="list">
+      <item val="1" descr="Есть SPI" />
+      <item val="0" descr="Нет  SPI" />
+    </field>
+
+    <field name="I2C" offset="39" size="1" default="1" type="list">
+      <item val="1" descr="Есть I2C" />
+      <item val="0" descr="Нет  I2C" />
+    </field>
+
+    <field name="РАЗМЕР DDR3 (запаяно)" offset="40" size="4" type="hex" default="0x00000000"/>
+	</struct>
+	
+
+</icr>

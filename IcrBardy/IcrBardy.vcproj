@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\icrinc,$(BardyIncDir)"
+				AdditionalIncludeDirectories="..\icrinc,..\..\_bardy\brdinc"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;ICRBARDY_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -238,7 +238,7 @@
 			</File>
 		</Filter>
 		<File
-			RelativePath="$(BardyLibDir)\brd.lib"
+			RelativePath="..\..\_BARDY\LIB\brd.lib"
 			>
 		</File>
 		<File

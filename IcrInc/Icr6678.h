@@ -23,6 +23,7 @@
 const USHORT FMC110_6678_CFG_TAG = 0x6610; // тэг для структуры конфигурационных параметров базового модуля FMC110
 const USHORT FMC113_6678_CFG_TAG = 0x6613; // тэг для структуры конфигурационных параметров базового модуля FMC113
 const USHORT FMC114_6678_CFG_TAG = 0x6614; // тэг для структуры конфигурационных параметров базового модуля FMC114
+const USHORT PEX_SRIO_CFG_TAG	 = 0x6615; // тэг для структуры конфигурационных параметров базового модуля PEX-SRIO
 
 // 6678 module configuration
 // Конфигурационная структура базового модуля 6678
@@ -33,12 +34,12 @@ typedef struct _ICR_Cfg6678 {
 	U16	wDevConf;		// Device virtual BOOT mode
 	U16	wCpuType;		// Тип процессора (0x6671, 0x6672, 0x6674,0x6678)
 
-	U16	wCpuClkIn;		// CPU clock base (MHz) 
-	U16	wPcieClkIn;		// PCIExpress clock base (MHz) 
-	U16	wPaClkIn;		// PA clock base (MHz) 
-	U16	wDDRClkIn;		// DDR clock base (MHz) 
-	U16	wSRIOClkIn;		// SRIO&SGMII clock base (MHz) 
-	U16	wHyperClkIn;	// HyperLink clock base (MHz) 
+	U32	wCpuClkIn;		// CPU clock base (MHz) 
+	U32	wPcieClkIn;		// PCIExpress clock base (MHz) 
+	U32	wPaClkIn;		// PA clock base (MHz) 
+	U32	wDDRClkIn;		// DDR clock base (MHz) 
+	U32	wSRIOClkIn;		// SRIO&SGMII clock base (MHz) 
+	U32	wHyperClkIn;	// HyperLink clock base (MHz) 
 
 	U08	bIsEth0;		// есть Ethernet 0
 	U08	bIsEth1;		// есть Ethernet 1
