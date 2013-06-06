@@ -24,8 +24,8 @@
 -->
 
 <icr>
-	<dev name="FMC110P-6678" type="0x6610" base="1"/>
-  <dev name="FMC114V-6678" type="0x6614" base="1"/>
+	<dev name="FMC110-6678" type="0x6610" base="1"/>
+  <dev name="FMC114-6678" type="0x6614" base="1"/>
   <dev name="PEX-SRIO-6678" type="0x6615" base="1"/>
 
   <struct tag="0x6610" size="44">
