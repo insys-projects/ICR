@@ -219,7 +219,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 		case FMC110P_CFG_TAG:
 		case FMC113E_CFG_TAG:
 		case FMC108V_CFG_TAG:
-		case FMC115ÑP_CFG_TAG:
+		case FMC115CP_CFG_TAG:
 		case FMC112CP_CFG_TAG:
 			{
 				PICR_CfgFmc105p pFmc105pCfg = (PICR_CfgFmc105p)pCurCfgMem;

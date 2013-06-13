@@ -331,5 +331,37 @@
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="lreleaseOptions"
+			Value=""
+		/>
+		<Global
+			Name="lupdateOnBuild"
+			Value="0"
+		/>
+		<Global
+			Name="lupdateOptions"
+			Value=""
+		/>
+		<Global
+			Name="MocDir"
+			Value=".\GeneratedFiles\$(ConfigurationName)"
+		/>
+		<Global
+			Name="MocOptions"
+			Value=""
+		/>
+		<Global
+			Name="QtVersion Win32"
+			Value="$(DefaultQtVersion)"
+		/>
+		<Global
+			Name="RccDir"
+			Value=".\GeneratedFiles"
+		/>
+		<Global
+			Name="UicDir"
+			Value=".\GeneratedFiles"
+		/>
 	</Globals>
 </VisualStudioProject>
