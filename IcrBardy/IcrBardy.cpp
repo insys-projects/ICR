@@ -78,13 +78,22 @@ DEVICE_API void __stdcall DEVICE_GetInfo(int* pNumDev, PDEVICE_INFO pDevInfo)
 	pDevInfo->wSlotNum = info.slot;
 
 	pDevInfo->pBaseCfgMem = new UCHAR[BASEMOD_CFGMEM_SIZE];
+	pDevInfo->nBaseCfgMemSize = BASEMOD_CFGMEM_SIZE;
+
 	pDevInfo->pAdmCfgMem[0] = new UCHAR[SUBMOD_CFGMEM_SIZE];
-	pDevInfo->pAdmCfgMem[1] = 0;
+	pDevInfo->nAdmCfgMemSize[0] = SUBMOD_CFGMEM_SIZE;
+	if(0x53B2 == pDevInfo->wType)
+	{
+		pDevInfo->pAdmCfgMem[1] = new UCHAR[SUBMOD_CFGMEM_SIZE];
+		pDevInfo->nAdmCfgMemSize[1] = SUBMOD_CFGMEM_SIZE;
+	}
+	else
+	{
+		pDevInfo->pAdmCfgMem[1] = 0;
+		pDevInfo->nAdmCfgMemSize[1] = 0;
+	}
 	pDevInfo->pAdmCfgMem[2] = 0;
 	pDevInfo->pAdmCfgMem[3] = 0;
-	pDevInfo->nBaseCfgMemSize = BASEMOD_CFGMEM_SIZE;
-	pDevInfo->nAdmCfgMemSize[0] = SUBMOD_CFGMEM_SIZE;
-	pDevInfo->nAdmCfgMemSize[1] = 0;
 	pDevInfo->nAdmCfgMemSize[2] = 0;
 	pDevInfo->nAdmCfgMemSize[3] = 0;
 }
@@ -99,6 +108,8 @@ DEVICE_API void __stdcall DEVICE_Close(PDEVICE_INFO pDevInfo)
 {
 	delete[] pDevInfo->pBaseCfgMem;
 	delete[] pDevInfo->pAdmCfgMem[0];
+	if(pDevInfo->pAdmCfgMem[1])
+		delete[] pDevInfo->pAdmCfgMem[1];
 //	MessageBox( NULL, "BRD_cleanup", "", MB_OK);
 	int CurInst = pDevInfo->nInstance;
 //	if(!CurInst)
@@ -181,31 +192,55 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 	if( (bDevs == READ_WRITE_SUBMODULE) || (bDevs == READ_WRITE_ALL) )
 	{
 		ULONG puAdmIcrId = 0;
+		int iSub = 0;
 		for(ULONG ii = 0; ii < ItemReal; ii++)
 		{
 			if(PuList[ii].puCode == ADM_ID_TAG)
 			{
 				puAdmIcrId = PuList[ii].puId;
-				break;
+				status = BRD_puRead(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[iSub], SUBMOD_CFGMEM_SIZE);
+				//sprintf(msg, "Reading submodule ICR, status = 0X%08X", status);
+				//MessageBox(NULL, msg, "IcrBardy", MB_OK);
+				if(!BRD_errcmp(status, BRDerr_OK))
+					MessageBox(NULL, "ERROR by reading submodule ICR", "IcrBardy", MB_OK);
+				else
+					if(*(PUSHORT)pDevInfo->pAdmCfgMem[iSub] == ADM_ID_TAG)
+					{
+						pDevInfo->nRealAdmCfgSize[iSub] = *((PUSHORT)pDevInfo->pAdmCfgMem[iSub] + 2);
+						nSuccess = 1;
+					}
+				iSub++;
 			}
 		}
-
-		if( puAdmIcrId )
-		{
-			//char msg[128];
-			status = BRD_puRead(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], SUBMOD_CFGMEM_SIZE);
-			//sprintf(msg, "Reading submodule ICR, status = 0X%08X", status);
-			//MessageBox(NULL, msg, "IcrBardy", MB_OK);
-			if(!BRD_errcmp(status, BRDerr_OK))
-				MessageBox(NULL, "ERROR by reading submodule ICR", "IcrBardy", MB_OK);
-			else
-				if(*(PUSHORT)pDevInfo->pAdmCfgMem[0] == ADM_ID_TAG)
-				{
-					pDevInfo->nRealAdmCfgSize[0] = *((PUSHORT)pDevInfo->pAdmCfgMem[0] + 2);
-					nSuccess = 1;
-				}
-		}
 	}
+	//if( (bDevs == READ_WRITE_SUBMODULE) || (bDevs == READ_WRITE_ALL) )
+	//{
+	//	ULONG puAdmIcrId = 0;
+	//	for(ULONG ii = 0; ii < ItemReal; ii++)
+	//	{
+	//		if(PuList[ii].puCode == ADM_ID_TAG)
+	//		{
+	//			puAdmIcrId = PuList[ii].puId;
+	//			break;
+	//		}
+	//	}
+
+	//	if( puAdmIcrId )
+	//	{
+	//		//char msg[128];
+	//		status = BRD_puRead(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], SUBMOD_CFGMEM_SIZE);
+	//		//sprintf(msg, "Reading submodule ICR, status = 0X%08X", status);
+	//		//MessageBox(NULL, msg, "IcrBardy", MB_OK);
+	//		if(!BRD_errcmp(status, BRDerr_OK))
+	//			MessageBox(NULL, "ERROR by reading submodule ICR", "IcrBardy", MB_OK);
+	//		else
+	//			if(*(PUSHORT)pDevInfo->pAdmCfgMem[0] == ADM_ID_TAG)
+	//			{
+	//				pDevInfo->nRealAdmCfgSize[0] = *((PUSHORT)pDevInfo->pAdmCfgMem[0] + 2);
+	//				nSuccess = 1;
+	//			}
+	//	}
+	//}
 	if( !nSuccess )
 		pDevInfo->nRealAdmCfgSize[0] = 0;
 
@@ -279,23 +314,40 @@ DEVICE_API int __stdcall DEVICE_WriteIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs
 	if( (bDevs == READ_WRITE_SUBMODULE) || (bDevs == READ_WRITE_ALL) )
 	{
 		ULONG puAdmIcrId = 0;
+		int iSub = 0;
 		for(ULONG ii = 0; ii < ItemReal; ii++)
 		{
 			if(PuList[ii].puCode == ADM_ID_TAG)
 			{
 				puAdmIcrId = PuList[ii].puId;
-				break;
+				BRD_puEnable(handle, puAdmIcrId);
+				status = BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[iSub], pDevInfo->nRealAdmCfgSize[iSub]);
+				if(!BRD_errcmp(status, BRDerr_OK))
+					MessageBox(NULL, "ERROR by writing submodule ICR", "IcrBardy", MB_OK);
+				iSub++;
 			}
 		}
-
-		if( puAdmIcrId )
-		{
-			BRD_puEnable(handle, puAdmIcrId);
-			status = BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->nRealAdmCfgSize[0]);
-			if(!BRD_errcmp(status, BRDerr_OK))
-				MessageBox(NULL, "ERROR by writing submodule ICR", "IcrBardy", MB_OK);
-		}
 	}
+	//if( (bDevs == READ_WRITE_SUBMODULE) || (bDevs == READ_WRITE_ALL) )
+	//{
+	//	ULONG puAdmIcrId = 0;
+	//	for(ULONG ii = 0; ii < ItemReal; ii++)
+	//	{
+	//		if(PuList[ii].puCode == ADM_ID_TAG)
+	//		{
+	//			puAdmIcrId = PuList[ii].puId;
+	//			break;
+	//		}
+	//	}
+
+	//	if( puAdmIcrId )
+	//	{
+	//		BRD_puEnable(handle, puAdmIcrId);
+	//		status = BRD_puWrite(handle, puAdmIcrId, 0, pDevInfo->pAdmCfgMem[0], pDevInfo->nRealAdmCfgSize[0]);
+	//		if(!BRD_errcmp(status, BRDerr_OK))
+	//			MessageBox(NULL, "ERROR by writing submodule ICR", "IcrBardy", MB_OK);
+	//	}
+	//}
 
 	BRD_close(handle);
 	delete [] PuList;
