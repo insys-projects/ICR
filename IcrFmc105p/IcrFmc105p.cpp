@@ -124,6 +124,10 @@ BASEMOD_API void __stdcall BASEMOD_GetInfo(int* pNumDev, PBASEMOD_INFO pDevInfo)
 		lstrcpy(pDevInfo->sName, _T("FMC112cP"));
 		pDevInfo->dType = FMC112CP;
 		break;
+	case 9:
+		lstrcpy(pDevInfo->sName, _T("FMC107P"));
+		pDevInfo->dType = FMC107P;
+		break;
 	default:
 		*pNumDev = -1;
 	}
@@ -214,6 +218,7 @@ BASEMOD_API int __stdcall BASEMOD_SetProperty(PBASEMOD_INFO pDeviceInfo)
 		//	}
 		case FMC105P_CFG_TAG:
 		case FMC106P_CFG_TAG:
+		case FMC107P_CFG_TAG:
 		case FMC103E2_CFG_TAG:
 		case FMC114V_CFG_TAG:
 		case FMC110P_CFG_TAG:
