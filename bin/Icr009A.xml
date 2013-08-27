@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<!--
+	<dev name="" type="" base=""/>
+
+	<struct tag="" size="">
+	</struct>
+
+	<field name="" offset="" size="" default=""/>
+
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+
+	<field name="" offset="" size="" default="" type="bin" min="" max="" />
+
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FM404V RR тест-прошивка" type="0x1F01"/>
+
+	<struct tag="0x009A" size="32">
+	<group title="Параметры субмодуля" open="1" color="255,255,191">
+		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" invisible="1" />
+		<field name="Тип кристалла генератора G1" offset="5" size="1" default="0" type="list">
+			<item val="0" descr="не програм-ый" />
+			<item val="1" descr="Si571/Si570" />
+		</field>
+		<field name="Адресный код генератора G1 (hex)" offset="6" size="1" default="49"/>
+		<field name="Заводская установка частоты генератора G1 (Гц)" offset="7" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Максимальная установка частоты генератора G1 (Гц)" offset="18" size="11" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Частота генератора G2 (Гц)" offset="15" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Частота генератора G3 (Гц)" offset="19" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
+
+		<field name="reserve0" offset="23" size="1" default="0" invisible="1" />
+		<field name="reserve1" offset="24" size="4" default="0" invisible="1" />
+		<field name="reserve5" offset="28" size="4" default="0" invisible="1" />
+	</group>
+
+	<!-- <struct tag="" size="24"> -->
+	</struct>
+
+</icr>
+
+
