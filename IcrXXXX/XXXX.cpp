@@ -85,6 +85,9 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 	{
 		if(rIcrParam.nTag != -1)
 		{
+ 			if(rIcrParam.nTag == 0)
+ 				rIcrParam.nTag = pDeviceInfo->Type;
+
 			pCurCfgMem = FindTag(pAdmCfgMem, rIcrParam.nTag);
 
 			if(pCurCfgMem == 0)
@@ -156,6 +159,9 @@ int XXXX_GetProperty(PSUBMOD_INFO pDeviceInfo)
 			}
 			else
 				isFirst = 0;
+
+			if(rIcrParam.nTag == 0)
+				rIcrParam.nTag = pDeviceInfo->Type;
 
 			// Копирование тэга
 			memcpy(pCurCfgMem, &(rIcrParam.nTag), 2);
@@ -377,8 +383,9 @@ void ParseXml(const QString &sFileName, IcrParamList &lIcrParams, GroupList &lGr
 
 		if(sStr.isEmpty())
 		{
-			cStructDomEl = cStructDomEl.nextSiblingElement("struct");
-			continue;
+			sStr = "0";
+			//cStructDomEl = cStructDomEl.nextSiblingElement("struct");
+			//continue;
 		}
 
 		rIcrParam.nTag = sStr.toUInt(0, 16);
