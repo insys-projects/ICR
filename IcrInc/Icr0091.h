@@ -24,11 +24,11 @@ typedef struct _ICR_Cfg0091 {
 	U32	nRefGen1;             // опорный генератор 1 (Гц)
 	U32	nRefGen1Min;          // опорный генератор 1 (Гц)
 	U32	nRefGen1Max;          // опорный генератор 1 (Гц)
-	U08	nRefGen1Type;         // тип опорного генератора 1
+	U08	nRefGen1Type;         // тип опорного генератора 1: 0-простой, 1-Si571/Si570
 	U32	nRefGen2;             // опорный генератор 2 (Гц)
 	U08	nRefGen2Type;         // тип опорного генератора 2
 	U08	nReserve0;            // резерв
-	U16	nReserve1;            // резерв
+	U16	nRefGen1Adr;          // Адрес Si570/Si571: 0x55/0x49
 	U32	nLpfPassBand;         // частота среза ФНЧ (Гц)
 	U16 awRange[4];	          // шкалы преобразования для Standard (мВ) (default 10000, 2000, 500, 100)
 	S16	awRangeDeviation[2][2][2][4];	// отклонение ШП от номинала (разы) (default 10000)

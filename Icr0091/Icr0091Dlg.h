@@ -29,6 +29,7 @@ public:
 	UINT	m_RefGen1Min;
 	UINT	m_RefGen1Max;
 	int		m_RefGen1Type;
+	UINT	m_RefGen1Adr;
 	int		m_RefGen2Type;
 	UINT	m_LpfPassBand;
 	UINT	m_Range0;

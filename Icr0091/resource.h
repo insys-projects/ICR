@@ -58,6 +58,7 @@
 #define IDC_REFGEN1TYPE                 8006
 #define IDC_REFGEN2TYPE                 8007
 #define IDC_LPFPASSBAND                 8008
+#define IDC_REFGEN1ADR                  8009
 #define IDC_REFGEN1TYPE3                8010
 
 // Next default values for new objects

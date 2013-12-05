@@ -24,6 +24,7 @@ CIcr0091Dlg::CIcr0091Dlg(CWnd* pParent /*=NULL*/)
 	m_RefGen1Max = 1000000000;
 	m_RefGen1Min = 10000000;
 	m_RefGen1Type = 1;
+	m_RefGen1Adr = 0x55;
 	m_RefGen2Type = 0;
 	m_LpfPassBand = 0;
 	m_Range0 = 10000;
@@ -69,9 +70,15 @@ void CIcr0091Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_CBIndex(pDX, IDC_REFGEN2TYPE, m_RefGen2Type);
 	DDX_Text(pDX, IDC_LPFPASSBAND, m_LpfPassBand);
 	DDX_Text(pDX, IDC_RANGE0, m_Range0);
-	DDX_Text(pDX, IDC_RANGE1, m_Range1);
+	DDX_Text(pDX, IDC_RANGE1, m_Range1); 
 	DDX_Text(pDX, IDC_RANGE2, m_Range2);
 	DDX_Text(pDX, IDC_RANGE3, m_Range3);
+
+	CHAR		strGenAdr[10];
+
+	sprintf_s( strGenAdr, "%X", m_RefGen1Adr );
+	DDX_Text(pDX, IDC_REFGEN1ADR, strGenAdr, sizeof(strGenAdr) );
+	sscanf_s( strGenAdr, "%X", &m_RefGen1Adr );
 
 	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE0, m_awBiasDeviation[0][0][0][0]);
 	DDX_Text(pDX, IDC_BIASDV_P0_R0_CH0_RANGE1, m_awBiasDeviation[0][0][0][1]);

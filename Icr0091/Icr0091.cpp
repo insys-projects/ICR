@@ -17,7 +17,7 @@ ICR_CfgAdm g_AdmCfg = { ADM_CFG_TAG, 70, 0, 2, 0,
 						400000000, 
 						1000000000, 10000000, 1000000000, 1, 
 						0, 0, 
-						0, 0,
+						0, 0x55,
 						0,
 						{1000, 500, 200, 100}, 
 						{
@@ -111,6 +111,10 @@ SUBMOD_API void __stdcall SUBMOD_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo)
 		lstrcpy(pDevInfo->sName, _T("ADM212x1G"));
 		pDevInfo->Type = ADM212x1G;
 		break;
+	case 2:
+		lstrcpy(pDevInfo->sName, _T("ADM212x1GWB"));
+		pDevInfo->Type = ADM212x1GWB;
+		break;
 	default:
 		*pNumDev = -1;
 		return;
@@ -174,6 +178,7 @@ SUBMOD_API int __stdcall SUBMOD_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				g_AdmCfg.nRefGen1Min   = pAdmCfg->nRefGen1Min;
 				g_AdmCfg.nRefGen1Max   = pAdmCfg->nRefGen1Max;
 				g_AdmCfg.nRefGen1Type = pAdmCfg->nRefGen1Type;
+				g_AdmCfg.nRefGen1Adr  = pAdmCfg->nRefGen1Adr;
 				g_AdmCfg.nRefGen2     = pAdmCfg->nRefGen2;
 				g_AdmCfg.nRefGen2Type = pAdmCfg->nRefGen2Type;
 				g_AdmCfg.nLpfPassBand = pAdmCfg->nLpfPassBand;
@@ -223,6 +228,7 @@ SUBMOD_API int __stdcall SUBMOD_GetProperty(PSUBMOD_INFO pDeviceInfo)
 	pAdmCfg->nRefGen1Min  = g_AdmCfg.nRefGen1Min;
 	pAdmCfg->nRefGen1Max  = g_AdmCfg.nRefGen1Max;
 	pAdmCfg->nRefGen1Type = g_AdmCfg.nRefGen1Type;
+	pAdmCfg->nRefGen1Adr  = g_AdmCfg.nRefGen1Adr;
 	pAdmCfg->nRefGen2     = g_AdmCfg.nRefGen2;
 	pAdmCfg->nRefGen2Type = g_AdmCfg.nRefGen2Type;
 	pAdmCfg->nLpfPassBand = g_AdmCfg.nLpfPassBand;
@@ -309,6 +315,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	dlg.m_RefGen1Min  = g_AdmCfg.nRefGen1Min;
 	dlg.m_RefGen1Max  = g_AdmCfg.nRefGen1Max;
 	dlg.m_RefGen1Type  = g_AdmCfg.nRefGen1Type;
+	dlg.m_RefGen1Adr   = g_AdmCfg.nRefGen1Adr;
 	dlg.m_RefGen2Type  = g_AdmCfg.nRefGen2Type;
 	dlg.m_LpfPassBand  = g_AdmCfg.nLpfPassBand;
 	dlg.m_Range0   = g_AdmCfg.awRange[0];
@@ -371,6 +378,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 			g_AdmCfg.nRefGen1Min != dlg.m_RefGen1Min ||
 			g_AdmCfg.nRefGen1Max != dlg.m_RefGen1Max ||
 			g_AdmCfg.nRefGen1Type != dlg.m_RefGen1Type ||
+			g_AdmCfg.nRefGen1Adr  != dlg.m_RefGen1Adr ||
 			g_AdmCfg.nRefGen2Type != dlg.m_RefGen2Type ||
 			g_AdmCfg.nLpfPassBand != dlg.m_LpfPassBand ||
 			g_AdmCfg.awRange[0]  != dlg.m_Range0 ||
@@ -411,6 +419,7 @@ SUBMOD_API int __stdcall SUBMOD_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		g_AdmCfg.nRefGen1Min = dlg.m_RefGen1Min;
 		g_AdmCfg.nRefGen1Max = dlg.m_RefGen1Max;
 		g_AdmCfg.nRefGen1Type = dlg.m_RefGen1Type;
+		g_AdmCfg.nRefGen1Adr  = dlg.m_RefGen1Adr;
 		g_AdmCfg.nRefGen2Type = dlg.m_RefGen2Type;
 		g_AdmCfg.nLpfPassBand = dlg.m_LpfPassBand;
 		g_AdmCfg.awRange[0]  = dlg.m_Range0;
