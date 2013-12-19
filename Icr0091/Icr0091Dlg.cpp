@@ -22,7 +22,6 @@ CIcr0091Dlg::CIcr0091Dlg(CWnd* pParent /*=NULL*/)
 	m_RefGen0 = 400000000;
 	m_RefGen1 = 300000000;
 	m_RefGen1Max = 1000000000;
-	m_RefGen1Min = 10000000;
 	m_RefGen1Type = 1;
 	m_RefGen1Adr = 0x55;
 	m_RefGen2Type = 0;
@@ -65,7 +64,6 @@ void CIcr0091Dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_REFGEN0, m_RefGen0);
 	DDX_Text(pDX, IDC_REFGEN1, m_RefGen1);
 	DDX_Text(pDX, IDC_REFGEN1MAX, m_RefGen1Max);
-	DDX_Text(pDX, IDC_REFGEN1MIN, m_RefGen1Min);
 	DDX_CBIndex(pDX, IDC_REFGEN1TYPE, m_RefGen1Type);
 	DDX_CBIndex(pDX, IDC_REFGEN2TYPE, m_RefGen2Type);
 	DDX_Text(pDX, IDC_LPFPASSBAND, m_LpfPassBand);

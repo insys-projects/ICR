@@ -26,7 +26,6 @@ public:
 	int		m_SubType;
 	UINT	m_RefGen0;
 	UINT	m_RefGen1;
-	UINT	m_RefGen1Min;
 	UINT	m_RefGen1Max;
 	int		m_RefGen1Type;
 	UINT	m_RefGen1Adr;
