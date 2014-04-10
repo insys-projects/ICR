@@ -1,0 +1,116 @@
+<!--
+==  Формирование ICR для FM416x1G5D. Теги 0x009B и 0x0310
+-->
+
+<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FM416x1G5D" type="0x1070"/>
+	
+	<struct tag="0x009B" size="31"> 
+
+	<!-- 
+	====  Конфигурационная структура субмодуля 
+	-->
+	<group title="Параметры субмодуля" open="1" color="255,255,191">
+		<field name="Тип субмодуля" offset="5" size="1" default="0" type="int" invisible="1" />
+		<field name="Количество ЦАП" offset="6" size="1" default="4" type="spin-int" min="0" max="4"/>
+		<field name="Тип ЦАП" offset="7" size="1" default="0" type="int" invisible="1" />
+		<field name="Частота среза ФНЧ (МГц)" offset="8" size="4" default="120" type="double" min="0" max="1000000" prec="6"/>
+		<field name="Выходное сопротивление" offset="12" size="1" default="0" type="list">
+			<item val="0" descr="50 Ом" />
+			<item val="1" descr="75 Ом" />
+		</field>
+		<field name="Резерв" offset="13" size="1" default="0" type="int" invisible="1" />
+
+		<field name="Тип кристалла внутр. генератора" offset="14" size="1" default="1" type="list">
+			<item val="0" descr="не програм-ый" />
+			<item val="1" descr="Si570/Si571" />
+		</field>	
+		<field name="Адресный код внутр. генератора (hex)" offset="15" size="1" default="49" type="hex"/>
+		<field name="Заводская установка частоты внутр. генератора (кГц)" offset="16" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Максимальная частота внутр. генератора (Гц)" offset="20" size="4" default="280000000" type="list">
+			<item val="1417500000" descr="Тип А (1.4 Гц)" />
+			<item val="810000000" descr="Тип В (810 МГц)" />
+			<item val="280000000" descr="Тип С (280 МГц)" />
+		</field>	
+		<field name="Количество QM" offset="24" size="1" default="2" type="spin-int" min="0" max="2"/>
+		<field name="Тип QM" offset="25" size="1" default="0" type="int" invisible="1" />
+		<field name="Тип ЦАП смещения" offset="26" size="1" default="1" type="list">
+			<item val="0" descr="отсутствует" />
+			<item val="1" descr="AD5621" />
+		</field>	
+		<field name="Тип ЦАП старта" offset="27" size="1" default="1" type="list">
+			<item val="0" descr="отсутствует" />
+			<item val="1" descr="AD5621" />
+		</field>	
+		<field name="Разъем внешнего такта" offset="28" size="1" default="1" type="list">
+			<item val="0" descr="нету" />
+			<item val="1" descr="есть" />
+		</field>	
+		<field name="Разъем внешнего старта" offset="29" size="1" default="1" type="list">
+			<item val="0" descr="нету" />
+			<item val="1" descr="есть" />
+		</field>	
+		<field name="Индустриальное исполнение" offset="30" size="1" default="0" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="да" />
+		</field>	
+	</group>
+	</struct>
+	
+	<!-- 
+	====  Стандартная конфигурационная структура ЦАП 
+	-->
+	<struct tag="0x0310" size="18">
+	<group title="Конфигурационная структура ЦАП" open="1" color="191,255,255">
+		<field name="Разрядность ЦАП" offset="6" size="1" default="16" type="list">
+			<item val="14" descr="14" />
+			<item val="16" descr="16" />
+		</field>
+
+		<field name="Тип кодировки ЦАП" offset="7" size="1" default="1" type="list">
+			<item val="0" descr="прямая" />
+			<item val="1" descr="двоично-дополнительная" />
+		</field>
+
+		<field name="Минимальная частота дискретизации ЦАП (МГц)" offset="8" size="4" default="100." type="spin-double" min="1" max="2000" prec="6"  inc="1."/>
+		<field name="Максимальная частота дискретизации ЦАП (МГц)" offset="12" size="4" default="1500." type="spin-double" min="1" max="2000" prec="6" inc="1."/>
+		<field name="Выходной диапазон ЦАП (мВ)" offset="16" default="350" size="2" type="int" min="50" max="1000"/>
+	</group>
+	</struct>
+
+</icr>
+
+
+
+
+
+
+
+
+
+
