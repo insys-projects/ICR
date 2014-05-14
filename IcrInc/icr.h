@@ -284,6 +284,22 @@ typedef struct _ICR_Cfg0720 {
 	U08	bChipBitsWidth;	// Width of Chip (ширина микросхемы (число бит в слове))
 } ICR_Cfg0720, *PICR_Cfg0720, ICR_CfgSram, *PICR_CfgSram;
 
+// DDR3 SDRAM configuration
+// Конфигурационные параметры динамической памяти DDR3
+typedef struct _ICR_Cfg0730 {
+	U16	wTag;			// тэг структуры (DDR3_CFG_TAG)
+	U16	wSize;			// размер всех следующих полей структуры
+	U08 bNumber;		// номер структуры
+	U08 bModuleCnt;		// количество установленных SODIMM-модулей (занятых слотов)
+	U16	wCapacityMbits;	// объём микросхемы в мегабитах (256,512,1024,2048,4096,8192,16384)
+	U08 bChipBanks;		// количество банков (8,16,32,64)
+	U08 bRowAddrBits;	// количество разрядов адреса строк (12-16)
+	U08 bColAddrBits;	// количество разрядов адреса столбцов (9-12)
+	U08 bModuleBanks;	// количество рядов (Ranks)на SODIMM-модуле (1-4)
+	U08 bChipWidth;		// ширина микросхемы (4,8,16,32)
+	U08 bPrimaryWidth;	// ширина шины памяти (8,16,32,64)
+} ICR_Cfg0730, *PICR_Cfg0730, ICR_CfgDdr3, *PICR_CfgDdr3;
+
 // DSP node configuration structure
 // Конфигурационная структура узла цифровой обработки сигналов
 typedef struct _ICR_Cfg0800 {
