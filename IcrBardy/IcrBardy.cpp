@@ -82,7 +82,7 @@ DEVICE_API void __stdcall DEVICE_GetInfo(int* pNumDev, PDEVICE_INFO pDevInfo)
 
 	pDevInfo->pAdmCfgMem[0] = new UCHAR[SUBMOD_CFGMEM_SIZE];
 	pDevInfo->nAdmCfgMemSize[0] = SUBMOD_CFGMEM_SIZE;
-	if(0x53B2 == pDevInfo->wType)
+	if(0x53B2 == pDevInfo->wType || 0x5515 == pDevInfo->wType)
 	{
 		pDevInfo->pAdmCfgMem[1] = new UCHAR[SUBMOD_CFGMEM_SIZE];
 		pDevInfo->nAdmCfgMemSize[1] = SUBMOD_CFGMEM_SIZE;
@@ -207,6 +207,7 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 					if(*(PUSHORT)pDevInfo->pAdmCfgMem[iSub] == ADM_ID_TAG)
 					{
 						pDevInfo->nRealAdmCfgSize[iSub] = *((PUSHORT)pDevInfo->pAdmCfgMem[iSub] + 2);
+						if(iSub) *((PUCHAR)pDevInfo->pAdmCfgMem[iSub] + 6) = iSub;
 						nSuccess = 1;
 					}
 				iSub++;

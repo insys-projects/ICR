@@ -38,7 +38,7 @@
 			<item val="1" descr="Si571" />
 		</field>
 	
-		<field name="Адресный код внутр. генератора (hex)" offset="13" size="1" default="49"/>
+		<field name="Адресный код внутр. генератора (hex)" offset="13" size="1" default="49" type="hex"/>
 		<field name="Заводская установка частоты внутр. генератора (кГц)" offset="14" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
 		<field name="Максимальная установка частоты внутр. генератора (кГц)" offset="18" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
 	</group>
