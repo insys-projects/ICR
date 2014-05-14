@@ -1,0 +1,148 @@
+﻿<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="XM416x250M" type="0x5516" base="1"/>
+
+
+	<!-- 
+	====  Специфическая структура базового модуля 
+	-->
+	<struct tag="0x5516" size="12">
+	<group title="Параметры базового модуля" open="1" color="255,255,191">
+		<field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
+		<field name="Системный генератор (кГц)" offset="5" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="DDR3" offset="9" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="есть" />
+		</field>	
+		<field name="Монитор напряжений" offset="10" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="есть" />
+		</field>	
+		<field name="Монитор тока" offset="11" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="есть" />
+		</field>	
+	</group>
+	</struct>
+	
+	<!-- 
+	====  Идентификационная структура DRR3 
+	-->
+	<struct tag="0x0730" size="14">
+	<group title="Параметры DRR3" open="1" color="191,191,255">
+		<field name="Номер" offset="4" size="1" default="0" type="int" invisible="1"/>
+		<field name="Количество слотов" offset="5" size="1" default="1" type="int" invisible="1"/>
+		<field name="Объем микросхемы (Мбит)" offset="6" size="2" default="2048" type="list">
+			<item val="2048" descr="2048" />
+			<item val="4096" descr="4096" />
+		</field>	
+		<field name="Количество банков" offset="8" size="1" default="8" type="int" invisible="1"/>
+		<field name="Разряды адреса строк" offset="9" size="1" default="14" type="list">
+			<item val="14" descr="14" />
+			<item val="15" descr="15" />
+		</field>	
+		<field name="Разряды адреса столбцов" offset="10" size="1" default="10" type="spin-int" min="9" max="12" invisible="1"/>
+		<field name="Количество рядов SODIMM" offset="11" size="1" default="1" type="spin-int" min="1" max="4" invisible="1"/>
+		<field name="Ширина микросхемы" offset="12" size="1" default="16" type="list" invisible="1">
+			<item val="4"  descr="4" />
+			<item val="8"  descr="8" />
+			<item val="16" descr="16" />
+			<item val="32" descr="32" />
+		</field>	
+		<field name="Ширина шины памяти" offset="13" size="1" default="32" type="list" invisible="1">
+			<item val="8"  descr="8" />
+			<item val="16" descr="16" />
+			<item val="32" descr="32" />
+			<item val="64" descr="64" />
+		</field>	
+	</group>
+	</struct>
+
+	<!-- 
+	====  Идентификационная структура субмодуля 
+	-->
+	<struct tag="0x0080" size="18">
+	<group title="Стандартные параметры субмодуля" open="1" color="191,255,191">
+		<field name="Размер всех данных в ПЗУ субмодуля" offset="4" size="2" default="0" type="int" invisible="1"/>
+		<field name="Номер интерфейса ADM" offset="6" size="1" default="0" type="int" invisible="1"/>
+		<field name="Серийный номер субмодуля" offset="7" size="4" default="0" type="int"/>
+		<field name="Тип субмодуля" offset="11" size="2" default="0" type="int" invisible="1"/>
+		<field name="Версия субмодуля" offset="13" size="1" default="10" type="hex"/>
+		<field name="Дата: день" offset="14" size="1" default="0" type="int" invisible="1"/>
+		<field name="Дата: месяц" offset="15" size="1" default="0" type="int" invisible="1"/>
+		<field name="Дата: год" offset="16" size="2" default="0" type="int" invisible="1"/>
+	</group>
+	</struct>
+
+	<!-- 
+	====  Специфическая структура субмодуля 
+	-->
+	<struct tag="0x0097" size="20">
+	<group title="Специфические параметры субмодуля" open="1" color="191,255,255">
+		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" type="int" invisible="1"/>
+		<field name="Количество каналов АЦП" offset="5" size="1" default="4" type="spin-int" min="1" max="4" />
+		<field name="Тип кристалла АЦП" offset="6" size="1" default="5" type="int" invisible="1"/>
+		<field name="Тип кристалла ЦАП-ИПН" offset="7" size="1" default="1" type="list">
+			<item val="0" descr="неизвестный" />
+			<item val="1" descr="AD5621" />
+		</field>	
+		<field name="Шкала ЦАП-ИПН (мВ)" offset="8" size="2" default="500" type="int"/>
+		<field name="Тип кристалла внутр. генератора" offset="10" size="1" default="1" type="list">
+			<item val="0" descr="не програм-ый" />
+			<item val="1" descr="Si570/Si571" />
+		</field>	
+		<field name="Адресный код внутр. генератора (hex)" offset="11" size="1" default="49" type="hex"/>
+		<field name="Заводская установка частоты внутр. генератора (кГц)" offset="12" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Максимальная частота внутр. генератора (Гц)" offset="16" size="4" default="280000000" type="list">
+			<item val="1417500000" descr="Тип А (1.4 Гц)" />
+			<item val="810000000" descr="Тип В (810 МГц)" />
+			<item val="280000000" descr="Тип С (280 МГц)" />
+		</field>	
+	</group>
+	</struct>
+
+	<!-- 
+	====  Стандартная структура АЦП 
+	-->
+	<struct tag="0x0100" size="18">
+	<group title="Стандартные параметры АЦП" open="1" color="255,191,191">
+		<field name="Номер АЦП" offset="4" size="1" default="0" type="int" invisible="1"/>
+		<field name="Номер интерфейса ADM" offset="5" size="1" default="0" type="int" invisible="1"/>
+		<field name="Разрядность" offset="6" size="1" default="16" type="int"/>
+		<field name="Тип кодировки" offset="7" size="1" default="1" type="list">
+			<item val="0" descr="прямая" />
+			<item val="1" descr="двоично-дополнительная" />
+			<item val="2" descr="код Грея" />
+		</field>	
+		<field name="Минимальная частота дискретизации (кГц)" offset="8" size="4" default="1000" type="double" prec="3"/>
+		<field name="Максимальная частота дискретизации (кГц)" offset="12" size="4" default="250000" type="double" prec="3"/>
+		<field name="Шкала преобразования (мВ)" offset="16" size="2" default="500" type="int"/>
+	</group>
+	</struct>
+
+
+</icr>
