@@ -48,6 +48,7 @@ const U16 ADM2IF_CFG_TAG	= 0x0610; // tag of ADM2-interface configuration struct
 const U16 SDRAM_CFG_TAG		= 0x0700; // тэг для структуры конфигурационных параметров динамической памяти
 const U16 DDRSDRAM_CFG_TAG	= 0x0710; // тэг для структуры конфигурационных параметров динамической памяти DDR SDRAM
 const U16 SRAM_CFG_TAG		= 0x0720; // тэг для структуры конфигурационных параметров статической памяти SRAM
+const U16 DDR3_CFG_TAG		= 0x0730; // тэг для структуры конфигурационных параметров динамической памяти DDR3
 
 const U16 DSPNODE_CFG_TAG	= 0x0800; // tag of DSP node configuration structure (for AMBPCD)
 

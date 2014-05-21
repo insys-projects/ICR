@@ -119,7 +119,10 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 		lNewIcrParam << rIcrParam;
 	}
 
-	pDeviceInfo->nRealCfgSize = RealCfgSize + 2;
+	if(!g_lisBase[nIdx])
+		pDeviceInfo->nRealCfgSize = RealCfgSize + 2;
+	else
+		pDeviceInfo->nRealCfgSize = RealCfgSize;
 
 	g_llIcrParams.replace(nIdx, lNewIcrParam);
 
