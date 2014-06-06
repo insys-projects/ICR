@@ -34,9 +34,9 @@ typedef struct _ICR_CfgFmc112cp {
 	U08	bSwitchType;	// тип коммутатора (0-non, 1-type3(FMC112cP))
 	U08	bAdrSwitch;		// адресный код коммутатора: 0x48 по умолчанию
 	U08	bGen0Type;		// тип внутреннего генератора 0 (0-непрограммируемый, 1-Si571)
+	U08	bAdrGen0;		// адресный код внутр. генератора: 0x49 по умолчанию
 	U32	nRefGen0;		// частота генератора 0, если он непрограммируемый, или заводская частота (default 50 MHz)
 	U32	nRefMaxGen0;	// максимальная частота внутр. генератора (Гц)
-	U08	bAdrGen0;		// адресный код внутр. генератора: 0x49 по умолчанию
 	U32	dRefGen5;		// MGT Reference generator 5 in Hz (default 156.25 MHz)
 	U32	dRefGen6;		// Reference generator 6 in Hz (default 100 MHz)
 } ICR_CfgFmc112cp, *PICR_CfgFmc112cp, ICR_Cfg53B2, *PICR_Cfg53B2;
