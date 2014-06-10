@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 	<dev name="" type="" base=""/>
 	
 	<struct tag="" size="">
@@ -24,24 +24,24 @@
 -->
 
 <icr>
-	<dev name="FMC112CP" type="0x53B2" base="1"/>
+	<dev name="FMC112cP" type="0x53B2" base="1"/>
 
 
 	<!-- 
 	====  Специфическая структура базового модуля 
 	-->
-	<struct tag="0x5516" size="12">
+	<struct tag="0x53B2" size="32">
 	<group title="Параметры базового модуля" open="1" color="255,255,191">
 		<field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
 		<field name="Системный генератор (кГц)" offset="5" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
-		<field name="DDR3" offset="9" size="1" default="2" type="list">
+		<field name="Тип DDS " offset="9" size="1" default="2" type="list" invisible="1">
+			<item val="0" descr="нет" />
+			<item val="1" descr="более 50МГц" />
+			<item val="2" descr="менее 50МГц" />
+		</field>	
+		<field name="Коммутатор" offset="10" size="1" default="1" type="list">
 			<item val="0" descr="нет" />
 			<item val="1" descr="есть" />
-			<item val="2" descr="использовать SPD" />
-		</field>	
-		<field name="Тип коммутатора" offset="10" size="1" default="1" type="list">
-			<item val="0" descr="нет" />
-			<item val="1" descr="тип 3" />
 		</field>	
 		<field name="Адресный код коммутатора (hex)" offset="11" size="1" default="48" type="hex"/>
 
@@ -49,16 +49,22 @@
 			<item val="0" descr="не програм-ый" />
 			<item val="1" descr="Si570/Si571" />
 		</field>	
-		<field name="Адресный код генератора 0 (hex)" offset="13" size="1" default="49" type="hex"/>
-		<field name="Заводская установка частоты генератора 0 (кГц)" offset="14" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Максимальная частота внутр. генератора (Гц)" offset="18" size="4" default="280000000" type="list">
+		<field name="Заводская установка частоты генератора 0 (кГц)" offset="13" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Максимальная частота внутр. генератора (Гц)" offset="17" size="4" default="280000000" type="list">
 			<item val="1417500000" descr="Тип А (1.4 Гц)" />
 			<item val="810000000" descr="Тип В (810 МГц)" />
 			<item val="280000000" descr="Тип С (280 МГц)" />
-		</field>	
-		<field name="Частота генератора 5 (кГц)" offset="22" size="4" default="155250" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Частота генератора 6 (кГц)" offset="26" size="4" default="100000" type="double" min="0" max="1000000" prec="3"/>
-	</group>
+		</field>
+    <field name="Адресный код генератора 0 (hex)" offset="21" size="1" default="49" type="hex"/>
+    <field name="Опорный генератор для MGT (кГц)" offset="22" size="4" default="156250" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Генератор 100МГц (кГц)" offset="26" size="4" default="100000" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Наличие DSP" offset="30" size="1" default="0" invisible="1"/>
+    <field name="DDR3" offset="31" size="1" default="2" type="list">
+      <item val="0" descr="нет" />
+      <item val="1" descr="есть" />
+      <item val="2" descr="использовать SPD" />
+    </field>
+  </group>
 	</struct>
 	
 	<!-- 
@@ -97,3 +103,18 @@
 
 
 </icr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

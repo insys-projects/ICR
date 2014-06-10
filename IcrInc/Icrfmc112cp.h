@@ -30,15 +30,17 @@ typedef struct _ICR_CfgFmc112cp {
 	U16	wSize;			// размер всех следующих полей структуры
 	U08	bAdmIfCnt;		// количество интерфейсов ADM
 	U32	dSysGen;		// System generator in Hz (default 250 MHz)
-	U08	isDDR3;			// Ќаличие пам€ти DDR3
+	U08	bDdsType;		// тип синтезатора DDS (0-non, 1-above 50MHz, 2-below 50MHz)
 	U08	bSwitchType;	// тип коммутатора (0-non, 1-type3(FMC112cP))
 	U08	bAdrSwitch;		// адресный код коммутатора: 0x48 по умолчанию
 	U08	bGen0Type;		// тип внутреннего генератора 0 (0-непрограммируемый, 1-Si571)
-	U08	bAdrGen0;		// адресный код внутр. генератора: 0x49 по умолчанию
 	U32	nRefGen0;		// частота генератора 0, если он непрограммируемый, или заводска€ частота (default 50 MHz)
 	U32	nRefMaxGen0;	// максимальна€ частота внутр. генератора (√ц)
+	U08	bAdrGen0;		// адресный код внутр. генератора: 0x49 по умолчанию
 	U32	dRefGen5;		// MGT Reference generator 5 in Hz (default 156.25 MHz)
 	U32	dRefGen6;		// Reference generator 6 in Hz (default 100 MHz)
+	U08	bDspNodeCfgCnt;	// количество конфигурационных структур узла цифровой обработки сигналов
+	U08	isDDR3;			// Ќаличие пам€ти DDR3
 } ICR_CfgFmc112cp, *PICR_CfgFmc112cp, ICR_Cfg53B2, *PICR_Cfg53B2;
 
 #pragma pack(pop)    
