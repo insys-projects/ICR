@@ -2,11 +2,11 @@
 //
 //  Определения констант и структур 
 //	для работы с конфигурационным ППЗУ
-//  базовых модулей FMC112cP
+//  базовых модулей FMC112cP, FMC117cP
 //
 //  Constants & structures definitions
 //	for identification & configuration EPROM
-//  on FMC112cP base modules
+//  on FMC112cP, FMC117cP base modules
 //
 //	Copyright (c) 2014, Instrumental Systems,Corp.
 //	Written by Dorokhin Andrey
@@ -22,11 +22,12 @@
 #pragma pack(push, 1)    
 
 const USHORT FMC112CP_CFG_TAG = 0x53B2; // тэг для структуры конфигурационных параметров базового модуля FMC112cP
+const USHORT FMC117CP_CFG_TAG = 0x53B3; // тэг для структуры конфигурационных параметров базового модуля FMC117cP
 
-// FMC112cP modules configuration
-// Конфигурационные параметры базовых модулей FMC112cP
+// FMC112cP/FMC117cP modules configuration
+// Конфигурационные параметры базовых модулей FMC112cP/FMC117cP
 typedef struct _ICR_CfgFmc112cp {
-	U16	wTag;			// тэг структуры (FMC112CP_CFG_TAG)
+	U16	wTag;			// тэг структуры (FMC112CP_CFG_TAG, FMC117CP_CFG_TAG)
 	U16	wSize;			// размер всех следующих полей структуры
 	U08	bAdmIfCnt;		// количество интерфейсов ADM
 	U32	dSysGen;		// System generator in Hz (default 250 MHz)
