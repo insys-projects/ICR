@@ -37,6 +37,7 @@ typedef struct _ICR_Cfg009B {
 	U08	bIsExtClockContact;		// наличие разъема внешнего такта: 0-нет, 1-есть
 	U08	bIsExtStartContact;		// наличие разъема внешнего старта: 0-нет, 1-есть
 	U08	bIsIndustrial;	// индустриальное исполнение: 0-нет, 1-да
+	U32	nFreqDataMax; // максимальна€ частота потока данных - sampling rate (√ц)
 } ICR_Cfg009B, *PICR_Cfg009B, ICR_CfgAdm, *PICR_CfgAdm;
 
 #pragma pack(pop)    

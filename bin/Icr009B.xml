@@ -79,6 +79,7 @@
 			<item val="0" descr="нет" />
 			<item val="1" descr="да" />
 		</field>	
+		<field name="Макс. частота отсчетов (МГц)" offset="31" size="4" default="750" type="double" min="0" prec="6"/>
 	</group>
 	</struct>
 	
