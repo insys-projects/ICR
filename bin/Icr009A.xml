@@ -38,7 +38,7 @@
 		</field>
 		<field name="Адресный код генератора G1 (hex)" offset="6" size="1" default="49"/>
 		<field name="Заводская установка частоты генератора G1 (Гц)" offset="7" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Максимальная установка частоты генератора G1 (Гц)" offset="18" size="11" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Максимальная установка частоты генератора G1 (Гц)" offset="18" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
 		<field name="Частота генератора G2 (Гц)" offset="15" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
 		<field name="Частота генератора G3 (Гц)" offset="19" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
 
