@@ -28,8 +28,11 @@
 	
 	<struct tag="0x0098" size="22"> 
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
-		<field name="Количество АЦП" offset="5" size="1" default="2" type="spin-int" min="1" max="2"/>
-		<field name="Количество ЦАП" offset="6" size="1" default="1" type="spin-int" min="0" max="1"/>
+		<field name="Количество АЦП" offset="5" size="1" default="2" type="spin-int" min="0" max="2"/>
+    <field name="Количество каналов ЦАП" offset="6" size="1" default="0" type="list">
+      <item val="0" descr="0" />
+      <item val="2" descr="2" />
+    </field>
 		<field name="Частота среза фильтра низких частот (кГц)" offset="7" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
 		<field name="Наличие квадратурного модулятора" offset="11" size="1" default="0" type="spin-int" min="0" max="1"/>
 		
