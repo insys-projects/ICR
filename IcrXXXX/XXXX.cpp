@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QFile>
 #include <QTextStream>
+#include <QSettings>
 
 typedef QList<TGroup *> GroupList;
 
@@ -93,6 +94,17 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 			if(pCurCfgMem == 0)
 			{
 				isTagFound = 0;
+
+				QString str;
+				QString sTitle;
+
+				if(g_lisBase[nIdx])
+					sTitle = "ICR базового модуля";
+				else
+					sTitle = "ICR субмодуля";
+					
+				QMessageBox::information(0, sTitle, "\nТег 0x" + str.sprintf("%X", rIcrParam.nTag) + " не найден. Будут использованы значения по умолчанию.");
+
 				continue;
 			}
 			else
@@ -226,7 +238,14 @@ int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	int k  = g_llIcrParams[nIdx].size();
 	int k1 = g_llGroup[nIdx].size();
 
-	dlg.resize(500, 124 + 21 * (k - 2 - g_lnStructCount[nIdx]) + 22 * k1);
+	QSettings settings("Instrumental Systems", "IdCfgRom");
+
+	QVariant variant = settings.value("SizeXXXX");
+
+	if(variant.isValid())
+		dlg.resize(variant.value<QSize>());
+	else
+		dlg.resize(500, 124 + 21 * (k - 2 - g_lnStructCount[nIdx]) + 22 * k1);
 
 	HWND parent = GetForegroundWindow();
 
@@ -250,6 +269,8 @@ int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 		foreach(pGroup, g_llGroup[nIdx])
 			WriteColorGroup(nIdx, pGroup);
 	}
+
+	settings.setValue("SizeXXXX", dlg.size());
 
 	dlg.setParent(0);
 
@@ -613,11 +634,22 @@ ItemList GetItemsList(const QDomElement &cFieldDomEl)
 
 U08 *FindTag(U08 *pBuf, U32 nTag)
 {
-	while((*(U16 *)pBuf != nTag) && (*(U16 *)pBuf != END_TAG))
+	U08 isFound = 0;
+
+	while(*(U16 *)pBuf != END_TAG)
 	{
+		if(*(U16 *)pBuf == nTag)
+		{
+			isFound = 1;
+			break;
+		}
+		
 		pBuf += 2;
 		pBuf += *(U16 *)pBuf + 2;
 	}
+
+	if(!isFound)
+		return 0;
 
 	return pBuf;
 }

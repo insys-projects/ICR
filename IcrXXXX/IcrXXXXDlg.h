@@ -32,6 +32,8 @@ private slots:
 	void slotItemRightClicked();
 	// Изменить цвет группы
 	void slotColorGroup();
+	// Изменить шрифт
+	void slotFontChange();
 };
 
 #endif // ICRXXXXDLG_H

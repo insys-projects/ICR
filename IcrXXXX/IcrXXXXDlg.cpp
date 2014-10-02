@@ -6,11 +6,25 @@
 #include <QtXml/QDomDocument>
 #include <QColorDialog>
 #include <QDesktopWidget>
+#include <QSettings>
+#include <QFontDialog>
 
 IcrXXXXDlg::IcrXXXXDlg(const IcrParamList &lIcrParams,  QList<TGroup *> &lpGroup, QWidget *parent, Qt::WFlags flags)
 			: QDialog(parent, flags | Qt::WindowCloseButtonHint)
 {
 	setupUi(this);
+
+	QSettings settings("Instrumental Systems", "IdCfgRom");
+
+	QVariant variant = settings.value("FontXXXX");
+
+	QFont fn;
+
+	if(variant.isValid())
+	{
+		fn = variant.value<QFont>();	
+		m_pParamTreeWidget->setFont(fn);
+	}
 
 	m_lpGroup = lpGroup;
 
@@ -23,10 +37,16 @@ IcrXXXXDlg::IcrXXXXDlg(const IcrParamList &lIcrParams,  QList<TGroup *> &lpGroup
 	
 	// Выбор цвета группы
 	connect(m_pActionColorGroup, SIGNAL(triggered()), this, SLOT(slotColorGroup()));
+
+	connect(m_pFontButton, SIGNAL(clicked()), this, SLOT(slotFontChange()));
 }
 
 IcrXXXXDlg::~IcrXXXXDlg()
 {
+	QSettings settings("Instrumental Systems", "IdCfgRom");
+
+	settings.setValue("FontXXXX", m_pParamTreeWidget->font());
+
 	TIcrParam *pIcrParam;
 
 	foreach(pIcrParam, m_lpIcrParams)
@@ -110,8 +130,10 @@ void IcrXXXXDlg::showEvent(QShowEvent * pEvent)
 
 		lpTree = m_pParamTreeWidget->findItems(sOther, Qt::MatchFixedString, 0);
 
-		if(lpTree.size() == 0)
-			resize(size().width(), size().height() - 22);
+		int h = QFontMetrics(m_pParamTreeWidget->font()).height();
+
+ 		if(lpTree.size() == 0)
+ 			resize(size().width(), size().height() - h + 9);
 	}
 
 	if(size().height() > (QApplication::desktop()->height() - 100))
@@ -196,4 +218,18 @@ void IcrXXXXDlg::slotColorGroup()
 		m_pParamTreeWidget->setUpdatesEnabled(true);
 		m_pParamTreeWidget->repaint(); // Перерисовка
 		m_pParamTreeWidget->update();  // Обновление
+}
+
+// Изменить шрифт
+void IcrXXXXDlg::slotFontChange()
+{
+	bool ok;
+
+	QFont font = QFontDialog::getFont(&ok, m_pParamTreeWidget->font(), this);
+
+	if(ok)
+	{
+		m_pParamTreeWidget->setFont(font);
+		m_pParamTreeWidget->header()->resizeSections(QHeaderView::ResizeToContents);
+	}
 }
