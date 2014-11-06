@@ -1,0 +1,108 @@
+<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="SYNC8P" type="0x551B" base="1"/>
+
+
+	<!-- 
+	====  Специфическая структура базового модуля 
+	-->
+	<struct tag="0x551B" size="54">
+	<group title="Параметры модуля" open="1" color="255,255,191">
+		<field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
+		<field name="Системный генератор (кГц)" offset="5" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Тип кристалла генератора 1" offset="34" size="1" default="1" type="list">
+      <item val="0" descr="не програм-ый" />
+      <item val="1" descr="Si571" />
+    </field>
+    <field name="Заводская установка частоты генератора 1 (кГц)" offset="9" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Максимальная частота генератора 1 (Гц)" offset="35" size="4" default="280000000" type="list">
+      <item val="1417500000" descr="Тип А (1.4 Гц)" />
+      <item val="810000000" descr="Тип В (810 МГц)" />
+      <item val="280000000" descr="Тип С (280 МГц)" />
+    </field>
+    <field name="Адресный код генератора 1 (hex)" offset="39" size="1" default="49" type="hex"/>
+    <field name="Генератор 2 (кГц)" offset="13" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Генератор OCXO (кГц)" offset="17" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Частота ФАПЧ (кГц)" offset="21" size="4" default="0" type="double" invisible="1"/>
+    <field name="Тип кристалла генератора ГУН" offset="40" size="1" default="1" type="list">
+      <item val="0" descr="не програм-ый" />
+      <item val="1" descr="Si571" />
+    </field>
+    <field name="Заводская установка частоты генератора ГУН (кГц)" offset="41" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Минимальная частота генератора ГУН (кГц)" offset="45" size="4" default="10000" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Максимальная частота генератора ГУН (Гц)" offset="49" size="4" default="280000000" type="list">
+      <item val="1417500000" descr="Тип А (1.4 Гц)" />
+      <item val="810000000" descr="Тип В (810 МГц)" />
+      <item val="280000000" descr="Тип С (280 МГц)" />
+    </field>
+    <field name="Адресный код генератора ГУН (hex)" offset="53" size="1" default="49" type="hex"/>
+    <field name="Количество выходных каналов тактирования" offset="25" size="1" default="4" type="hex"/>
+    <field name="Количество выходных каналов стробирования" offset="26" size="1" default="4" type="hex"/>
+    <field name="Дополнительный канал CLKE" offset="27" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="есть" />
+		</field>
+    <field name="Дополнительный канал CLKF" offset="28" size="1" default="1" type="list">
+      <item val="0" descr="нет" />
+      <item val="1" descr="есть" />
+    </field>
+    <field name="Дополнительный канал STROA" offset="29" size="1" default="1" type="list">
+      <item val="0" descr="нет" />
+      <item val="1" descr="есть" />
+    </field>
+    <field name="Дополнительный канал STROB" offset="30" size="1" default="1" type="list">
+      <item val="0" descr="нет" />
+      <item val="1" descr="есть" />
+    </field>
+    <field name="Дополнительный канал STROD" offset="31" size="1" default="1" type="list">
+      <item val="0" descr="нет" />
+      <item val="1" descr="есть" />
+    </field>
+    <field name="Дополнительный разъем межмодульной синхронизации" offset="32" size="1" default="1" type="list">
+      <item val="0" descr="нет" />
+      <item val="1" descr="есть" />
+    </field>
+    <field name="Диапазон частот выходных сигналов тактирования" offset="33" size="1" default="0" type="list">
+      <item val="0" descr="HF(5-2500 МГц)" />
+      <item val="1" descr="LF(0.1-400 МГц)" />
+    </field>
+  </group>
+	</struct>
+	
+</icr>
+
+
+
+
+
+
+
+
+
+
+
+
