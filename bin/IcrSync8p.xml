@@ -38,13 +38,9 @@
       <item val="0" descr="не програм-ый" />
       <item val="1" descr="Si571" />
     </field>
-    <field name="Заводская установка частоты генератора 1 (кГц)" offset="9" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
-    <field name="Максимальная частота генератора 1 (Гц)" offset="35" size="4" default="280000000" type="list">
-      <item val="1417500000" descr="Тип А (1.4 Гц)" />
-      <item val="810000000" descr="Тип В (810 МГц)" />
-      <item val="280000000" descr="Тип С (280 МГц)" />
-    </field>
-    <field name="Адресный код генератора 1 (hex)" offset="39" size="1" default="49" type="hex"/>
+    <field name="Заводская установка частоты генератора 1 (кГц)" offset="9" size="4" default="155520" type="double" min="0" max="10000000" prec="3"/>
+    <field name="Максимальная частота генератора 1 (кГц)" offset="35" size="4" default="280000" type="double" min="0" max="10000000" prec="3"/>
+    <field name="Адресный код генератора 1 (hex)" offset="39" size="1" default="55" type="hex"/>
     <field name="Генератор 2 (кГц)" offset="13" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
     <field name="Генератор OCXO (кГц)" offset="17" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
     <field name="Частота ФАПЧ (кГц)" offset="21" size="4" default="0" type="double" invisible="1"/>
@@ -52,14 +48,10 @@
       <item val="0" descr="не програм-ый" />
       <item val="1" descr="Si571" />
     </field>
-    <field name="Заводская установка частоты генератора ГУН (кГц)" offset="41" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
-    <field name="Минимальная частота генератора ГУН (кГц)" offset="45" size="4" default="10000" type="double" min="0" max="1000000" prec="3"/>
-    <field name="Максимальная частота генератора ГУН (Гц)" offset="49" size="4" default="280000000" type="list">
-      <item val="1417500000" descr="Тип А (1.4 Гц)" />
-      <item val="810000000" descr="Тип В (810 МГц)" />
-      <item val="280000000" descr="Тип С (280 МГц)" />
-    </field>
-    <field name="Адресный код генератора ГУН (hex)" offset="53" size="1" default="49" type="hex"/>
+    <field name="Заводская установка частоты генератора ГУН (кГц)" offset="41" size="4" default="155520" type="double" min="0" max="10000000" prec="3"/>
+    <field name="Минимальная частота генератора ГУН (кГц)" offset="45" size="4" default="10000" type="double" min="0" max="10000000" prec="3"/>
+    <field name="Максимальная частота генератора ГУН (кГц)" offset="49" size="4" default="280000" type="double" min="0" max="10000000" prec="3"/>
+    <field name="Адресный код генератора ГУН (hex)" offset="53" size="1" default="55" type="hex"/>
     <field name="Количество выходных каналов тактирования" offset="25" size="1" default="4" type="hex"/>
     <field name="Количество выходных каналов стробирования" offset="26" size="1" default="4" type="hex"/>
     <field name="Дополнительный канал CLKE" offset="27" size="1" default="1" type="list">
@@ -94,6 +86,18 @@
 	</struct>
 	
 </icr>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
