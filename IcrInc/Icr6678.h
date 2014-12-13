@@ -21,8 +21,9 @@
 #pragma pack(push, 1)    
 
 const USHORT FMC110_6678_CFG_TAG = 0x6610; // тэг для структуры конфигурационных параметров базового модуля FMC110
-const USHORT FMC113_6678_CFG_TAG = 0x6613; // тэг для структуры конфигурационных параметров базового модуля FMC113
+const USHORT FMC112_6678_CFG_TAG = 0x6612; // тэг для структуры конфигурационных параметров базового модуля FMC112
 const USHORT FMC114_6678_CFG_TAG = 0x6614; // тэг для структуры конфигурационных параметров базового модуля FMC114
+const USHORT FMC117_6678_CFG_TAG = 0x6617; // тэг для структуры конфигурационных параметров базового модуля FMC117
 const USHORT PEX_SRIO_CFG_TAG	 = 0x6615; // тэг для структуры конфигурационных параметров базового модуля PEX-SRIO
 
 // 6678 module configuration
@@ -52,6 +53,11 @@ typedef struct _ICR_Cfg6678 {
 	U08	bIsI2c;			// есть I2C
 
 	U32	dSizeOfDDR3;	// Размер DDR3 (MBytes), если запаян на модуле
+
+	U08	bOrder;			// CHIP number on Board
+	U08	bIsNand;		// is NAND FLASH CHIP
+	U08	bIsSmartLed;	// is LED 7-segment Indicator
+	U08	bRsv;			// reserved
 
 } ICR_Cfg6678, *PICR_Cfg6678;
 
