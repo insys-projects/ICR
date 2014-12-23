@@ -19,18 +19,26 @@ public:
 		int nVal = input.toInt(&isOk, m_nBase);
 		QString sVal;
 
+		if(input.indexOf(" ") != -1)
+			return QValidator::Invalid;
+
 		if(m_nBase == 10)
 			return QIntValidator::validate(input, pos);
 
 		if(input.isEmpty())
-			return QValidator::Acceptable;
+			return QValidator::Intermediate;
 
 		if(!isOk)
-			return QValidator::Invalid;
+		{
+			if((m_nBase == 16) && (input == "0x"))
+				return QValidator::Intermediate;
+			else
+				return QValidator::Invalid;
+		}
 		
 		sVal.setNum(nVal);
 
-		return QIntValidator::validate(sVal, pos);
+		return QValidator::Acceptable;
 	}
 };
 

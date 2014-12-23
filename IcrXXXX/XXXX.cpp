@@ -105,7 +105,7 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 					
 				QMessageBox::information(0, sTitle, "\nТег 0x" + str.sprintf("%X", rIcrParam.nTag) + " не найден. Будут использованы значения по умолчанию.");
 
-				continue;
+//				continue;
 			}
 			else
 				isTagFound = 1;
@@ -123,7 +123,10 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 			else if(rIcrParam.nType == PARAM_TYPE_BIN)
 				rIcrParam.sValue.setNum(nVal, 2);
 			else if(rIcrParam.nType == PARAM_TYPE_HEX)
+			{
 				rIcrParam.sValue.setNum(nVal, 16);
+				rIcrParam.sValue = "0x" + rIcrParam.sValue;
+			}
 			else
 				rIcrParam.sValue.setNum(nVal);
 		}
