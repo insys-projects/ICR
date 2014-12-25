@@ -28,7 +28,7 @@
 <icr>
 	<dev name="FMC119E" type="0x3019" base="1"/>
 
-	<struct tag="0x3019" size="12">
+	<struct tag="0x3019" size="21">
 		<field name="ПЛИС Kintex" offset="4" size="1" default="1" type="list">
 			<item val="1" descr="XC7K325T-2FFG900С" />
 			<item val="0" descr="XC7K410T-2FFG900С" />
@@ -37,33 +37,34 @@
 			<item val="1" descr="Установлена" />
 			<item val="0" descr="Не установлена" />
 		</field>
-		
 		<field name="DDR3 SODIM" offset="6" size="1" default="1" type="list">
 			<item val="1" descr="Установлена" />
 			<item val="0" descr="Не установлена" />
 		</field>
-		
 		<field name="Интерфейс SYNX" offset="7" size="1" default="1" type="list">
 			<item val="1" descr="Установлен" />
 			<item val="0" descr="Не установлен" />
 		</field>
-		
 		<field name="Интерфейс iPASS" offset="8" size="1" default="0" type="list">
 			<item val="1" descr="Установлен" />
 			<item val="0" descr="Не установлен" />
 		</field>
-		
 		<field name="Интерфейс RS-232/485/422" offset="9" size="1" default="0" type="list">
 			<item val="1" descr="Установлен" />
 			<item val="0" descr="Не установлен" />
 		</field>
-		
 		<field name="Программируемый генератор" offset="10" size="1" default="1" type="list">
 			<item val="1" descr="Установлен Si570" />
 			<item val="0" descr="Не установлен" />
 		</field>
-		
-		<field name="Диапазон температур" offset="11" size="1" default="1" type="list">
+		<field name="Адресный код програм. генератора (hex)" offset="11" size="1" default="49" type="hex"/>	
+		<field name="Заводская установка частоты програм. генератора (кГц)" offset="12" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Максимальная частота програм. генератора (Гц)" offset="16" size="4" default="280000000" type="list">
+			<item val="1417500000" descr="Тип А (1.4 Гц)" />
+			<item val="810000000" descr="Тип В (810 МГц)" />
+			<item val="280000000" descr="Тип С (280 МГц)" />
+		</field>
+		<field name="Диапазон температур" offset="20" size="1" default="1" type="list">
 			<item val="1" descr="коммерческий 0 +70" />
 			<item val="0" descr="индустриальный -40 +85" />
 		</field>
