@@ -31,6 +31,9 @@ void WriteColorGroup(U32 nFileIdx, TGroup *prGroup);
 // Установка значения атрибута
 void SetAttribute(QString &sTag, const QString &sTagName, const QString &sTagValue);
 
+// Проверка корректности структур
+void CheckStruct(const IcrParamList &lIcrParam);
+
 void XXXX_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo, int isBase)
 {
 	QByteArray	cArr;
@@ -160,7 +163,7 @@ int XXXX_GetProperty(PSUBMOD_INFO pDeviceInfo)
 		return 0;
 
 	if(g_lisBase[nIdx])
-		pEndCfgMem = pDeviceInfo->pCfgMem + BASEMOD_CFGMEM_SIZE/2;
+		pEndCfgMem = pDeviceInfo->pCfgMem + BASEMOD_CFGMEM_SIZE;
 
 	lIcrParam = g_llIcrParams[nIdx];
 
@@ -237,6 +240,8 @@ int XXXX_DialogProperty(PSUBMOD_INFO pDeviceInfo)
 	int nRet = 0;
 
 	IcrXXXXDlg dlg(g_llIcrParams[nIdx], g_llGroup[nIdx]);
+
+	CheckStruct(g_llIcrParams[nIdx]);
 
 	int k  = g_llIcrParams[nIdx].size();
 	int k1 = g_llGroup[nIdx].size();
@@ -773,5 +778,66 @@ void SetAttribute(QString &sTag, const QString &sAttrName, const QString &sTagVa
 		str = sList.join("=\"") + '\"';
 		sTag.remove(nStartIdx, nLen);
 		sTag.insert(nStartIdx, str);
+	}
+}
+
+// Проверка корректности структур
+void CheckStruct(const IcrParamList &lIcrParam)
+{
+	U32			*pBuf = 0;
+	U32			nStructTag, nStructSize;
+	U32			nOffset, nSize;
+	U32			i, j;
+	TIcrParam	rParam;
+
+	i = 0;
+
+	foreach(rParam, lIcrParam)
+	{
+		if(rParam.nTag != -1)
+		{
+			nStructTag  = rParam.nTag;
+			nStructSize = rParam.nSize;
+
+			if(pBuf)
+				delete [] pBuf;
+
+			pBuf = new U32[nStructSize];
+
+			for(j = 0; j < nStructSize; j++)
+				pBuf[j] = -1;
+		}
+		else
+		{
+			nSize   = rParam.nSize;
+			nOffset = rParam.nOffset;
+
+			if((nSize + nOffset) > nStructSize)
+			{
+				QString sTitle = "Структура с тегом 0x" + QString::number(nStructTag, 16).toUpper();
+				QString sInfo  = "Поле \"" + lIcrParam[i].sName + "\" выходит за границы размера структуры.";
+
+				QMessageBox::information(0, sTitle, "\n" + sInfo);
+
+				return;
+			}
+			
+			for(j = 0; j < nSize; j++)
+			{
+				if(pBuf[nOffset + j] == -1)
+					pBuf[nOffset + j] = i;
+				else
+				{
+					QString sTitle = "Структура с тегом 0x" + QString::number(nStructTag, 16).toUpper();
+					QString sInfo  = "Поля \"" + lIcrParam[pBuf[nOffset + j]].sName + "\" и \"" + lIcrParam[i].sName + "\" пересекаются.";
+
+					QMessageBox::information(0, sTitle, "\n" + sInfo);
+
+					return;
+				}
+			}
+		}
+
+		i++;
 	}
 }
