@@ -24,17 +24,22 @@ const USHORT FMC119E_CFG_TAG = 0x3019; // тэг для структуры конфигурационных пар
 typedef struct _ICR_CfgFmc119e {
 	U16	wTag;				// тэг структуры (FMC119E_CFG_TAG)
 	U16	wSize;				// размер всех следующих полей структуры
-	
+	U08	bAdmIfCnt;			// количество интерфейсов ADM
+	U32	dSysGen;			// System generator in Hz (default 100 MHz)
+	U08	bDdsType;			// тип синтезатора DDS (0-non, 1-above 50MHz, 2-below 50MHz)
+	U08	bSwitchType;		// тип коммутатора (0-non, 1-type4(FMC119E))
+	U08	bAdrSwitch;			// адресный код коммутатора: 0x48 по умолчанию
+	U08	bGen0Type;			// тип внутреннего генератора 0 (0-непрограммируемый, 1-Si571)
+	U32	nRefGen0;			// частота генератора 0, если он непрограммируемый, или заводская частота (default 50 MHz)
+	U32	nRefMaxGen0;		// максимальная частота внутр. генератора (Гц)
+	U08	bAdrGen0;			// адресный код внутр. генератора: 0x49 по умолчанию
+	U32	dMgtRefGen;			// MGT Reference generator in Hz (default 156.25 MHz)
 	U08 bPldType;			// Тип ПЛИС(1-XC7K325T-2FFG900С, 0-XC7K410T-2FFG900С)
-	U08 bIsInternalDDR3;	// Установлена ли встроенная память DDR3 128x32 Мслов
 	U08 bIsSodimDDR3;		// Установлена ли память DDR3 SODIM
+	U08 bIsInternalDDR3;	// Установлена ли встроенная память DDR3 128x32 Мслов
 	U08	bIsSynx;			// Установлен ли интерфейс SYNX	
 	U08	bIsIpass;			// Установлен ли интерфейс iPASS
 	U08	bIsRs;				// Установлен ли интерфейс RS-232/485/422
-	U08 bProgGen;			// Программируемый генератор(0-не установлен, 1-установлен Si570)
-	U08	bGenAdr;			// адресный код програм. генератора: 0x49 по умолчанию
-	U32	nGenRef;			// заводская установка частоты програм. генератора (Гц)
-	U32	nGenRefMax;			// максимальная частота програм. генератора (Гц)
 	U08 bTempRange;			// Диапазон температур(0-индустриальный, 1-коммерческий)	
 } ICR_CfgFmc119e, *PICR_CfgFmc119e;
 

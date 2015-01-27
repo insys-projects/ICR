@@ -366,6 +366,8 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 			pDeviceInfo->bAdmIfCnt = 2;
 		if(pDeviceInfo->dType == 0x53B3) // FMC117cP
 			pDeviceInfo->bAdmIfCnt = 1;
+		if(pDeviceInfo->dType == 0x3019) // FMC119E
+			pDeviceInfo->bAdmIfCnt = 1;
 		m_NumOfAdmIf = pDeviceInfo->bAdmIfCnt;
 		ret += pDeviceInfo->nRealCfgSize;
 	}

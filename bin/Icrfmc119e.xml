@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 	<dev name="" type="" base=""/>
 
 	<struct tag="" size="">
@@ -28,47 +28,97 @@
 <icr>
 	<dev name="FMC119E" type="0x3019" base="1"/>
 
-	<struct tag="0x3019" size="22">
-		<field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
-		<field name="ПЛИС Kintex" offset="5" size="1" default="1" type="list">
-			<item val="1" descr="XC7K325T-2FFG900С" />
-			<item val="0" descr="XC7K410T-2FFG900С" />
-		</field>
-		<field name="DDR3 встроенная" offset="6" size="1" default="1" type="list">
-			<item val="1" descr="Установлена" />
-			<item val="0" descr="Не установлена" />
-		</field>
-		<field name="DDR3 SODIM" offset="7" size="1" default="1" type="list">
-			<item val="1" descr="Установлена" />
-			<item val="0" descr="Не установлена" />
-		</field>
-		<field name="Интерфейс SYNX" offset="8" size="1" default="1" type="list">
-			<item val="1" descr="Установлен" />
-			<item val="0" descr="Не установлен" />
-		</field>
-		<field name="Интерфейс iPASS" offset="9" size="1" default="0" type="list">
-			<item val="1" descr="Установлен" />
-			<item val="0" descr="Не установлен" />
-		</field>
-		<field name="Интерфейс RS-232/485/422" offset="10" size="1" default="0" type="list">
-			<item val="1" descr="Установлен" />
-			<item val="0" descr="Не установлен" />
-		</field>
-		<field name="Программируемый генератор" offset="11" size="1" default="1" type="list">
-			<item val="1" descr="Установлен Si570" />
-			<item val="0" descr="Не установлен" />
-		</field>
-		<field name="Адресный код програм. генератора (hex)" offset="12" size="1" default="49" type="hex"/>	
-		<field name="Заводская установка частоты програм. генератора (кГц)" offset="13" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Максимальная частота програм. генератора (Гц)" offset="17" size="4" default="280000000" type="list">
-			<item val="1417500000" descr="Тип А (1.4 Гц)" />
-			<item val="810000000" descr="Тип В (810 МГц)" />
-			<item val="280000000" descr="Тип С (280 МГц)" />
-		</field>
-		<field name="Диапазон температур" offset="21" size="1" default="1" type="list">
-			<item val="1" descr="коммерческий 0 +70" />
-			<item val="0" descr="индустриальный -40 +85" />
-		</field>
-	</struct>
+	<struct tag="0x3019" size="33">
+    <group title="Параметры базового модуля" open="1" color="255,255,191">
+      <field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
+      <field name="Системный генератор (кГц)" offset="5" size="4" default="100000" type="double" min="0" max="1000000" prec="3"/>
+      <field name="Тип DDS " offset="9" size="1" default="2" type="list" invisible="1">
+        <item val="0" descr="нет" />
+        <item val="1" descr="более 50МГц" />
+        <item val="2" descr="менее 50МГц" />
+      </field>
+      <field name="Коммутатор" offset="10" size="1" default="1" type="list">
+        <item val="0" descr="нет" />
+        <item val="1" descr="есть" />
+      </field>
+      <field name="Адресный код коммутатора (hex)" offset="11" size="1" default="48" type="hex"/>
+      <field name="Тип кристалла генератора 1" offset="12" size="1" default="1" type="list">
+        <item val="0" descr="не програм-ый" />
+        <item val="1" descr="Si570/Si571" />
+      </field>
+      <field name="Заводская установка частоты генератора 1 (кГц)" offset="13" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+      <field name="Максимальная частота внутр. генератора (Гц)" offset="17" size="4" default="280000000" type="list">
+        <item val="1417500000" descr="Тип А (1.4 Гц)" />
+        <item val="810000000" descr="Тип В (810 МГц)" />
+        <item val="280000000" descr="Тип С (280 МГц)" />
+      </field>
+      <field name="Адресный код генератора 1 (hex)" offset="21" size="1" default="49" type="hex"/>
+      <field name="Опорный генератор для MGT (кГц)" offset="22" size="4" default="156250" type="double" min="0" max="1000000" prec="3"/>
+      <field name="ПЛИС Kintex" offset="26" size="1" default="1" type="list">
+        <item val="1" descr="XC7K325T-2FFG900С" />
+        <item val="0" descr="XC7K410T-2FFG900С" />
+      </field>
+      <field name="DDR3 SODIM" offset="27" size="1" default="1" type="list">
+        <item val="1" descr="Установлена" />
+        <item val="0" descr="Не установлена" />
+      </field>
+      <field name="DDR3 встроенная" offset="28" size="1" default="2" type="list">
+        <item val="0" descr="нет" />
+        <item val="1" descr="есть" />
+        <item val="2" descr="использовать SPD" />
+      </field>
+      <field name="Интерфейс SYNX" offset="29" size="1" default="1" type="list">
+        <item val="1" descr="Установлен" />
+        <item val="0" descr="Не установлен" />
+      </field>
+      <field name="Интерфейс iPASS" offset="30" size="1" default="0" type="list">
+        <item val="1" descr="Установлен" />
+        <item val="0" descr="Не установлен" />
+      </field>
+      <field name="Интерфейс RS-232/485/422" offset="31" size="1" default="0" type="list">
+        <item val="1" descr="Установлен" />
+        <item val="0" descr="Не установлен" />
+      </field>
+      <field name="Диапазон температур" offset="32" size="1" default="1" type="list">
+        <item val="1" descr="коммерческий 0 +70" />
+        <item val="0" descr="индустриальный -40 +85" />
+      </field>
+    </group>
+  </struct>
+
+  <!-- 
+	====  Идентификационная структура DDR3 
+	-->
+  <struct tag="0x0730" size="14">
+    <group title="Параметры встроенной DDR3" open="1" color="191,191,255">
+      <field name="Номер" offset="4" size="1" default="0" type="int" invisible="1"/>
+      <field name="Количество слотов" offset="5" size="1" default="1" type="int" invisible="1"/>
+      <field name="Объем микросхемы (Мбит)" offset="6" size="2" default="2048" type="list">
+        <item val="2048" descr="2048 [512 МБ]" />
+        <item val="4096" descr="4096 [1 ГБ]" />
+      </field>
+      <field name="Количество банков" offset="8" size="1" default="8" type="int" invisible="1"/>
+      <field name="Разряды адреса строк" offset="9" size="1" default="14" type="list">
+        <item val="14" descr="14 [512 МБ]" />
+        <item val="15" descr="15 [1 ГБ]" />
+      </field>
+      <field name="Разряды адреса столбцов" offset="10" size="1" default="10" type="spin-int" min="9" max="12" invisible="1"/>
+      <field name="Количество рядов SODIMM" offset="11" size="1" default="1" type="spin-int" min="1" max="4" invisible="1"/>
+      <field name="Ширина микросхемы" offset="12" size="1" default="16" type="list" invisible="1">
+        <item val="4"  descr="4" />
+        <item val="8"  descr="8" />
+        <item val="16" descr="16" />
+        <item val="32" descr="32" />
+      </field>
+      <field name="Ширина шины памяти" offset="13" size="1" default="32" type="list" invisible="1">
+        <item val="8"  descr="8" />
+        <item val="16" descr="16" />
+        <item val="32" descr="32" />
+        <item val="64" descr="64" />
+      </field>
+    </group>
+  </struct>
 
 </icr>
+
+
