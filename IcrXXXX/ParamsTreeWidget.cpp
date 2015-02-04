@@ -559,6 +559,7 @@ QWidget *ParamDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem
 			pEdit->setText(pParam->sValue);
 			QFont font = m_pTree->font();
 			pEdit->setFont(font);
+			pEdit->setMaxLength(pParam->nSize);
 
             connect(pEdit, SIGNAL(editingFinished()), this, SLOT(slotTextChanged()));
 

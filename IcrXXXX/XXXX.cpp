@@ -117,9 +117,12 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 		}
 		else if(isTagFound)
 		{	// Копирование поля
-			nVal = 0;
-			memcpy(&nVal, pCurCfgMem + rIcrParam.nOffset, rIcrParam.nSize);
-
+			if(rIcrParam.nType != PARAM_TYPE_STRING)
+			{
+				nVal = 0;
+				memcpy(&nVal, pCurCfgMem + rIcrParam.nOffset, rIcrParam.nSize);
+			}
+						
 			if((rIcrParam.nType == PARAM_TYPE_DOUBLE) ||
 				(rIcrParam.nType == PARAM_TYPE_SPIN_DOUBLE))
 				rIcrParam.sValue.setNum((REAL64)nVal / pow(10., (REAL64)rIcrParam.nPrec), 'f', rIcrParam.nPrec);
@@ -130,7 +133,15 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				rIcrParam.sValue.setNum(nVal, 16);
 				rIcrParam.sValue = "0x" + rIcrParam.sValue;
 			}
-			else
+			else if(rIcrParam.nType == PARAM_TYPE_STRING)
+			{
+				char *ps = new char[rIcrParam.nSize + 1];
+				memset(ps, 0, rIcrParam.nSize + 1);
+				memcpy(ps, pCurCfgMem + rIcrParam.nOffset, rIcrParam.nSize);
+				rIcrParam.sValue = QString(ps);
+				delete [] ps;
+			}
+			else 
 				rIcrParam.sValue.setNum(nVal);
 		}
 
@@ -204,10 +215,17 @@ int XXXX_GetProperty(PSUBMOD_INFO pDeviceInfo)
 				nVal = rIcrParam.sValue.toInt(0, 2);
 			else if(rIcrParam.nType == PARAM_TYPE_HEX)
 				nVal = rIcrParam.sValue.toInt(0, 16);
-			else
+			else if(rIcrParam.nType != PARAM_TYPE_STRING)
 				nVal = rIcrParam.sValue.toInt();
 
-			memcpy(pCurCfgMem + rIcrParam.nOffset, &nVal, rIcrParam.nSize);
+			if(rIcrParam.nType != PARAM_TYPE_STRING)
+				memcpy(pCurCfgMem + rIcrParam.nOffset, &nVal, rIcrParam.nSize);
+			else
+			{
+				QByteArray arr = rIcrParam.sValue.toLocal8Bit();
+				memcpy(pCurCfgMem + rIcrParam.nOffset, arr.data(), arr.size());
+				memset(pCurCfgMem + rIcrParam.nOffset + arr.size(), 0, rIcrParam.nSize - arr.size());
+			}
 		}
 	}
 
