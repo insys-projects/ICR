@@ -360,6 +360,15 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 		memcpy(pDeviceInfo->pCfgMem, pBaseCfg, size);
 		int	retCode = (g_BaseModCtrl[idx].pSetProperty)(pDeviceInfo);
 //		m_SerialNum = pDeviceInfo->SerNum;
+		if( pDeviceInfo->dType == 0x6610 ||  // FMC110PDSP
+			pDeviceInfo->dType == 0x6611 ||  // FMC111PDSP
+			pDeviceInfo->dType == 0x6612 ||  // FMC112cPDSP
+			pDeviceInfo->dType == 0x6614 ||  // FMC114vPDSP
+			pDeviceInfo->dType == 0x6615 ||  // PEXSRIO
+			pDeviceInfo->dType == 0x6617	 // FMC117cPDSP
+			)
+			pDeviceInfo->bAdmIfCnt = 0;
+
 		if(pDeviceInfo->dType == 0x5516) // XM416x250M
 			pDeviceInfo->bAdmIfCnt = 1;
 		if(pDeviceInfo->dType == 0x53B2) // FMC112cP
