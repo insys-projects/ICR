@@ -181,6 +181,8 @@ DEVICE_API int __stdcall DEVICE_ReadIdCfgRom(PDEVICE_INFO pDevInfo, UCHAR bDevs)
 				{
 					pDevInfo->nRealBaseCfgSize = *((PUSHORT)pDevInfo->pBaseCfgMem + 2);
 					nSuccess = 1;
+					if(pDevInfo->nRealBaseCfgSize > BASEMOD_CFGMEM_SIZE)
+						pDevInfo->nRealBaseCfgSize = 0;
 				}
 		}
 	}

@@ -25,12 +25,12 @@
 
 <icr>
 	<dev name="FMC117cP" type="0x53B3" base="1"/>
+  <dev name="FMC121cP" type="0x53B5" base="1"/>
 
-
-	<!-- 
+  <!-- 
 	====  Специфическая структура базового модуля 
 	-->
-	<struct tag="0x53B3" size="32">
+	<struct tag="" size="32">
 	<group title="Параметры базового модуля" open="1" color="255,255,191">
 		<field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
 		<field name="Системный генератор (кГц)" offset="5" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
@@ -103,3 +103,5 @@
   
   
 </icr>
+
+
