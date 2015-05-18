@@ -29,35 +29,90 @@ const USHORT PEX_SRIO_CFG_TAG	 = 0x6615; // тэг для структуры конфигурационных п
 // 6678 module configuration
 // Конфигурационная структура базового модуля 6678
 typedef struct _ICR_Cfg6678 {
-	U16	wTag;			// tag of structure (0x6610, 0x6613 or 0x6614)
+	U16	wTag;			// tag of structure (0x6610, 0x6612 ...)
 	U16	wSize;			// size of all following fields of structure (without wTag + wSize) = sizeof(ICR_XXXX) - 4
 	
-	U16	wDevConf;		// Device virtual BOOT mode
-	U16	wCpuType;		// Тип процессора (0x6671, 0x6672, 0x6674,0x6678)
+	U08	bCpuCnt;		// число процессоров на модуле
+	U08	bCpuType;		// Тип процессора (0x71, 0x72, 0x74, 0x78)
+	U08	bOrder;			// Номер процессора (0, 1 и т.д.)
+	U08	bFpgaCnt;		// сколько FPGA на модуле
 
-	U32	wCpuClkIn;		// CPU clock base (MHz) 
-	U32	wPcieClkIn;		// PCIExpress clock base (MHz) 
-	U32	wPaClkIn;		// PA clock base (MHz) 
-	U32	wDDRClkIn;		// DDR clock base (MHz) 
-	U32	wSRIOClkIn;		// SRIO&SGMII clock base (MHz) 
-	U32	wHyperClkIn;	// HyperLink clock base (MHz) 
+	U32	dCpuClkIn;		// CPU clock base (Hz) 
+	U32	dPcieClkIn;		// PCIExpress clock base (Hz) 
+	U32	dPaClkIn;		// PA clock base (Hz) 
+	U32	dDDR3ClkIn;		// DDR clock base (Hz) 
+	U32	dSRIOClkIn;		// SRIO&SGMII clock base (Hz) 
+	U32	dHyperClkIn;	// HyperLink clock base (Hz) 
 
-	U08	bIsEth0;		// есть Ethernet 0
-	U08	bIsEth1;		// есть Ethernet 1
-	U08	bIsSrio;		// есть SRIO
-	U08	bIsHyper;		// есть HyperLink
+	U08	bIsEth0;		// есть Ethernet 0 (0 или 1)
+	U08	bIsEth1;		// есть Ethernet 1 (0 или 1)
+	U08	bIsHyper;		// есть HyperLink (0 или 1) 
+	U08	bIsPcie;		// есть PCIExpress (0 или 1)
+	U08	bIsSpi;			// есть SPI (0 или 1)
+	U08	bIsI2c;			// есть I2C (0 или 1)
+	U08	bIsSrio;		// есть SRIO (14 - 1x4, 22 - 2x2, 41 - 4x1)
+	U08	bIsRS232;		// есть RS-232 (32 - 232, 22 - 422, 85 - 485)
 
-	U08	bIsPcie;		// есть PCIExpress
-	U08	bIsRS232;		// есть RS-232
-	U08	bIsSpi;			// есть SPI
-	U08	bIsI2c;			// есть I2C
+	U32	dGpioLed;		// битовая маска GPIO, которые подключены к LED (код 0x77777777 - smart led)
 
-	U32	dSizeOfDDR3;	// Размер DDR3 (MBytes), если запаян на модуле
+	U32	dNandSize;		// Размер FLASH памяти типа NAND (EMIF16)
+	U32	dNorSize;		// Размер FLASH памяти типа NOR (SPI)
+	U32	dSizeOfDDR3;	// Размер DDR3 (32-битные слова), если запаян на модуле
 
-	U08	bOrder;			// CHIP number on Board
-	U08	bIsNand;		// is NAND FLASH CHIP
-	U08	bIsSmartLed;	// is LED 7-segment Indicator
-	U08	bRsv;			// reserved
+    // LEVELING для памяти DDR3
+	U16 wWrLev0;
+	U16 wWrLev1;
+	U16 wWrLev2;
+	U16 wWrLev3;
+	U16 wWrLev4;
+	U16 wWrLev5;
+	U16 wWrLev6;
+	U16 wWrLev7;
+	U16 wWrLev8;
+
+	U16 wGtLev0;
+	U16 wGtLev1;
+	U16 wGtLev2;
+	U16 wGtLev3;
+	U16 wGtLev4;
+	U16 wGtLev5;
+	U16 wGtLev6;
+	U16 wGtLev7;
+	U16 wGtLev8;
+
+	// ВременнЫе параметры DDR3
+	U08	bT_RP;
+	U08	bT_RCD;
+	U08	bT_WR;
+	U08	bT_RAS;
+	U08	bT_RC;
+	U08	bT_RRD;
+	U08	bT_WTR;
+	U08	bT_RTP;
+	U08	bT_RFC;
+
+	// Прочие параметры DDR3
+	U08	bCL;
+	U08	bROWSIZE;
+	U08	bRANK;
+	U08	bPSIZE;
+
+	// frequence multipliers and dividers
+	U08 bMainPllMult;   
+    U08 bMainPllDiv;	
+
+	U08	bDdr3PllMul;
+	U08	bDdr3PllDiv;
+
+	U08 bNetPllMult;   
+    U08 bNetPllDiv;	
+
+	// Network parameters
+    U16 wNet0AdviseAbility;
+    U16 wNet0AuxConfig;
+    U16 wNet1AdviseAbility;
+    U16 wNet1AuxConfig;
+
 
 } ICR_Cfg6678, *PICR_Cfg6678;
 
