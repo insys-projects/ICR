@@ -171,7 +171,7 @@ BOOL CIdCfgRomDlg::OnInitDialog()
 		pIntoDevBtn->EnableWindow(FALSE);
 		CWnd* pClearBtn = (CWnd*)GetDlgItem(IDC_CLEAR);
 		pClearBtn->EnableWindow(FALSE);
-		m_ctrlReadWriteDevs.EnableWindow(FALSE);
+		//m_ctrlReadWriteDevs.EnableWindow(FALSE);
 	}
 
 	CWnd* pOk = (CWnd*)GetDlgItem(IDOK);
