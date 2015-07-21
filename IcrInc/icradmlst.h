@@ -98,6 +98,7 @@ typedef enum _ICR_ADMType {
 		FM816x250M		= 0x1050,
 		FM416x250M		= 0x1051,
 		FM216x250MDA	= 0x1052,
+		FM816x250M1		= 0x1053,
 		FM416x100M		= 0x1060,
 } ICR_ADMType;
 
