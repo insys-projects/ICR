@@ -26,6 +26,7 @@
 <icr>
 	<dev name="FMC117cP" type="0x53B3" base="1"/>
   <dev name="FMC121cP" type="0x53B5" base="1"/>
+  <dev name="FMC125cP" type="0x53B6" base="1"/>
 
   <!-- 
 	====  Специфическая структура базового модуля 
