@@ -533,9 +533,6 @@ TIcrParam ParseField(const QDomElement &cFieldDomEl)
 
 	rIcrParam.isInvisible = cFieldDomEl.attribute("invisible", "0").toInt();
 
-	if(rIcrParam.isInvisible)
-		return rIcrParam;
-
 	sStr = cFieldDomEl.attribute("type", "");
 
 	if(sStr == "")
