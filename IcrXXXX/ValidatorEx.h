@@ -16,7 +16,7 @@ public:
 	virtual QValidator::State validate(QString &input, int &pos) const
 	{
 		bool isOk;
-		int nVal = input.toInt(&isOk, m_nBase);
+		int nVal = input.toULongLong(&isOk, m_nBase);
 		QString sVal;
 
 		if(input.indexOf(" ") != -1)
