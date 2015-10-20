@@ -1,0 +1,48 @@
+<!--
+	<dev name="" type="" base=""/>
+
+	<struct tag="" size="">
+	</struct>
+
+	<field name="" offset="" size="" default=""/>
+
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+
+	<field name="" offset="" size="" default="" type="bin" min="" max="" />
+
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FM405P" type="0x1F08"/>
+
+	<struct tag="0x009F" size="20">
+	<group title="Параметры субмодуля" open="1" color="255,255,191">
+		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" invisible="1" />
+		<field name="Согласование внешней шины" offset="5" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="есть" />
+		</field>
+		<field name="reserve0" offset="6" size="2" default="0" invisible="1" />
+		<field name="reserve2" offset="8" size="4" default="0" invisible="1" />
+		<field name="reserve6" offset="12" size="4" default="0" invisible="1" />
+	</group>
+	</struct>
+
+</icr>
+
+
+
+
