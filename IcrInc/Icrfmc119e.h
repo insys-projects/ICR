@@ -17,6 +17,7 @@
 
 #pragma pack(push, 1)    
 
+const USHORT FMC118E_CFG_TAG = 0x3018; // тэг для структуры конфигурационных параметров базового модуля FMC118E
 const USHORT FMC119E_CFG_TAG = 0x3019; // тэг для структуры конфигурационных параметров базового модуля FMC119E
 
 // FMC119E module configuration
