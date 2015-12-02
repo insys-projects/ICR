@@ -378,7 +378,8 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 			pDeviceInfo->dType == 0x53B6)	// FMC125cP
 			pDeviceInfo->bAdmIfCnt = 1;
 		if(pDeviceInfo->dType == 0x551C ||	// FMC122P
-			pDeviceInfo->dType == 0x551E)	// FMC124P
+			pDeviceInfo->dType == 0x551E ||	// FMC124P
+			pDeviceInfo->dType == 0x551F)	// FMC124P
 			pDeviceInfo->bAdmIfCnt = 1;
 		if(pDeviceInfo->dType == 0x3018 ||	// FMC118E
 			pDeviceInfo->dType == 0x3019)	// FMC119E
