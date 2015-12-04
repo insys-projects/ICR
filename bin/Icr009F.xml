@@ -28,7 +28,7 @@
 <icr>
 	<dev name="FM405P" type="0x1F08"/>
 
-	<struct tag="0x009F" size="20">
+	<struct tag="0x009F" size="16">
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
 		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" invisible="1" />
 		<field name="Согласование внешней шины" offset="5" size="1" default="1" type="list">

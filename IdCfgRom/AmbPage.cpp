@@ -371,15 +371,15 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 
 		if(pDeviceInfo->dType == 0x5516) // XM416x250M
 			pDeviceInfo->bAdmIfCnt = 1;
-		if(pDeviceInfo->dType == 0x53B2)	// FMC112cP
+		if(pDeviceInfo->dType == 0x53B2 ||	// FMC112cP
+			pDeviceInfo->dType == 0x551F)	// FMC127P
 			pDeviceInfo->bAdmIfCnt = 2;
 		if(pDeviceInfo->dType == 0x53B3 ||	// FMC117cP
 			pDeviceInfo->dType == 0x53B5 ||	// FMC121cP
 			pDeviceInfo->dType == 0x53B6)	// FMC125cP
 			pDeviceInfo->bAdmIfCnt = 1;
 		if(pDeviceInfo->dType == 0x551C ||	// FMC122P
-			pDeviceInfo->dType == 0x551E ||	// FMC124P
-			pDeviceInfo->dType == 0x551F)	// FMC124P
+			pDeviceInfo->dType == 0x551E)	// FMC124P
 			pDeviceInfo->bAdmIfCnt = 1;
 		if(pDeviceInfo->dType == 0x3018 ||	// FMC118E
 			pDeviceInfo->dType == 0x3019)	// FMC119E

@@ -88,14 +88,17 @@
 		<field name="Номер" offset="4" size="1" default="0" type="int" invisible="1"/>
 		<field name="Количество слотов" offset="5" size="1" default="1" type="int" invisible="1"/>
 		<field name="Объем микросхемы (Мбит)" offset="6" size="2" default="2048" type="list">
-			<item val="2048" descr="2048 [512 МБ]" />
-			<item val="4096" descr="4096 [1 ГБ]" />
-		</field>	
+			<item val="2048" descr="2048" />
+			<item val="4096" descr="4096" />
+      <item val="8192" descr="8192" />
+      <item val="16384" descr="16384" />
+    </field>	
 		<field name="Количество банков" offset="8" size="1" default="8" type="int" invisible="1"/>
 		<field name="Разряды адреса строк" offset="9" size="1" default="14" type="list">
-			<item val="14" descr="14 [512 МБ]" />
-			<item val="15" descr="15 [1 ГБ]" />
-		</field>	
+			<item val="14" descr="14" />
+			<item val="15" descr="15" />
+      <item val="16" descr="16" />
+    </field>	
 		<field name="Разряды адреса столбцов" offset="10" size="1" default="10" type="spin-int" min="9" max="12" invisible="1"/>
 		<field name="Количество рядов SODIMM" offset="11" size="1" default="1" type="spin-int" min="1" max="4" invisible="1"/>
 		<field name="Ширина микросхемы" offset="12" size="1" default="16" type="list" invisible="1">
@@ -104,7 +107,7 @@
 			<item val="16" descr="16" />
 			<item val="32" descr="32" />
 		</field>	
-		<field name="Ширина шины памяти" offset="13" size="1" default="32" type="list" invisible="1">
+		<field name="Ширина шины памяти" offset="13" size="1" default="64" type="list">
 			<item val="8"  descr="8" />
 			<item val="16" descr="16" />
 			<item val="32" descr="32" />
@@ -116,6 +119,8 @@
 
 
 </icr>
+
+
 
 
 

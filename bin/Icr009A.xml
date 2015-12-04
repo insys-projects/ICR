@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="windows-1251" ?>
 <!--
 	<dev name="" type="" base=""/>
 
@@ -27,20 +26,20 @@
 -->
 
 <icr>
-	<dev name="FM404V RR тест-прошивка" type="0x1F01"/>
+	<dev name="FM404V RR С‚РµСЃС‚-РїСЂРѕС€РёРІРєР°" type="0x1F01"/>
 
 	<struct tag="0x009A" size="32">
-	<group title="Параметры субмодуля" open="1" color="255,255,191">
-		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" invisible="1" />
-		<field name="Тип кристалла генератора G1" offset="5" size="1" default="0" type="list">
-			<item val="0" descr="не програм-ый" />
+	<group title="РџР°СЂР°РјРµС‚СЂС‹ СЃСѓР±РјРѕРґСѓР»СЏ" open="1" color="255,255,191">
+		<field name="РќРѕРјРµСЂ РёРЅС‚РµСЂС„РµР№СЃР° ADM" offset="4" size="1" default="0" invisible="1" />
+		<field name="РўРёРї РєСЂРёСЃС‚Р°Р»Р»Р° РіРµРЅРµСЂР°С‚РѕСЂР° G1" offset="5" size="1" default="0" type="list">
+			<item val="0" descr="РЅРµ РїСЂРѕРіСЂР°Рј-С‹Р№" />
 			<item val="1" descr="Si571/Si570" />
 		</field>
-		<field name="Адресный код генератора G1 (hex)" offset="6" size="1" default="49"/>
-		<field name="Заводская установка частоты генератора G1 (Гц)" offset="7" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Максимальная установка частоты генератора G1 (Гц)" offset="18" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Частота генератора G2 (Гц)" offset="15" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Частота генератора G3 (Гц)" offset="19" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
+		<field name="РђРґСЂРµСЃРЅС‹Р№ РєРѕРґ РіРµРЅРµСЂР°С‚РѕСЂР° G1 (hex)" offset="6" size="1" default="49" type="hex"/>
+		<field name="Р—Р°РІРѕРґСЃРєР°СЏ СѓСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃС‚РѕС‚С‹ РіРµРЅРµСЂР°С‚РѕСЂР° G1 (Р“С†)" offset="7" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+		<field name="РњР°РєСЃРёРјР°Р»СЊРЅР°СЏ СѓСЃС‚Р°РЅРѕРІРєР° С‡Р°СЃС‚РѕС‚С‹ РіРµРЅРµСЂР°С‚РѕСЂР° G1 (Р“С†)" offset="18" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Р§Р°СЃС‚РѕС‚Р° РіРµРЅРµСЂР°С‚РѕСЂР° G2 (Р“С†)" offset="15" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Р§Р°СЃС‚РѕС‚Р° РіРµРЅРµСЂР°С‚РѕСЂР° G3 (Р“С†)" offset="19" size="4" default="0" type="double" min="0" max="1000000" prec="3"/>
 
 		<field name="reserve0" offset="23" size="1" default="0" invisible="1" />
 		<field name="reserve1" offset="24" size="4" default="0" invisible="1" />
