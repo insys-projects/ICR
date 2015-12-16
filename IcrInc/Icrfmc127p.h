@@ -2,7 +2,7 @@
 //
 //  Определения констант и структур 
 //	для работы с конфигурационным ППЗУ
-//  базовых модулей FMC105P
+//  базовых модулей FMC127P
 //
 //  Constants & structures definitions
 //	for identification & configuration EPROM
@@ -47,6 +47,6 @@ typedef struct _ICR_CfgFmc127p {
 
 #pragma pack(pop)    
 
-#endif // __ICRFMC105P_H_
+#endif // __ICRFMC127P_H_
 
-// ****************** End of file icrFmc105p.h **********************
+// ****************** End of file icrFmc127p.h **********************
