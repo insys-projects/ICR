@@ -34,10 +34,7 @@
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
 		
 
-		<field name="Наличие DDC" offset="5" size="1" default="1" type="list">
-			<item val="0" descr="нет" />
-			<item val="1" descr="есть" />
-		</field>
+		<field name="Наличие DDC" offset="5" size="1" default="4" type="spin-int" min="0" max="4"/>
 
 		<field name="Тип кристалла внутр. генератора" offset="6" size="1" default="1" type="list">
 			<item val="0" descr="не програм-ый" />
