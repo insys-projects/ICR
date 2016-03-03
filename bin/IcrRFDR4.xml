@@ -1,0 +1,69 @@
+<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="RFDR4" type="0x53B4" base="1"/>
+
+
+	<!-- 
+	====  Специфическая структура базового модуля 
+	-->
+	<struct tag="0x53B4" size="24">
+	<group title="Параметры базового модуля" open="1" color="255,255,191">
+		<field name="Количество каналов АЦП" offset="4" size="1" default="4" type="int" />
+		<field name="Максимальная аттенюация (дБ)" offset="5" size="1" default="31" type="int" />
+		<field name="Шаг аттенюации (дБ)" offset="6" size="1" default="1" type="int" />
+		<field name="Количество каналов DDC на один АЦП" offset="7" size="1" default="8" type="int" />
+		<field name="Встроенный генератор (кГц)" offset="8" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Коэффициент децимации DDC" offset="12" size="4" default="2000" type="int" />
+		<field name="Ширина полосы DDC (кГц)" offset="16" size="4" default="100" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Коэффициент передачи DDC" offset="20" size="2" default="0.750" type="double" min="0" max="100" prec="3"/>
+		<field name="Объем FIFO на один АЦП (отсч.)" offset="22" size="2" default="32" type="int" invisible="1"/>
+	</group>
+	</struct>
+	
+
+	<!-- 
+	====  Стандартная структура АЦП 
+	-->
+	<struct tag="0x0100" size="18">
+	<group title="Стандартные параметры АЦП" open="1" color="255,191,191">
+		<field name="Номер АЦП" offset="4" size="1" default="0" type="int" invisible="1"/>
+		<field name="Номер интерфейса ADM" offset="5" size="1" default="0" type="int" invisible="1"/>
+		<field name="Разрядность" offset="6" size="1" default="16" type="int"/>
+		<field name="Тип кодировки" offset="7" size="1" default="1" type="list">
+			<item val="0" descr="прямая" />
+			<item val="1" descr="двоично-дополнительная" />
+			<item val="2" descr="код Грея" />
+		</field>	
+		<field name="Минимальная частота дискретизации (кГц)" offset="8" size="4" default="1000" type="double" prec="3"/>
+		<field name="Максимальная частота дискретизации (кГц)" offset="12" size="4" default="250000" type="double" prec="3"/>
+		<field name="Шкала преобразования (1/10 мВ)" offset="16" size="2" default="140" type="int"/>
+	</group>
+	</struct>
+
+
+</icr>
+

@@ -29,4 +29,4 @@ typedef struct _ICR_Cfg53A2
 
 #endif // _ICRSYNCCP6_H
 
-// ****************** End of file IcrDR16.h **********************
+// ****************** End of file IcrIcrSync_cP6.h **********************

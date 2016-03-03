@@ -1,0 +1,67 @@
+<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="Sync-CP6R" type="0x53B7" base="1"/>
+
+
+	<!-- 
+	====  Специфическая структура базового модуля 
+	-->
+	<struct tag="0x53B7" size="22">
+	<group title="Параметры базового модуля" open="1" color="255,255,191">
+		<field name="Количество каналов ЦАП" offset="4" size="1" default="2" type="int" />
+		<field name="Резерв" offset="5" size="1" default="0" type="int" invisible="1" />
+		<field name="Резерв" offset="6" size="1" default="0" type="int" invisible="1" />
+		<field name="Резерв" offset="7" size="1" default="0" type="int" invisible="1" />
+		<field name="Тактовый генератор (кГц)" offset="8" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Опорный генератор (кГц)" offset="12" size="4" default="10000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Коэффициент интерполяции DUC" offset="16" size="4" default="400" type="int" />
+		<field name="Объем FIFO на один ЦАП (отсч.)" offset="20" size="2" default="32" type="int" invisible="1" />
+	</group>
+	</struct>
+	
+
+	<!-- 
+	====  Стандартная структура ЦАП
+	-->
+	<struct tag="0x0310" size="18">
+	<group title="Конфигурационная структура ЦАП" open="1" color="191,255,255">
+		<field name="Номер ЦПА" offset="4" size="1" default="0" type="int" invisible="1"/>
+		<field name="Номер интерфейса ADM" offset="5" size="1" default="0" type="int" invisible="1"/>
+		<field name="Разрядность" offset="6" size="1" default="16" type="int"/>
+		<field name="Тип кодировки ЦАП" offset="7" size="1" default="1" type="list">
+			<item val="0" descr="прямая" />
+			<item val="1" descr="двоично-дополнительная" />
+		</field>
+		<field name="Минимальная частота дискретизации (кГц)" offset="8" size="4" default="1000" type="double" prec="3"/>
+		<field name="Максимальная частота дискретизации (кГц)" offset="12" size="4" default="250000" type="double" prec="3"/>
+		<field name="Шкала преобразования ЦАП ЗС (мВ)" offset="16" size="2" default="4000" type="int"/>
+	</group>
+	</struct>
+
+</icr>
+
+
