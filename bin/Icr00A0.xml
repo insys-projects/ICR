@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 ==  Формирование ICR для FM416x125M. Теги 0x00A0 0x1F10 
 -->
 
@@ -30,7 +30,7 @@
 <icr>
 	<dev name="FM416x125M" type="0x1F10"/>
 	
-	<struct tag="0x00A0" size="80"> 
+	<struct tag="0x00A0" size="16"> 
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
 		
 
