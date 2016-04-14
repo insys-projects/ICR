@@ -6,7 +6,7 @@
 //
 //  Constants & structures definitions
 //	for identification & configuration EPROM
-//  FMC119E base modules
+//  FMC118E, FMC119E, FMC128E, FMC129E base modules
 //
 //	Copyright (c) 2011-2012, Instrumental Systems,Corp.
 //	Written by Dorokhin Brothers
@@ -19,6 +19,8 @@
 
 const USHORT FMC118E_CFG_TAG = 0x3018; // тэг для структуры конфигурационных параметров базового модуля FMC118E
 const USHORT FMC119E_CFG_TAG = 0x3019; // тэг для структуры конфигурационных параметров базового модуля FMC119E
+const USHORT FMC128E_CFG_TAG = 0x3028; // тэг для структуры конфигурационных параметров базового модуля FMC128E
+const USHORT FMC129E_CFG_TAG = 0x3029; // тэг для структуры конфигурационных параметров базового модуля FMC129E
 
 // FMC119E module configuration
 // Конфигурационная структура базового модуля FMC119E
@@ -35,13 +37,23 @@ typedef struct _ICR_CfgFmc119e {
 	U32	nRefMaxGen0;		// максимальная частота внутр. генератора (Гц)
 	U08	bAdrGen0;			// адресный код внутр. генератора: 0x49 по умолчанию
 	U32	dMgtRefGen;			// MGT Reference generator in Hz (default 156.25 MHz)
-	U08 bPldType;			// Тип ПЛИС(1-XC7K325T-2FFG900С, 0-XC7K410T-2FFG900С)
+	U08 bPldType;			// Тип ПЛИС:
+						// 0 - XC7K410T-2FFG900 (FMC119E)
+						// 1 - XC7K325T-2FFG900 (FMC119E)
+						// 2 - XC7A200T-2FBG676 (FMC118E)
+						// 3 - XC7A200T-2FFG1156 (FMC128E)
+						// 4 – XCKU035-2FFVA1156 (FMC129E)
+						// 5 – XCKU040-2FFVA1156 (FMC129E)
+						// 6 – XCKU060-2FFVA1156 (FMC129E)
 	U08 bIsSodimDDR3;		// Установлена ли память DDR3 SODIM
 	U08 bIsInternalDDR3;	// Установлена ли встроенная память DDR3 128x32 Мслов
 	U08	bIsSynx;			// Установлен ли интерфейс SYNX	
 	U08	bIsIpass;			// Установлен ли интерфейс iPASS
-	U08	bIsRs;				// Установлен ли интерфейс RS-232/485/422
-	U08 bTempRange;			// Диапазон температур(0-индустриальный, 1-коммерческий)	
+	U08	bIsRs;			// Установлен ли интерфейс RS-232 или SFP:
+						// 0 – нет, 
+						// 1 – RS-232 (FMC119E)
+						// 2 – SFP (FMC128E, FMC129E)
+	U08 bTempRange;			// Диапазон температур: (0-индустриальный, 1-коммерческий)	
 } ICR_CfgFmc119e, *PICR_CfgFmc119e;
 
 #pragma pack(pop)

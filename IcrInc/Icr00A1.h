@@ -1,4 +1,4 @@
-//****************** File Icr00A0.h ***********************
+//****************** File Icr00A1.h ***********************
 //
 //  Определения констант и структур 
 //	для работы с конфигурационным ППЗУ
@@ -6,19 +6,19 @@
 //
 //*********************************************************
 
-#ifndef _ICR00A0_H
- #define _ICR00A0_H
+#ifndef _ICR00A1_H
+ #define _ICR00A1_H
 
 #pragma pack(push, 1)    
 
-#define ADM_CFG_TAG 0x00A0
+#define ADM_CFG_TAG 0x00A1
 
 // Конфигурационные параметры субмодуля
-typedef struct _ICR_Cfg00A0 {
+typedef struct _ICR_Cfg00A1 {
 	U16	wTag;		// тэг структуры (ADM_CFG_TAG)
 	U16	wSize;		// размер всех следующих полей структуры
 	U08	bAdmIfNum;	// номер интерфейса ADM
-	U08	bAdcCnt;	// количество АЦП: 0-16
+	U08	bAdcCnt;	// количество АЦП: 0-2
 	U08	bDacCnt;	// количество ЦАП: 0-4
 	U08	bDdcChip;	// тип кристалла DDC: 0-нет, 1-GC5016
 	U16	reserve;
@@ -30,10 +30,10 @@ typedef struct _ICR_Cfg00A0 {
 	U32	nAdcHiBand;	// верхняя частота полосы АЦП (Гц)
 	U32	nDacLoBand;	// нижняя частота полосы ЦАП (Гц)
 	U32	nDacHiBand;	// верхняя частота полосы ЦАП (Гц)
-} ICR_Cfg00A0, *PICR_Cfg00A0, ICR_CfgAdm, *PICR_CfgAdm;
+} ICR_Cfg00A1, *PICR_Cfg00A1, ICR_CfgAdm, *PICR_CfgAdm;
 
 #pragma pack(pop)    
 
-#endif // _ICR00A0_H
+#endif // _ICR00A1_H
 
-// ****************** End of file Icr00A0.h **********************
+// ****************** End of file Icr00A1.h **********************

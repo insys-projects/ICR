@@ -34,6 +34,7 @@
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
 		
 
+		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" type="int" invisible="1" />
 		<field name="Наличие DDC" offset="5" size="1" default="4" type="spin-int" min="0" max="4"/>
 
 		<field name="Тип кристалла внутр. генератора" offset="6" size="1" default="1" type="list">

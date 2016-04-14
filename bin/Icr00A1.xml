@@ -26,7 +26,7 @@
 <icr>
 	<dev name="FM216x370MDA" type="0x10A0"/>
 	
-	<struct tag="0x00A0" size="36"> 
+	<struct tag="0x00A1" size="36"> 
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
 		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" type="int" invisible="1" />
 		<field name="Количество АЦП" offset="5" size="1" default="2" type="spin-int" min="0" max="2"/>
