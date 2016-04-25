@@ -376,7 +376,8 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 			pDeviceInfo->bAdmIfCnt = 2;
 		if(pDeviceInfo->dType == 0x53B3 ||	// FMC117cP
 			pDeviceInfo->dType == 0x53B5 ||	// FMC121cP
-			pDeviceInfo->dType == 0x53B6)	// FMC125cP
+			pDeviceInfo->dType == 0x53B6 ||	// FMC125cP
+			pDeviceInfo->dType == 0x53B8)	// Panorama
 			pDeviceInfo->bAdmIfCnt = 1;
 		if(pDeviceInfo->dType == 0x551C ||	// FMC122P
 			pDeviceInfo->dType == 0x551E)	// FMC124P

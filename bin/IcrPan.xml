@@ -1,0 +1,101 @@
+<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="Panorama" type="0x53B8" base="1"/>
+
+
+	<!-- 
+	====  Специфическая структура базового модуля 
+	-->
+	<struct tag="0x53B8" size="8">
+	<group title="Параметры базового модуля" open="1" color="255,255,191">
+		<field name="Количество интерфейсов ADM" offset="4" size="1" default="2" type="int" invisible="1"/>
+    <field name="Контроллер питания" offset="5" size="1" default="1" type="list">
+	<item val="0" descr="нет" />
+	<item val="1" descr="есть" />
+    </field>	
+    <field name="Адресный код контроллера питания (hex)" offset="6" size="1" default="48" type="hex"/>
+    <field name="DDR3" offset="7" size="1" default="1" type="list">
+      <item val="0" descr="нет" />
+      <item val="1" descr="есть" />
+      <item val="2" descr="использовать SPD" />
+    </field>
+  </group>
+	</struct>
+	
+	<!-- 
+	====  Идентификационная структура DDR3 
+	-->
+	<struct tag="0x0730" size="14">
+	<group title="Параметры DDR3" open="1" color="191,191,255">
+		<field name="Номер" offset="4" size="1" default="0" type="int" invisible="1"/>
+		<field name="Количество слотов" offset="5" size="1" default="1" type="int" invisible="1"/>
+		<field name="Объем микросхемы (Мбит)" offset="6" size="2" default="2048" type="list">
+			<item val="2048" descr="2048" />
+			<item val="4096" descr="4096" />
+      <item val="8192" descr="8192" />
+      <item val="16384" descr="16384" />
+    </field>	
+		<field name="Количество банков" offset="8" size="1" default="8" type="int" invisible="1"/>
+		<field name="Разряды адреса строк" offset="9" size="1" default="14" type="list">
+			<item val="14" descr="14" />
+			<item val="15" descr="15" />
+      <item val="16" descr="16" />
+    </field>	
+		<field name="Разряды адреса столбцов" offset="10" size="1" default="10" type="spin-int" min="9" max="12" invisible="1"/>
+		<field name="Количество рядов SODIMM" offset="11" size="1" default="1" type="spin-int" min="1" max="4" invisible="1"/>
+		<field name="Ширина микросхемы" offset="12" size="1" default="16" type="list" invisible="1">
+			<item val="4"  descr="4" />
+			<item val="8"  descr="8" />
+			<item val="16" descr="16" />
+			<item val="32" descr="32" />
+		</field>	
+		<field name="Ширина шины памяти" offset="13" size="1" default="64" type="list">
+			<item val="8"  descr="8" />
+			<item val="16" descr="16" />
+			<item val="32" descr="32" />
+			<item val="64" descr="64" />
+		</field>	
+	</group>
+	</struct>
+
+
+
+</icr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
