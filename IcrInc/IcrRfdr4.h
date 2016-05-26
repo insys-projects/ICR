@@ -21,6 +21,7 @@ typedef struct _ICR_Cfg53B4
 {
 	U16		wTag;				// tag of structure (0x53B4)
 	U16		wSize;			// size of all following fields of structure (without wTag + wSize) = sizeof(ICR_XXXX) - 4
+	U08		bAdmIfCnt;		// количество интерфейсов ADM
 	U08		bAdcCnt;			// Количество АЦП
 	U08		bAttenuationMax;	// Максимальное значение аттенюатора (дБ)
 	U08		bAttenuationStep;	// Шаг перестройки аттенюатора (дБ)

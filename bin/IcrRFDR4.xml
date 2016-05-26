@@ -30,17 +30,18 @@
 	<!-- 
 	====  Специфическая структура базового модуля 
 	-->
-	<struct tag="0x53B4" size="24">
+	<struct tag="0x53B4" size="25">
 	<group title="Параметры базового модуля" open="1" color="255,255,191">
-		<field name="Количество каналов АЦП" offset="4" size="1" default="4" type="int" />
-		<field name="Максимальная аттенюация (дБ)" offset="5" size="1" default="31" type="int" />
-		<field name="Шаг аттенюации (дБ)" offset="6" size="1" default="1" type="int" />
-		<field name="Количество каналов DDC на один АЦП" offset="7" size="1" default="8" type="int" />
-		<field name="Встроенный генератор (кГц)" offset="8" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Коэффициент децимации DDC" offset="12" size="4" default="2000" type="int" />
-		<field name="Ширина полосы DDC (кГц)" offset="16" size="4" default="100" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Коэффициент передачи DDC" offset="20" size="2" default="0.750" type="double" min="0" max="100" prec="3"/>
-		<field name="Объем FIFO на один АЦП (отсч.)" offset="22" size="2" default="32" type="int" invisible="1"/>
+		<field name="Количество интерфейсов ADM" offset="4" size="1" default="0" type="int" invisible="1"/>
+		<field name="Количество каналов АЦП" offset="5" size="1" default="4" type="int" />
+		<field name="Максимальная аттенюация (дБ)" offset="6" size="1" default="31" type="int" />
+		<field name="Шаг аттенюации (дБ)" offset="7" size="1" default="1" type="int" />
+		<field name="Количество каналов DDC на один АЦП" offset="8" size="1" default="8" type="int" />
+		<field name="Встроенный генератор (кГц)" offset="9" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Коэффициент децимации DDC" offset="13" size="4" default="2000" type="int" />
+		<field name="Ширина полосы DDC (кГц)" offset="17" size="4" default="100" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Коэффициент передачи DDC" offset="21" size="2" default="0.750" type="double" min="0" max="100" prec="3"/>
+		<field name="Объем FIFO на один АЦП (отсч.)" offset="23" size="2" default="32" type="int" invisible="1"/>
 	</group>
 	</struct>
 	

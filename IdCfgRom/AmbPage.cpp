@@ -359,6 +359,7 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 		PBASEMOD_INFO pDeviceInfo = &(g_BaseModCtrl[idx].devInfo);
 		memcpy(pDeviceInfo->pCfgMem, pBaseCfg, size);
 		int	retCode = (g_BaseModCtrl[idx].pSetProperty)(pDeviceInfo);
+		pDeviceInfo->bAdmIfCnt = 1;
 //		m_SerialNum = pDeviceInfo->SerNum;
 		if( pDeviceInfo->dType == 0x6610 ||  // FMC110PDSP
 			pDeviceInfo->dType == 0x6611 ||  // FMC111PDSP
@@ -383,7 +384,9 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 			pDeviceInfo->dType == 0x551E)	// FMC124P
 			pDeviceInfo->bAdmIfCnt = 1;
 		if(pDeviceInfo->dType == 0x3018 ||	// FMC118E
-			pDeviceInfo->dType == 0x3019)	// FMC119E
+			pDeviceInfo->dType == 0x3019 ||	// FMC119E
+			pDeviceInfo->dType == 0x3028 ||	// FMC128E
+			pDeviceInfo->dType == 0x3029)	// FMC129E
 			pDeviceInfo->bAdmIfCnt = 1;
 		m_NumOfAdmIf = pDeviceInfo->bAdmIfCnt;
 		ret += pDeviceInfo->nRealCfgSize;
