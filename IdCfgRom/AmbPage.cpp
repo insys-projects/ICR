@@ -229,18 +229,12 @@ void CAmbPage::OnSelchangeBmtype()
 
 	m_ctrlType.GetLBText(m_ctrlType.GetCurSel(), str);
 
-	if(!str.Compare("VK3"))
+	if(!str.Compare("VK3") || !str.Compare("DR-16"))
 	{
 		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
 		pParentWnd->m_ctrlReadWriteDevs.SetCurSel(0);
 		pParentWnd->m_ctrlReadWriteDevs.EnableWindow(FALSE);
  	}
-	else if(!str.Compare("DR-16"))
-	{
-		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
-		pParentWnd->m_ctrlReadWriteDevs.SetCurSel(0);
-		pParentWnd->m_ctrlReadWriteDevs.EnableWindow(FALSE);
-	}
 	else
 	{
 		CIdCfgRomDlg* pParentWnd = (CIdCfgRomDlg*)GetOwner();
@@ -248,6 +242,12 @@ void CAmbPage::OnSelchangeBmtype()
 	}
 
 	m_NumOfAdmIf = 1;
+
+	if(!str.Compare("FMC112cP") || !str.Compare("FMC127P"))
+		m_NumOfAdmIf = 2;
+	else
+		m_NumOfAdmIf = 1;
+
 	pParentWnd->m_nCanWriteSM = 1;
 	m_ctrlAdmNum.EnableWindow(FALSE);
 
