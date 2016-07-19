@@ -30,7 +30,7 @@ typedef struct _ICR_CfgFmc124p {
 	U16	wSize;				// размер всех следующих полей структуры
 	U08	bAdmIfCnt;			// количество интерфейсов ADM
 	U32	dSysGen;			// System generator in Hz (default 250 MHz)
-	U08	bDdsType;			// тип синтезатора DDS (0-non, 1-above 50MHz, 2-below 50MHz)
+	U08	bDdsType;			// тип синтезатора DDS (0-non, 1-v2)
 	U08	bSwitchType;		// тип коммутатора (0-non, 1-type5(FMC124P))
 	U08	bAdrSwitch;			// адресный код коммутатора: 0x48 по умолчанию
 	U32	dRefGenDDS;			// Reference generator for DDS (default 19.2 MHz)

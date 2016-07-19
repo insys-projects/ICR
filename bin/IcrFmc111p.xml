@@ -24,16 +24,16 @@
 -->
 
 <icr>
-	<dev name="FMC124P" type="0x551E" base="1"/>
+	<dev name="FMC111P" type="0x5520" base="1"/>
 
   <!-- 
 	====  Специфическая структура базового модуля 
 	-->
-	<struct tag="0x551E" size="23">
+	<struct tag="0x5520" size="28">
 	<group title="Параметры базового модуля" open="1" color="255,255,191">
 		<field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
 		<field name="Системный генератор (кГц)" offset="5" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
-		<field name="DDS " offset="9" size="1" default="1" type="list">
+		<field name="DDS v2" offset="9" size="1" default="1" type="list">
 			<item val="0" descr="нет" />
 			<item val="1" descr="есть" />
 		</field>
@@ -47,12 +47,14 @@
       <item val="0" descr="обычный" />
       <item val="1" descr="термокомпенсированный" />
     </field>
-		<field name="Генератор 100МГц (кГц)" offset="17" size="4" default="100000" type="double" min="0" max="1000000" prec="3"/>
-    <field name="DDR3 SODIM" offset="21" size="1" default="1" type="list">
-      <item val="1" descr="Установлена" />
-      <item val="0" descr="Не установлена" />
-    </field>
-    <field name="DDR3 встроенная" offset="22" size="1" default="2" type="list">
+    <field name="Опорный генератор для MGT (кГц)" offset="17" size="4" default="156250" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Генератор 100МГц (кГц)" offset="21" size="4" default="100000" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Контроллер питания" offset="25" size="1" default="1" type="list">
+	<item val="0" descr="нет" />
+	<item val="1" descr="есть" />
+    </field>	
+    <field name="Адресный код контроллера питания (hex)" offset="26" size="1" default="48" type="hex"/>
+    <field name="DDR3 встроенная" offset="27" size="1" default="2" type="list">
       <item val="0" descr="нет" />
       <item val="1" descr="есть" />
       <item val="2" descr="использовать SPD" />
@@ -65,17 +67,17 @@
 	-->
   <struct tag="0x0730" size="14">
     <group title="Параметры встроенной DDR3" open="1" color="191,191,255">
-      <field name="Номер" offset="4" size="1" default="0" type="int" invisible="1"/>
-      <field name="Количество слотов" offset="5" size="1" default="1" type="int" invisible="1"/>
-      <field name="Объем микросхемы (Мбит)" offset="6" size="2" default="2048" type="list">
-        <item val="2048" descr="2048 [512 МБ]" />
-        <item val="4096" descr="4096 [1 ГБ]" />
-      </field>
-      <field name="Количество банков" offset="8" size="1" default="8" type="int" invisible="1"/>
-      <field name="Разряды адреса строк" offset="9" size="1" default="14" type="list">
-        <item val="14" descr="14 [512 МБ]" />
-        <item val="15" descr="15 [1 ГБ]" />
-      </field>
+	<field name="Номер" offset="4" size="1" default="0" type="int" invisible="1"/>
+	<field name="Количество слотов" offset="5" size="1" default="1" type="int" invisible="1"/>
+	<field name="Объем микросхемы (Мбит)" offset="6" size="2" default="4096" type="list">
+		<item val="2048" descr="2048 [1 ГБ]" />
+		<item val="4096" descr="4096 [2 ГБ]" />
+	</field>	
+	<field name="Количество банков" offset="8" size="1" default="8" type="int" invisible="1"/>
+	<field name="Разряды адреса строк" offset="9" size="1" default="15" type="list">
+		<item val="14" descr="14 [1 ГБ]" />
+		<item val="15" descr="15 [2 ГБ]" />
+	</field>	
       <field name="Разряды адреса столбцов" offset="10" size="1" default="10" type="spin-int" min="9" max="12" invisible="1"/>
       <field name="Количество рядов SODIMM" offset="11" size="1" default="1" type="spin-int" min="1" max="4" invisible="1"/>
       <field name="Ширина микросхемы" offset="12" size="1" default="16" type="list" invisible="1">
@@ -84,7 +86,7 @@
         <item val="16" descr="16" />
         <item val="32" descr="32" />
       </field>
-      <field name="Ширина шины памяти" offset="13" size="1" default="32" type="list" invisible="1">
+      <field name="Ширина шины памяти" offset="13" size="1" default="64" type="list" invisible="1">
         <item val="8"  descr="8" />
         <item val="16" descr="16" />
         <item val="32" descr="32" />
@@ -96,6 +98,9 @@
 
 
 </icr>
+
+
+
 
 
 
