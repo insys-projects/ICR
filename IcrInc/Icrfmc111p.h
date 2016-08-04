@@ -21,7 +21,7 @@
 
 #pragma pack(push, 1)    
 
-const USHORT FMC111P_CFG_TAG = 0x5520; // тэг для структуры конфигурационных параметров базового модуля FMC111P
+const USHORT FMC111P_CFG_TAG = 0x5521; // тэг для структуры конфигурационных параметров базового модуля FMC111P
 
 // FMC111P module configuration
 // Конфигурационные параметры базового модуля FMC111P
@@ -40,7 +40,7 @@ typedef struct _ICR_CfgFmc111p {
 	U08	bIsPowerCtrl;		// Установлен ли контроллер питания
 	U08	bAdrPower;			// адресный код контроллера питания: 0x48 по умолчанию
 	U08 bIsInternalDDR3;	// Установлена ли встроенная память DDR3 256x64 Мслов
-} ICR_CfgFmc111p, *PICR_CfgFmc111p, ICR_Cfg5520, *PICR_Cfg5520;
+} ICR_CfgFmc111p, *PICR_CfgFmc111p, ICR_Cfg5521, *PICR_Cfg5521;
 
 #pragma pack(pop)    
 
