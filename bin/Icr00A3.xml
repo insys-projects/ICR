@@ -1,0 +1,104 @@
+﻿<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FM212x4GDA" type="0x10C0"/>
+	
+	<struct tag="0x00A3" size="32"> 
+	<group title="Параметры субмодуля" open="1" color="255,255,191">
+		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" type="int" invisible="1" />
+		<field name="Количество АЦП" offset="5" size="1" default="2" type="spin-int" min="0" max="2" />
+		<field name="Количество ЦАП" offset="6" size="1" default="4" type="spin-int" min="0" max="4" inc="2"/>
+		<field name="Тип входа" offset="7" size="1" default="0" type="list">
+			<item val="0" descr="трансформатор" />
+			<item val="1" descr="усилитель" />
+		</field>
+		<field name="Тип выхода" offset="8" size="1" default="0" type="list">
+			<item val="0" descr="трансформатор" />
+			<item val="1" descr="усилитель" />
+		</field>
+		<field name="Резерв" offset="9" size="3" default="0" type="int" invisible="1" />
+		<field name="Частота опорного генератора (МГц)" offset="12" size="4" default="500" type="double" min="0" max="1000000" prec="6"/>
+		<field name="Нижняя частота полосы АЦП (МГц)" offset="16" size="4" default="10" type="double" min="0" max="1000000" prec="6"/>
+		<field name="Верхняя частота полосы АЦП (МГц)" offset="20" size="4" default="2000" type="double" min="0" max="1000000" prec="6"/>
+		<field name="Нижняя частота полосы ЦАП (МГц)" offset="24" size="4" default="10" type="double" min="0" max="1000000" prec="6"/>
+		<field name="Верхняя частота полосы ЦАП (МГц)" offset="28" size="4" default="500" type="double" min="0" max="1000000" prec="6"/>
+	</group>
+	</struct>
+	
+	<!-- Конфигурационная структура АЦП -->
+	<struct tag="0x0100" size="18">
+	<group title="Конфигурационная структура АЦП" open="1" color="255,191,255">
+		<field name="Разрядность АЦП" offset="6" size="1" default="14" type="list">
+			<item val="14" descr="14" />
+			<item val="16" descr="16" />
+		</field>
+		
+		<field name="Тип кодировки АЦП" offset="7" size="1" default="1" type="list">
+			<item val="0" descr="прямая" />
+			<item val="1" descr="двоично-дополнительная" />
+		</field>
+		
+		<field name="Минимальная частота дискретизации АЦП (МГц)" offset="8" size="4" default="40." type="spin-double" min="1" max="100" prec="6"  inc="1."/>
+		<field name="Максимальная частота дискретизации АЦП (МГц)" offset="12" size="4" default="250." type="spin-double" min="1" max="500" prec="6" inc="1."/>
+		<field name="Входной диапазон АЦП (мВ)" offset="16" default="500" size="2" type="int" min="0" max="5000"/>
+	</group>
+	</struct>
+
+
+  <!-- Конфигурационная структура ЦАП -->
+  <struct tag="0x0310" size="18">
+	<group title="Конфигурационная структура ЦАП" open="1" color="191,255,255">
+	<field name="Разрядность ЦАП" offset="6" size="1" default="16" type="list">
+      <item val="14" descr="14" />
+      <item val="16" descr="16" />
+    </field>
+
+    <field name="Тип кодировки ЦАП" offset="7" size="1" default="1" type="list">
+      <item val="0" descr="прямая" />
+      <item val="1" descr="двоично-дополнительная" />
+    </field>
+
+    <field name="Минимальная частота дискретизации ЦАП (МГц)" offset="8" size="4" default="100." type="spin-double" min="1" max="2000" prec="6"  inc="1."/>
+    <field name="Максимальная частота дискретизации ЦАП (МГц)" offset="12" size="4" default="1500." type="spin-double" min="1" max="2000" prec="6" inc="1."/>
+    <field name="Выходной диапазон ЦАП (мВ)" offset="16" default="350" size="2" type="int" min="50" max="1000"/>
+	</group>
+  </struct>
+
+</icr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
