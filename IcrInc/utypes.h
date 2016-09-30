@@ -10,7 +10,14 @@
 #ifndef _UTYPES_H_
 #define _UTYPES_H_
 
+#include <stdio.h>
+
+#if defined (__LINUX__) || defined(__linux__) || defined (__QNX__)
 #include "utypes_linux.h"
+#endif
+
+#define BRD_max(a,b) ((a) > (b) ? (a) : (b))
+#define BRD_min(a,b) ((a) < (b) ? (a) : (b))
 
 /*************************************
 *
@@ -107,6 +114,8 @@ typedef wchar_t			BRDCHAR;
 #define BRDC_vsprintf	vswprintf
 #define BRDC_sscanf		swscanf
 #define BRDC_fopen		_wfopen
+#define BRDC_freopen	_wfreopen
+#define BRDC_fdopen		_wfdopen
 #define BRDC_sopen		_wsopen
 #define BRDC_open		_wopen
 #define BRDC_fgets		fgetws
@@ -127,6 +136,27 @@ typedef wchar_t			BRDCHAR;
 #define BRDC_flushall   flushall
 #define BRDC_putch      _putwch
 #define BRDC_cgets      _cgetws
+#define BRDC_puts		_putws
+#define BRDC_gets(str)		_getws_s( str, 65536 )		
+#define BRDC_tmpnam		_wtmpnam
+#define BRDC_perror		_wperror
+#define BRDC_getcwd		_wgetcwd
+#define BRDC_getdcwd	_wgetdcwd
+#define BRDC_mkdir		_wmkdir
+#define BRDC_chdir		_wchdir
+#define BRDC_rmdir		_wrmdir
+#define BRDC_access		_waccess
+#define BRDC_chmod		_wchmod
+#define BRDC_creat		_wcreat
+#define BRDC_mktemp		_wmktemp
+#define BRDC_remove		_wremove
+#define BRDC_rename		_wrename
+#define BRDC_findfirst	_wfindfirst
+#define BRDC_findnext	_wfindnext
+#define BRDC_asctime	_wasctime
+#define BRDC_ctime		_wctime
+#define	BRDC_strftime	wcsftime
+#define BRDC_stat		_wstat
 #else
 typedef char			BRDCHAR;
 #define _BRDC(x)		x
@@ -157,8 +187,11 @@ typedef char			BRDCHAR;
 #define BRDC_vsprintf	vsprintf
 #define BRDC_sscanf		sscanf
 #define BRDC_fopen		fopen
+#define BRDC_freopen	freopen
+#define BRDC_fdopen		fdopen
 #define BRDC_sopen		sopen
 #define BRDC_open		_open
+#define BRDC_filelength _filelength
 #define BRDC_fgets		fgets
 #define BRDC_fputs		fputs
 #define BRDC_fgetc		fgetc
@@ -177,6 +210,27 @@ typedef char			BRDCHAR;
 #define BRDC_flushall   flushall
 #define BRDC_putch      putch
 #define BRDC_cgets      cgets
+#define BRDC_puts		puts
+#define BRDC_gets(str)		gets_s( str, 65536 )
+#define BRDC_tmpnam		tmpnam
+#define BRDC_perror		perror
+#define BRDC_getcwd		getcwd
+#define BRDC_getdcwd	_getdcwd
+#define BRDC_mkdir		mkdir
+#define BRDC_chdir		chdir
+#define BRDC_rmdir		rmdir
+#define BRDC_access		access
+#define BRDC_chmod		chmod
+#define BRDC_creat		creat
+#define BRDC_mktemp		mktemp
+#define BRDC_remove		remove
+#define BRDC_rename		rename
+#define BRDC_findfirst	_findfirst
+#define BRDC_findnext	_findnext
+#define BRDC_asctime	asctime
+#define BRDC_ctime		ctime
+#define	BRDC_strftime	strftime
+#define BRDC_stat		stat
 #endif
 
 #endif /* _WIN32 */
@@ -318,6 +372,41 @@ typedef UINT32	USHORT;
 typedef UINT32	UCHAR;
 
 #endif /* __ADSPTS__ */
+
+/*************************************
+*
+*  Types for MC24
+*/
+
+#if defined(__GNUC__) && !defined(__linux__)
+
+typedef unsigned char   UINT08;
+typedef signed   char   SINT08;
+typedef unsigned short  UINT16;
+typedef signed   short  SINT16;
+typedef unsigned long   UINT32;
+typedef signed   long   SINT32;
+
+typedef unsigned char   U08, *PU08;
+typedef signed   char   S08, *PS08;
+typedef unsigned short  U16, *PU16;
+typedef signed   short  S16, *PS16;
+typedef unsigned long   U32, *PU32;
+typedef signed   long   S32, *PS32;
+
+typedef	unsigned long long int	U64, *PU64;
+typedef	signed   long long int	S64, *PS64;
+
+typedef float           REAL32, *PREAL32;
+typedef double          REAL64, *PREAL64;
+
+//typedef enum{ FALSE=0, TRUE=1}        BOOL;
+typedef unsigned char   UCHAR;
+typedef unsigned short  USHORT;
+typedef unsigned long   ULONG;
+typedef unsigned long   HANDLE;
+
+#endif /* __GNUC__ */
 
 /*************************************
 *
