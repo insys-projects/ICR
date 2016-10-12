@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 	<dev name="" type="" base=""/>
 	
 	<struct tag="" size="">
@@ -28,15 +28,19 @@
 	
 	<struct tag="0x009E" size="22"> 
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
-		<field name="Количество АЦП" offset="5" size="1" default="2" type="spin-int" min="1" max="2"/>
-		<field name="Количество ЦАП" offset="6" size="1" default="1" type="spin-int" min="0" max="1"/>
+		<field name="Количество АЦП" offset="5" size="1" default="16" type="spin-int" min="0" max="16" inc="1"/>
+		<field name="Количество ЦАП" offset="6" size="1" default="1" type="spin-int" min="0" max="4"/>
 		<field name="Тип кристалла внутр. генератора" offset="7" size="1" default="1" type="list">
 			<item val="0" descr="не програм-ый" />
 			<item val="1" descr="Si570/571" />
 		</field>
 		<field name="Адресный код внутр. генератора (hex)" offset="8" size="1" default="49" type="hex"/>
 		<field name="Заводская установка частоты внутр. генератора (кГц)" offset="9" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
-		<field name="Максимальная установка частоты внутр. генератора (кГц)" offset="13" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="Максимальная частота внутр. генератора (Гц)" offset="13" size="4" default="280000000" type="list">
+			<item val="1417500000" descr="Тип А (1.4 Гц)" />
+			<item val="810000000" descr="Тип В (810 МГц)" />
+			<item val="280000000" descr="Тип С (280 МГц)" />
+		</field>	
 		<field name="Тип кристалла смещений нуля" offset="17" size="1" default="1" type="list">
 			<item val="0" descr="нет" />
 			<item val="1" descr="LTC2668" />
