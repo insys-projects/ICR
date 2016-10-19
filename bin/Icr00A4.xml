@@ -55,7 +55,12 @@
 		</field>	
 		<field name="Адресный код внутр. генератора (hex)" offset="11" size="1" default="55" type="hex"/>
 		<field name="Заводская установка частоты внутр. генератора (МГц)" offset="12" size="4" default="10" type="double" min="0" max="1000000" prec="6"/>
-		<field name="Максимальная установка частоты внутр. генератора (МГц)" offset="16" size="4" default="1000" type="double" min="0" max="1000000" prec="6"/>
+		<field name="Максимальная установка частоты внутр. генератора (МГц)" offset="16" size="4" default="1400" type="double" min="0" max="1000000" prec="6"/>
+		<field name="Максимальная частота внутр. генератора (Гц)" offset="16" size="4" default="1417500000" type="list">
+			<item val="1417500000" descr="Тип А (1.4 ГГц)" />
+			<item val="810000000" descr="Тип В (810 МГц)" />
+			<item val="280000000" descr="Тип С (280 МГц)" />
+		</field>	
 
 		<field name="Нижняя частота полосы АЦП (МГц)" offset="20" size="4" default="2" type="double" min="0" max="1000000" prec="6"/>
 		<field name="Верхняя частота полосы АЦП (МГц)" offset="24" size="4" default="400" type="double" min="0" max="1000000" prec="6"/>
