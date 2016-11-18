@@ -268,7 +268,7 @@ BEGIN
     CTEXT           "ЗАО ""Инструментальные Системы""",IDC_FIRMNAME,45,38,129,8
     LTEXT           "http://www.insys.ru",IDC_HL_WWW,77,65,63,8
     LTEXT           "info@insys.ru",IDC_HL_Email,88,77,43,8
-    LTEXT           "Версия 1.09",IDC_STATIC,87,26,42,8
+    LTEXT           "Версия 1.10",IDC_STATIC,87,26,42,8
 END
 
 IDD_IDCFGROM_DIALOG DIALOGEX 0, 0, 261, 306
@@ -371,7 +371,7 @@ BEGIN
     CTEXT           "ППЗУ идентификации и конфигурации",IDC_STATIC,35,15,150,8,SS_NOPREFIX
     CTEXT           "Copyright (C) 2002-2016",IDC_STATIC,71,51,77,8
     CTEXT           "ЗАО ""Инструментальные Системы""",IDC_FIRMNAME,45,38,129,8
-    LTEXT           "Версия 1.09",IDC_STATIC,87,26,42,8
+    LTEXT           "Версия 1.10",IDC_STATIC,87,26,42,8
 END
 
 
@@ -816,8 +816,8 @@ IDR_MAINFRAME1          ICON                    "res\\idr_main.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,9,0
- PRODUCTVERSION 1,0,9,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -835,12 +835,12 @@ BEGIN
             VALUE "Comments", "Используется для чтения/записи Идентификационного и Конфигурационного ПЗУ"
             VALUE "CompanyName", "ЗАО ""Инструментальные Системы"""
             VALUE "FileDescription", "Клиентдля Идентификационного и Конфигурационного ПЗУ"
-            VALUE "FileVersion", "1.09"
+            VALUE "FileVersion", "1.10"
             VALUE "InternalName", "IdCfgRom"
             VALUE "LegalCopyright", "Copyright (C) 2002-2016 ЗАО ""ИнСис"""
             VALUE "OriginalFilename", "IdCfgRom.exe"
             VALUE "ProductName", "Система Идентификационного и Конфигурационного ПЗУ"
-            VALUE "ProductVersion", "1.09"
+            VALUE "ProductVersion", "1.10"
         END
     END
     BLOCK "VarFileInfo"
@@ -971,7 +971,7 @@ BEGIN
     CTEXT           "Identification & Configuration ROM",IDC_STATIC,50,10,119,8,SS_NOPREFIX
     CTEXT           "Copyright (C) 2002-20016",IDC_STATIC,71,46,81,8
     CTEXT           "Instrumental Systems Corp.",IDC_FIRMNAME,59,33,107,8
-    LTEXT           "Version 1.09",IDC_STATIC,87,21,40,8
+    LTEXT           "Version 1.10",IDC_STATIC,87,21,40,8
 END
 
 IDD_IDCFGROM_DIALOG DIALOGEX 0, 0, 260, 286
@@ -1197,7 +1197,7 @@ BEGIN
     CTEXT           "Instrumental Systems Corp.",IDC_FIRMNAME,59,38,107,8
     LTEXT           "http://www.insys.ru",IDC_HL_WWW,77,65,63,8
     LTEXT           "info@insys.ru",IDC_HL_Email,88,77,43,8
-    LTEXT           "Version 1.09",IDC_STATIC,87,26,40,8
+    LTEXT           "Version 1.10",IDC_STATIC,87,26,40,8
 END
 
 
@@ -1545,8 +1545,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,9,0
- PRODUCTVERSION 1,0,9,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -1564,12 +1564,12 @@ BEGIN
             VALUE "Comments", "Using for to read/write Identification & Configuration ROM"
             VALUE "CompanyName", "Instrumental Systems Corporation"
             VALUE "FileDescription", "Client for Identification & Configuration ROM"
-            VALUE "FileVersion", "1.09"
+            VALUE "FileVersion", "1.10"
             VALUE "InternalName", "IdCfgRom.exe"
             VALUE "LegalCopyright", "(C) 2002-2016 InSys Corp.  All rights reserved."
             VALUE "OriginalFilename", "IdCfgRom.exe"
             VALUE "ProductName", "Identification & Configuration ROM System"
-            VALUE "ProductVersion", "1.09"
+            VALUE "ProductVersion", "1.10"
         END
     END
     BLOCK "VarFileInfo"

@@ -1358,7 +1358,8 @@ void CIdCfgRomDlg::OnBnClickedFromdev()
 		SetCursor(hCursorArrow);
 		return;
 	}
-	if( (pDeviceInfo->nRealAdmCfgSize[0]==0) && /*(pDeviceInfo->nRealAdmCfgSize[1]==0) && 
+	int iSubmod = m_pAdmIfPage->m_AdmIfNum;
+	if( (pDeviceInfo->nRealAdmCfgSize[iSubmod]==0) && /* (pDeviceInfo->nRealAdmCfgSize[1]==0) &&
 		(pDeviceInfo->nRealAdmCfgSize[2]==0) && (pDeviceInfo->nRealAdmCfgSize[3]==0) &&*/
 		(GetReadWriteDevs()==READ_WRITE_SUBMODULE) )
 	{

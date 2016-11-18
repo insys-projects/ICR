@@ -82,7 +82,10 @@ DEVICE_API void __stdcall DEVICE_GetInfo(int* pNumDev, PDEVICE_INFO pDevInfo)
 
 	pDevInfo->pAdmCfgMem[0] = new UCHAR[SUBMOD_CFGMEM_SIZE];
 	pDevInfo->nAdmCfgMemSize[0] = SUBMOD_CFGMEM_SIZE;
-	if(0x53B2 == pDevInfo->wType || 0x5515 == pDevInfo->wType  || 0x551F == pDevInfo->wType)
+	if(0x53B2 == pDevInfo->wType ||			// FMC112cP
+		0x550C == pDevInfo->wType  ||		// FMC114V
+		0x5515 == pDevInfo->wType  ||		// FMC116V	
+		0x551F == pDevInfo->wType)			// FMC127P
 	{
 		pDevInfo->pAdmCfgMem[1] = new UCHAR[SUBMOD_CFGMEM_SIZE];
 		pDevInfo->nAdmCfgMemSize[1] = SUBMOD_CFGMEM_SIZE;

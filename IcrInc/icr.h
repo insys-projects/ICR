@@ -21,7 +21,24 @@
 #ifndef __ICR_H_
  #define __ICR_H_
 
-#include "utypes.h"
+//#include "utypes.h"
+
+#ifndef _UTYPES_H_
+
+typedef	unsigned char	U08, *PU08;
+typedef	signed   char	S08, *PS08;
+typedef	unsigned short	U16, *PU16;
+typedef	signed   short	S16, *PS16;
+typedef	unsigned int	U32, *PU32;
+typedef	signed   int	S32, *PS32;
+
+typedef	unsigned long long int	U64, *PU64;
+typedef	signed   long long int	S64, *PS64;
+
+typedef float			REAL32, *PREAL32;
+typedef double			REAL64, *PREAL64;
+
+#endif /* _UTYPES_H_ */
 
 #pragma pack(push, 1)    
 

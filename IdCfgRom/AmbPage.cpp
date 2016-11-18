@@ -243,7 +243,7 @@ void CAmbPage::OnSelchangeBmtype()
 
 	m_NumOfAdmIf = 1;
 
-	if(!str.Compare("FMC112cP") || !str.Compare("FMC127P"))
+	if(!str.Compare("FMC112cP") || !str.Compare("FMC127P") || !str.Compare("FMC114V"))
 		m_NumOfAdmIf = 2;
 	else
 		m_NumOfAdmIf = 1;
@@ -373,6 +373,7 @@ ULONG CAmbPage::SetDataIntoDlg(PVOID pCfgMem)
 		if(pDeviceInfo->dType == 0x5516) // XM416x250M
 			pDeviceInfo->bAdmIfCnt = 1;
 		if(pDeviceInfo->dType == 0x53B2 ||	// FMC112cP
+			pDeviceInfo->dType == 0x550C ||	// FMC114V
 			pDeviceInfo->dType == 0x551F)	// FMC127P
 			pDeviceInfo->bAdmIfCnt = 2;
 		if(pDeviceInfo->dType == 0x53B3 ||	// FMC117cP
