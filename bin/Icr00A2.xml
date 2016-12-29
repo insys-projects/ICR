@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 ==  Формирование ICR для FM416x1G5D. Теги 0x009B и 0x0310
 -->
 
@@ -36,6 +36,7 @@
 	====  Конфигурационная структура субмодуля 
 	-->
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
+		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" type="int" invisible="1" />
 		<field name="Тип субмодуля" offset="5" size="1" default="0" type="int" invisible="1" />
 		<field name="Количество ЦАП" offset="6" size="1" default="4" type="spin-int" min="0" max="4" inc="2"/>
 		<field name="Тип ЦАП" offset="7" size="1" default="0" type="int" invisible="1" />
@@ -102,6 +103,7 @@
 	</struct>
 
 </icr>
+
 
 
 
