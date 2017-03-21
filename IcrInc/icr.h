@@ -66,6 +66,7 @@ const U16 SDRAM_CFG_TAG		= 0x0700; // тэг для структуры конфигурационных парамет
 const U16 DDRSDRAM_CFG_TAG	= 0x0710; // тэг для структуры конфигурационных параметров динамической памяти DDR SDRAM
 const U16 SRAM_CFG_TAG		= 0x0720; // тэг для структуры конфигурационных параметров статической памяти SRAM
 const U16 DDR3_CFG_TAG		= 0x0730; // тэг для структуры конфигурационных параметров динамической памяти DDR3
+const U16 DDR4_CFG_TAG		= 0x0740; // тэг для структуры конфигурационных параметров динамической памяти DDR4
 
 const U16 DSPNODE_CFG_TAG	= 0x0800; // tag of DSP node configuration structure (for AMBPCD)
 
@@ -317,6 +318,22 @@ typedef struct _ICR_Cfg0730 {
 	U08 bChipWidth;		// ширина микросхемы (4,8,16,32)
 	U08 bPrimaryWidth;	// ширина шины памяти (8,16,32,64)
 } ICR_Cfg0730, *PICR_Cfg0730, ICR_CfgDdr3, *PICR_CfgDdr3;
+
+// DDR4 SDRAM configuration
+// Конфигурационные параметры динамической памяти DDR4
+typedef struct _ICR_Cfg0740 {
+	U16	wTag;			// тэг структуры (DDR4_CFG_TAG)
+	U16	wSize;			// размер всех следующих полей структуры
+	U08 bNumber;		// номер структуры
+	U08 bModuleCnt;		// количество установленных SODIMM-модулей (занятых слотов)
+	U16	wCapacityMbits;	// объём микросхемы в мегабитах (256,512,1024,2048,4096,8192,16384,32768)
+	U08 bChipBanks;		// количество банков (4,8)
+	U08 bRowAddrBits;	// количество разрядов адреса строк (12-18)
+	U08 bColAddrBits;	// количество разрядов адреса столбцов (9-12)
+	U08 bModuleBanks;	// количество рядов (Ranks)на SODIMM-модуле (1-8)
+	U08 bChipWidth;		// ширина микросхемы (4,8,16,32)
+	U08 bPrimaryWidth;	// ширина шины памяти (8,16,32,64)
+} ICR_Cfg0740, *PICR_Cfg0740, ICR_CfgDdr4, *PICR_CfgDdr4;
 
 // DSP node configuration structure
 // Конфигурационная структура узла цифровой обработки сигналов
