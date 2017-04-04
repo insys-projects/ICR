@@ -26,7 +26,7 @@
 <icr>
 	<dev name="FM214x1GTRF" type="0x10C8"/>
 	
-	<struct tag="0x00A4" size="36"> 
+	<struct tag="0x00A4" size="56"> 
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
 		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" type="int" invisible="1" />
 		<field name="Количество АЦП" offset="5" size="1" default="2" type="spin-int" min="0" max="2" inc="2" />
@@ -57,10 +57,30 @@
 		<field name="Заводская установка частоты внутр. генератора (МГц)" offset="12" size="4" default="10" type="double" min="0" max="1000000" prec="6"/>
 		<field name="Максимальная установка частоты внутр. генератора (МГц)" offset="16" size="4" default="1400" type="double" min="0" max="1000000" prec="6"/>
 
+		<field name="Тип кристалла АЦП" offset="36" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="AD9680" />
+		</field>	
+		<field name="Тип кристалла ЦАП" offset="37" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="AD9144" />
+		</field>	
+		<field name="Тип кристалла PLL" offset="38" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="LMX2581" />
+		</field>	
+		<field name="Шкала преобразования ЦАП-ИПН (мВ)" offset="56" size="2" default="0" type="int"/>
+	</group>
+	<group title="Полосы и битрейты АЦП и ЦАП" open="1" color="191,255,191">
 		<field name="Нижняя частота полосы АЦП (МГц)" offset="20" size="4" default="2" type="double" min="0" max="1000000" prec="6"/>
 		<field name="Верхняя частота полосы АЦП (МГц)" offset="24" size="4" default="400" type="double" min="0" max="1000000" prec="6"/>
 		<field name="Нижняя частота полосы ЦАП (МГц)" offset="28" size="4" default="2" type="double" min="0" max="1000000" prec="6"/>
 		<field name="Верхняя частота полосы ЦАП (МГц)" offset="32" size="4" default="500" type="double" min="0" max="1000000" prec="6"/>
+
+		<field name="Минимальный битрейт АЦП (Mbps)" offset="40" size="4" default="3125" type="int"/>
+		<field name="Максимальный битрейт АЦП (Mbps)" offset="44" size="4" default="12500" type="int"/>
+		<field name="Минимальный битрейт ЦАП (Mbps)" offset="48" size="4" default="0" type="int"/>
+		<field name="Максимальный битрейт ЦАП (Mbps)" offset="52" size="4" default="0" type="int"/>
 	</group>
 	</struct>
 	

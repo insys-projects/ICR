@@ -32,6 +32,17 @@ typedef struct _ICR_Cfg00A4 {
 	U32	nAdcHiBand;	// верхняя частота полосы АЦП (Гц)
 	U32	nDacLoBand;	// нижняя частота полосы ЦАП (Гц)
 	U32	nDacHiBand;	// верхняя частота полосы ЦАП (Гц)
+
+	U08	bAdcType;		// тип кристалла АЦП: 0-нет, 1-AD9680
+	U08	bDacType;		// тип кристалла ЦАП: 0-нет, 1-AD9144
+	U08	bPllType;		// тип кристалла PLL: 0-нет, 1-LMX2581
+	U08	res1;			// резерв
+	U32	nAdcBitrateMin;	// минимальный битрейт кристалла АЦП (мегабит/сек)
+	U32	nAdcBitrateMax;	// максимальный битрейт кристалла АЦП (мегабит/сек)
+	U32	nDacBitrateMin;	// минимальный битрейт кристалла ЦАП (мегабит/сек)
+	U32	nDacBitrateMax;	// максимальный битрейт кристалла ЦАП (мегабит/сек)
+	U16	wThdacRange;	// шкала преобразования ЦАП-ИПН (мВ)
+
 } ICR_Cfg00A4, *PICR_Cfg00A4, ICR_CfgAdm, *PICR_CfgAdm;
 
 #pragma pack(pop)    
