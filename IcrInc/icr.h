@@ -140,6 +140,23 @@ typedef struct _ICR_Cfg0100 {
 	U16	wRange;		// input range (входной диапазон АЦП (мВольт))
 } ICR_Cfg0100, *PICR_Cfg0100, ICR_CfgAdc, *PICR_CfgAdc;
 
+//
+// ADC configuration structure (once more)
+// Конфигурационная структура АЦП (еще одна)
+// Частоты выражены в килогерцах
+//
+typedef struct _ICR_Cfg0101 {
+	U16	wTag;		// tag of structure (ADC_CFG_TAG)
+	U16	wSize;		// size of all following fields of structure (without wTag + wSize) = sizeof(ICR_IdBase) - 4
+	U08	bNumber;	// number of ADC (номер АЦП)
+	U08	bAdmNum;	// ADM-Interface number (номер интерфейса ADM)
+	U08	bBits;		// Word Length (разрядность АЦП (число бит))
+	U08	bEncoding;	// type of code (тип кодировки)
+	U32	dMinRate;	// minimal sampling rate (минимальная частота дискретизации (кГц))
+	U32	dMaxRate;	// maximal sampling rate (максимальная частота дискретизации (кГц))
+	U16	wRange;		// input range (входной диапазон АЦП (мВольт))
+} ICR_Cfg0101, *PICR_Cfg0101;
+
 // ADC FIFO configuration structure
 // Конфигурационная структура FIFO АЦП
 typedef struct _ICR_Cfg0200 {
@@ -192,6 +209,24 @@ typedef struct _ICR_Cfg0310 {
 	U32	dMaxRate;	// maximal sampling rate (максимальная частота дискретизации (Гц))
 	U16	wRange;		// DAC range for active filter (диапазон ЦАП (мВольты))
 } ICR_Cfg0310, *PICR_Cfg0310, ICR_CfgAdmDac, *PICR_CfgAdmDac;
+
+//
+// Submodule DAC configuration structure (once more)
+// Конфигурационная структура ЦАП субмодуля (еще одна)
+// Частоты выражены в килогерцах
+//
+typedef struct _ICR_Cfg0311 {
+	U16	wTag;		// tag of structure (DAC_CFG_TAG)
+	U16	wSize;		// size of all following fields of structure (without wTag + wSize) = sizeof(ICR_IdBase) - 4
+	U08	bNumber;	// id number of the DAC (номер ЦАП)
+	U08	bAdmNum;	// ADM-Interface number (номер интерфейса ADM)
+	U08	bBits;		// Word Length (разрядность ЦАП (число бит))
+	U08	bEncoding;	// type of code (тип кодировки)
+	U32	dMinRate;	// minimal sampling rate (минимальная тактовая частота (кГц))
+	U32	dMaxRate;	// maximal sampling rate (максимальная тактовая частота (кГц))
+	U32	dMaxInterpRate;	// maximal interpolation rate (максимальная тактовая частота с интерполяцией (кГц))
+	U16	wRange;		// DAC range for active filter (диапазон ЦАП (мВольты))
+} ICR_Cfg0311, *PICR_Cfg0311;
 
 // DAC FIFO configuration structure
 // Конфигурационная структура FIFO ЦАП
