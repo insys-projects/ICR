@@ -1,0 +1,93 @@
+﻿<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FMC132P" type="0x5523" base="1"/>
+
+  <!-- 
+	====  Специфическая структура базового модуля 
+	-->
+	<struct tag="0x5523" size="37">
+	<group title="Параметры базового модуля" open="1" color="255,255,191">
+		<field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
+		<field name="Системный генератор (кГц)" offset="5" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+		<field name="DDS " offset="9" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="есть" />
+		</field>
+    <field name="Коммутатор" offset="10" size="1" default="1" type="list">
+      <item val="0" descr="нет" />
+      <item val="1" descr="есть" />
+    </field>
+    <field name="Адресный код коммутатора (hex)" offset="11" size="1" default="48" type="hex"/>
+	<field name="Тип кристалла генератора 0" offset="12" size="1" default="1" type="list">
+		<item val="0" descr="не програм-ый" />
+		<item val="1" descr="Si570/Si571" />
+	</field>	
+	<field name="Заводская установка частоты генератора 0 (кГц)" offset="13" size="4" default="155520" type="double" min="0" max="1000000" prec="3"/>
+	<field name="Максимальная частота внутр. генератора (Гц)" offset="17" size="4" default="280000000" type="list">
+		<item val="1417500000" descr="Тип А (1.4 Гц)" />
+		<item val="810000000" descr="Тип В (810 МГц)" />
+		<item val="280000000" descr="Тип С (280 МГц)" />
+	</field>
+    <field name="Адресный код генератора 0 (hex)" offset="21" size="1" default="49" type="hex"/>
+    <field name="Опорный генератор для DDS (кГц)" offset="22" size="4" default="19200" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Тип генератора для DDS" offset="26" size="1" default="1" type="list">
+      <item val="0" descr="обычный" />
+      <item val="1" descr="термокомпенсированный" />
+    </field>
+	<field name="Генератор 100МГц (кГц)" offset="27" size="4" default="100000" type="double" min="0" max="1000000" prec="3"/>
+    <field name="Банки памяти DDR4" offset="31" size="1" default="2" type="list">
+      <item val="0" descr="Нет" />
+      <item val="1" descr="1 банк" />
+      <item val="2" descr="2 банка" />
+    </field>
+    <field name="Контроллер питания" offset="32" size="1" default="1" type="list">
+	<item val="0" descr="нет" />
+	<item val="1" descr="есть" />
+    </field>	
+    <field name="Адресный код контроллера питания (hex)" offset="33" size="1" default="48" type="hex"/>
+
+    <field name="Управление вентилятором" offset="34" size="1" default="1" type="list">
+	<item val="0" descr="нет" />
+	<item val="1" descr="есть" />
+    </field>	
+    <field name="Адресный код управления вентилятором (hex)" offset="35" size="1" default="48" type="hex"/>
+
+    <field name="Память HMC" offset="36" size="1" default="2" type="list">
+      <item val="0" descr="Нет" />
+      <item val="2" descr="2 Гбайта" />
+      <item val="4" descr="4 Гбайта" />
+    </field>
+
+  </group>
+	</struct>
+	
+
+</icr>
+
+
+
+
