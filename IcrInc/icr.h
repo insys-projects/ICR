@@ -51,11 +51,13 @@ const U16 COMMENT_ID_TAG	= 0x0620; // tag of comment
 
 const U16 ADM_ID_TAG		= 0x0080; // tag of ADM submodule identification structure
 
-const U16 ADC_CFG_TAG		= 0x0100; // tag of ADC configuration structure
+const U16 ADC_CFG_TAG		= 0x0100; // tag of ADC configuration structure (freq in Hz)
+const U16 ADCKHZ_CFG_TAG	= 0x0101; // tag of ADC configuration structure (freq in kHz)
 const U16 ADC_FIFO_TAG		= 0x0200; // tag of ADC FIFO configuration structure
 const U16 FIFO_HOST_TAG		= 0x0210; // tag of FIFO HOST configuration structure
 const U16 DAC_CFG_TAG		= 0x0300; // tag of DAC configuration structure
-const U16 ADMDAC_CFG_TAG	= 0x0310; // tag of Submodule DAC configuration structure
+const U16 ADMDAC_CFG_TAG	= 0x0310; // tag of Submodule DAC configuration structure (freq in Hz)
+const U16 DACKHZ_CFG_TAG	= 0x0311; // tag of Submodule DAC configuration structure (freq in kHz)
 const U16 DAC_FIFO_TAG		= 0x0400; // tag of DAC FIFO configuration structure
 const U16 PLD_CFG_TAG		= 0x0500; // tag of PLD configuration structure
 const U16 HOSTPLD_CFG_TAG	= 0x0510; // tag of HOST PLD configuration structure

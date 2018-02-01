@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 	<dev name="" type="" base=""/>
 
 	<struct tag="" size="">
@@ -27,13 +27,16 @@
 
 <icr>
 	<dev name="FM401S" type="0x1F04"/>
+	<dev name="FM402S" type="0x1F05"/>
 
 	<struct tag="0x00A5" size="16">
 	<group title="Параметры субмодуля" open="1" color="255,255,191">
 		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" invisible="1" />
-		<field name="Количество гнезд SFP" offset="5" size="1" default="4" type="list">
-			<item val="4" descr="4" />
-			<item val="8" descr="8" />
+		<field name="Количество гнезд SFP/QSFP" offset="5" size="1" default="4" type="list">
+			<item val="1" descr="1 (для FM402S)" />
+			<item val="2" descr="2 (для FM402S)" />
+			<item val="4" descr="4 (для FM401S)" />
+			<item val="8" descr="8 (для FM401S)" />
 		</field>
 		<field name="Тип кристалла генератора G1" offset="6" size="1" default="0" type="list">
 			<item val="0" descr="не програм-ый" />
@@ -51,5 +54,6 @@
 	</struct>
 
 </icr>
+
 
 

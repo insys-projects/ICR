@@ -82,8 +82,8 @@
 			<item val="1" descr="двоично-дополнительная" />
 		</field>
 		
-		<field name="Минимальная частота дискретизации АЦП (МГц)" offset="8" size="4" default="330." type="spin-double" min="1" max="1000" prec="3"  inc="1."/>
-		<field name="Максимальная частота дискретизации АЦП (МГц)" offset="12" size="4" default="2600." type="spin-double" min="1" max="5000" prec="3" inc="1."/>
+		<field name="Минимальная частота дискретизации АЦП (МГц)" offset="8" size="4" default="330." type="double" min="1" max="1000" prec="3"/>
+		<field name="Максимальная частота дискретизации АЦП (МГц)" offset="12" size="4" default="2600." type="double" min="1" max="5000" prec="3"/>
 		<field name="Входной диапазон АЦП (мВ)" offset="16" default="500" size="2" type="int" min="0" max="10000"/>
 	</group>
 	</struct>
@@ -102,9 +102,9 @@
       <item val="1" descr="двоично-дополнительная" />
     </field>
 
-    <field name="Минимальная частота дискретизации ЦАП (МГц)" offset="8" size="4" default="1500." type="spin-double" min="1" max="20000" prec="3"  inc="1."/>
-    <field name="Максимальная частота дискретизации ЦАП (МГц)" offset="12" size="4" default="5000." type="spin-double" min="1" max="20000" prec="3" inc="1."/>
-    <field name="Максимальная частота с интерполяцией (МГц)" offset="16" size="4" default="12000." type="spin-double" min="1" max="20000" prec="3" inc="1."/>
+    <field name="Минимальная частота дискретизации ЦАП (МГц)" offset="8" size="4" default="1500." type="double" min="1" max="20000" prec="3"/>
+    <field name="Максимальная частота дискретизации ЦАП (МГц)" offset="12" size="4" default="5000." type="double" min="1" max="20000" prec="3"/>
+    <field name="Максимальная частота с интерполяцией (МГц)" offset="16" size="4" default="12000." type="double" min="1" max="20000" prec="3"/>
     <field name="Выходной диапазон ЦАП (мВ)" offset="20" default="350" size="2" type="int" min="50" max="10000"/>
 	</group>
   </struct>
