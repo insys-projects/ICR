@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 	<dev name="" type="" base=""/>
 	
 	<struct tag="" size="">
@@ -103,7 +103,7 @@
 		</field>
 		
 		<field name="Минимальная частота дискретизации АЦП (МГц)" offset="8" size="4" default="1000." type="spin-double" min="1" max="100" prec="6"  inc="1."/>
-		<field name="Максимальная частота дискретизации АЦП (МГц)" offset="12" size="4" default="4000." type="spin-double" min="1" max="500" prec="6" inc="1."/>
+		<field name="Максимальная частота дискретизации АЦП (МГц)" offset="12" size="4" default="4000." type="spin-double" min="1" max="5000" prec="6" inc="1."/>
 		<field name="Входной диапазон АЦП (мВ)" offset="16" default="500" size="2" type="int" min="0" max="5000"/>
 	</group>
 	</struct>
@@ -130,6 +130,11 @@
   </struct>
 
 </icr>
+
+
+
+
+
 
 
 
