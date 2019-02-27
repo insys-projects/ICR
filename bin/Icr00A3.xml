@@ -58,6 +58,7 @@
 		<field name="Тип кристалла ЦАП" offset="33" size="1" default="1" type="list">
 			<item val="0" descr="нет" />
 			<item val="1" descr="AD9144" />
+			<item val="2" descr="AD9136/35" />
 		</field>	
 		<field name="Тип кристалла PLL" offset="34" size="1" default="1" type="list">
 			<item val="0" descr="нет" />

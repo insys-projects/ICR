@@ -1,0 +1,147 @@
+<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FM814x600M" type="0x1014"/>
+	
+	<struct tag="0x00A8" size="104"> 
+	<group title="Параметры субмодуля" open="1" color="255,255,191">
+		<field name="Количество АЦП" offset="5" size="1" default="8" type="list">
+			<item val="4" descr="4"/>
+			<item val="8" descr="8"/>
+		</field>
+		<field name="Тип кристалла АЦП" offset="6" size="1" default="1" type="int" invisible="1" />
+		<field name="Тип 16-канального кристалла ЦАП-ИПН" offset="7" size="1" default="1" type="int" invisible="1" />
+		<field name="Шкала 16-канального ЦАП-ИПН (мВ)" offset="8" default="5000" size="2" type="int"/>
+		<field name="Шкала 1-канального ЦАП-ИПН (мВ)" offset="36" default="5000" size="2" type="int"/>
+<!--
+-->
+		<field name="Тип кристалла внутр. генератора" offset="10" size="1" default="1" type="list">
+			<item val="0" descr="не програм-ый" />
+			<item val="1" descr="Si570/571" />
+		</field>
+	
+		<field name="Адресный код внутр. генератора" offset="11" size="1" default="73" type="list">
+			<item val="73" descr="0x49" />
+			<item val="85" descr="0x55" />
+		</field>
+		<field name="Заводская установка частоты внутр. генератора" offset="12" size="4" default="10000000" type="list">
+			<item val="155520000" descr="155.520 МГц" />
+			<item val="10000000"  descr="10 МГц" />
+		</field>
+		<field name="Максимальная установка частоты внутр. генератора" offset="16" size="4" default="1417000000" type="list">
+			<item val="1417000000" descr="1400 МГц" />
+			<item val="810000000" descr="810 МГц" />
+			<item val="280000000" descr="280 МГц" />
+		</field>
+		<field name="Тип аналоговых входов" offset="38" size="1" default="0" type="list">
+			<item val="0" descr="закрытый" />
+			<item val="1" descr="открытый" />
+		</field>
+		<field name="Резерв" offset="39" size="1" default="1" type="int" invisible="1" />
+	</group>
+	<group title="Полосы и битрейты АЦП и ЦАП" open="1" color="191,255,191">
+		<field name="Нижняя частота полосы АЦП (МГц)" offset="20" size="4" default="0" type="double" min="0" prec="6"/>
+		<field name="Верхняя частота полосы АЦП (МГц)" offset="24" size="4" default="800" type="double" min="0" prec="6"/>
+
+		<field name="Минимальный битрейт АЦП (Mbps)" offset="28" size="4" default="1685" type="int"/>
+		<field name="Максимальный битрейт АЦП (Mbps)" offset="32" size="4" default="12000" type="int"/>
+	</group>
+	<group title="Калибровка Uсм для каналов АЦП: 0..65535" open="1" color="191,191,191">
+		<field name="Для АЦП0" offset="40" size="2" default="50000" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП1" offset="42" size="2" default="50000" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП2" offset="44" size="2" default="50000" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП3" offset="46" size="2" default="50000" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП4" offset="48" size="2" default="50000" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП5" offset="50" size="2" default="50000" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП6" offset="52" size="2" default="50000" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП7" offset="54" size="2" default="50000" type="spin-int" min="0" max="65535"/>
+	</group>
+	<group title="Калибровка кривой Bias'а для крайних кодов ИПН (мВ)" open="1" color="210,211,211">
+		<field name="Для АЦП0 для кода 0"     offset="56" size="2" default="+200" type="spin-int" min="0" max="+500"/>
+		<field name="Для АЦП0 для кода 65536" offset="72" size="2" default="-200" type="spin-int" min="-500" max="0"/>
+		<field name="Для АЦП1 для кода 0"     offset="58" size="2" default="+200" type="spin-int" min="0" max="+500"/>
+		<field name="Для АЦП1 для кода 65536" offset="74" size="2" default="-200" type="spin-int" min="-500" max="0"/>
+		<field name="Для АЦП2 для кода 0"     offset="60" size="2" default="+200" type="spin-int" min="0" max="+500"/>
+		<field name="Для АЦП2 для кода 65536" offset="76" size="2" default="-200" type="spin-int" min="-500" max="0"/>
+		<field name="Для АЦП3 для кода 0"     offset="62" size="2" default="+200" type="spin-int" min="0" max="+500"/>
+		<field name="Для АЦП3 для кода 65536" offset="78" size="2" default="-200" type="spin-int" min="-500" max="0"/>
+		<field name="Для АЦП4 для кода 0"     offset="64" size="2" default="+200" type="spin-int" min="0" max="+500"/>
+		<field name="Для АЦП4 для кода 65536" offset="80" size="2" default="-200" type="spin-int" min="-500" max="0"/>
+		<field name="Для АЦП5 для кода 0"     offset="66" size="2" default="+200" type="spin-int" min="0" max="+500"/>
+		<field name="Для АЦП5 для кода 65536" offset="82" size="2" default="-200" type="spin-int" min="-500" max="0"/>
+		<field name="Для АЦП6 для кода 0"     offset="68" size="2" default="+200" type="spin-int" min="0" max="+500"/>
+		<field name="Для АЦП6 для кода 65536" offset="84" size="2" default="-200" type="spin-int" min="-500" max="0"/>
+		<field name="Для АЦП7 для кода 0"     offset="70" size="2" default="+200" type="spin-int" min="0" max="+500"/>
+		<field name="Для АЦП7 для кода 65536" offset="86" size="2" default="-200" type="spin-int" min="-500" max="0"/>
+	</group>
+	<group title="Калибровка кривой Bias'а. Код ИПН для нулевого смещения: 0..65535" open="1" color="191,191,191">
+		<field name="Для АЦП0" offset="88" size="2" default="32768" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП1" offset="90" size="2" default="32768" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП2" offset="92" size="2" default="32768" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП3" offset="94" size="2" default="32768" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП4" offset="96" size="2" default="32768" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП5" offset="98" size="2" default="32768" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП6" offset="100" size="2" default="32768" type="spin-int" min="0" max="65535"/>
+		<field name="Для АЦП7" offset="102" size="2" default="32768" type="spin-int" min="0" max="65535"/>
+	</group>
+	</struct>
+	
+	<!-- Конфигурационная структура АЦП -->
+	<struct tag="0x0100" size="18">
+	<group title="Конфигурационная структура АЦП" open="1" color="255,191,255">
+		<field name="Разрядность АЦП" offset="6" size="1" default="14" type="list">
+			<item val="14" descr="14" />
+			<item val="16" descr="16" />
+		</field>
+		
+		<field name="Тип кодировки АЦП" offset="7" size="1" default="1" type="list">
+			<item val="0" descr="прямая" />
+			<item val="1" descr="двоично-дополнительная" />
+		</field>
+		
+		<field name="Минимальная частота дискретизации АЦП (МГц)" offset="8" size="4" default="240." type="spin-double" min="1" max="1000" prec="6"  inc="1."/>
+		<field name="Максимальная частота дискретизации АЦП (МГц)" offset="12" size="4" default="600." type="spin-double" min="1" max="1500" prec="6" inc="1."/>
+		<field name="Входной диапазон АЦП" offset="16" default="500" size="2" type="list">
+			<item val="125" descr="0.125 В" />
+			<item val="250" descr="0.25 В" />
+			<item val="500" descr="0.5 В" />
+		</field>
+	</group>
+	</struct>
+
+</icr>
+
+
+
+
+
+
+
+
+
+
+
+
