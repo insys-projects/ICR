@@ -31,6 +31,7 @@ struct TIcrParam
 	S32		nMin; // Минимальное значение 
 	S32		nMax; // Максимальное значение
 	U32		nInc; // Дельта
+	U08		isSigned; // Знаковый
 
 	// Только для "spin_double", "double"
 	REAL64	dMin;	// Минимальное значение

@@ -34,6 +34,8 @@ void SetAttribute(QString &sTag, const QString &sTagName, const QString &sTagVal
 // Проверка корректности структур
 void CheckStruct(const IcrParamList &lIcrParam);
 
+U32 SignExt(U32 nVal, U32 nByte);
+
 void XXXX_GetInfo(int* pNumDev, PSUBMOD_INFO pDevInfo, int isBase)
 {
 	QByteArray	cArr;
@@ -141,7 +143,15 @@ int XXXX_SetProperty(PSUBMOD_INFO pDeviceInfo)
 				rIcrParam.sValue = QString(ps);
 				delete [] ps;
 			}
-			else 
+			else if((rIcrParam.nType == PARAM_TYPE_INT) ||
+				(rIcrParam.nType == PARAM_TYPE_SPIN_INT))
+			{
+				if(rIcrParam.isSigned)
+					rIcrParam.sValue.setNum((S32)SignExt(nVal, rIcrParam.nSize));
+				else
+					rIcrParam.sValue.setNum(nVal);
+			}
+			else
 				rIcrParam.sValue.setNum(nVal);
 		}
 
@@ -214,7 +224,7 @@ int XXXX_GetProperty(PSUBMOD_INFO pDeviceInfo)
 			else if(rIcrParam.nType == PARAM_TYPE_BIN)
 				nVal = rIcrParam.sValue.toInt(0, 2);
 			else if(rIcrParam.nType == PARAM_TYPE_HEX)
-				nVal = rIcrParam.sValue.toInt(0, 16);
+				nVal = rIcrParam.sValue.toULongLong(0, 16);
 			else if(rIcrParam.nType != PARAM_TYPE_STRING)
 				nVal = rIcrParam.sValue.toInt();
 
@@ -549,6 +559,9 @@ TIcrParam ParseField(const QDomElement &cFieldDomEl)
 		sStr.setNum(INT_MAX);
 		rIcrParam.nMax = cFieldDomEl.attribute("max", sStr).toInt();
 
+		// Знаковый
+		rIcrParam.isSigned = cFieldDomEl.attribute("signed", "0").toInt();
+
 		if(cFieldDomEl.attribute("type") == "int")
 			// Тип
 			rIcrParam.nType = PARAM_TYPE_INT;
@@ -855,4 +868,17 @@ void CheckStruct(const IcrParamList &lIcrParam)
 
 		i++;
 	}
+}
+
+U32 SignExt(U32 nVal, U32 nByte)
+{
+	int isSign = 0;
+	int nCnt = 8 * nByte;
+
+	isSign = (nVal >> (nCnt - 1)) & 1;
+
+	if(isSign)
+		nVal = (0xFFFFFFFF << nCnt) | nVal;
+
+	return nVal;
 }
