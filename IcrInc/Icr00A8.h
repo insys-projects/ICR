@@ -35,7 +35,7 @@ typedef struct _ICR_Cfg00A8 {
 	U08	bReserve;		// Резерв
 	U16	awUcm[8];		// Коды для UСМ, заносимые в LTC2668: 0..65535
 	U16	awBiasMax[8];	// значение смещения нуля для кода 0 в LTC2668 (мВ)
-	U16	awBiasMin[8];	// значение смещения нуля для кода 0xFFFF в LTC2668 (мВ)
+	S16	awBiasMin[8];	// значение смещения нуля для кода 0xFFFF в LTC2668 (мВ)
 	U16	awDac0[8];		// Коды в LTC2668 для  смещения нуля, равного 0 мВольт: 0..65535
 } ICR_Cfg00A8, *PICR_Cfg00A8, ICR_CfgAdm, *PICR_CfgAdm;
 
