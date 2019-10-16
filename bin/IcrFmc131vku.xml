@@ -1,0 +1,57 @@
+﻿<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FMC131V KU" type="0x5529" base="1"/>
+
+  <!-- 
+	====  Специфическая структура базового модуля 
+	-->
+	<struct tag="0x5529" size="8">
+	<group title="Параметры базового модуля" open="1" color="255,255,191">
+		<field name="Количество интерфейсов ADM" offset="4" size="1" default="1" type="int" invisible="1"/>
+		<field name="Память QDR" offset="5" size="1" default="0" type="list">
+      			<item val="0" descr="Нет" />
+      			<item val="1" descr="Есть" />
+    		</field>
+    		<field name="Память DDR4" offset="6" size="1" default="1" type="list">
+      			<item val="0" descr="Нет" />
+      			<item val="1" descr="Есть" />
+    		</field>
+		<field name="Тип разъема FMC-интерфейса" offset="7" size="1" default="0" type="list">
+			<item val="0" descr="FMC" />
+			<item val="1" descr="FMC+" />
+		</field>	
+
+  </group>
+	</struct>
+	
+
+</icr>
+
+
+
+
+

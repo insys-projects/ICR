@@ -1,0 +1,65 @@
+﻿<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FMC131V Zynq" type="0x5528" base="1"/>
+
+  <!-- 
+	====  Специфическая структура базового модуля 
+	-->
+	<struct tag="0x5528" size="20">
+	<group title="Параметры базового модуля" open="1" color="255,255,191">
+	<field name="Резерв" offset="4" size="1" default="1" type="int" invisible="1"/>
+	<field name="Генератор G1 (кГц)" offset="5" size="4" default="250000" type="double" min="0" max="1000000" prec="3"/>
+    	<field name="Наличие памяти DDR3" offset="9" size="1" default="1" type="list">
+      		<item val="0" descr="Нет" />
+      		<item val="1" descr="Есть" />
+	</field>
+        <field name="Коммутатор" offset="10" size="1" default="1" type="list">
+      		<item val="0" descr="нет" />
+      		<item val="1" descr="есть" />
+    </field>
+    <field name="Адресный код коммутатора (hex)" offset="11" size="1" default="48" type="hex"/>
+	<field name="Опорный резонатор B1 (кГц)" offset="12" size="4" default="50000" type="double" min="0" max="1000000" prec="3"/>
+	<field name="Программируемый многоканальный генератор" offset="16" size="1" default="1" type="list">
+		<item val="0" descr="нет" />
+		<item val="1" descr="Si5341A" />
+	</field>	
+    <field name="Адресный код многоканального генератора (hex)" offset="17" size="1" default="00" type="hex"/>
+    <field name="Монитор питания" offset="18" size="1" default="1" type="list">
+	<item val="0" descr="нет" />
+	<item val="1" descr="есть" />
+    </field>	
+    <field name="Адресный код монитора питания (hex)" offset="19" size="1" default="40" type="hex"/>
+  </group>
+	</struct>
+	
+
+</icr>
+
+
+
+
+

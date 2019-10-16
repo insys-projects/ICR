@@ -1,0 +1,121 @@
+<!--
+	<dev name="" type="" base=""/>
+	
+	<struct tag="" size="">
+	</struct>
+	
+	<field name="" offset="" size="" default=""/>
+	
+	<field name="" offset="" size="" default="" type="int" min="" max=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-int" min="" max="" inc=""/>
+	
+	<field name="" offset="" size="" default="" type="double" min="" max="" prec=""/>
+	
+	<field name="" offset="" size="" default="" type="spin-double" min="" max="" prec="" inc=""/>
+
+	<field name="" offset="" size="" default="" type="hex" min="" max="" />
+	
+	<field name="" offset="" size="" default="" type="list">
+		<item val="" descr=""/>
+		.......................
+		<item val="" descr=""/>
+	</field>
+-->
+
+<icr>
+	<dev name="FM214x3GDA" type="0x10D2"/>
+	
+	<struct tag="0x00A9" size="50"> 
+	<group title="Параметры субмодуля" open="1" color="255,255,191">
+		<field name="Номер интерфейса ADM" offset="4" size="1" default="0" type="int" invisible="1" />
+		<field name="Количество АЦП" offset="5" size="1" default="2" type="spin-int" min="0" max="2" inc="2" />
+		<field name="Количество ЦАП" offset="6" size="1" default="2" type="spin-int" min="0" max="2" inc="2"/>
+
+		<field name="Частота внутр. генератора (МГц)" offset="8" size="4" default="200" type="double" min="0" max="1000000" prec="3"/>
+
+		<field name="Тип кристалла АЦП" offset="12" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="AD9208-3.0" />
+			<item val="2" descr="AD9689-2.6" />
+			<item val="3" descr="AD9689-2.0" />
+		</field>	
+		<field name="Тип кристалла ЦАП" offset="13" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="AD9176" />
+			<item val="2" descr="AD9175" />
+			<item val="3" descr="AD9174" />
+			<item val="4" descr="AD9173" />
+			<item val="5" descr="AD9172" />
+			<item val="6" descr="AD9171" />
+		</field>	
+		<field name="Тип кристалла PLL" offset="14" size="1" default="1" type="list">
+			<item val="0" descr="нет" />
+			<item val="1" descr="LMX2594" />
+		</field>	
+		<field name="Шкала преобразования ЦАП-ИПН (мВ)" offset="32" size="2" default="5000" type="int"/>
+	</group>
+	<group title="Битрейты АЦП и ЦАП" open="1" color="191,255,191">
+		<field name="Минимальный битрейт АЦП (Mbps)" offset="16" size="4" default="1687" type="int"/>
+		<field name="Максимальный битрейт АЦП (Mbps)" offset="20" size="4" default="16000" type="int"/>
+		<field name="Минимальный битрейт ЦАП (Mbps)" offset="24" size="4" default="3000" type="int"/>
+		<field name="Максимальный битрейт ЦАП (Mbps)" offset="28" size="4" default="15500" type="int"/>
+	</group>
+	</struct>
+	
+	<!-- Конфигурационная структура АЦП -->
+	<struct tag="0x0101" size="18">
+	<group title="Конфигурационная структура АЦП" open="1" color="255,191,255">
+		<field name="Разрядность АЦП" offset="6" size="1" default="14" type="list">
+			<item val="12" descr="12" />
+			<item val="14" descr="14" />
+		</field>
+		
+		<field name="Тип кодировки АЦП" offset="7" size="1" default="1" type="list">
+			<item val="0" descr="прямая" />
+			<item val="1" descr="двоично-дополнительная" />
+		</field>
+		
+		<field name="Минимальная частота дискретизации АЦП (МГц)" offset="8" size="4" default="2500." type="double" min="1" max="1000000" prec="3"/>
+		<field name="Максимальная частота дискретизации АЦП (МГц)" offset="12" size="4" default="3100." type="double" min="1" max="1000000" prec="3"/>
+		<field name="Входной диапазон АЦП (мВ)" offset="16" default="500" size="2" type="int" min="0" max="10000"/>
+	</group>
+	</struct>
+
+
+  <!-- Конфигурационная структура ЦАП -->
+  <struct tag="0x0311" size="22">
+	<group title="Конфигурационная структура ЦАП" open="1" color="191,255,255">
+	<field name="Разрядность ЦАП" offset="6" size="1" default="16" type="list">
+      <item val="12" descr="12" />
+      <item val="14" descr="14" />
+      <item val="16" descr="16" />
+    </field>
+
+    <field name="Тип кодировки ЦАП" offset="7" size="1" default="1" type="list">
+      <item val="0" descr="прямая" />
+      <item val="1" descr="двоично-дополнительная" />
+    </field>
+
+    <field name="Минимальная частота дискретизации ЦАП (МГц)" offset="8" size="4" default="2910." type="double" min="1" max="1000000" prec="3"/>
+    <field name="Максимальная частота дискретизации ЦАП (МГц)" offset="12" size="4" default="12600." type="double" min="1" max="1000000" prec="3"/>
+    <field name="Выходной диапазон ЦАП (мВ)" offset="20" default="350" size="2" type="int" min="50" max="10000"/>
+	</group>
+  </struct>
+
+</icr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
