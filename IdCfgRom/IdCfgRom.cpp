@@ -10,6 +10,7 @@
 #define new DEBUG_NEW
 #endif
 
+//#include <wow64apiset.h>
 
 // CIdCfgRomApp
 
@@ -28,6 +29,7 @@ CIdCfgRomApp::CIdCfgRomApp()
 	// Place all significant initialization in InitInstance
 	m_sCmdFileName = "";
 	m_nCmdDev = CMDDEV_BASESUB;
+	m_nCmdNoDev = 0;
 }
 
 
@@ -39,10 +41,11 @@ DEVICE_CTRL g_DeviceCtrl[MAXDEVICES];
 BASEMOD_CTRL g_BaseModCtrl[MAXBASEMODS];
 SUBMOD_CTRL g_SubmodCtrl[MAXSUBMODS];
 
-int g_nNumOfDevices;
-int g_nNumOfBaseModules;
-int g_nNumOfSubModules;
+int g_nNumOfDevices = 0;
+int g_nNumOfBaseModules = 0;
+int g_nNumOfSubModules = 0;
 
+//BOOL g_f64bitOS = FALSE;
 // CIdCfgRomApp initialization
 
 BOOL CIdCfgRomApp::InitInstance()
@@ -65,7 +68,21 @@ BOOL CIdCfgRomApp::InitInstance()
 	HCURSOR  hCursorWait = ::LoadCursor(NULL, IDC_WAIT); // курсор-часы
 	HCURSOR  hCursorPrev = SetCursor(hCursorWait);
 
-//	AfxMessageBox("1", MB_OK);
+//	// 32-bit programs run on both 32-bit and 64-bit Windows
+//	CString strSys = "The 32-bits Windows";
+////	if (DoesWin32MethodExist(L"kernel32.dll", "IsWow64Process"))
+////	{
+//		if (IsWow64Process(GetCurrentProcess(), &g_f64bitOS))
+//		{
+//			if (g_f64bitOS)
+//				strSys = "The 64-bits Windows";
+//		}
+////	}
+//	AfxMessageBox(strSys, MB_OK);
+//
+	if( !ParseCommandLine() )
+		return FALSE;
+
 	CSplash splash;
 	splash.Create();
 	//aboutSplash.ShowWindow(SW_SHOW);
@@ -74,9 +91,6 @@ BOOL CIdCfgRomApp::InitInstance()
 	//AfxMessageBox("2", MB_OK);
 
 	SetCursor(hCursorPrev);
-
-	if( !ParseCommandLine() )
-		return FALSE;
 
 	// если программа запускается с именем файла в командной строке, не отображаем окно
 	if( m_sCmdFileName != "" )
@@ -125,6 +139,7 @@ void CIdCfgRomApp::GetInfoFromDlls()
 		if( !hLib )
 			continue;
 
+
 		DEVICE_GetInfo_Type* pDEVICE_GetInfo = (DEVICE_GetInfo_Type*)GetProcAddress( hLib, _T("DEVICE_GetInfo")); 
 		DEVICE_Close_Type*	pDEVICE_Close = (DEVICE_Close_Type*)GetProcAddress( hLib, _T("DEVICE_Close"));
 		DEVICE_ReadICR_Type* pDEVICE_ReadICR = (DEVICE_ReadICR_Type*)GetProcAddress( hLib, _T("DEVICE_ReadIdCfgRom")); 
@@ -143,15 +158,21 @@ void CIdCfgRomApp::GetInfoFromDlls()
 		SUBMOD_DlgProp_Type* pSUBMOD_DlgProp = (SUBMOD_DlgProp_Type*)GetProcAddress( hLib, _T("SUBMOD_DialogProperty"));
 
 		// dll с информацией об устройствах
-		if( pDEVICE_GetInfo && pDEVICE_Close && pDEVICE_ReadICR && pDEVICE_WriteICR )
+		if (pDEVICE_GetInfo && pDEVICE_Close && pDEVICE_ReadICR && pDEVICE_WriteICR)
 		{
-			for(int ii=0; g_nNumOfDevices<MAXDEVICES; ii++)
+			if(m_nCmdNoDev)
+			{
+				FreeLibrary(hLib);
+				continue;
+			}
+
+			for (int ii = 0; g_nNumOfDevices < MAXDEVICES; ii++)
 			{
 				int devNum = ii;
 				DEVICE_INFO DevInfo;
 				DevInfo.wSize = sizeof(DEVICE_INFO);
 				(pDEVICE_GetInfo)(&devNum, &DevInfo);
-				if( devNum == -1 )
+				if (devNum == -1)
 					break;
 				g_DeviceCtrl[g_nNumOfDevices].hLib = hLib;
 				g_DeviceCtrl[g_nNumOfDevices].pGetInfo = pDEVICE_GetInfo;
@@ -164,7 +185,7 @@ void CIdCfgRomApp::GetInfoFromDlls()
 				g_DeviceCtrl[g_nNumOfDevices].devInfo.bVersion = DevInfo.bVersion;
 				lstrcpy(g_DeviceCtrl[g_nNumOfDevices].devInfo.sName, DevInfo.sName);
 				g_DeviceCtrl[g_nNumOfDevices].devInfo.bBusType = DevInfo.bBusType;
-				g_DeviceCtrl[g_nNumOfDevices].devInfo.wBusNum	= DevInfo.wBusNum;
+				g_DeviceCtrl[g_nNumOfDevices].devInfo.wBusNum = DevInfo.wBusNum;
 				g_DeviceCtrl[g_nNumOfDevices].devInfo.wDevNum = DevInfo.wDevNum;
 				g_DeviceCtrl[g_nNumOfDevices].devInfo.wSlotNum = DevInfo.wSlotNum;
 				g_DeviceCtrl[g_nNumOfDevices].devInfo.nInstance = DevInfo.nInstance;
@@ -250,6 +271,11 @@ int CIdCfgRomApp::ParseCommandLine()
 	sCmdLine.Trim();
 	if( sCmdLine.Compare("") == 0 )
 		return 1;
+	if( sCmdLine.Find("nodev") >= 0 )
+	{
+		m_nCmdNoDev = 1; // not find any devices
+		return 1;
+	}
 
 	if( sCmdLine.Find("//")>=0 )
 	{

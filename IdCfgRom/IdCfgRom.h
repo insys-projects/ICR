@@ -84,6 +84,7 @@ public:
 
 	CString m_sCmdFileName;
 	int		m_nCmdDev;
+	int		m_nCmdNoDev;
 
 	// изъ€тие информации об устройствах, базовых модул€х и субмодул€х из dll'ей
 	void GetInfoFromDlls();
